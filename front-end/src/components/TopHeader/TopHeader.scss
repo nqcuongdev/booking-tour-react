@@ -1,0 +1,26 @@
+.top_header {
+    background: $primary;
+    padding: 15px 0;
+
+    .content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .left {
+        font-size: 14px;
+        color: $white;
+
+        a {
+            color: $text;
+            font-weight: 400;
+            font-size: 13px;
+            text-decoration: none;
+        }
+    }
+
+    .right {
+        font-size: 14px;
+    }
+}
