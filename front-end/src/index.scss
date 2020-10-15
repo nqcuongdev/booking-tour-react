@@ -1,8 +1,4 @@
-$primary: #1B3E8D;
-$orange: #FF7D3E;
-$text: #A8A7A7;
-$white: #fff;
-
+@import './assets/scss/colors.scss';
 
 body {
   color: $primary;
@@ -10,6 +6,11 @@ body {
   font-size: 14px;
   font-weight: 400;
   line-height: 1.5;
+}
+
+ul, ol {
+  padding: 0;
+  margin: 0;
 }
 
 a {
