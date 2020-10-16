@@ -1,48 +1,5 @@
 @import "../../assets/scss/_variables.scss";
 
-.top__header {
+.navbar__top {
   background: $top-header;
-//   padding: 15px 0;
-
-  .top__content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    .top__left {
-      a {
-        color: $text;
-        font-weight: $font-weight-regular;
-        font-size: 13px;
-        text-decoration: none;
-      }
-    }
-
-    .top__right {
-      font-size: 14px;
-      align-items: center;
-
-      .top__items {
-        display: inline-block;
-
-        li {
-          padding-left: 18px;
-          padding-right: 15px;
-          display: inline-block;
-
-          a {
-            color: $text;
-            font-weight: $font-weight-regular;
-            font-size: 13px;
-            text-decoration: none;
-          }
-
-          svg {
-            padding-right: 5px;
-            color: $text;
-          }
-        }
-      }
-    }
-  }
 }
