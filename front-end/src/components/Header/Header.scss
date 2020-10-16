@@ -1,0 +1,28 @@
+@import "../../assets/scss/_variables.scss";
+
+.navbar {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+
+  .nav-link {
+    display: block;
+    padding: 5px 20px !important;
+    font-size: 18px;
+    font-weight: $font-weight-regular !important;
+    border-top: 2px solid transparent;
+
+    .active {
+      color: $orange !important;
+    }
+
+    &:hover {
+      text-decoration: none;
+      color: $orange !important;
+      border-top: 2px solid $text;
+    }
+  }
+}
