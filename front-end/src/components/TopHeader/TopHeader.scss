@@ -1,26 +1,48 @@
-.top_header {
-    background: $primary;
-    padding: 15px 0;
+@import "../../assets/scss/_variables.scss";
 
-    .content {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+.top__header {
+  background: $top-header;
+//   padding: 15px 0;
+
+  .top__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .top__left {
+      a {
+        color: $text;
+        font-weight: $font-weight-regular;
+        font-size: 13px;
+        text-decoration: none;
+      }
     }
 
-    .left {
-        font-size: 14px;
-        color: $white;
+    .top__right {
+      font-size: 14px;
+      align-items: center;
 
-        a {
+      .top__items {
+        display: inline-block;
+
+        li {
+          padding-left: 18px;
+          padding-right: 15px;
+          display: inline-block;
+
+          a {
             color: $text;
-            font-weight: 400;
+            font-weight: $font-weight-regular;
             font-size: 13px;
             text-decoration: none;
-        }
-    }
+          }
 
-    .right {
-        font-size: 14px;
+          svg {
+            padding-right: 5px;
+            color: $text;
+          }
+        }
+      }
     }
+  }
 }
