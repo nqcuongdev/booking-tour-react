@@ -13,7 +13,9 @@
     "react-icons": "^3.11.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
-    "reactstrap": "^8.6.0"
+    "react-slick": "^0.27.11",
+    "reactstrap": "^8.6.0",
+    "slick-carousel": "^1.8.1"
   },
   "scripts": {
     "start": "react-scripts start",

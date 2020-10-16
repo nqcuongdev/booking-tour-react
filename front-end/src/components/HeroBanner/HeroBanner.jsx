@@ -6,7 +6,9 @@ const HeroBanner = () => {
   return (
     <div>
       <Container>
-        <Row></Row>
+        <Row>
+          <div className="row justify-content-between align-items-center"></div>
+        </Row>
       </Container>
     </div>
   );
