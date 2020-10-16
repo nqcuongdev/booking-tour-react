@@ -1,21 +1,26 @@
-$primary: #1B3E8D;
-$orange: #FF7D3E;
-$text: #A8A7A7;
-$white: #fff;
-
+@import './assets/scss/_variables.scss';
 
 body {
-  color: $primary;
+  margin: 0;
+  padding: 0;
+  color: $text;
   font-family: 'Poppins', sans-serif;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: $font-weight-regular;
   line-height: 1.5;
 }
 
+ul, ol {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: inline-block;
+}
+
 a {
-    color: $text;
-    font-weight: 400;
-    font-size: 13px;
-    text-decoration: none;
+  color: $text;
+  font-weight: $font-weight-regular;
+  font-size: 13px;
+  text-decoration: none;
 }
 
