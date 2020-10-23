@@ -16,19 +16,24 @@ import "./HeroBanner.scss";
 import { FaClock, FaMapMarkedAlt, FaMapMarker } from "react-icons/fa";
 import banner from "../../assets/images/japan.jpg";
 import "react-dates/initialize";
-import { DateRangePicker } from "react-dates";
-import moment from "moment";
+import { DateRange } from "react-date-range";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 
 const HeroBanner = () => {
   const [activateTab, setActiveTab] = useState("hotels");
-  const [dateRange, setDateRange] = useState({
-    startDate: moment().format("D/M/YYYY"),
-    endDate: moment().format("D/M/YYYY"),
-  });
+  const [dateRange, setDateRange] = useState([
+    {
+      startDate: new Date(),
+      endDate: null,
+      key: "check-in-out",
+    },
+  ]);
 
   const toggle = (tab) => {
     if (activateTab !== tab) setActiveTab(tab);
   };
+
   return (
     <div style={{ backgroundImage: `url(${banner})` }}>
       <Container>
@@ -103,6 +108,23 @@ const HeroBanner = () => {
                             </div>
                           </FormGroup>
                         </Col>
+                        <Col md={4} className="border-right">
+                          <FormGroup>
+                            <FaClock size={18} />
+                            <div className="form__content">
+                              <div className="form__date-search">
+                                <DateRange
+                                  editableDateInputs={true}
+                                  onChange={(item) =>
+                                    setDateRange([item.selection])
+                                  }
+                                  moveRangeOnFirstSelection={true}
+                                  ranges={dateRange}
+                                />
+                              </div>
+                            </div>
+                          </FormGroup>
+                        </Col>
                       </Row>
                     </div>
                   </Form>
@@ -110,21 +132,7 @@ const HeroBanner = () => {
                 <TabPane tabId="tours">
                   <Form>
                     <div className="field__content">
-                      <Row>
-                        <Col md={4} className="border-right">
-                          <FormGroup>
-                            <FaClock size={18} />
-                            <div className="form__content">
-                              <div className="form__date__search">
-                                <DateRangePicker
-                                  startDate={dateRange.startDate}
-                                  endDate={dateRange.endDate}
-                                />
-                              </div>
-                            </div>
-                          </FormGroup>
-                        </Col>
-                      </Row>
+                      <Row></Row>
                     </div>
                   </Form>
                 </TabPane>
