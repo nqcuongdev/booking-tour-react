@@ -18,11 +18,13 @@
   .nav {
     .nav-item {
       .nav-link {
-        border-radius: 2px 0px;
+        border: none;
+        border-radius: 0px !important;
         height: 41px;
         padding: 10px 40px !important;
         background-color: $primary;
         color: $white !important;
+        cursor: pointer;
 
         svg {
           color: $black;
@@ -33,21 +35,30 @@
           border-color: transparent;
         }
 
-        &:before {
-          border-radius: 0px;
+        &.active {
+          svg {
+            color: $text;
+          }
+          background-color: $white;
+          color: $orange !important;
         }
 
-        &:after {
-          border-radius: 0px;
-          border-right: 1px $text;
+        &:first-child {
+          border-top-left-radius: 0px !important;
         }
-      }
-      .active {
-        svg {
-          color: $text;
+
+        &:last-child {
+          border-top-right-radius: 2px !important;
         }
-        background-color: $white;
-        color: $orange !important;
+
+        &.active:first-child {
+          border-top-left-radius: 2px !important;
+          border-top-right-radius: 0px !important;
+        }
+
+        &.active:last-child {
+          border-top-right-radius: 2px !important;
+        }
       }
     }
   }
