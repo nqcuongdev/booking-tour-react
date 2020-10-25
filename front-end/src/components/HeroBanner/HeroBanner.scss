@@ -1,0 +1,67 @@
+@import "../../assets/scss/variables";
+
+.hero__caption {
+  h1 {
+    font-family: "Courgette", cursive;
+    font-weight: $font-weight-regular;
+    color: $orange;
+  }
+
+  h4 {
+    color: $white;
+    font-size: 40px;
+    font-weight: $font-weight-regular;
+  }
+}
+
+.hero__form-search {
+  .nav {
+    .nav-item {
+      .nav-link {
+        border-radius: 2px 0px;
+        height: 41px;
+        padding: 10px 40px !important;
+        background-color: $primary;
+        color: $white !important;
+
+        svg {
+          color: $black;
+          opacity: 0.3;
+        }
+
+        &:hover {
+          border-color: transparent;
+        }
+
+        &:before {
+          border-radius: 0px;
+        }
+
+        &:after {
+          border-radius: 0px;
+          border-right: 1px $text;
+        }
+      }
+      .active {
+        svg {
+          color: $text;
+        }
+        background-color: $white;
+        color: $orange !important;
+      }
+    }
+  }
+
+  .tab-pane {
+    border-radius: 2px !important;
+  }
+
+  .main__form {
+    background-color: $white;
+    border-radius: 2px;
+  }
+
+  .fix__height {
+    padding-top: 30px;
+  }
+}
