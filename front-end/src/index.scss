@@ -24,3 +24,16 @@ a {
   font-size: 13px;
   text-decoration: none;
 }
+
+.btn-primary {
+  width: 100%;
+  background-color: $primary !important;
+  border-color: $primary !important;
+}
+
+.btn-orange {
+  width: 100%;
+  background-color: $orange !important;
+  border-color: $orange !important;
+  color: $white !important;
+}
