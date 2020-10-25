@@ -1,24 +1,25 @@
-@import './assets/scss/_variables.scss';
+@import "./assets/scss/_variables.scss";
 
 body {
-  margin: 0;
-  padding: 0;
   color: $text;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif !important;
   font-size: 14px;
   font-weight: $font-weight-regular;
   line-height: 1.5;
+  overflow-x: hidden;
 }
 
-ul, ol {
-  padding: 0;
-  margin: 0;
+ul,
+ol {
+  padding: 0 !important;
+  margin: 0 !important;
   list-style: none;
   display: inline-block;
 }
 
 a {
-  color: $text;
+  color: $text !important;
+  font-family: "Poppins", sans-serif !important;
   font-weight: $font-weight-regular;
   font-size: 13px;
   text-decoration: none;
@@ -27,4 +28,3 @@ a {
     text-decoration: none !important;
   }
 }
-
