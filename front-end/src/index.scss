@@ -22,5 +22,9 @@ a {
   font-weight: $font-weight-regular;
   font-size: 13px;
   text-decoration: none;
+
+  &:hover {
+    text-decoration: none !important;
+  }
 }
 

@@ -12,5 +12,32 @@
 
     .footer-info-left {
         width: 100%;
+
+        .copy-right {
+            color: #A8A7A7;
+        }
+    }
+
+    .footer-info-right {
+        margin-left: auto;
+        margin-top: 8px;
+
+        ul {
+            list-style: none;
+            float: right;
+
+            li {
+                display: inline-block;
+                margin-left: 26px;
+
+                a {
+                    color: #A8A7A7;
+
+                    &:hover {
+                        color: #212529 !important;
+                    }
+                }
+            }
+        }
     }
 }
