@@ -1,0 +1,43 @@
+@import '../../../assets/scss/_variables.scss';
+
+.footer-info {
+    width: 100%;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    padding-bottom: 16px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 32px;
+
+    .footer-info-left {
+        width: 100%;
+
+        .copy-right {
+            color: #A8A7A7;
+        }
+    }
+
+    .footer-info-right {
+        margin-left: auto;
+        margin-top: 8px;
+
+        ul {
+            list-style: none;
+            float: right;
+
+            li {
+                display: inline-block;
+                margin-left: 26px;
+
+                a {
+                    color: #A8A7A7;
+
+                    &:hover {
+                        color: #212529 !important;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -6,6 +6,10 @@ function App() {
   return (
     <div className="App">
       <TopHeader />
+<<<<<<< HEAD
+      <Footer />
+=======
+>>>>>>> b756abbd618c814d3769ed2d2f366385f7e5d851
     </div>
 =======
 import { BrowserRouter as Router } from "react-router-dom";
