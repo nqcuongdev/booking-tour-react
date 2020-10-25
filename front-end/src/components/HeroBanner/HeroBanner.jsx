@@ -16,7 +16,6 @@ import "./HeroBanner.scss";
 import { FaClock, FaMapMarkedAlt, FaMapMarker } from "react-icons/fa";
 import banner from "../../assets/images/japan.jpg";
 import "react-dates/initialize";
-import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 
@@ -25,10 +24,11 @@ const HeroBanner = () => {
   const [dateRange, setDateRange] = useState([
     {
       startDate: new Date(),
-      endDate: null,
+      endDate: new Date() + 1,
       key: "check-in-out",
     },
   ]);
+  const [showDateRange, setShowDateRange] = useState(false);
 
   const toggle = (tab) => {
     if (activateTab !== tab) setActiveTab(tab);
@@ -112,16 +112,8 @@ const HeroBanner = () => {
                           <FormGroup>
                             <FaClock size={18} />
                             <div className="form__content">
-                              <div className="form__date-search">
-                                <DateRange
-                                  editableDateInputs={true}
-                                  onChange={(item) =>
-                                    setDateRange([item.selection])
-                                  }
-                                  moveRangeOnFirstSelection={true}
-                                  ranges={dateRange}
-                                />
-                              </div>
+                              <label htmlFor="selectDate">Check In-Out</label>
+                              <div className="form__date-search"></div>
                             </div>
                           </FormGroup>
                         </Col>
