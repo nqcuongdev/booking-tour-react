@@ -1,30 +1,36 @@
-import React from 'react';
-import {Container} from 'reactstrap';
-import { FaPhoneAlt,FaMapMarkerAlt } from 'react-icons/fa';
-import './TopHeader.scss';
+import React from "react";
+import { Container } from "reactstrap";
+import { FaPhoneAlt, FaMapMarkerAlt } from "react-icons/fa";
+import "./TopHeader.scss";
+import { Link } from "react-router-dom";
 
 const TopHeader = () => {
-    return (
-        <div className="top__header">
-            <Container>
-                <div className="top__content">
-                    <div className="top__left">
-                        <a href="">Welcome to booking !</a>
-                    </div>
-                    <div className="top__right">
-                        <ul className="top__items">
-                            <li className="top__item">
-                                <FaPhoneAlt size={18} /> <a href="tel:0337317788" style={{ color: 'black' }}>0337317788</a>
-                            </li>
-                            <li className="top__item">
-                                <FaMapMarkerAlt size={18} /> <a href="">Nam Ky Khoi Nghia, Da Nang</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </Container>
+  return (
+    <div className="navbar__top d-none d-lg-block">
+      <Container>
+        <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex align-items-center">
+            <Link>Welcome to Booking core</Link>
+          </div>
+          <div className="d-flex align-items-center">
+            <ul className="nav">
+              <li className="nav-item">
+                <Link className="nav-link">
+                  <FaPhoneAlt size={18} className="mr-2" /> 033 731 7788
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link">
+                  <FaMapMarkerAlt size={18} className="mr-2" />
+                  Nam Ky Khoi Nghia, Da Nang
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
-    )
-}
+      </Container>
+    </div>
+  );
+};
 
 export default TopHeader;
