@@ -1,5 +1,5 @@
 import React from 'react';
-import './Footer.scss'
+import './Footer.scss';
 import FooterInfo from './FooterInfo/FooterInfo';
 import FooterSocial from './FooterSocial/FooterSocial';
 import FooterContact from './FooterContact/FooterContact';
