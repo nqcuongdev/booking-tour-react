@@ -22,19 +22,19 @@ const FooterInfo = (props) => {
                             <li>
                                 <ul>
                                     <li className="li-bold">ABOUT</li>
-                                    <li>About us</li>
-                                    <li>Before you go</li>
-                                    <li>Online check in</li>
-                                    <li>FAQ</li>
+                                    <li><a href="#">About us</a></li>
+                                    <li><a href="#">Before you go</a></li>
+                                    <li><a href="#">Online check in</a></li>
+                                    <li><a href="#">FAQ</a></li>
                                 </ul>
                             </li>
                             <li>
                                 <ul>
                                     <li className="li-bold">QUICK LINKS</li>
-                                    <li>Reviews</li>
-                                    <li>Feedback</li>
-                                    <li>Goals</li>
-                                    <li>Check-ins</li>
+                                    <li><a href="#">Reviews</a></li>
+                                    <li><a href="#">Feedback</a></li>
+                                    <li><a href="#">Goals</a></li>
+                                    <li><a href="#">Check-ins</a></li>
                                 </ul>
                             </li>
                         </ul>

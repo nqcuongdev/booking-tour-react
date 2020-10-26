@@ -1,0 +1,33 @@
+@import '../../assets/scss/variables';
+
+.subscribe {
+    background-color: $primary;
+    padding: 32px 8px;
+
+    .subscribe-left {
+        h1 {
+            color: $orange;
+            font-family: "Courgette", cursive;
+        }
+
+        p {
+            font-family: "Poppins", cursive;
+            color: $white;
+            font-size: 23px;
+        }
+    }
+
+    .subscribe-right {
+        display: flex;
+        align-items: center;
+        
+        .subscribe-input {
+            border: 1px solid $white;
+        }
+        .subscribe-button {
+            background-color: $orange;
+            border: 1px solid $orange;
+        }
+    }
+    
+}
