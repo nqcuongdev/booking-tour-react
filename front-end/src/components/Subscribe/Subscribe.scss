@@ -22,11 +22,28 @@
         align-items: center;
         
         .subscribe-input {
-            border: 1px solid $white;
+            color: $white;
+            background-color: #2E2D2D;
+            border: none;
+            border-top-left-radius: 0.25rem;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0.25rem;
+
+            &::placeholder {
+                color: #FFFFFF;
+                opacity: 0.5;
+                font-size: 13px;
+            }
+
         }
         .subscribe-button {
             background-color: $orange;
-            border: 1px solid $orange;
+            border: none;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0.25rem;
+            border-bottom-right-radius: 0.25rem;
+            border-bottom-left-radius: 0;
         }
     }
     

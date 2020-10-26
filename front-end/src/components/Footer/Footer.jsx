@@ -10,7 +10,6 @@ const Footer = (props) => {
             <footer>
                 <FooterContact />
                 <FooterInfo />
-                <hr className="global-footer-separator" />
                 <FooterSocial />
             </footer>
         </div>

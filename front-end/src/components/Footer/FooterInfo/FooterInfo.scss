@@ -1,6 +1,8 @@
 @import '../../../assets/scss/_variables.scss';
 
 .footer-info {
+    background-color: $background;
+    
     .footer-info-left {
         ul {
             list-style: none;
