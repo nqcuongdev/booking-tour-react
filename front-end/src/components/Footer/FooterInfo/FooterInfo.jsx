@@ -52,6 +52,7 @@ const FooterInfo = (props) => {
                         </Row>
                     </Col>
                 </Row>
+                <hr className="global-footer-separator" />
             </Container>
         </div>
     );
