@@ -43,7 +43,7 @@ const HomePost = (props) => {
                         </Card>
                     </Col>
                     <Col lg={4} md={4} className="home-post-card">
-                    <Card className="card">
+                        <Card className="card">
                             <a href="#"><CardImg className="card-img" top width="100%" src={post_2} alt="Card image cap" /></a>
                             <div className="time-view">
                                 <Row>
