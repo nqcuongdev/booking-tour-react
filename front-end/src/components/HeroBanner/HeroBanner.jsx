@@ -76,58 +76,155 @@ const HeroBanner = () => {
               </Nav>
               <TabContent activeTab={activateTab}>
                 <TabPane tabId="hotels">
-                  <Form className="main__form">
-                    <div className="field__search">
-                      <Row>
-                        <FormGroup className="col-sm-6 col-md-3">
-                          <label htmlFor="selectForm">Hotels</label>
+                  <Row>
+                    <Col sm={6} md={3}>
+                      <FormGroup>
+                        <div className="single__field">
+                          <label htmlFor="selectForm" className="ml-3">
+                            Where
+                          </label>
                           <Input type="select" name="hotels" id="selectForm">
-                            <option>Where ?</option>
+                            <option>Hawaii</option>
                             <option value="1">Vietnam</option>
                           </Input>
-                        </FormGroup>
-                        <FormGroup className="col-sm-6 col-md-5">
-                          <Row>
-                            <Col xs={6}>
-                              <label htmlFor="selectDate">Check In</label>
+                        </div>
+                      </FormGroup>
+                    </Col>
+                    <Col sm={6} md={5}>
+                      <FormGroup>
+                        <Row>
+                          <Col xs={6}>
+                            <div className="single__field">
+                              <label htmlFor="selectDate" className="ml-3">
+                                Check In
+                              </label>
                               <Input type="date" />
-                            </Col>
-                            <Col xs={6}>
-                              <label htmlFor="selectDate">Check Out</label>
+                            </div>
+                          </Col>
+                          <Col xs={6}>
+                            <div className="single__field">
+                              <label htmlFor="selectDate" className="ml-3">
+                                Check Out
+                              </label>
                               <Input type="date" />
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                        <FormGroup className="col-sm-6 col-md-2">
-                          <Row>
-                            <Col xs={6}>
+                            </div>
+                          </Col>
+                        </Row>
+                      </FormGroup>
+                    </Col>
+
+                    <Col sm={6} md={2}>
+                      <FormGroup>
+                        <Row>
+                          <Col xs={6}>
+                            <div className="single__field">
                               <label htmlFor="selectDate">Adult</label>
                               <Input type="number" value="1" />
-                            </Col>
-                            <Col xs={6}>
+                            </div>
+                          </Col>
+                          <Col xs={6}>
+                            <div className="single__field">
                               <label htmlFor="selectDate">Children</label>
                               <Input type="number" value="1" />
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                        <FormGroup className="col-sm-6 col-md-2 fix__height">
-                          <Button color="orange">SEARCH</Button>
-                        </FormGroup>
-                      </Row>
-                    </div>
-                  </Form>
+                            </div>
+                          </Col>
+                        </Row>
+                      </FormGroup>
+                    </Col>
+                    <Col sm={6} md={2} className="mt-2">
+                      <FormGroup>
+                        <Button color="orange">SEARCH</Button>
+                      </FormGroup>
+                    </Col>
+                  </Row>
                 </TabPane>
                 <TabPane tabId="tours">
-                  <Form>
-                    <div className="field__content">
-                      <Row></Row>
-                    </div>
-                  </Form>
+                  <Row>
+                    <Col sm={6} md={5}>
+                      <FormGroup>
+                        <div className="single__field">
+                          <label htmlFor="selectForm" className="ml-3">
+                            Where
+                          </label>
+                          <Input type="select" name="hotels" id="selectForm">
+                            <option>Hawaii</option>
+                            <option value="1">Vietnam</option>
+                          </Input>
+                        </div>
+                      </FormGroup>
+                    </Col>
+                    <Col sm={6} md={5}>
+                      <FormGroup>
+                        <Row>
+                          <Col xs={6}>
+                            <div className="single__field">
+                              <label htmlFor="selectDate" className="ml-3">
+                                From
+                              </label>
+                              <Input type="date" />
+                            </div>
+                          </Col>
+                          <Col xs={6}>
+                            <div className="single__field">
+                              <label htmlFor="selectDate" className="ml-3">
+                                To
+                              </label>
+                              <Input type="date" />
+                            </div>
+                          </Col>
+                        </Row>
+                      </FormGroup>
+                    </Col>
+                    <Col sm={6} md={2} className="mt-2">
+                      <FormGroup>
+                        <Button color="orange">SEARCH</Button>
+                      </FormGroup>
+                    </Col>
+                  </Row>
                 </TabPane>
                 <TabPane tabId="events">
-                  <Form>
-                    <h1>Tab 3</h1>
-                  </Form>
+                  <Row>
+                    <Col sm={6} md={5}>
+                      <FormGroup>
+                        <div className="single__field">
+                          <label htmlFor="selectForm" className="ml-3">
+                            Where
+                          </label>
+                          <Input type="select" name="hotels" id="selectForm">
+                            <option>Hawaii</option>
+                            <option value="1">Vietnam</option>
+                          </Input>
+                        </div>
+                      </FormGroup>
+                    </Col>
+                    <Col sm={6} md={5}>
+                      <FormGroup>
+                        <Row>
+                          <Col xs={6}>
+                            <div className="single__field">
+                              <label htmlFor="selectDate" className="ml-3">
+                                From
+                              </label>
+                              <Input type="date" />
+                            </div>
+                          </Col>
+                          <Col xs={6}>
+                            <div className="single__field">
+                              <label htmlFor="selectDate" className="ml-3">
+                                To
+                              </label>
+                              <Input type="date" />
+                            </div>
+                          </Col>
+                        </Row>
+                      </FormGroup>
+                    </Col>
+                    <Col sm={6} md={2} className="mt-2">
+                      <FormGroup>
+                        <Button color="orange">SEARCH</Button>
+                      </FormGroup>
+                    </Col>
+                  </Row>
                 </TabPane>
               </TabContent>
             </div>
