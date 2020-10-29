@@ -1,0 +1,80 @@
+@import '../../assets/scss/variables';
+
+.ads {
+    background-color: $primary;
+    padding: 52px 8px 32px 8px;
+    margin-top: 50px;
+
+    .ads-banner-left {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        
+        .tile {
+            display: flex;
+            // margin-left: auto;
+
+            .circle {
+                height: 100px;
+                width: 100px;
+                background-color: $orange;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: $white;
+
+                .transform-div {
+                    transform: matrix(1,-0.5,0.5,1,0,0);
+
+                    p {
+                        margin: 0 !important;
+                        font-size: 20px !important;
+                        text-align: center;
+                    }
+    
+                    span {
+                        font-size: 11px;
+                    }
+
+                }
+            }
+
+            .description {
+                color: $orange;
+                font-family: "Courgette", cursive;
+                font-size: 24px;
+                display: inline-block;
+                align-self: flex-end;
+            }
+        }
+
+        p {
+            font-family: "Poppins", cursive;
+            color: $white;
+            font-size: 28px;
+            // margin-left: auto;
+            margin-top: 10px;
+        }
+    }
+
+    .ads-banner-right {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .btn-purchase-now {
+            color: $white;
+            background-color: $orange;
+            margin-right: 15px;
+            border: 1px solid $orange;
+        }
+
+        .btn-learn-more {
+            color: $orange;
+            background-color: $primary;
+            border: 1px solid $white;
+        }
+    }
+}
