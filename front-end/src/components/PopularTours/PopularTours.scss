@@ -12,16 +12,4 @@
     font-size: 17px;
     font-weight: $font-weight-medium;
   }
-
-  &.hover {
-    .destination__overlay {
-      opacity: 0.2;
-    }
-
-    .destination__content {
-      h4:after {
-        width: 70px;
-      }
-    }
-  }
 }
