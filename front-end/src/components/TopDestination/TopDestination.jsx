@@ -4,6 +4,7 @@ import { Col, Container, Row } from 'reactstrap';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader for Carousel
 import { Carousel } from 'react-responsive-carousel';
 import { RiStarSFill } from 'react-icons/ri';
+import { MdLocationOn } from 'react-icons/md'
 import post_1 from '../../assets/images/posts/post-1.jpg';
 import post_2 from '../../assets/images/posts/post-2.jpg';
 import post_3 from '../../assets/images/posts/post-3.jpg';
@@ -41,7 +42,31 @@ const destinationList = [
         image: post_1,
         name: 'Novotel',
         address: '36 Bach Dang Street, Hai Chau, Da Nang',
-        stars: 4.2
+        stars: 4.6,
+        location: {
+            lat: 69,
+            long: 69
+        }
+    },
+    {
+        image: post_2,
+        name: 'Muong Thanh',
+        address: '270 Vo Nguyen Giap, Bac My Phu, Ngu Hanh Sơn, Da Nang',
+        stars: 4.4,
+        location: {
+            lat: 37,
+            long: 37
+        }
+    },
+    {
+        image: post_3,
+        name: 'Sky36 Bar',
+        address: '36 Bach Dang, Thach Thang, Ha Chau, Da Nang',
+        stars: 4.1,
+        location: {
+            lat: 37,
+            long: 37
+        }
     }
 ];
 
@@ -81,21 +106,28 @@ const TopDestination = (props) => {
                     <Col lg={5} md={5} xs={12} className="top-destination-list">
                         {destinationList.map(destination => {
                             return (
-                                <Row>
-                                    <Col lg={4} md={4} xs={4} >
-                                        <div className="image">
-                                            <img src={destination.image} />
-                                        </div>
-                                    </Col>
-                                    <Col lg={6} md={6} xs={6} >
-                                        {destination.name}
-                                        {destination.address}
-                                    </Col>
-                                    <Col lg={2} md={2} xs={2} >
-                                        {destination.stars}
-                                    </Col>
+                                <div  className="top-destination-item">
+                                    <Row>
+                                        <Col lg={4} md={4} xs={4} >
+                                            <div className="image">
+                                                <a href="#"><img src={destination.image} /></a>
+                                            </div>
+                                        </Col>
+                                        <Col lg={5} md={5} xs={5} className="destination-content">
+                                            <a href="#"><h5 className="name"><b>{destination.name}</b></h5></a>
+                                            <p className="address">{destination.address}</p>
+                                            <span className="view-on-map">
+                                                <MdLocationOn size={20} className="location-icon"/>
+                                                <a href="{destination.location}">View on map</a>
+                                            </span>
+                                        </Col>
+                                        <Col lg={3} md={3} xs={3} >
+                                            <RiStarSFill color="#FFE54A" className="stars" />
+                                            <span className="stars-rate"> {destination.stars}</span> /5
+                                        </Col>
+                                    </Row>
                                     <hr />
-                                </Row>
+                                </div>
                             );
                         })}
                     </Col>

@@ -10,6 +10,7 @@ import {
   Row,
   TabContent,
   TabPane,
+  Form
 } from "reactstrap";
 import "./HeroBanner.scss";
 import banner from "../../assets/images/japan.jpg";
@@ -75,67 +76,46 @@ const HeroBanner = () => {
               </Nav>
               <TabContent activeTab={activateTab}>
                 <TabPane tabId="hotels">
-                  <Row>
-                    <Col sm={6} md={3}>
-                      <FormGroup>
-                        <div className="single__field">
-                          <label htmlFor="selectForm" className="ml-3">
-                            Where
-                          </label>
+                  <Form className="main__form">
+                    <div className="field__search">
+                      <Row>
+                        <FormGroup className="col-sm-6 col-md-3">
+                          <label htmlFor="selectForm">Hotels</label>
                           <Input type="select" name="hotels" id="selectForm">
-                            <option>Hawaii</option>
+                            <option>Where ?</option>
                             <option value="1">Vietnam</option>
                           </Input>
-                        </div>
-                      </FormGroup>
-                    </Col>
-                    <Col sm={6} md={5}>
-                      <FormGroup>
-                        <Row>
-                          <Col xs={6}>
-                            <div className="single__field">
-                              <label htmlFor="selectDate" className="ml-3">
-                                Check In
-                              </label>
+                        </FormGroup>
+                        <FormGroup className="col-sm-6 col-md-5">
+                          <Row>
+                            <Col xs={6}>
+                              <label htmlFor="selectDate">Check In</label>
                               <Input type="date" />
-                            </div>
-                          </Col>
-                          <Col xs={6}>
-                            <div className="single__field">
-                              <label htmlFor="selectDate" className="ml-3">
-                                Check Out
-                              </label>
+                            </Col>
+                            <Col xs={6}>
+                              <label htmlFor="selectDate">Check Out</label>
                               <Input type="date" />
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-
-                    <Col sm={6} md={2}>
-                      <FormGroup>
-                        <Row>
-                          <Col xs={6}>
-                            <div className="single__field">
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                        <FormGroup className="col-sm-6 col-md-2">
+                          <Row>
+                            <Col xs={6}>
                               <label htmlFor="selectDate">Adult</label>
                               <Input type="number" value="1" />
-                            </div>
-                          </Col>
-                          <Col xs={6}>
-                            <div className="single__field">
+                            </Col>
+                            <Col xs={6}>
                               <label htmlFor="selectDate">Children</label>
                               <Input type="number" value="1" />
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                    <Col sm={6} md={2} className="mt-2">
-                      <FormGroup>
-                        <Button color="orange">SEARCH</Button>
-                      </FormGroup>
-                    </Col>
-                  </Row>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                        <FormGroup className="col-sm-6 col-md-2 fix__height">
+                          <Button color="orange">SEARCH</Button>
+                        </FormGroup>
+                      </Row>
+                    </div>
+                  </Form>
                 </TabPane>
                 <TabPane tabId="tours">
                   <Row>
