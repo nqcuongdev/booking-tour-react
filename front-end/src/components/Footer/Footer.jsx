@@ -1,5 +1,5 @@
 import React from 'react';
-import './Footer.scss'
+import './Footer.scss';
 import FooterInfo from './FooterInfo/FooterInfo';
 import FooterSocial from './FooterSocial/FooterSocial';
 import FooterContact from './FooterContact/FooterContact';
@@ -10,7 +10,6 @@ const Footer = (props) => {
             <footer>
                 <FooterContact />
                 <FooterInfo />
-                <hr className="global-footer-separator" />
                 <FooterSocial />
             </footer>
         </div>

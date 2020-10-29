@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   Col,
   Container,
-  Form,
   FormGroup,
   Input,
   Nav,
@@ -13,22 +12,17 @@ import {
   TabPane,
 } from "reactstrap";
 import "./HeroBanner.scss";
-import { FaClock, FaMapMarkedAlt, FaMapMarker } from "react-icons/fa";
 import banner from "../../assets/images/japan.jpg";
-import "react-dates/initialize";
-import "react-date-range/dist/styles.css";
-import "react-date-range/dist/theme/default.css";
+import Button from "reactstrap/lib/Button";
+import { FaCalendarCheck, FaHotel, FaTicketAlt } from "react-icons/fa";
 
 const HeroBanner = () => {
+  //Get current date and next date to fill in label
+  const today = new Date();
+  const tomorrow = new Date(today + 1);
+  tomorrow.setDate(today.getDate() + 1);
+
   const [activateTab, setActiveTab] = useState("hotels");
-  const [dateRange, setDateRange] = useState([
-    {
-      startDate: new Date(),
-      endDate: new Date() + 1,
-      key: "check-in-out",
-    },
-  ]);
-  const [showDateRange, setShowDateRange] = useState(false);
 
   const toggle = (tab) => {
     if (activateTab !== tab) setActiveTab(tab);
@@ -40,7 +34,7 @@ const HeroBanner = () => {
         <Row>
           <Col md={12} style={{ minHeight: "439px" }}>
             <div className="hero__caption text-center">
-              <h4>Everyday</h4>
+              <h1>Everyday</h1>
               <h4>a new adventure</h4>
             </div>
             <div className="hero__form-search">
@@ -52,6 +46,7 @@ const HeroBanner = () => {
                       toggle("hotels");
                     }}
                   >
+                    <FaHotel size={18} className="mr-2" />
                     Hotels
                   </NavLink>
                 </NavItem>
@@ -62,6 +57,7 @@ const HeroBanner = () => {
                       toggle("tours");
                     }}
                   >
+                    <FaTicketAlt size={18} className="mr-2" />
                     Tours
                   </NavLink>
                 </NavItem>
@@ -72,66 +68,162 @@ const HeroBanner = () => {
                       toggle("events");
                     }}
                   >
+                    <FaCalendarCheck size={18} className="mr-2" />
                     Events
                   </NavLink>
                 </NavItem>
               </Nav>
               <TabContent activeTab={activateTab}>
                 <TabPane tabId="hotels">
-                  <Form className="hotels__form">
-                    <div className="field__search">
-                      <Row>
-                        <Col md={4} className="border-right">
-                          <FormGroup>
-                            <FaMapMarkedAlt size={18} />
-                            <div className="form__content">
-                              <label htmlFor="selectForm">Hotels</label>
-                              <Input
-                                type="select"
-                                name="hotels"
-                                id="selectForm"
-                              >
-                                <option>Where are you going ?</option>
-                                <option value="1">
-                                  <FaMapMarker size={18} /> 1
-                                </option>
-                                <option value="1">
-                                  <FaMapMarker size={18} /> 1
-                                </option>
-                                <option value="1">
-                                  <FaMapMarker size={18} /> 1
-                                </option>
-                                <option value="1">
-                                  <FaMapMarker size={18} /> 1
-                                </option>
-                              </Input>
+                  <Row>
+                    <Col sm={6} md={3}>
+                      <FormGroup>
+                        <div className="single__field">
+                          <label htmlFor="selectForm" className="ml-3">
+                            Where
+                          </label>
+                          <Input type="select" name="hotels" id="selectForm">
+                            <option>Hawaii</option>
+                            <option value="1">Vietnam</option>
+                          </Input>
+                        </div>
+                      </FormGroup>
+                    </Col>
+                    <Col sm={6} md={5}>
+                      <FormGroup>
+                        <Row>
+                          <Col xs={6}>
+                            <div className="single__field">
+                              <label htmlFor="selectDate" className="ml-3">
+                                Check In
+                              </label>
+                              <Input type="date" />
                             </div>
-                          </FormGroup>
-                        </Col>
-                        <Col md={4} className="border-right">
-                          <FormGroup>
-                            <FaClock size={18} />
-                            <div className="form__content">
-                              <label htmlFor="selectDate">Check In-Out</label>
-                              <div className="form__date-search"></div>
+                          </Col>
+                          <Col xs={6}>
+                            <div className="single__field">
+                              <label htmlFor="selectDate" className="ml-3">
+                                Check Out
+                              </label>
+                              <Input type="date" />
                             </div>
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                    </div>
-                  </Form>
+                          </Col>
+                        </Row>
+                      </FormGroup>
+                    </Col>
+
+                    <Col sm={6} md={2}>
+                      <FormGroup>
+                        <Row>
+                          <Col xs={6}>
+                            <div className="single__field">
+                              <label htmlFor="selectDate">Adult</label>
+                              <Input type="number" value="1" />
+                            </div>
+                          </Col>
+                          <Col xs={6}>
+                            <div className="single__field">
+                              <label htmlFor="selectDate">Children</label>
+                              <Input type="number" value="1" />
+                            </div>
+                          </Col>
+                        </Row>
+                      </FormGroup>
+                    </Col>
+                    <Col sm={6} md={2} className="mt-2">
+                      <FormGroup>
+                        <Button color="orange">SEARCH</Button>
+                      </FormGroup>
+                    </Col>
+                  </Row>
                 </TabPane>
                 <TabPane tabId="tours">
-                  <Form>
-                    <div className="field__content">
-                      <Row></Row>
-                    </div>
-                  </Form>
+                  <Row>
+                    <Col sm={6} md={5}>
+                      <FormGroup>
+                        <div className="single__field">
+                          <label htmlFor="selectForm" className="ml-3">
+                            Where
+                          </label>
+                          <Input type="select" name="hotels" id="selectForm">
+                            <option>Hawaii</option>
+                            <option value="1">Vietnam</option>
+                          </Input>
+                        </div>
+                      </FormGroup>
+                    </Col>
+                    <Col sm={6} md={5}>
+                      <FormGroup>
+                        <Row>
+                          <Col xs={6}>
+                            <div className="single__field">
+                              <label htmlFor="selectDate" className="ml-3">
+                                From
+                              </label>
+                              <Input type="date" />
+                            </div>
+                          </Col>
+                          <Col xs={6}>
+                            <div className="single__field">
+                              <label htmlFor="selectDate" className="ml-3">
+                                To
+                              </label>
+                              <Input type="date" />
+                            </div>
+                          </Col>
+                        </Row>
+                      </FormGroup>
+                    </Col>
+                    <Col sm={6} md={2} className="mt-2">
+                      <FormGroup>
+                        <Button color="orange">SEARCH</Button>
+                      </FormGroup>
+                    </Col>
+                  </Row>
                 </TabPane>
                 <TabPane tabId="events">
-                  <Form>
-                    <h1>Tab 3</h1>
-                  </Form>
+                  <Row>
+                    <Col sm={6} md={5}>
+                      <FormGroup>
+                        <div className="single__field">
+                          <label htmlFor="selectForm" className="ml-3">
+                            Where
+                          </label>
+                          <Input type="select" name="hotels" id="selectForm">
+                            <option>Hawaii</option>
+                            <option value="1">Vietnam</option>
+                          </Input>
+                        </div>
+                      </FormGroup>
+                    </Col>
+                    <Col sm={6} md={5}>
+                      <FormGroup>
+                        <Row>
+                          <Col xs={6}>
+                            <div className="single__field">
+                              <label htmlFor="selectDate" className="ml-3">
+                                From
+                              </label>
+                              <Input type="date" />
+                            </div>
+                          </Col>
+                          <Col xs={6}>
+                            <div className="single__field">
+                              <label htmlFor="selectDate" className="ml-3">
+                                To
+                              </label>
+                              <Input type="date" />
+                            </div>
+                          </Col>
+                        </Row>
+                      </FormGroup>
+                    </Col>
+                    <Col sm={6} md={2} className="mt-2">
+                      <FormGroup>
+                        <Button color="orange">SEARCH</Button>
+                      </FormGroup>
+                    </Col>
+                  </Row>
                 </TabPane>
               </TabContent>
             </div>
