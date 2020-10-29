@@ -1,0 +1,15 @@
+@import "../../assets/scss/variables";
+
+.popular__list-tour {
+  margin-top: 70px;
+  margin-bottom: 30px;
+
+  h1 {
+    margin-bottom: 5px;
+  }
+
+  p {
+    font-size: 17px;
+    font-weight: $font-weight-medium;
+  }
+}

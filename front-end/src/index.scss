@@ -29,6 +29,20 @@ a {
   }
 }
 
+h1 {
+  font-family: "Courgette", cursive;
+  font-weight: $font-weight-regular;
+  color: $orange;
+}
+
+.desc {
+  display: inline-block;
+  border-radius: 100px;
+  color: $white;
+  padding: 5px 20px;
+  margin-top: 10px;
+}
+
 .btn-primary {
   width: 100%;
   background-color: $primary !important;
