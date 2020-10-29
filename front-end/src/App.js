@@ -3,6 +3,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import Header from "./components/Header/Header";
 import HeroBanner from "./components/HeroBanner/HeroBanner";
 import TopHeader from "./components/TopHeader/TopHeader";
+import TopDestination from "./components/TopDestination/TopDestination";
 import Testimonial from "./components/Testimonial/Testimonial";
 import HomePost from "./components/HomePost/HomePost";
 import Subscribe from "./components/Subscribe/Subscribe";
@@ -16,7 +17,7 @@ function App() {
         <TopHeader />
         <Header />
         <HeroBanner />
-        <PopularTours />
+        <TopDestination />
         <Testimonial />
         <HomePost />
         <Subscribe />
