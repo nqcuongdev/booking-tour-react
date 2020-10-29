@@ -35,6 +35,14 @@ h1 {
   color: $orange;
 }
 
+.mt-50 {
+  margin-top: 50px;
+}
+
+.mr-50 {
+  margin-right: 50px;
+}
+
 .desc {
   display: inline-block;
   border-radius: 100px;
@@ -44,7 +52,6 @@ h1 {
 }
 
 .btn-primary {
-  width: 100%;
   background-color: $primary !important;
   border-color: $primary !important;
 }

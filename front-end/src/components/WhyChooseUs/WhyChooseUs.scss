@@ -1,0 +1,38 @@
+@import "../../assets/scss/variables";
+
+.title-text {
+  font-family: "Poppins", sans-serif !important;
+  font-weight: $font-weight-semi-bold;
+  color: $black;
+}
+
+.description-text {
+  font-size: 14px;
+  color: $text;
+}
+
+.whychoose__text {
+  .whychoose__list {
+    margin-bottom: 10px;
+
+    .whychoose__list-item {
+      li {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: $text;
+      }
+    }
+  }
+
+  .whychoose__button {
+    button {
+      font-size: 14px !important;
+    }
+    .left-button {
+      background-color: $gray95;
+      border: none;
+      color: $orange;
+    }
+  }
+}
