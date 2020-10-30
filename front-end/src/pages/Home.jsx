@@ -8,6 +8,7 @@ import Testimonial from "../components/Testimonial/Testimonial";
 import HomePost from "../components/HomePost/HomePost";
 import Subscribe from "../components/Subscribe/Subscribe";
 import WhyChooseUs from "../components/WhyChooseUs/WhyChooseUs";
+import HomeContact from "../components/HomeContact/HomeContact";
 
 const Home = (props) => {
   return (
@@ -20,6 +21,7 @@ const Home = (props) => {
       <Testimonial />
       <HomePost />
       <Subscribe />
+      <HomeContact />
     </MainLayout>
   );
 };
