@@ -1,0 +1,160 @@
+@import "../../assets/scss/variables";
+
+.tour__item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+  background: $white;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+  height: 100%;
+
+  .item-tag {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    font-size: 13px;
+    color: $white;
+    font-weight: $font-weight-medium;
+    z-index: 8;
+    background: $orange;
+    border-radius: 0 2px 2px 0;
+    padding: 6px 10px;
+  }
+
+  .tour__item-header {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 200px;
+
+    &:before {
+      position: absolute;
+      z-index: 1;
+      content: "";
+      width: 100%;
+      height: 100%;
+      bottom: 0;
+      left: 0;
+      opacity: 0;
+      transition: all 0.4s;
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    .sale_info {
+      position: absolute;
+      width: 80px;
+      height: 48px;
+      transform: rotate(45deg);
+      right: -30px;
+      top: -13px;
+      line-height: 65px;
+      text-align: center;
+      color: $white;
+      font-size: 15px;
+      z-index: 8;
+      background-color: $orange;
+    }
+
+    img {
+      transition: all 0.4s;
+      transform: scale(1);
+      width: 100%;
+    }
+
+    .btn-book-now {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.5);
+      z-index: 3;
+      opacity: 0;
+      color: $white !important;
+      border: none;
+      transition: all 0.4s;
+      padding: 5px 20px;
+      background-color: $orange !important;
+      border-radius: 30px;
+      text-decoration: none;
+    }
+  }
+
+  &:hover {
+    .tour__item-header {
+      &:before {
+        opacity: 1;
+      }
+
+      img {
+        transform: scale(1.1);
+      }
+
+      .btn-book-now {
+        opacity: 1;
+        top: 51%;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+  }
+}
+
+.tour__item-caption {
+  position: relative;
+  width: 100%;
+  padding: 28px 22px;
+
+  .tour__item-title {
+    width: 65%;
+    float: left;
+    .title {
+      font-size: 16px;
+      font-weight: $font-weight-medium;
+      margin-bottom: 7px;
+      line-height: 20px;
+
+      a {
+        font-size: 16px;
+        color: $black !important;
+        font-weight: $font-weight-medium;
+        text-decoration: none;
+        transition: all 0.3s;
+
+        &:hover {
+          color: $orange !important;
+        }
+      }
+    }
+
+    .duration {
+      margin-bottom: 20px !important;
+      color: $text;
+      font-size: 13px;
+    }
+  }
+
+  .tour__item-price {
+    text-align: right;
+    float: right;
+
+    .price {
+      position: relative;
+      display: inline-block;
+      padding-top: 18px;
+
+      .onsale {
+        position: absolute;
+        right: 0;
+        top: 0;
+        text-decoration: line-through;
+        font-size: 14px;
+        color: $orange !important;
+        font-weight: $font-weight-regular;
+      }
+
+      .text-price {
+        font-size: 22px;
+        color: $black;
+        font-weight: $font-weight-medium;
+      }
+    }
+  }
+}

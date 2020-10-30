@@ -8,6 +8,29 @@
     color: $gray46;
     border-radius: 2px;
     border: none;
+
+    &:focus {
+      background-color: $white-smoke;
+      box-shadow: none;
+    }
+  }
+  .input-group-append {
+    button {
+      color: $gray46;
+      background-color: $white-smoke;
+      border: none;
+      border-radius: 2px !important;
+
+      &:hover {
+        color: $white;
+        background-color: $orange;
+        border: none;
+      }
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
   }
   .btn-read-more {
     span.read-more-text {
