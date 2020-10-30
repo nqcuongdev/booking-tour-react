@@ -14,6 +14,9 @@ import Maps from "../components/Maps/Maps";
 import Subscribe from "../components/Subscribe/Subscribe";
 import MainLayout from "../layouts/MainLayout";
 
+import background from "../assets/images/background-1.jpg";
+import BreadcrumbBanner from "../components/BreadcrumbBanner/BreadcrumbBanner";
+
 const location = {
   center: {
     lat: 15.9750157,
@@ -26,6 +29,7 @@ const location = {
 const Contact = () => {
   return (
     <MainLayout>
+      <BreadcrumbBanner pageName="About us" backgroundImage={background} />
       <div className="contact__section mt-50">
         <Container>
           <Row>
