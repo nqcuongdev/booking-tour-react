@@ -63,12 +63,12 @@ const SearchPopularDestination = (props) => {
             <Row>
               {data.map((item) => {
                 return (
-                  <Col md={12} lg={4}>
+                  <Col xs={6} md={6} lg={4}>
                     <ThumbnailImage {...item} />
                   </Col>
                 );
               })}
-              <Col md={12} lg={4}>
+              <Col xs={6} md={12} lg={4}>
                 <ThumbnailImage title="" image={hawaii} />
               </Col>
             </Row>
