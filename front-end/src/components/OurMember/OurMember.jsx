@@ -9,7 +9,7 @@ import { AiFillPhone } from 'react-icons/ai';
 const memberData = [
     {
         image: avatar_1,
-        name: 'Quoc Cuong',
+        name: 'Quoc Cuong  vs Đức chim to',
         position: 'CEO'
     },
     {
@@ -23,8 +23,8 @@ const memberData = [
         position: 'Designer'
     },
     {
-        image: avatar_3,
-        name: 'Some One',
+        image: avatar_2,
+        name: 'Mol Mol',
         position: 'Tester'
     }
 ];
