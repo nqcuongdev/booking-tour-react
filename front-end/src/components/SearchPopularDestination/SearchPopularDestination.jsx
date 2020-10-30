@@ -1,12 +1,21 @@
 import React from "react";
 import "./SearchPopularDestination.scss";
-import { Col, Container, Input, Row } from "reactstrap";
+import {
+  Button,
+  Col,
+  Container,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  Row,
+} from "reactstrap";
 import { BsArrowRightShort } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import hawaii from "../../assets/images/thumbnails/hawaii.jpg";
 import tahi from "../../assets/images/thumbnails/tahi.jpg";
 import vn from "../../assets/images/thumbnails/vn.jpg";
 import ThumbnailImage from "../ThumbnailImage/ThumbnailImage";
+import { FaSearch } from "react-icons/fa";
 
 const data = [
   {
@@ -44,13 +53,14 @@ const SearchPopularDestination = (props) => {
               travel booking website to offer hotel, tours, car and cruise
               bookings in minutes...
             </p>
-            <Input
-              type="text"
-              name="search"
-              className="mb-3"
-              placeHolder="Search..."
-              style={{ width: "50%" }}
-            />
+            <InputGroup className="mb-5" style={{ width: "65%" }}>
+              <Input type="text" name="search" placeHolder="Search..." />
+              <InputGroupAddon addonType="append">
+                <Button>
+                  <FaSearch size={13} />
+                </Button>
+              </InputGroupAddon>
+            </InputGroup>
             <div className="mb-5">
               <Link className="btn-read-more">
                 <span className="read-more-text">
