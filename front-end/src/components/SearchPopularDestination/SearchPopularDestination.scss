@@ -1,0 +1,17 @@
+@import "../../assets/scss/variables";
+
+.search__popular {
+  input {
+    padding: 20px !important;
+    background-color: $white-smoke;
+    font-size: 14px;
+    color: $gray46;
+    border-radius: 2px;
+    border: none;
+  }
+  .btn-read-more {
+    span.read-more-text {
+      color: $orange;
+    }
+  }
+}
