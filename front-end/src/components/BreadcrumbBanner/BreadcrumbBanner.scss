@@ -1,0 +1,27 @@
+@import "../../assets/scss/variables";
+
+.breadcrumb-banner {
+    padding: 32px 8px;
+    height: 250px;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    h1 {
+        font-family: 'Poppins', sans-serif;
+        color: $white;
+    }
+
+    p {
+        font-family: 'Poppins', sans-serif;
+        color: $white;
+        font-size: 20px;
+        text-align: center;
+
+        .home-link {
+            color: $white !important;
+            font-size: 20px !important;
+        }
+    }
+}

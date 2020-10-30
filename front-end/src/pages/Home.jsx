@@ -8,6 +8,7 @@ import Testimonial from "../components/Testimonial/Testimonial";
 import HomePost from "../components/HomePost/HomePost";
 import Subscribe from "../components/Subscribe/Subscribe";
 import WhyChooseUs from "../components/WhyChooseUs/WhyChooseUs";
+import HomeContact from "../components/HomeContact/HomeContact";
 import SearchPopularDestination from "../components/SearchPopularDestination/SearchPopularDestination";
 import { Container, Row } from "reactstrap";
 import dataImage from "../assets/images/posts/post-1.jpg";
@@ -115,6 +116,7 @@ const Home = (props) => {
       <Testimonial />
       <HomePost />
       <Subscribe />
+      <HomeContact />
     </MainLayout>
   );
 };

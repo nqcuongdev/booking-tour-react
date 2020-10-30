@@ -13,7 +13,7 @@ import {
   Form,
 } from "reactstrap";
 import "./HeroBanner.scss";
-import banner from "../../assets/images/japan.jpg";
+import banner from "../../assets/images/background-1.jpg";
 import Button from "reactstrap/lib/Button";
 import { FaCalendarCheck, FaHotel, FaTicketAlt } from "react-icons/fa";
 
@@ -30,7 +30,7 @@ const HeroBanner = () => {
   };
 
   return (
-    <div style={{ backgroundImage: `url(${banner})` }}>
+    <div style={{ backgroundImage: `url(${banner})` }} className="hero__banner">
       <Container>
         <Row>
           <Col md={12} style={{ minHeight: "439px" }}>
