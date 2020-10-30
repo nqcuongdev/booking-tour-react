@@ -1,0 +1,47 @@
+@import "../../assets/scss/_variables.scss";
+
+.thumbnail {
+  position: relative;
+  margin-bottom: 5px;
+
+  .thumbnail__overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: $white;
+    z-index: 1;
+    width: 135px;
+    height: 100%;
+    opacity: 0;
+    transition: all 0.4s;
+
+    a {
+      position: absolute;
+      top: 40%;
+      left: 20%;
+      color: $primary !important;
+      transition: all 0.4s;
+    }
+
+    &:hover {
+      opacity: 0.2;
+    }
+  }
+
+  .thumbnail__image {
+    overflow: hidden;
+    margin-bottom: 5px;
+    border-radius: 2px;
+    background-size: cover;
+    background-position: center;
+
+    img {
+      width: 135px;
+      height: 135px;
+    }
+  }
+
+  span {
+    font-size: 13px;
+  }
+}
