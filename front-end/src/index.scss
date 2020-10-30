@@ -3,7 +3,7 @@
 body {
   color: $text;
   font-family: "Poppins", sans-serif !important;
-  font-size: 14px;
+  font-size: 14px !important;
   font-weight: $font-weight-regular;
   line-height: 1.5;
   overflow-x: hidden;
@@ -69,4 +69,57 @@ h1 {
   background-color: $orange !important;
   border-color: $orange !important;
   color: $white !important;
+}
+
+.contact__section {
+  .contact__section-left {
+    .contact__section-address {
+      .address-text {
+        align-items: center;
+        p {
+          margin-top: 7px;
+          font-weight: $font-weight-semi-bold;
+        }
+      }
+
+      .address-block {
+        margin-left: -12px !important;
+        ul {
+          li {
+            color: $text;
+          }
+        }
+
+        .social-icon {
+          display: inline;
+        }
+      }
+    }
+  }
+
+  .contact__section-right {
+    h1 {
+      font-family: "Poppins", sans-serif !important;
+      color: $black;
+    }
+    .contact__section-contact-form {
+      input,
+      textarea {
+        border-radius: 2px;
+        border: none;
+        font-size: 14px;
+        color: $text;
+        background-color: $gray88;
+        padding: 20px;
+
+        &:focus {
+          box-shadow: none;
+        }
+      }
+
+      button {
+        width: 20%;
+      }
+    }
+  }
 }
