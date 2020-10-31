@@ -34,15 +34,9 @@ const Header = () => {
             <NavItem active>
               <NavLink href="/">Home</NavLink>
             </NavItem>
-            <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle nav caret>
-                Tour
-              </DropdownToggle>
-              <DropdownMenu right>
-                <DropdownItem>Option 1</DropdownItem>
-                <DropdownItem>Option 2</DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
+            <NavItem active>
+              <NavLink href="/tours">Tours</NavLink>
+            </NavItem>
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
                 Event

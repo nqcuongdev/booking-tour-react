@@ -1,0 +1,10 @@
+@import "../../assets/scss/variables";
+
+.search__form {
+  .single__field {
+    label {
+      font-size: 13px;
+      color: $text;
+    }
+  }
+}

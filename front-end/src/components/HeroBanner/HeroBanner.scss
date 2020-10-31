@@ -12,7 +12,7 @@
       font-weight: $font-weight-regular;
     }
   }
-  
+
   .hero__form-search {
     margin-top: 80px;
     .nav {
@@ -25,16 +25,16 @@
           background-color: $primary;
           color: $white !important;
           cursor: pointer;
-  
+
           svg {
             color: $black;
             opacity: 0.3;
           }
-  
+
           &:hover {
             border-color: transparent;
           }
-  
+
           &.active {
             svg {
               color: $text;
@@ -42,32 +42,32 @@
             background-color: $white;
             color: $orange !important;
           }
-  
+
           &:first-child {
             border-top-left-radius: 0px !important;
           }
-  
+
           &:last-child {
             border-top-right-radius: 2px !important;
           }
-  
+
           &.active:first-child {
             border-top-left-radius: 2px !important;
             border-top-right-radius: 0px !important;
           }
-  
+
           &.active:last-child {
             border-top-right-radius: 2px !important;
           }
         }
       }
     }
-  
+
     .tab-pane {
       padding: 30px 20px 0px 20px;
       background-color: $white;
       border-radius: 2px !important;
-  
+
       .single__field {
         border-right: 1px solid $text;
         padding-right: 10px;
@@ -84,6 +84,5 @@
         }
       }
     }
-  }  
+  }
 }
-
