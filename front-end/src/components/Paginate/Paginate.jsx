@@ -1,10 +1,9 @@
 import React from 'react';
 import './Paginate.scss';
-import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
 const Paginate = (props) => {
     return (
-        <div className="paginate wrapper">
+        <div className="paginate">
             <nav>
                 <ul className="pager">
                     <li className="pager__item pager__item--prev">

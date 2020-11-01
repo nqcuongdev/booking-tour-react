@@ -80,7 +80,6 @@ const Blogs = (props) => {
                         );
                     })}
                 </Row>
-
                 <Paginate />
             </Container>
         </MainLayout>
