@@ -135,7 +135,7 @@ h1 {
 }
 
 .list__tours {
-  background-color: $white-smoke2;
+  // background-color: $white-smoke2;
 
   .filter__section {
     .filter__section-text {
@@ -147,6 +147,35 @@ h1 {
         padding-left: 20px !important;
         padding-right: 20px !important;
       }
+    }
+  }
+
+  .filter__section-search-form {
+    padding: 20px 20px 10px 20px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 2px;
+    .title {
+      font-weight: $font-weight-regular;
+      color: $gray31;
+    }
+
+    label {
+      font-size: 14px;
+      color: $gray31;
+    }
+
+    input,
+    span.input-group-text {
+      border: none;
+      background: $white-smoke2;
+      box-shadow: none;
+      border-radius: 2px;
+      font-size: 13px;
+    }
+
+    button {
+      padding-left: 30px;
+      padding-right: 30px;
     }
   }
 }
