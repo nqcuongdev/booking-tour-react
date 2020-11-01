@@ -1,0 +1,30 @@
+@import "../../assets/scss/variables";
+
+.tour__item {
+  .tour__item-header {
+    .tour__item-button {
+      position: absolute;
+      width: 100%;
+      top: 40%;
+      left: 70%;
+      transform: translate(-50%, -50%) scale(0.5);
+      z-index: 3;
+      opacity: 0;
+      color: $white !important;
+      transition: all 0.4s;
+      text-decoration: none;
+
+      .btn-detail {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: $orange !important;
+      }
+    }
+    &:hover {
+      .tour__item-button {
+        opacity: 1;
+        top: 51%;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+  }
+}
