@@ -1,14 +1,30 @@
 import React from 'react';
 import './HomePost.scss';
 import {
-    Container, Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Button, Row, Col
+    Container, Button, Row, Col
 } from 'reactstrap';
 import post_1 from '../../assets/images/posts/post-1.jpg';
 import post_2 from '../../assets/images/posts/post-2.jpg';
-import { BiCalendarWeek } from 'react-icons/bi';
-import { AiOutlineEye } from 'react-icons/ai';
-import { BsArrowRightShort } from 'react-icons/bs';
+import Post from '../Post/Post';
+
+const postsData = [
+    {
+        id: 'ghd793f892',
+        image: post_1,
+        dataTime: '26th October, 2020',
+        view: 69,
+        title: `Family's Paradise`,
+        description: 'Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and...'
+    },
+    {
+        id: 'hsd244f234',
+        image: post_2,
+        dataTime: '1st November, 2020',
+        view: 96,
+        title: `10 Best Places Gallery`,
+        description: 'Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and...'
+    }
+];
 
 const HomePost = (props) => {
     return (
@@ -20,50 +36,20 @@ const HomePost = (props) => {
                         <p>Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and...</p><br/>
                         <Button className="btn-view-all">View all posts</Button>
                     </Col>
-                    <Col lg={4} md={4} className="home-post-card">
-                        <Card className="card">
-                            <a href="#"><CardImg className="card-img" top width="100%" src={post_1} alt="Card image cap" /></a>
-                            <div className="time-view">
-                                <Row>
-                                    <Col lg={6} md={6} className="time">
-                                        <BiCalendarWeek size={14} />
-                                        <span> 26th October, 2020</span>
-                                    </Col>
-                                    <Col lg={6} md={6}>
-                                        <AiOutlineEye size={14} />
-                                        <span> 69 views</span>
-                                    </Col>
-                                </Row>
-                            </div>
-                            <CardBody className="card-body">
-                                <CardTitle className="card-title"><h4>Family's Paradise</h4></CardTitle>
-                                <CardText className="card-text">Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively create your...</CardText>
-                                <a href="#" className="btn-read-more"><span className="read-more-text">Read more</span> <BsArrowRightShort /></a>
-                            </CardBody>
-                        </Card>
-                    </Col>
-                    <Col lg={4} md={4} className="home-post-card">
-                        <Card className="card">
-                            <a href="#"><CardImg className="card-img" top width="100%" src={post_2} alt="Card image cap" /></a>
-                            <div className="time-view">
-                                <Row>
-                                    <Col lg={6} md={6} className="time">
-                                        <BiCalendarWeek size={14} />
-                                        <span> 26th October, 2020</span>
-                                    </Col>
-                                    <Col lg={6} md={6}>
-                                        <AiOutlineEye size={14} />
-                                        <span> 69 views</span>
-                                    </Col>
-                                </Row>
-                            </div>
-                            <CardBody className="card-body">
-                                <CardTitle className="card-title"><h4>10 Best Places Gallery</h4></CardTitle>
-                                <CardText className="card-text">Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively create your...</CardText>
-                                <a href="#" className="btn-read-more"><span className="read-more-text">Read more</span> <BsArrowRightShort /></a>
-                            </CardBody>
-                        </Card>
-                    </Col>
+                    {postsData.map(post => {
+                        return (
+                            <Col lg={4} md={4}>
+                                <Post
+                                    id={post.id}
+                                    image={post.image}
+                                    dataTime={post.dataTime}
+                                    view={post.view}
+                                    title={post.title}
+                                    description={post.description}
+                                />
+                            </Col>
+                        );
+                    })}
                 </Row>
             </Container>
         </div>
