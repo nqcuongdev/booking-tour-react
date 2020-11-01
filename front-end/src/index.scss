@@ -106,24 +106,12 @@ h1 {
       font-family: "Poppins", sans-serif !important;
       color: $black;
     }
-    .contact__section-contact-form {
-      input,
-      textarea {
-        border-radius: 2px;
-        border: none;
-        font-size: 14px;
-        color: $text;
-        background-color: $gray88;
-        padding: 20px;
+  }
+}
 
-        &:focus {
-          box-shadow: none;
-        }
-      }
+.filter__section {
+  background-color: $white-smoke;
 
-      button {
-        width: 20%;
-      }
-    }
+  .filter__section-tab-button {
   }
 }

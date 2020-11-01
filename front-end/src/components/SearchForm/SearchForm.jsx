@@ -43,7 +43,7 @@ const SearchForm = (props) => {
               </div>
             </FormGroup>
           </Col>
-          <Col sm={6} md={3} className="mt-2">
+          <Col sm={6} md={2} className="mt-2">
             <FormGroup>
               <Button color="orange">SEARCH</Button>
             </FormGroup>

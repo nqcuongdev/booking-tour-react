@@ -1,10 +1,23 @@
 @import "../../assets/scss/variables";
 
 .search__form {
+  button {
+    border-radius: 2px !important;
+  }
   .single__field {
+    border-right: 1px solid $text;
+    padding-right: 10px;
+
     label {
       font-size: 13px;
       color: $text;
+    }
+
+    input,
+    select {
+      border: none;
+      text-transform: uppercase;
+      font-weight: $font-weight-semi-bold;
     }
   }
 }
