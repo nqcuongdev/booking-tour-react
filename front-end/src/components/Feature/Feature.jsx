@@ -46,14 +46,14 @@ const Feature = (props) => {
                 <Row>
                     {featureData.map(feature => {
                         return (
-                            <Col lg={4} md={4} xs={4} className="feature-item"> 
+                            <Col lg={4} md={4} xs={6} className="feature-item"> 
                                 <Row>
-                                    <Col lg={2}>
+                                    <Col lg={2} md={2} xs={2}>
                                         <div className="feature-icon">
                                             <span>{feature.icon}</span>
                                         </div>
                                     </Col>
-                                    <Col lg={10}>
+                                    <Col lg={10} md={10} xs={10}>
                                         <div className="feature-description">
                                             <p className="title">Special activities</p>
                                             <p className="description">Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to </p>
