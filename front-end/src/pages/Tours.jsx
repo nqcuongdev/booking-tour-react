@@ -7,6 +7,7 @@ import { Button, Col, Container, FormGroup, Input, Row } from "reactstrap";
 import { FaList, FaTh } from "react-icons/fa";
 import image from "../assets/images/hawaii-secret-beach.jpg";
 import ThumbnailTourItem from "../components/ThumbnailTourItem/ThumbnailTourItem";
+import Paginate from "../components/Paginate/Paginate";
 
 const data = [
   {
@@ -17,6 +18,7 @@ const data = [
       during: 2,
       place: "Port Canaveral",
     },
+    sale: 25,
   },
   {
     title: "The Bahamas",
@@ -26,6 +28,7 @@ const data = [
       during: 2,
       place: "Port Canaveral",
     },
+    saleToday: 25,
   },
   {
     title: "The Bahamas",
@@ -100,11 +103,11 @@ const Tours = (props) => {
       <div className="list__tours">
         <Container>
           <div className="filter__section pt-20 pb-30">
-            <div className="filter__section-text float-left ml-3">
+            <div className="filter__section-text float-left">
               We found <span style={{ color: "#ff7d3e" }}>54</span> tours
               available for you
             </div>
-            <div className="filter__section-form float-right">
+            <div className="filter__section-form mr-3 float-right">
               <Row>
                 <FormGroup className="mr-2">
                   <Input type="select" name="sort_by">
@@ -140,6 +143,7 @@ const Tours = (props) => {
               })}
             </Row>
           </div>
+          <Paginate />
         </Container>
       </div>
     </MainLayout>

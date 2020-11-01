@@ -136,6 +136,19 @@ h1 {
 
 .list__tours {
   background-color: $white-smoke2;
+
+  .filter__section {
+    .filter__section-text {
+      color: $text;
+    }
+    .filter__section-form {
+      select {
+        border: none;
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+      }
+    }
+  }
 }
 
 .post-list-of-blogs {
