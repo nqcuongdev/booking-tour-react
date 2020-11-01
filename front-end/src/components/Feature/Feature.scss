@@ -3,5 +3,37 @@
 .feature {
     padding: 32px 8px;
     background-color: $background;
+
+    .feature-item {
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: $white-smoke;
+            border-radius: 50%;
     
+            span {
+                color: $orange;
+                font-size: 36px;
+            }
+        }
+
+        .feature-description {
+            font-size: 14px;
+            margin-left: 10px;
+
+            .title {
+                text-transform: uppercase;
+                font-weight: bold;
+            }
+
+            .description {
+                margin-top: -10px;
+                color: $text;
+            }
+        }
+    }
 }
