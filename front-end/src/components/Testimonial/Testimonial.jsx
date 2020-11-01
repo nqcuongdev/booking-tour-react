@@ -36,7 +36,7 @@ const Testimonial = (props) => {
     };
 
     return (
-        <div className="testimonial">
+        <div className="testimonial" style={{ backgroundImage: `url(${props.backgroundImage})` }}>
             <Container>
                 <h2>We love our happy clients!</h2>
                 <Slider {...settings}>

@@ -15,6 +15,8 @@ import dataImage from "../assets/images/posts/post-1.jpg";
 import TourItem from "../components/TourItem/TourItem";
 import Col from "reactstrap/lib/Col";
 
+import testimonialBackground from "../assets/images/backgrounds/cloud-background.png";
+
 const popularToursData = [
   {
     title: "American Parks Trail end Rapid City",
@@ -113,7 +115,7 @@ const Home = (props) => {
         </Container>
       </div>
       <TopDestination />
-      <Testimonial />
+      <Testimonial backgroundImage={testimonialBackground} />
       <HomePost />
       <Subscribe />
       <HomeContact />
