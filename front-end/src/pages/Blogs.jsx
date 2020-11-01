@@ -7,6 +7,11 @@ import { Row, Col, Container } from "reactstrap";
 import post_1 from '../assets/images/posts/post-1.jpg';
 import post_2 from '../assets/images/posts/post-2.jpg';
 import Paginate from "../components/Paginate/Paginate";
+import ThumbnailTourItem from "../components/ThumbnailTourItem/ThumbnailTourItem";
+
+import Korea from "../assets/images/populars/1.jpg";
+import NY from "../assets/images/populars/newyork.jpg";
+import Cali from "../assets/images/populars/califonia.jpg";
 
 const postsData = [
     {
@@ -59,6 +64,36 @@ const postsData = [
     }
 ];
 
+const toursData = [
+    {
+        title: "The Bahamas",
+        price: 299,
+        image: Korea,
+        option: {
+          during: 2,
+          place: "Port Canaveral",
+        },
+    },
+    {
+        title: "The Bahamas",
+        price: 299,
+        image: NY,
+        option: {
+          during: 2,
+          place: "Port Canaveral",
+        },
+    },
+    {
+        title: "The Bahamas",
+        price: 299,
+        image: Cali,
+        option: {
+          during: 2,
+          place: "Port Canaveral",
+        },
+    }
+];
+
 const Blogs = (props) => {
     return (
         <MainLayout>
@@ -81,6 +116,20 @@ const Blogs = (props) => {
                     })}
                 </Row>
                 <Paginate />
+                <Row className="pt-50 pb-50">
+                    {toursData.map(tour => {
+                        return (
+                            <Col lg={4} md={6} sx={12} className="mb-30">
+                                <ThumbnailTourItem
+                                    image={tour.image}
+                                    title={tour.title}
+                                    option={tour.option}
+                                    price={tour.price}
+                                />
+                            </Col>
+                        );
+                    })}
+                </Row>
             </Container>
         </MainLayout>
     );
