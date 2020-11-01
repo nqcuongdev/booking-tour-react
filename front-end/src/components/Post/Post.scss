@@ -1,0 +1,54 @@
+@import '../../assets/scss/variables';
+
+.home-post-card {
+    .card {
+        border: none !important;
+
+        .card-img {
+            transition: .3s !important;
+
+            &:hover {
+                transform: scale(1.05);
+            }
+        }
+
+        .time-view {
+            margin: 28px 0 0 0;
+            font-size: 13px;
+            color: $text;
+        }
+
+        .card-body {
+            margin: 28px 0;
+            padding: 0 !important;
+
+            .card-text {
+                font-size: 13px;
+                margin-bottom: 32px !important;
+            }
+
+            a.btn-read-more {
+                color: rgb(63, 63, 63) !important;
+                font-size: 16px;
+                // border-bottom: 1px solid rgb(63, 63, 63);
+                transition: .3s !important;
+                
+                .read-more-text {
+                    &:hover {
+                        color: $orange !important;
+                        border-bottom: 1px solid $orange;
+                    }
+                }
+
+                &:hover {
+                    color: $orange !important;
+                    transition: .3s !important;
+
+                    .arrow-right-icon {
+                        width: 22px;
+                    }
+                }
+            }
+        }
+    }
+}

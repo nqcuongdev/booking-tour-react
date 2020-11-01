@@ -4,7 +4,7 @@ import { Col, Container, Row } from 'reactstrap';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader for Carousel
 import { Carousel } from 'react-responsive-carousel';
 import { RiStarSFill } from 'react-icons/ri';
-import { MdLocationOn } from 'react-icons/md'
+import { MdLocationOn } from 'react-icons/md';
 import post_1 from '../../assets/images/posts/post-1.jpg';
 import post_2 from '../../assets/images/posts/post-2.jpg';
 import post_3 from '../../assets/images/posts/post-3.jpg';
