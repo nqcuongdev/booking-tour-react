@@ -1,0 +1,21 @@
+@import "../../assets/scss/variables";
+
+.contact__section-contact-form {
+  input,
+  textarea {
+    border-radius: 2px;
+    border: none;
+    font-size: 14px;
+    color: $text;
+    background-color: $gray88;
+    padding: 20px;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  button {
+    width: 20%;
+  }
+}
