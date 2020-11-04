@@ -7,6 +7,7 @@ import {
   Button,
   Col,
   Container,
+  CustomInput,
   Form,
   FormGroup,
   Input,
@@ -201,42 +202,52 @@ const Tours = (props) => {
                 </Form>
               </div>
               <div className="filter__section-category mt-50">
-                <h4>Popular destinations</h4>
-                <ul className="list-category">
+                <h4 className="title">Popular destinations</h4>
+                <ul className="list-category mt-3">
                   <li>
-                    <FormGroup check>
-                      <Label check>
-                        <Input type="checkbox" /> Rome(10)
-                      </Label>
-                    </FormGroup>
+                    <div className="cs-checkbox">
+                      <label>
+                        <input type="checkbox" id="cat_id" value="1" />
+                        Check this custom checkbox
+                        <span className="check__mark"></span>
+                      </label>
+                    </div>
                   </li>
                   <li>
-                    <FormGroup check>
-                      <Label check>
-                        <Input type="checkbox" /> Rome(10)
-                      </Label>
-                    </FormGroup>
+                    <div className="cs-checkbox">
+                      <label>
+                        <input type="checkbox" id="cat_id" value="1" />
+                        Check this custom checkbox
+                        <span className="check__mark"></span>
+                      </label>
+                    </div>
                   </li>
                   <li>
-                    <FormGroup check>
-                      <Label check>
-                        <Input type="checkbox" /> Rome(10)
-                      </Label>
-                    </FormGroup>
+                    <div className="cs-checkbox">
+                      <label>
+                        <input type="checkbox" id="cat_id" value="1" />
+                        Check this custom checkbox
+                        <span className="check__mark"></span>
+                      </label>
+                    </div>
                   </li>
                   <li>
-                    <FormGroup check>
-                      <Label check>
-                        <Input type="checkbox" /> Rome(10)
-                      </Label>
-                    </FormGroup>
+                    <div className="cs-checkbox">
+                      <label>
+                        <input type="checkbox" id="cat_id" value="1" />
+                        Check this custom checkbox
+                        <span className="check__mark"></span>
+                      </label>
+                    </div>
                   </li>
                   <li>
-                    <FormGroup check>
-                      <Label check>
-                        <Input type="checkbox" /> Rome(10)
-                      </Label>
-                    </FormGroup>
+                    <div className="cs-checkbox">
+                      <label>
+                        <input type="checkbox" id="cat_id" value="1" />
+                        Check this custom checkbox
+                        <span className="check__mark"></span>
+                      </label>
+                    </div>
                   </li>
                 </ul>
               </div>
