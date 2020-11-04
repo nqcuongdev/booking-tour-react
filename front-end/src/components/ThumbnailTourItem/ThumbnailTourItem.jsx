@@ -6,6 +6,37 @@ const ThumbnailTourItem = (props) => {
   return (
     <div className="tour__item">
       <div className="tour__item-header">
+        {props.sale ? (
+          <div
+            className="tour___item-tag"
+            style={{
+              background: "#7cdf6c",
+            }}
+          >
+            -{props.sale}%
+          </div>
+        ) : props.saleToday ? (
+          <div
+            className="tour___item-tag"
+            style={{
+              background: "#1b3e8d",
+              display: "inline-block",
+              textAlign: "center",
+            }}
+          >
+            <span style={{ color: "yellow" }}>-{props.saleToday}%</span>
+            <br /> off today
+          </div>
+        ) : (
+          <div
+            className="tour___item-tag"
+            style={{
+              background: "#ff7d3e",
+            }}
+          >
+            hot
+          </div>
+        )}
         <img src={props.image} className="img-fluid" alt={props.title} />
         <ul className="tour__item-button">
           <Link className="btn btn-orange mr-2" style={{ width: "auto" }}>
