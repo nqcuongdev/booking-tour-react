@@ -35,8 +35,16 @@ h1 {
   color: $orange;
 }
 
+.mt-10 {
+  margin-top: 10px;
+}
+
 .mt-20 {
   margin-top: 20px;
+}
+
+.mt-30 {
+  margin-top: 30px;
 }
 
 .mb-20 {
@@ -140,4 +148,155 @@ h1 {
 
 .post-list-of-blogs {
   padding: 32px 8px;
+}
+
+.blog-detail {
+  .blog-detail-link {
+    background-color: $gray95;
+    height: 113px;
+    display: flex;
+    align-items: center;
+  
+    span {
+      text-transform: uppercase;
+      span {
+        color: $text;
+      }
+    }
+  }
+  
+  .blog-detail-main {
+    .blog-detail-sidebar {
+      .search {
+        display: flex;
+        flex-direction: row;
+  
+        Input {
+          font-size: 14px;
+          background-color: $gray95;
+          border: none !important;
+          border-top-left-radius: 0.25rem !important;
+          border-top-right-radius: 0 !important;
+          border-bottom-right-radius: 0 !important;
+          border-bottom-left-radius: 0.25rem !important;
+        }
+    
+        Button {
+          background-color: $gray95;
+          border: none !important;
+          border-top-left-radius: 0 !important;
+          border-top-right-radius: 0.25rem !important;
+          border-bottom-right-radius: 0.25rem !important;
+          border-bottom-left-radius: 0 !important;
+  
+          .search-icon {
+            color: $gray46;
+          }
+        }
+      }
+
+      .categories {
+        margin-top: 25px;
+
+        .title {
+          font-size: 22px;
+        }
+        
+        .category-item {
+          color: $text;
+          margin-bottom: 10px !important;
+        }
+      }
+
+      .popular-post-list {
+        margin-top: 25px;
+
+        .popular-post-list-title {
+          font-size: 22px;
+        }
+      }
+
+      .popular-tags {
+        margin-top: 25px;
+        width: 100%;
+
+        .popular-tags-title {
+          font-size: 22px;
+        }
+
+        .popular-tags-list {
+          display: flex;
+          flex-wrap: wrap;
+
+          .first-tag {
+            background-color: $primary;
+            width: auto;
+            padding: 2px 4px;
+            margin: 4px 4px 4px 0;
+
+            .white-text {
+              color: $white !important;
+            }
+          }
+          
+          .normal-tag {
+            background-color: $gray95;
+            color: $text;
+            padding: 2px 4px;
+            margin: 4px 4px;
+          }
+        }
+      }
+    }
+  
+    .blog-detail-content {
+      .post-image {
+        width: 100%;
+        border-radius: 2px;
+      }
+  
+      .post-title {
+        font-size: 27px;
+        font-weight: bold;
+        font-family: 'Poppins', sans-serif;
+        margin: 15px 0 0 0;
+      }
+
+      .post-info {
+        color: $text;
+
+        ul {
+          li {
+            display: inline-block;
+            margin-right: 30px;
+          }
+        }
+      }
+
+      .post-description {
+      }
+
+      .post-quotes {
+        display: flex;
+        justify-content: center;
+
+        .quotes {
+          width: 80%;
+          border-left: 5px solid $orange;
+          padding-left: 15px;
+          
+          span {
+            font-size: 20px;
+            color: $primary;
+          }
+        }
+      }
+
+      .post-tag {
+        .orange-text {
+          color: $orange !important;
+        }
+      }
+    }
+  }
 }
