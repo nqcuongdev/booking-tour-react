@@ -11,22 +11,26 @@ import { Link } from "react-router-dom";
 import PopularPost from "../components/PopularPost/PopularPost";
 import { BiCalendarWeek } from 'react-icons/bi';
 import { AiOutlineEye, AiFillTag } from 'react-icons/ai';
-import { BsFillPersonFill } from 'react-icons/bs';
-
-const postName = 'Vietnamese special places';
+import { BsFillPersonFill, BsGrid3X3Gap, BsChevronLeft, BsChevronRight} from 'react-icons/bs';
+import PopularTags from '../components/PopularTags/PopularTags';
+import avatar_1 from '../assets/images/avatar-testimonial/avatar-2.jpg';
+import { FaFacebookF, FaInstagram, FaTwitter, FaGithub } from 'react-icons/fa';
 
 const postData = {
     blogImage: post_1,
     location: 'Thailand',
     dateTime: '30th November, 2020',
     view: 69,
-    title: 'Thailand Special places',
+    title: 'Vietnamese special places',
     description: 'Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively create your very own travel booking website to offer hotel.',
     content: 'Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively create your very own travel booking website to offer hotel, tours, car and cruise bookings in minutes. Vivavivu is a Multipurpose Sketch template with 06 homepages. Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively create your very own travel booking website to offer hotel, tours, car and cruise bookings in minutes. Vivavivu is a Multipurpose Sketch template with 06 homepages.',
     quotes: 'We’re on a mission to build a better futer where technology creates good fobs for everyone.',
     tag: ['travel guide', 'design', 'thememove', 'famous location'],
-    authorName: 'Chou',
-    authorImage: '',
+    author: {
+        name: 'Chou Chou',
+        avatar: avatar_1,
+        description: 'Hi anh em, minh la Chou ne! Chung minh cung lam quen nha <3! Hi anh em, minh la Chou ne! Chung minh cung lam quen nha <3'
+    }
 };
 
 const categoriesData = ["All", "Adventure", "Famous location", "Travel guide", "Life style", "Videos", "Uncategoriz"];
@@ -62,7 +66,7 @@ const BlogDetail = (props) => {
             <div className="blog-detail">
                 <div className="blog-detail-link">
                     <Container>
-                        <span><span><Link to="/">Home</Link> / <Link to="/blogs">Blogs</Link> /</span> {postName}</span>
+                        <span><span><Link to="/">Home</Link> / <Link to="/blogs">Blogs</Link> /</span> {postData.title}</span>
                     </Container>
                 </div>
                 <Container className="blog-detail-main mt-50 pb-30 pt-30">
@@ -94,29 +98,16 @@ const BlogDetail = (props) => {
                                     );
                                 })}
                             </div>
-                            <div className="popular-tags">
-                                <p className="popular-tags-title">Popular Tags</p>
-                                <div className="popular-tags-list">
-                                    {popularTags.map((tag, index) => {
-                                        if (index === 0) {
-                                            return (
-                                                <span className="first-tag"><Link to='#' className="white-text">{tag}</Link></span>
-                                            );
-                                        } else {
-                                            return (
-                                                <span className="normal-tag"><Link to='#'>{tag}</Link></span>
-                                            );
-                                        }
-                                    })}
-                                </div>
-                            </div>
+
+                            <PopularTags popularTags={popularTags} />
+
                         </Col>
                         <Col xl={9} lg={8} md={7} xs={12} className="blog-detail-content">
                             <img src={postData.blogImage} alt={postData.blogImage} className="post-image"/>
                             <p className="post-title">{postData.title}</p>
                             <div className="post-info mt-10">
                                 <ul>
-                                    <li><BsFillPersonFill /> {postData.authorName}</li>
+                                    <li><BsFillPersonFill /> {postData.author.name}</li>
                                     <li><BiCalendarWeek /> {postData.dateTime}</li>
                                     <li><AiOutlineEye /> {postData.view}</li>
                                 </ul>
@@ -148,6 +139,42 @@ const BlogDetail = (props) => {
                                 })}
                             </div>
                             <hr/>
+                            <div className="author-info mt-30">
+                                <div className="author-avatar">
+                                    <img src={postData.author.avatar} alt={postData.author.avatar} />
+                                    <div className="author-social mt-10">
+                                        <ul>
+                                            <li><Link to="#"><FaFacebookF className="icon" title="Facebook" /></Link></li>
+                                            <li><Link to="#"><FaInstagram className="icon" title="Instagram" /></Link></li>
+                                            <li><Link to="#"><FaTwitter className="icon" title="Twitter" /></Link></li>
+                                            <li><Link to="#"><FaGithub className="icon" title="Github" /></Link></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div className="author-name-description">
+                                    <p className="author-name">{postData.author.name}</p>
+                                    <span className="author-description">{postData.author.description}</span>
+                                </div>
+                            </div>
+                            <div className="blog-detail-content-paginate mt-20">
+                                <div className="previous-post">
+                                    <Link to="#" className="link"><BsChevronLeft /> Title of previous post</Link>
+                                </div>
+                                <div className="grid-circle">
+                                    <div className="border-circle">
+                                        <BsGrid3X3Gap className="grid-icon" />
+                                    </div>
+                                </div>
+                                <div className="next-post">
+                                    <Link to="#" className="link">Title of next post <BsChevronRight /></Link>
+                                </div>
+                            </div>
+                            <div className="post-comment mt-50 mb-30">
+                                <p className="post-comment-title">Comment <span className="post-comment-count">(69)</span></p>
+                                <div className="post-comment-lis mt-30">
+                                    
+                                </div>
+                            </div>
                         </Col>
                     </Row>
                 </Container>
