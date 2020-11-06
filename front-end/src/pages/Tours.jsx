@@ -115,6 +115,8 @@ const dummyData = [
   {
     title: "The Bahamas",
     price: 299,
+    description:
+      "Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively inutes...",
     image: image,
     option: {
       day: 4,
@@ -125,6 +127,8 @@ const dummyData = [
   {
     title: "The Bahamas",
     price: 299,
+    description:
+      "Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively inutes...",
     image: image,
     option: {
       day: 4,
@@ -135,6 +139,8 @@ const dummyData = [
   {
     title: "The Bahamas",
     price: 299,
+    description:
+      "Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively inutes...",
     image: image,
     option: {
       day: 4,
@@ -145,6 +151,8 @@ const dummyData = [
   {
     title: "The Bahamas",
     price: 299,
+    description:
+      "Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively inutes...",
     image: image,
     option: {
       day: 4,
@@ -155,116 +163,8 @@ const dummyData = [
   {
     title: "The Bahamas",
     price: 299,
-    image: image,
-    option: {
-      day: 4,
-      night: 5,
-      place: "Port Canaveral",
-    },
-  },
-  {
-    title: "The Bahamas",
-    price: 299,
-    image: image,
-    option: {
-      day: 4,
-      night: 5,
-      place: "Port Canaveral",
-    },
-  },
-  {
-    title: "The Bahamas",
-    price: 299,
-    image: image,
-    option: {
-      day: 4,
-      night: 5,
-      place: "Port Canaveral",
-    },
-  },
-  {
-    title: "The Bahamas",
-    price: 299,
-    image: image,
-    option: {
-      day: 4,
-      night: 5,
-      place: "Port Canaveral",
-    },
-  },
-  {
-    title: "The Bahamas",
-    price: 299,
-    image: image,
-    option: {
-      day: 4,
-      night: 5,
-      place: "Port Canaveral",
-    },
-  },
-  {
-    title: "The Bahamas",
-    price: 299,
-    image: image,
-    option: {
-      day: 4,
-      night: 5,
-      place: "Port Canaveral",
-    },
-  },
-  {
-    title: "The Bahamas",
-    price: 299,
-    image: image,
-    option: {
-      day: 4,
-      night: 5,
-      place: "Port Canaveral",
-    },
-  },
-  {
-    title: "The Bahamas",
-    price: 299,
-    image: image,
-    option: {
-      day: 4,
-      night: 5,
-      place: "Port Canaveral",
-    },
-  },
-  {
-    title: "The Bahamas",
-    price: 299,
-    image: image,
-    option: {
-      day: 4,
-      night: 5,
-      place: "Port Canaveral",
-    },
-  },
-  {
-    title: "The Bahamas",
-    price: 299,
-    image: image,
-    option: {
-      day: 4,
-      night: 5,
-      place: "Port Canaveral",
-    },
-  },
-  {
-    title: "The Bahamas",
-    price: 299,
-    image: image,
-    option: {
-      day: 4,
-      night: 5,
-      place: "Port Canaveral",
-    },
-  },
-  {
-    title: "The Bahamas",
-    price: 299,
+    description:
+      "Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively inutes...",
     image: image,
     option: {
       day: 4,
