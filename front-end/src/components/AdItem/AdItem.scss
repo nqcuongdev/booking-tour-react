@@ -1,0 +1,28 @@
+@import "../../assets/scss/variables";
+
+.popular__item {
+  height: 345px;
+  background-position: center;
+  background-size: cover;
+  text-align: center;
+  border: 2px;
+
+  h3 {
+    font-family: "Courgette", cursive;
+    font-weight: $font-weight-light;
+    color: $white;
+  }
+
+  p {
+    color: $white;
+    text-transform: uppercase;
+    font-weight: $font-weight-medium;
+    font-size: 24px;
+  }
+
+  button {
+    width: auto;
+    padding: 10px 20px 10px 20px;
+    box-shadow: none !important;
+  }
+}

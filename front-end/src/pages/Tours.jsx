@@ -23,6 +23,7 @@ import ThumbnailTourItem from "../components/ThumbnailTourItem/ThumbnailTourItem
 import Paginate from "../components/Paginate/Paginate";
 import adImage from "../assets/images/ad.png";
 import AdItem from "../components/AdItem/AdItem";
+import SingleListItem from "../components/SingleListItem/SingleListItem";
 
 const data = [
   {
@@ -105,6 +106,169 @@ const data = [
     image: image,
     option: {
       during: 2,
+      place: "Port Canaveral",
+    },
+  },
+];
+
+const dummyData = [
+  {
+    title: "The Bahamas",
+    price: 299,
+    image: image,
+    option: {
+      day: 4,
+      night: 5,
+      place: "Port Canaveral",
+    },
+  },
+  {
+    title: "The Bahamas",
+    price: 299,
+    image: image,
+    option: {
+      day: 4,
+      night: 5,
+      place: "Port Canaveral",
+    },
+  },
+  {
+    title: "The Bahamas",
+    price: 299,
+    image: image,
+    option: {
+      day: 4,
+      night: 5,
+      place: "Port Canaveral",
+    },
+  },
+  {
+    title: "The Bahamas",
+    price: 299,
+    image: image,
+    option: {
+      day: 4,
+      night: 5,
+      place: "Port Canaveral",
+    },
+  },
+  {
+    title: "The Bahamas",
+    price: 299,
+    image: image,
+    option: {
+      day: 4,
+      night: 5,
+      place: "Port Canaveral",
+    },
+  },
+  {
+    title: "The Bahamas",
+    price: 299,
+    image: image,
+    option: {
+      day: 4,
+      night: 5,
+      place: "Port Canaveral",
+    },
+  },
+  {
+    title: "The Bahamas",
+    price: 299,
+    image: image,
+    option: {
+      day: 4,
+      night: 5,
+      place: "Port Canaveral",
+    },
+  },
+  {
+    title: "The Bahamas",
+    price: 299,
+    image: image,
+    option: {
+      day: 4,
+      night: 5,
+      place: "Port Canaveral",
+    },
+  },
+  {
+    title: "The Bahamas",
+    price: 299,
+    image: image,
+    option: {
+      day: 4,
+      night: 5,
+      place: "Port Canaveral",
+    },
+  },
+  {
+    title: "The Bahamas",
+    price: 299,
+    image: image,
+    option: {
+      day: 4,
+      night: 5,
+      place: "Port Canaveral",
+    },
+  },
+  {
+    title: "The Bahamas",
+    price: 299,
+    image: image,
+    option: {
+      day: 4,
+      night: 5,
+      place: "Port Canaveral",
+    },
+  },
+  {
+    title: "The Bahamas",
+    price: 299,
+    image: image,
+    option: {
+      day: 4,
+      night: 5,
+      place: "Port Canaveral",
+    },
+  },
+  {
+    title: "The Bahamas",
+    price: 299,
+    image: image,
+    option: {
+      day: 4,
+      night: 5,
+      place: "Port Canaveral",
+    },
+  },
+  {
+    title: "The Bahamas",
+    price: 299,
+    image: image,
+    option: {
+      day: 4,
+      night: 5,
+      place: "Port Canaveral",
+    },
+  },
+  {
+    title: "The Bahamas",
+    price: 299,
+    image: image,
+    option: {
+      day: 4,
+      night: 5,
+      place: "Port Canaveral",
+    },
+  },
+  {
+    title: "The Bahamas",
+    price: 299,
+    image: image,
+    option: {
+      day: 4,
+      night: 5,
       place: "Port Canaveral",
     },
   },
@@ -258,6 +422,10 @@ const Tours = (props) => {
                 We found <span style={{ color: "#ff7d3e" }}>54</span> tours
                 available for you
               </div>
+
+              {dummyData.map((item) => {
+                return <SingleListItem {...item} />;
+              })}
             </Col>
           </Row>
           <Paginate />
