@@ -1,0 +1,63 @@
+@import "../../assets/scss/variables";
+
+.list__item {
+  border-top: 1px solid $gray95;
+  padding-top: 20px;
+  overflow: hidden;
+  .item__image {
+    overflow: hidden;
+
+    .item__tag {
+      position: absolute;
+      right: 15px;
+      top: 10px;
+      font-size: 13px;
+      color: $black;
+      font-weight: $font-weight-regular;
+      background-color: $yellow;
+      z-index: 1;
+      padding: 5px 15px;
+      margin-right: 10px;
+      text-transform: uppercase;
+    }
+
+    img {
+      border-radius: 2px;
+    }
+  }
+
+  .item__content {
+    svg {
+      color: $text;
+      padding-right: 5px;
+    }
+    .item__options {
+      .location,
+      .during {
+        color: $text;
+        font-size: 14px;
+        font-weight: $font-weight-light;
+      }
+    }
+
+    .item__description {
+      color: $text;
+      font-size: 14px;
+      font-weight: $font-weight-light;
+    }
+
+    .item__button {
+      button {
+        width: auto;
+        padding-left: 20px;
+        padding-right: 20px;
+        border-radius: 2px;
+      }
+
+      .btn-detail {
+        color: $orange;
+        border: 1px solid $gray95;
+      }
+    }
+  }
+}
