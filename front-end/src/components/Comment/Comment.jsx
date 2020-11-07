@@ -9,7 +9,7 @@ const Comment = (props) => {
     
     return (
         <div>
-            <div className="comment mt-50 mb-50">
+            <div className="comment">
                 <div className="comment-author-avatar">
                     <img src={props.avatar} alt={props.avatar} />
                 </div>

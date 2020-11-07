@@ -20,6 +20,8 @@ import { FaFacebookF, FaInstagram, FaTwitter, FaGithub } from 'react-icons/fa';
 import Comment from '../components/Comment/Comment';
 import CommentForm from '../components/CommentForm/CommentForm';
 import Post from '../components/Post/Post';
+import adImage from "../assets/images/ad.png";
+import AdItem from "../components/AdItem/AdItem";
 
 const postData = {
     blogImage: post_1,
@@ -116,6 +118,12 @@ const relatedPostsData = [
     }
 ];
 
+const popularItem = {
+    text1: "Summer Stay",
+    text2: "for single couple",
+    image: adImage,
+};
+
 const BlogDetail = (props) => {
     return (
         <MainLayout>
@@ -154,9 +162,8 @@ const BlogDetail = (props) => {
                                     );
                                 })}
                             </div>
-
+                            <AdItem {...popularItem} />
                             <PopularTags popularTags={popularTags} />
-
                         </Col>
                         <Col xl={9} lg={8} md={7} xs={12} className="blog-detail-content">
                             <img src={postData.blogImage} alt={postData.blogImage} className="post-image"/>
