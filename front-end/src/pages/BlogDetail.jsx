@@ -13,8 +13,13 @@ import { BiCalendarWeek } from 'react-icons/bi';
 import { AiOutlineEye, AiFillTag } from 'react-icons/ai';
 import { BsFillPersonFill, BsGrid3X3Gap, BsChevronLeft, BsChevronRight} from 'react-icons/bs';
 import PopularTags from '../components/PopularTags/PopularTags';
-import avatar_1 from '../assets/images/avatar-testimonial/avatar-2.jpg';
+import avatar_1 from '../assets/images/avatar-testimonial/avatar-1.jpg';
+import avatar_2 from '../assets/images/avatar-testimonial/avatar-2.jpg';
+import avatar_3 from '../assets/images/avatar-testimonial/avatar-3.jpg';
 import { FaFacebookF, FaInstagram, FaTwitter, FaGithub } from 'react-icons/fa';
+import Comment from '../components/Comment/Comment';
+import CommentForm from '../components/CommentForm/CommentForm';
+import Post from '../components/Post/Post';
 
 const postData = {
     blogImage: post_1,
@@ -27,9 +32,9 @@ const postData = {
     quotes: 'We’re on a mission to build a better futer where technology creates good fobs for everyone.',
     tag: ['travel guide', 'design', 'thememove', 'famous location'],
     author: {
-        name: 'Chou Chou',
-        avatar: avatar_1,
-        description: 'Hi anh em, minh la Chou ne! Chung minh cung lam quen nha <3! Hi anh em, minh la Chou ne! Chung minh cung lam quen nha <3'
+        name: 'Hun Hun',
+        avatar: avatar_3,
+        description: 'Hi anh em, minh la Hun Hun ne! Chung minh cung lam quen nha <3 Hi anh em, minh la Hun Hun ne! Chung minh cung lam quen nha <3'
     }
 };
 
@@ -59,6 +64,57 @@ const popularPostData = [
 ];
 
 const popularTags = ['travel', 'hotel', 'motel', 'restaurant', 'resort', 'money', 'street'];
+
+const commentData = [
+    {
+        avatar: avatar_1,
+        name: 'Quoc Cuong',
+        content: 'Bài viết hay quá nà, lần sau đừng viết nữa nha. Hihi',
+        rateStars: 4,
+        national: 'Vietnamese'
+    },
+    {
+        avatar: avatar_2,
+        name: 'Chou Chou',
+        content: 'Bạn trên comment kỳ quá à, ai lại nói thẳng ra thế bao giờ :v',
+        rateStars: 5,
+        national: 'Japan'
+    },
+    {
+        avatar: avatar_3,
+        name: 'Hun Hun',
+        content: 'Hai thằng trên im đê, ý kiến lên phường...',
+        rateStars: 3,
+        national: 'Laos'
+    }
+];
+
+const relatedPostsData = [
+    {
+        id: 'ghd793f892',
+        image: post_1,
+        dataTime: '26th October, 2020',
+        view: 69,
+        title: `Family's Paradise`,
+        description: 'Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and...'
+    },
+    {
+        id: 'hsd244f234',
+        image: post_2,
+        dataTime: '1st November, 2020',
+        view: 96,
+        title: `10 Best Places Gallery`,
+        description: 'Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and...'
+    },
+    {
+        id: 'ghd793f892',
+        image: post_1,
+        dataTime: '26th October, 2020',
+        view: 69,
+        title: `Family's Paradise`,
+        description: 'Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and...'
+    }
+];
 
 const BlogDetail = (props) => {
     return (
@@ -172,12 +228,50 @@ const BlogDetail = (props) => {
                             <div className="post-comment mt-50 mb-30">
                                 <p className="post-comment-title">Comment <span className="post-comment-count">(69)</span></p>
                                 <div className="post-comment-lis mt-30">
-                                    
+                                    {commentData.map(comment => {
+                                        return (
+                                            <Comment 
+                                                avatar={comment.avatar} 
+                                                name={comment.name}
+                                                content={comment.content} 
+                                                rateStars={comment.rateStars} 
+                                                national={comment.national}
+                                            />
+                                        );
+                                    })}
                                 </div>
+                                <div className="view-mode-comment mt-30 mb-30">
+                                    <Link><p><span>View more</span> (69)</p></Link>
+                                </div>
+                                <hr/>
+                            </div>
+                            <div className="post-comment-form mb-30">
+                                <CommentForm />
                             </div>
                         </Col>
                     </Row>
                 </Container>
+                <div className="related-posts">
+                    <Container>
+                        <p className="related-posts-title">Related posts</p>
+                        <Row>
+                            {relatedPostsData.map(post => {
+                                return (
+                                    <Col lg={4} md={4}>
+                                        <Post 
+                                            id={post.id}
+                                            image={post.image}
+                                            dataTime={post.dataTime}
+                                            view={post.view}
+                                            title={post.title}
+                                            description={post.description}
+                                        />
+                                    </Col>
+                                );
+                            })}
+                        </Row>
+                    </Container>
+                </div>
 
                 <Subscribe />
             </div>

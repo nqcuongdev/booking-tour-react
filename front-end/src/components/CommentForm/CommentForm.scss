@@ -1,0 +1,39 @@
+@import '../../assets/scss/_variables.scss';
+
+.comment-form {
+    .comment-form-title {
+        font-size: 27px;
+        font-weight: bold;
+    }
+
+    .comment-form-subtitle {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .obligatory-icon {
+        color: red;
+    }
+
+    .input-info {
+        font-size: 14px;
+    }
+
+    .comment-info {
+        Label {
+            color: $text;
+            margin-bottom: 3px;
+        }
+    }
+
+    .comment-content {
+        Label {
+            color: $text;
+            margin-bottom: 3px;
+        }
+
+        Input {
+            min-height: 200px;
+        }
+    }
+}

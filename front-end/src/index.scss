@@ -434,11 +434,11 @@ h1 {
         display: flex;
         justify-content: center;
         align-items: center;
+        padding: 0 10px;
 
         .previous-post {
           display: flex;
-          flex: 0 0 30%;
-          justify-content: center;
+          margin-right: auto;
 
           .link {
             font-size: 14px !important;
@@ -454,7 +454,6 @@ h1 {
           display: flex;
           justify-content: center;
           align-items: center;
-          flex: 0 0 40%;
 
           .border-circle {
             width: 40px;
@@ -475,8 +474,7 @@ h1 {
 
         .next-post {
           display: flex;
-          flex: 0 0 30%;
-          justify-content: center;
+          margin-left: auto;
 
           .link {
             font-size: 14px !important;
@@ -490,7 +488,6 @@ h1 {
       }
 
       .post-comment {
-
         .post-comment-title {
           font-size: 27px;
           font-weight: bold;
@@ -499,7 +496,37 @@ h1 {
             color: $orange !important;
           }
         }
+
+        .view-mode-comment {
+          text-align: center;
+
+          p {
+            text-transform: uppercase;
+            font-weight: bold;
+            color: $text;
+            font-size: 15px;
+
+            span {
+              color: $primary;
+            }
+          }
+        }
       }
+    }
+  }
+
+  .related-posts {
+    background-color: $grayF8;
+    padding: 50px 0 20px 0;
+
+    .related-posts-title {
+      font-size: 27px;
+      font-weight: bold;
+      margin-bottom: 25px;
+    }
+
+    .card {
+      background-color: $grayF8 !important;
     }
   }
 }
