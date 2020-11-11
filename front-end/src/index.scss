@@ -47,12 +47,20 @@ h1 {
   margin-top: 30px;
 }
 
+.mb-10 {
+  margin-bottom: 10px;
+}
+
 .mb-20 {
   margin-bottom: 20px;
 }
 
 .pt-20 {
   padding-top: 20px;
+}
+
+.pt-30 {
+  padding-top: 30px;
 }
 
 .mb-30 {
@@ -535,6 +543,8 @@ h1 {
 
 .hotels {
   .hotels-list {
+    background-color: $grayF8 !important;
+
     .hotels-list-top {
       .hotels-list-top-left {
         display: flex;
