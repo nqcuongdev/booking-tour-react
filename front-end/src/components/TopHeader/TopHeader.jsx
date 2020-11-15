@@ -29,7 +29,7 @@ const TopHeader = () => {
                     setSignIn(true);
                   }}
                 >
-                  Sign In
+                  Login
                 </Link>
               </li>
               <li className="nav-item">
