@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Tours from "./pages/Tours";
 import Blogs from "./pages/Blogs";
+import TourDetail from "./pages/TourDetail";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route exact path="/contact-us" component={Contact} />
         <Route exact path="/about" component={About} />
         <Route exact path="/tours" component={Tours} />
+        <Route exact path="/tours/:slug" component={TourDetail} />
         <Route exact path="/blogs" component={Blogs} />
       </Switch>
     </Router>
