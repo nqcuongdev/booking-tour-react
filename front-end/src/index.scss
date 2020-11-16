@@ -26,6 +26,7 @@ a {
 
   &:hover {
     text-decoration: none !important;
+    color: $orange !important;
   }
 }
 
@@ -573,3 +574,71 @@ h1 {
     }
   }
 }
+.modal-dialog {
+  top: 10%;
+}
+
+.modal-content {
+  box-shadow: none !important;
+  border-radius: 5px !important;
+  padding: 20px 20px 20px;
+
+  .modal-header {
+    border: none !important;
+    padding-top: 0;
+    padding-bottom: 0;
+
+    button {
+      &:focus {
+        border: none;
+        outline:0;
+      }
+    }
+
+    .modal-title {
+      font-size: 24px !important;
+      font-weight: $font-weight-medium;
+    }
+  }
+}
+
+.btn-facebook, .btn-google, .btn-twitter {
+  border-radius: 2px;
+  font-size: 13px;
+  display: block !important;
+
+  svg {
+    font-size: 16px;
+  }
+}
+
+.btn-facebook {
+  background-color: $facebook-color !important;
+  color: $white !important;
+
+  &:hover {
+    background-color: $white !important;
+    color: $facebook-color !important;
+  }
+}
+
+.btn-google {
+  background-color: $google-color !important;
+  color: $white !important;
+
+  &:hover {
+    background-color: $white !important;
+    color: $google-color !important;
+  }
+}
+
+.btn-twitter {
+  background-color: $twitter-color !important;
+  color: $white !important;
+
+  &:hover {
+    background-color: $white !important;
+    color: $twitter-color !important;
+  }
+}
+

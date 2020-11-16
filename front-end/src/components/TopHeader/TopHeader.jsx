@@ -1,10 +1,18 @@
 import React from "react";
 import { Container } from "reactstrap";
-import { FaPhoneAlt, FaMapMarkerAlt } from "react-icons/fa";
 import "./TopHeader.scss";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import SignInForm from "../SignInForm/SignInForm";
+import SignUpForm from "../SignUpForm/SignUpForm";
 
 const TopHeader = () => {
+  const [signIn, setSignIn] = useState(false);
+  const [signUp, setSignUp] = useState(false);
+
+  const toggleSignIn = () => setSignIn(!signIn);
+  const toggleSignUp = () => setSignUp(!signUp);
+
   return (
     <div className="navbar__top d-none d-lg-block">
       <Container>
@@ -15,20 +23,31 @@ const TopHeader = () => {
           <div className="d-flex align-items-center">
             <ul className="nav">
               <li className="nav-item">
-                <Link className="nav-link">
-                  <FaPhoneAlt size={18} className="mr-2" /> 033 731 7788
+                <Link
+                  className="nav-link"
+                  onClick={() => {
+                    setSignIn(true);
+                  }}
+                >
+                  Login
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link">
-                  <FaMapMarkerAlt size={18} className="mr-2" />
-                  Nam Ky Khoi Nghia, Da Nang
+                <Link
+                  className="nav-link"
+                  onClick={() => {
+                    setSignUp(true);
+                  }}
+                >
+                  Sign Up
                 </Link>
               </li>
             </ul>
           </div>
         </div>
       </Container>
+      <SignInForm isOpen={signIn} toggle={toggleSignIn} />
+      <SignUpForm isOpen={signUp} toggle={toggleSignUp} />
     </div>
   );
 };
