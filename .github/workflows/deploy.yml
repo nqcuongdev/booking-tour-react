@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   push:
-    branches: [production]
+    branches: [master]
 
 jobs:
   build:
@@ -11,13 +11,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Executing remote command
-        uses: actions/ssh-action@master
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSHKEY }}
           script: |
-            cd ./front-end
+            cd /var/www/html/booking-tour-react/front-end
             yarn install
             yarn build
