@@ -2,21 +2,16 @@ import React, { useState } from "react";
 import {
   Collapse,
   Container,
-  Navbar,
   NavbarToggler,
   NavbarBrand,
   Nav,
   NavItem,
   NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  NavbarText,
 } from "reactstrap";
-import { Link } from "react-router-dom";
 import logo from "../../assets/images/logo.svg";
 import "./Header.scss";
+import { Link } from "react-router-dom";
+import { FaBars } from "react-icons/fa";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,24 +23,30 @@ const Header = () => {
         <NavbarBrand href="/">
           <img src={logo} alt="Logo Booking" />
         </NavbarBrand>
-        <NavbarToggler onClick={toggle} />
+        <NavbarToggler onClick={toggle}>
+          <FaBars size={30} />
+        </NavbarToggler>
         <Collapse isOpen={isOpen} navbar>
           <Nav navbar className="ml-auto">
-            <NavItem active>
-              <NavLink href="/">Home</NavLink>
+            <NavItem>
+              <NavLink href="/" className="active">
+                Home
+              </NavLink>
             </NavItem>
-            <NavItem active>
+            <NavItem>
               <NavLink href="/tours">Tours</NavLink>
             </NavItem>
-            <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle nav caret>
-                Event
-              </DropdownToggle>
-              <DropdownMenu right>
-                <DropdownItem>Option 1</DropdownItem>
-                <DropdownItem>Option 2</DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
+            <NavItem>
+              <NavLink href="/events">Events</NavLink>
+              <ul className="children-menu menu-dropdown">
+                <li className="sub-item">
+                  <Link>Detail</Link>
+                </li>
+                <li className="sub-item">
+                  <Link>Detail</Link>
+                </li>
+              </ul>
+            </NavItem>
             <NavItem>
               <NavLink href="https://github.com/reactstrap/reactstrap">
                 News

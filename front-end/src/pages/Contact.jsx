@@ -8,8 +8,7 @@ import {
   FaRegEnvelope,
   FaTwitter,
 } from "react-icons/fa";
-import { Button, Col, Container, Form, FormGroup, Row } from "reactstrap";
-import Input from "reactstrap/lib/Input";
+import { Col, Container, Row } from "reactstrap";
 import Maps from "../components/Maps/Maps";
 import Subscribe from "../components/Subscribe/Subscribe";
 import MainLayout from "../layouts/MainLayout";
