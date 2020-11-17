@@ -18,6 +18,6 @@ jobs:
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSHKEY }}
           script: |
-            cd ./front-end
+            cd /var/www/html/booking-tour-react/front-end
             yarn install
             yarn build
