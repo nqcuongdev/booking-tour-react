@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const slugify = require("slugify");
 
-const CategorySchema = new mongoose.Schema({
+const TagSchema = new mongoose.Schema({
   title: {
     type: String,
     unique: true,
@@ -15,11 +15,6 @@ const CategorySchema = new mongoose.Schema({
     enum: ["active", "hide"],
     default: "active",
   },
-  type: {
-    type: String,
-    enum: ["destination", "hotel", "tour", "blog"],
-    required: true,
-  },
   created_at: {
     type: Date,
     default: Date.now,
@@ -30,11 +25,10 @@ const CategorySchema = new mongoose.Schema({
   },
 });
 
-// Create slug from the name
-CategorySchema.pre("save", function (next) {
+// Create slug from the title
+TagSchema.pre("save", function (next) {
   this.slug = slugify(this.title, { lower: true });
-
   next();
 });
 
-module.exports = mongoose.model("category", CategorySchema);
+module.exports = mongoose.model("tag", TagSchema);
