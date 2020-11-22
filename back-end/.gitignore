@@ -6,4 +6,4 @@
 .env
 
 # uploads file folder
-uploads/*
+uploads/destinations/*

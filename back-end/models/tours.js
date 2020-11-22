@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const slugify = require("slugify");
 const geocoder = require("../utils/geocoder");
 
-const DestinationSchema = new mongoose.Schema({
+const TourSchema = new mongoose.Schema({
   title: {
     type: String,
     unique: true,
@@ -48,11 +48,7 @@ const DestinationSchema = new mongoose.Schema({
     enum: ["active", "hide"],
     default: "active",
   },
-  isTop: {
-    type: Boolean,
-    default: false,
-  },
-  isPopular: {
+  isFeatured: {
     type: Boolean,
     default: false,
   },
@@ -63,6 +59,42 @@ const DestinationSchema = new mongoose.Schema({
   rating: {
     type: Number,
     default: 0,
+  },
+  attribute: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "attribute",
+    },
+  ],
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "category",
+  },
+  itinerary: [
+    {
+      title: String,
+      description: String,
+      location: {
+        lat: String,
+        lng: String,
+      },
+      image: String,
+    },
+  ],
+  price: {
+    type: Number,
+    required: true,
+  },
+  sale_price: Number,
+  duration: {
+    type: String,
+    required: true,
+  },
+  min_people: Number,
+  max_people: Number,
+  destination: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "destination",
   },
   created_at: {
     type: Date,
@@ -75,13 +107,13 @@ const DestinationSchema = new mongoose.Schema({
 });
 
 // Create slug from the title
-DestinationSchema.pre("save", function (next) {
+TourSchema.pre("save", function (next) {
   this.slug = slugify(this.title, { lower: true });
   next();
 });
 
 // Geocode & create location field
-DestinationSchema.pre("save", async function (next) {
+TourSchema.pre("save", async function (next) {
   const loc = await geocoder.geocode(this.address);
   this.location = {
     type: "Point",
@@ -93,7 +125,7 @@ DestinationSchema.pre("save", async function (next) {
   next();
 });
 
-DestinationSchema.pre("findByIdAndUpdate", async function (next) {
+TourSchema.pre("findByIdAndUpdate", async function (next) {
   const loc = await geocoder.geocode(this.address);
   this.location = {
     type: "Point",
@@ -106,6 +138,6 @@ DestinationSchema.pre("findByIdAndUpdate", async function (next) {
 });
 
 // Add index for location and text for full text search
-DestinationSchema.index({ location: "2dsphere" });
+TourSchema.index({ location: "2dsphere" });
 
-module.exports = mongoose.model("destination", DestinationSchema);
+module.exports = mongoose.model("tour", TourSchema);
