@@ -64,6 +64,7 @@ const UserSchema = new Schema({
       type: String,
     },
   },
+  bio: String,
   status: {
     type: String,
     required: true,
