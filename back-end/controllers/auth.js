@@ -89,6 +89,7 @@ exports.login = async (req, res) => {
   let token = sendTokenResponse(user);
 
   return res.status(200).json({
+    success: !!user,
     token: token,
     data: user,
   });

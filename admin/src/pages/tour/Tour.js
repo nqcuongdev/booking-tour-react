@@ -1,15 +1,5 @@
 import React from 'react';
-import {
-    Row,
-    Col,
-    Card,
-    CardBody,
-    Input,
-    UncontrolledDropdown,
-    DropdownMenu,
-    DropdownItem,
-    DropdownToggle,
-} from 'reactstrap';
+import { Row, Col, Card, CardBody, Input } from 'reactstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, { Search, CSVExport } from 'react-bootstrap-table2-toolkit';
 import paginationFactory from 'react-bootstrap-table2-paginator';
@@ -608,193 +598,27 @@ const TableWithSearch = () => {
     );
 };
 
-const TableWithSeletableRows = () => {
-    const selectRow = {
-        mode: 'checkbox',
-        clickToSelect: true,
-        style: { backgroundColor: '#727cf5', color: '#fff' },
-    };
-
-    return (
-        <Card>
-            <CardBody>
-                <h4 className="header-title mt-0 mb-1">Multiple Row Selection</h4>
-                <p className="sub-header">This table allowing selection of multiple rows</p>
-
-                <BootstrapTable
-                    bootstrap4
-                    keyField="id"
-                    bordered={false}
-                    data={records}
-                    columns={columns}
-                    pagination={paginationFactory({
-                        sizePerPage: 5,
-                        sizePerPageRenderer: sizePerPageRenderer,
-                        sizePerPageList: [
-                            { text: '5', value: 5 },
-                            { text: '10', value: 10 },
-                            { text: '25', value: 25 },
-                            { text: 'All', value: records.length },
-                        ],
-                    })}
-                    selectRow={selectRow}
-                    wrapperClasses="table-responsive"
-                />
-            </CardBody>
-        </Card>
-    );
-};
-
-const TableWithRowExpand = () => {
-    const expandRow = {
-        renderer: (row) => (
-            <div>
-                <p className="mt-2">{`Hello ${row.name}`}</p>
-                <p>You can render anything here, also you can add additional data on every row object</p>
-                <p>expandRow.renderer callback will pass the origin row object to you</p>
-            </div>
-        ),
-        showExpandColumn: true,
-        onlyOneExpanding: true,
-        expandHeaderColumnRenderer: ({ isAnyExpands }) => {
-            return isAnyExpands ? <i className="uil uil-minus"></i> : <i className="uil uil-plus"></i>;
-        },
-        expandColumnRenderer: ({ expanded }) => {
-            return expanded ? <i className="uil uil-minus"></i> : <i className="uil uil-plus"></i>;
-        },
-    };
-
-    return (
-        <Card>
-            <CardBody>
-                <h4 className="header-title mt-0 mb-1">Expand Row</h4>
-                <p className="sub-header">Expand row to see more additional details</p>
-
-                <BootstrapTable
-                    bootstrap4
-                    keyField="id"
-                    bordered={false}
-                    data={records}
-                    columns={columns}
-                    pagination={paginationFactory({
-                        sizePerPage: 5,
-                        sizePerPageRenderer: sizePerPageRenderer,
-                        sizePerPageList: [
-                            { text: '5', value: 5 },
-                            { text: '10', value: 10 },
-                            { text: '25', value: 25 },
-                            { text: 'All', value: records.length },
-                        ],
-                    })}
-                    expandRow={expandRow}
-                    wrapperClasses="table-responsive"
-                />
-            </CardBody>
-        </Card>
-    );
-};
-
-const CustomToggleList = ({ columns, onColumnToggle, toggles }) => (
-    <UncontrolledDropdown className="mb-3">
-        <DropdownToggle tag="button" className="btn btn-white">
-            Select Columns <i className="uil uil-angle-down font-size-15 ml-1 align-middle"></i>
-        </DropdownToggle>
-        <DropdownMenu>
-            {columns
-                .map((column) => ({
-                    ...column,
-                    toggle: toggles[column.dataField],
-                }))
-                .map((column) => (
-                    <DropdownItem key={column.dataField} onClick={() => onColumnToggle(column.dataField)}>
-                        {column.toggle && <i className="uil uil-check"></i>}
-                        <span className="ml-2">{column.text}</span>
-                    </DropdownItem>
-                ))}
-        </DropdownMenu>
-    </UncontrolledDropdown>
-);
-
-const TableWithColumnToggle = () => {
-    return (
-        <Card>
-            <CardBody>
-                <h4 className="header-title mt-0 mb-1">Toggle Columns</h4>
-                <p className="sub-header">Show/Hide any column you want</p>
-
-                <ToolkitProvider keyField="id" data={records} columns={columns} columnToggle>
-                    {(props) => (
-                        <div>
-                            <CustomToggleList {...props.columnToggleProps} />
-                            <BootstrapTable
-                                {...props.baseProps}
-                                bordered={false}
-                                pagination={paginationFactory({
-                                    sizePerPage: 5,
-                                    sizePerPageRenderer: sizePerPageRenderer,
-                                    sizePerPageList: [
-                                        { text: '5', value: 5 },
-                                        { text: '10', value: 10 },
-                                        { text: '25', value: 25 },
-                                        { text: 'All', value: records.length },
-                                    ],
-                                })}
-                                wrapperClasses="table-responsive"
-                            />
-                        </div>
-                    )}
-                </ToolkitProvider>
-            </CardBody>
-        </Card>
-    );
-};
-
-const Tables = () => {
+const Tour = () => {
     return (
         <React.Fragment>
             <Row className="page-title">
                 <Col md={12}>
                     <PageTitle
                         breadCrumbItems={[
-                            { label: 'Tables', path: '/tables/advanced' },
-                            { label: 'Advanced Tables', path: '/tables/advanced', active: true },
+                            { label: 'Tour', path: '/tour' },
+                            { label: 'List tour', path: '/tables/list-tour', active: true },
                         ]}
-                        title={'Advanced Tables'}
+                        title={'List tour'}
                     />
                 </Col>
             </Row>
-
-            <Row>
-                <Col>
-                    <TableWithPaginationAndSort />
-                </Col>
-            </Row>
-
             <Row>
                 <Col>
                     <TableWithSearch />
-                </Col>
-            </Row>
-
-            <Row>
-                <Col>
-                    <TableWithSeletableRows />
-                </Col>
-            </Row>
-
-            <Row>
-                <Col>
-                    <TableWithRowExpand />
-                </Col>
-            </Row>
-
-            <Row>
-                <Col>
-                    <TableWithColumnToggle />
                 </Col>
             </Row>
         </React.Fragment>
     );
 };
 
-export default Tables;
+export default Tour;

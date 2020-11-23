@@ -3,8 +3,6 @@ import { Redirect } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import * as FeatherIcon from 'react-feather';
 
-import { isUserAuthenticated, getLoggedInUser } from '../helpers/authUtils';
-
 // auth
 const Login = React.lazy(() => import('../pages/auth/Login'));
 const Logout = React.lazy(() => import('../pages/auth/Logout'));
@@ -13,6 +11,9 @@ const ForgetPassword = React.lazy(() => import('../pages/auth/ForgetPassword'));
 const Confirm = React.lazy(() => import('../pages/auth/Confirm'));
 // dashboard
 const Dashboard = React.lazy(() => import('../pages/dashboard'));
+//Tour
+const AllTour = React.lazy(() => import('../pages/tour/Tour'));
+const AddTour = React.lazy(() => import('../pages/tour/AddTour'));
 // apps
 const CalendarApp = React.lazy(() => import('../pages/apps/Calendar'));
 const EmailInbox = React.lazy(() => import('../pages/apps/Email/Inbox'));
@@ -53,20 +54,19 @@ const Editor = React.lazy(() => import('../pages/forms/Editor'));
 const BasicTables = React.lazy(() => import('../pages/tables/Basic'));
 const AdvancedTables = React.lazy(() => import('../pages/tables/Advanced'));
 
-
 // handle auth and authorization
-const PrivateRoute = ({ component: Component, roles, ...rest }) => (
+const PrivateRoute = ({ component: Component, user, roles, ...rest }) => (
     <Route
         {...rest}
-        render={props => {
-            if (!isUserAuthenticated()) {
+        render={(props) => {
+            if (!user) {
                 // not logged in so redirect to login page with the return url
                 return <Redirect to={{ pathname: '/account/login', state: { from: props.location } }} />;
             }
 
-            const loggedInUser = getLoggedInUser();
+            const loggedInUser = user;
             // check if route is restricted by role
-            if (roles && roles.indexOf(loggedInUser.role) === -1) {
+            if (roles && roles.indexOf(loggedInUser.role) === 'admin') {
                 // role not authorised so redirect to home page
                 return <Redirect to={{ pathname: '/' }} />;
             }
@@ -96,12 +96,34 @@ const dashboardRoutes = {
         text: '1',
     },
     component: Dashboard,
-    roles: ['Admin'],
-    route: PrivateRoute
+    roles: ['admin'],
+    route: PrivateRoute,
+};
+
+//Tour
+const tourRoutes = {
+    path: '/tour',
+    name: 'Tour',
+    icon: FeatherIcon.Package,
+    children: [
+        {
+            path: 't/our/list-tour',
+            name: 'List Tour',
+            component: AllTour,
+            roles: ['admin'],
+            route: PrivateRoute,
+        },
+        {
+            path: '/tour/add-tour',
+            name: 'Add Tour',
+            component: AddTour,
+            roles: ['admin'],
+            route: PrivateRoute,
+        },
+    ],
 };
 
 // apps
-
 const calendarAppRoutes = {
     path: '/apps/calendar',
     name: 'Calendar',
@@ -109,7 +131,7 @@ const calendarAppRoutes = {
     icon: FeatherIcon.Calendar,
     component: CalendarApp,
     route: PrivateRoute,
-    roles: ['Admin'],
+    roles: ['admin'],
 };
 
 const emailAppRoutes = {
@@ -122,23 +144,23 @@ const emailAppRoutes = {
             name: 'Inbox',
             component: EmailInbox,
             route: PrivateRoute,
-            roles: ['Admin'],
+            roles: ['admin'],
         },
         {
             path: '/apps/email/details',
             name: 'Details',
             component: EmailDetail,
             route: PrivateRoute,
-            roles: ['Admin'],
+            roles: ['admin'],
         },
         {
             path: '/apps/email/compose',
             name: 'Compose',
             component: EmailCompose,
             route: PrivateRoute,
-            roles: ['Admin'],
+            roles: ['admin'],
         },
-    ]
+    ],
 };
 
 const projectAppRoutes = {
@@ -151,16 +173,16 @@ const projectAppRoutes = {
             name: 'List',
             component: ProjectList,
             route: PrivateRoute,
-            roles: ['Admin'],
+            roles: ['admin'],
         },
         {
             path: '/apps/projects/detail',
             name: 'Detail',
             component: ProjectDetail,
             route: PrivateRoute,
-            roles: ['Admin'],
+            roles: ['admin'],
         },
-    ]
+    ],
 };
 
 const taskAppRoutes = {
@@ -173,21 +195,19 @@ const taskAppRoutes = {
             name: 'List',
             component: TaskList,
             route: PrivateRoute,
-            roles: ['Admin'],
+            roles: ['admin'],
         },
         {
             path: '/apps/tasks/board',
             name: 'Board',
             component: TaskBoard,
             route: PrivateRoute,
-            roles: ['Admin'],
+            roles: ['admin'],
         },
     ],
 };
 
-const appRoutes = [calendarAppRoutes, emailAppRoutes, projectAppRoutes, taskAppRoutes];
-
-
+const appRoutes = [calendarAppRoutes, tourRoutes, emailAppRoutes, projectAppRoutes, taskAppRoutes];
 
 // pages
 const pagesRoutes = {
@@ -201,51 +221,50 @@ const pagesRoutes = {
             name: 'Starter',
             component: Starter,
             route: PrivateRoute,
-            roles: ['Admin'],
+            roles: ['admin'],
         },
         {
             path: '/pages/profile',
             name: 'Profile',
             component: Profile,
             route: PrivateRoute,
-            roles: ['Admin'],
+            roles: ['admin'],
         },
         {
             path: '/pages/activity',
             name: 'Activity',
             component: Activity,
             route: PrivateRoute,
-            roles: ['Admin'],
+            roles: ['admin'],
         },
         {
             path: '/pages/invoice',
             name: 'Invoice',
             component: Invoice,
             route: PrivateRoute,
-            roles: ['Admin'],
+            roles: ['admin'],
         },
         {
             path: '/pages/pricing',
             name: 'Pricing',
             component: Pricing,
             route: PrivateRoute,
-            roles: ['Admin'],
+            roles: ['admin'],
         },
         {
             path: '/pages/error-404',
             name: 'Error 404',
             component: Error404,
-            route: Route
+            route: Route,
         },
         {
             path: '/pages/error-500',
             name: 'Error 500',
             component: Error500,
-            route: Route
+            route: Route,
         },
-    ]
+    ],
 };
-
 
 // components
 const componentsRoutes = {
@@ -259,7 +278,7 @@ const componentsRoutes = {
             name: 'Bootstrap UI',
             component: BSComponents,
             route: PrivateRoute,
-            roles: ['Admin'],
+            roles: ['admin'],
         },
         {
             path: '/ui/icons',
@@ -270,26 +289,25 @@ const componentsRoutes = {
                     name: 'Feather Icons',
                     component: FeatherIcons,
                     route: PrivateRoute,
-                    roles: ['Admin'],
+                    roles: ['admin'],
                 },
                 {
                     path: '/ui/icons/unicons',
                     name: 'Unicons Icons',
                     component: UniconsIcons,
                     route: PrivateRoute,
-                    roles: ['Admin'],
+                    roles: ['admin'],
                 },
-            ]
+            ],
         },
         {
             path: '/ui/widgets',
             name: 'Widgets',
             component: Widgets,
             route: PrivateRoute,
-            roles: ['Admin'],
+            roles: ['admin'],
         },
-
-    ]
+    ],
 };
 
 // charts
@@ -298,10 +316,9 @@ const chartRoutes = {
     name: 'Charts',
     component: Charts,
     icon: FeatherIcon.PieChart,
-    roles: ['Admin'],
-    route: PrivateRoute
-}
-
+    roles: ['admin'],
+    route: PrivateRoute,
+};
 
 // forms
 const formsRoutes = {
@@ -344,10 +361,9 @@ const formsRoutes = {
             name: 'File Upload',
             component: FileUpload,
             route: PrivateRoute,
-        }
-    ]
+        },
+    ],
 };
-
 
 const tableRoutes = {
     path: '/tables',
@@ -365,9 +381,9 @@ const tableRoutes = {
             name: 'Advanced',
             component: AdvancedTables,
             route: PrivateRoute,
-        }]
+        },
+    ],
 };
-
 
 // auth
 const authRoutes = {
@@ -408,11 +424,11 @@ const authRoutes = {
 };
 
 // flatten the list of all nested routes
-const flattenRoutes = routes => {
+const flattenRoutes = (routes) => {
     let flatRoutes = [];
 
     routes = routes || [];
-    routes.forEach(item => {
+    routes.forEach((item) => {
         flatRoutes.push(item);
 
         if (typeof item.children !== 'undefined') {
@@ -435,6 +451,14 @@ const allRoutes = [
     authRoutes,
 ];
 
-const authProtectedRoutes = [dashboardRoutes, ...appRoutes, pagesRoutes, componentsRoutes, chartRoutes, formsRoutes, tableRoutes];
+const authProtectedRoutes = [
+    dashboardRoutes,
+    ...appRoutes,
+    pagesRoutes,
+    componentsRoutes,
+    chartRoutes,
+    formsRoutes,
+    tableRoutes,
+];
 const allFlattenRoutes = flattenRoutes(allRoutes);
 export { allRoutes, authProtectedRoutes, allFlattenRoutes };

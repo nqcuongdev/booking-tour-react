@@ -10,15 +10,13 @@ import {
     FORGET_PASSWORD,
     FORGET_PASSWORD_SUCCESS,
     FORGET_PASSWORD_FAILED,
+    RECEIVER_AUTH_SUCCESS,
 } from './constants';
 
-import { getLoggedInUser } from '../../helpers/authUtils';
-
 const INIT_STATE = {
-    user: getLoggedInUser(),
+    user: null,
     loading: false,
 };
-
 
 const Auth = (state = INIT_STATE, action) => {
     switch (action.type) {
@@ -42,6 +40,8 @@ const Auth = (state = INIT_STATE, action) => {
             return { ...state, passwordResetStatus: action.payload, loading: false, error: null };
         case FORGET_PASSWORD_FAILED:
             return { ...state, error: action.payload, loading: false };
+        case RECEIVER_AUTH_SUCCESS:
+            return { ...state, user: action.payload, loading: false, error: null };
         default:
             return { ...state };
     }

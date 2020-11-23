@@ -1,10 +1,9 @@
 // @flow
-import { Cookies } from 'react-cookie';
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 
 import { fetchJSON } from '../../helpers/api';
 
-import { LOGIN_USER, LOGOUT_USER, REGISTER_USER, FORGET_PASSWORD } from './constants';
+import { LOGIN_USER, LOGOUT_USER, REGISTER_USER, FORGET_PASSWORD, RECEIVER_AUTH } from './constants';
 
 import {
     loginUserSuccess,
@@ -13,32 +12,28 @@ import {
     registerUserFailed,
     forgetPasswordSuccess,
     forgetPasswordFailed,
+    receiverAuthSuccess,
 } from './actions';
 
-/**
- * Sets the session
- * @param {*} user
- */
-const setSession = user => {
-    let cookies = new Cookies();
-    if (user) cookies.set('user', JSON.stringify(user), { path: '/' });
-    else cookies.remove('user', { path: '/' });
-};
 /**
  * Login the user
  * @param {*} payload - username and password
  */
-function* login({ payload: { username, password } }) {
+function* login({ payload: { email, password } }) {
     const options = {
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
     };
 
     try {
-        const response = yield call(fetchJSON, '/users/authenticate', options);
-        setSession(response);
-        yield put(loginUserSuccess(response));
+        const response = yield call(fetchJSON, 'login', options);
+        if (response && response.success) {
+            localStorage.setItem('jwtKey', response.token);
+            yield put(loginUserSuccess(response.data));
+        } else {
+            yield put(loginUserFailed(response.message));
+        }
     } catch (error) {
         let message;
         switch (error.status) {
@@ -52,7 +47,29 @@ function* login({ payload: { username, password } }) {
                 message = error;
         }
         yield put(loginUserFailed(message));
-        setSession(null);
+    }
+}
+
+/**
+ * Check user has logged in
+ */
+function* receiveAuth() {
+    let token = localStorage.getItem('jwtKey');
+    const options = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+        },
+    };
+
+    try {
+        const response = yield call(fetchJSON, 'user/me', options);
+        if (response && response.success) {
+            yield put(receiverAuthSuccess(response.data));
+        }
+    } catch (error) {
+        console.log(error);
     }
 }
 
@@ -62,11 +79,13 @@ function* login({ payload: { username, password } }) {
  */
 function* logout({ payload: { history } }) {
     try {
-        setSession(null);
+        localStorage.removeItem('jwtKey');
         yield call(() => {
             history.push('/account/login');
         });
-    } catch (error) {}
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 /**
@@ -143,8 +162,18 @@ export function* watchForgetPassword() {
     yield takeEvery(FORGET_PASSWORD, forgetPassword);
 }
 
+export function* watchReceiverAuth() {
+    yield takeEvery(RECEIVER_AUTH, receiveAuth);
+}
+
 function* authSaga() {
-    yield all([fork(watchLoginUser), fork(watchLogoutUser), fork(watchRegisterUser), fork(watchForgetPassword)]);
+    yield all([
+        fork(watchLoginUser),
+        fork(watchLogoutUser),
+        fork(watchRegisterUser),
+        fork(watchForgetPassword),
+        fork(receiveAuth),
+    ]);
 }
 
 export default authSaga;
