@@ -10,6 +10,10 @@ const TourSchema = new mongoose.Schema({
     required: true,
   },
   slug: String,
+  code: {
+    type: String,
+    required: true,
+  },
   description: {
     type: String,
     required: true,
@@ -96,6 +100,18 @@ const TourSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "destination",
   },
+  start_date: [
+    {
+      type: Date,
+      required: true,
+    },
+  ],
+  end_date: [
+    {
+      type: Date,
+      required: true,
+    },
+  ],
   created_at: {
     type: Date,
     default: Date.now,
