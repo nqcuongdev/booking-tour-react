@@ -1,10 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Card, CardBody, CustomInput, Form, FormGroup, Label, Input, FormText, Button } from 'reactstrap';
+import {
+    Row,
+    Col,
+    Card,
+    CardBody,
+    CustomInput,
+    Form,
+    FormGroup,
+    Label,
+    Input,
+    FormText,
+    Button,
+    InputGroupAddon,
+} from 'reactstrap';
 import Select from 'react-select';
 
 import PageTitle from '../../components/PageTitle';
 import RichTextEditor from '../../components/RichTextEditor';
+import GoogleMapAutoComplete from '../../components/GoogleMapAutoComplete';
 
 const BasicInputElements = () => {
     return (
@@ -42,44 +56,30 @@ const BasicInputElements = () => {
                                 <Input type="number" name="duration" id="duration" placeholder="Duration" />
                             </FormGroup>
 
-                            <FormGroup>
-                                <Label for="examplePassword">Password</Label>
-                                <Input
-                                    type="password"
-                                    name="password"
-                                    id="examplePassword"
-                                    placeholder="password placeholder"
-                                    defaultValue="12345"
-                                />
-                            </FormGroup>
-
-                            <FormGroup>
-                                <Label for="exampleText">Text Area</Label>
-                                <Input type="textarea" name="text" id="exampleText" rows="5" />
-                            </FormGroup>
-
-                            <FormGroup>
-                                <Label for="text1">Read only</Label>
-                                <Input type="text" name="text" id="text1" placeholder="Readonly value" readOnly />
-                            </FormGroup>
-
-                            <FormGroup>
-                                <Label for="text2">Disabled</Label>
-                                <Input type="text" name="text" id="text2" placeholder="Disabled" disabled />
-                            </FormGroup>
-
-                            <FormGroup>
-                                <Label for="exampleEmail1">Static control</Label>
-                                <Input plaintext defaultValue="email@example.com" readOnly />
-                            </FormGroup>
-
-                            <FormGroup>
-                                <Label for="text3">Helping text</Label>
-                                <Input type="text" name="text" id="text3" placeholder="Helping text" />
-                                <FormText>
-                                    A block of help text that breaks onto a new line and may extend beyond one line.
-                                </FormText>
-                            </FormGroup>
+                            <Row>
+                                <Col lg={6}>
+                                    <FormGroup>
+                                        <Label for="min_people">Tour Min People</Label>
+                                        <Input
+                                            type="number"
+                                            name="min_people"
+                                            id="min_people"
+                                            placeholder="Tour Min People"
+                                        />
+                                    </FormGroup>
+                                </Col>
+                                <Col lg={6}>
+                                    <FormGroup>
+                                        <Label for="max_people">Tour Max People</Label>
+                                        <Input
+                                            type="number"
+                                            name="max_people"
+                                            id="max_people"
+                                            placeholder="Tour Max People"
+                                        />
+                                    </FormGroup>
+                                </Col>
+                            </Row>
                         </Form>
                     </Col>
 
@@ -160,38 +160,23 @@ const BasicInputElements = () => {
     );
 };
 
-const SelectInput = () => {
+const TourLocation = () => {
     return (
         <React.Fragment>
-            <h4 className="header-title mt-0">Select menu</h4>
-            <p className="text-muted">
-                Custom <code>&lt;select&gt;</code> menus need only a custom class, <code>.custom-select</code> to
-                trigger the custom styles.
-            </p>
-
-            <Input type="select" name="select" id="exampleSelect2" className="custom-select mt-3">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-            </Input>
-
-            <Input type="select" name="select" id="exampleSelect4" className="custom-select custom-select-lg mt-2">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-            </Input>
-
-            <Input type="select" name="select" id="exampleSelect4" className="custom-select custom-select-sm mt-2">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-            </Input>
+            <h4 className="header-title mt-0">Tour Locations</h4>
+            <FormGroup>
+                <Input type="select" name="select" className="custom-select mt-3">
+                    <option>-- Please Select --</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </Input>
+            </FormGroup>
+            <FormGroup>
+                <GoogleMapAutoComplete />
+            </FormGroup>
         </React.Fragment>
     );
 };
@@ -407,7 +392,7 @@ const AddTour = () => {
                 <Col>
                     <Card>
                         <CardBody>
-                            <SelectInput />
+                            <TourLocation />
                             <Switches />
                         </CardBody>
                     </Card>

@@ -107,7 +107,7 @@ const tourRoutes = {
     icon: FeatherIcon.Package,
     children: [
         {
-            path: 't/our/list-tour',
+            path: '/tour/list-tour',
             name: 'List Tour',
             component: AllTour,
             roles: ['admin'],

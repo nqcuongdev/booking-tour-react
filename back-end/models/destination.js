@@ -33,7 +33,7 @@ const DestinationSchema = new mongoose.Schema({
   lng: String,
   map_zoom: {
     type: Number,
-    max: 10,
+    max: 50,
     default: 5,
   },
   image: [
