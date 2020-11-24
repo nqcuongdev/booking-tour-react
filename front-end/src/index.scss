@@ -275,8 +275,16 @@ h1 {
   }
 }
 
-.post-list-of-blogs {
-  padding: 32px 8px;
+
+.blogs {
+  .post-list-of-blogs {
+    padding: 32px 8px;
+
+    .popular-tour {
+      font-size: 27px;
+      font-weight: bold;
+    }
+  }
 }
 
 .blog-detail {
@@ -508,7 +516,7 @@ h1 {
           }
         }
 
-        .view-mode-comment {
+        .view-more-comment {
           text-align: center;
 
           p {
@@ -574,6 +582,162 @@ h1 {
     }
   }
 }
+
+.hotel-detail {
+  .hotel-detail-link {
+    background-color: $gray95;
+    height: 113px;
+    display: flex;
+    align-items: center;
+  
+    span {
+      text-transform: uppercase;
+
+      span {
+        color: $text;
+      }
+    }
+  }
+
+  .hotel-detail-main {
+    .hotel-detail-main-header {
+
+      .hotel-detail-main-header-left {
+        .title {
+          text-transform: uppercase;
+          font-size: 36px;
+          font-weight: bold;
+        }
+
+        .location-tags {
+          display: flex;
+          flex-direction: row;
+
+          .location {
+            color: $orange;
+            margin-right: 20px;
+          }
+
+          .tags {
+            color: $text;
+          }
+        }
+      }
+
+      .hotel-detail-main-header-right {
+        display: flex;
+
+        .rate-stars {
+          display: flex;
+          margin-left: auto;
+          flex-direction: column;
+
+          .stars-counter {
+            display: flex;
+            flex-direction: row;
+            margin-left: auto;
+
+            .stars-number-calculation {
+              margin-top: 10px;
+              margin-right: 10px;
+            }
+
+            .stars {
+              color: $yellow;
+              margin-right: 5px;
+              font-size: 17px;
+            }
+            
+            .stars-number {
+              font-size: 25px;
+              margin-top: auto;
+
+              .below {
+                color: $text;
+                font-size: 14px;
+              }
+            }
+          }
+        }
+
+        .view {
+          margin-left: auto;
+          color: $text;
+        }
+      }
+    }
+  }
+
+  .room-type {
+    .room-type-title {
+      font-weight: bold;
+      font-size: 27px;
+    }
+  }
+
+  .facilities {
+    .facilities-title {
+      font-size: 27px;
+      font-weight: bold;
+    }
+
+    .facilities-body {
+      .facilities-body-item {
+        display: flex;
+      }
+
+      p {
+        margin-bottom: 7px;
+      }
+
+      .facilities-icon {
+        color: $orange;
+        font-size: 18px;
+        margin-right: 5px;
+      }
+
+      .facilities-list {
+        .facilities-list-item {
+          color: $text;
+        }
+      }
+    }
+  }
+
+  .comments {
+    .comments-title {
+      font-size: 27px;
+      font-weight: bold;
+
+      span {
+        color: $orange;
+      }
+    }
+
+    .view-more-comment {
+      text-align: center;
+
+      p {
+        text-transform: uppercase;
+        font-weight: bold;
+        color: $text;
+        font-size: 15px;
+
+        span {
+          color: $primary;
+        }
+      }
+    }
+  }
+
+  .similar-hotels {
+    .similar-hotels-title {
+      font-size: 27px;
+      font-weight: bold;
+    }
+  }
+}
+
 .modal-dialog {
   top: 10%;
 }

@@ -1,8 +1,7 @@
 import React from 'react';
 import './Comment.scss';
-import { RiStarSFill } from 'react-icons/ri';
-import { MdReply } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import { FaStar, FaReplyAll } from 'react-icons/fa';
 
 const Comment = (props) => {
     const counter = [1, 2, 3, 4, 5];
@@ -22,11 +21,11 @@ const Comment = (props) => {
                             {counter.map(i => {
                                 if (i <= props.rateStars) {
                                     return (
-                                        <RiStarSFill className="yellow-stars" />
+                                        <FaStar className="yellow-stars" />
                                     );
                                 } else {
                                     return (
-                                        <RiStarSFill className="gray-stars" />
+                                        <FaStar className="gray-stars" />
                                     );
                                 }
                             })}
@@ -36,7 +35,7 @@ const Comment = (props) => {
                         <p className="content">{props.content}</p>
                         <div>
                             <Link to="#" className="btn-reply">
-                                <MdReply /> Reply
+                                <FaReplyAll /> Reply
                             </Link>
                         </div>
                         <hr/>

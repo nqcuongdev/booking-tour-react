@@ -110,4 +110,8 @@
             font-size: 22px;
         }
     }
+
+    .carousel .thumb.selected, .carousel .thumb:hover {
+        border: 3px solid $orange !important;
+    }
 }

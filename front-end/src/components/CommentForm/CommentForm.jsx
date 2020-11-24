@@ -36,7 +36,7 @@ const CommentForm = (props) => {
                         </FormGroup>    
                     </Col> 
                 </Row>
-                <Button type="submit" className="btn btn-primary">Submit</Button>
+                <Button type="submit" className="btn btn-write-review">Submit</Button>
             </Form>
         </div>
     );

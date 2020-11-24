@@ -234,7 +234,7 @@ const BlogDetail = (props) => {
                             </div>
                             <div className="post-comment mt-50 mb-30">
                                 <p className="post-comment-title">Comment <span className="post-comment-count">(69)</span></p>
-                                <div className="post-comment-lis mt-30">
+                                <div className="post-comment-list mt-30">
                                     {commentData.map(comment => {
                                         return (
                                             <Comment 
@@ -247,7 +247,7 @@ const BlogDetail = (props) => {
                                         );
                                     })}
                                 </div>
-                                <div className="view-mode-comment mt-30 mb-30">
+                                <div className="view-more-comment mt-30 mb-30">
                                     <Link><p><span>View more</span> (69)</p></Link>
                                 </div>
                                 <hr/>

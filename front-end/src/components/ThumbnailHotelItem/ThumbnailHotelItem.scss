@@ -1,0 +1,166 @@
+@import "../../assets/scss/variables";
+
+.thumbnail-hotel-item {
+    .hotel-item-header {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        height: 230px;
+        border-radius: 3px;
+
+        &:before {
+            position: absolute;
+            z-index: 1;
+            content: "";
+            width: 100%;
+            height: 100%;
+            bottom: 0;
+            left: 0;
+            opacity: 0;
+            transition: all 0.4s;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .sale_info {
+            position: absolute;
+            width: 80px;
+            height: 48px;
+            transform: rotate(45deg);
+            right: -30px;
+            top: -13px;
+            line-height: 65px;
+            text-align: center;
+            color: $white;
+            font-size: 15px;
+            z-index: 8;
+            background-color: $orange;
+        }
+
+        img {
+            transition: all 0.4s;
+            transform: scale(1);
+            width: 100%;
+            height: 100%;
+            border-radius: 3px;
+        }
+
+        .btn-book-now {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.5);
+            z-index: 3;
+            opacity: 0;
+            color: $white !important;
+            border: none;
+            transition: all 0.4s;
+            padding: 5px 20px;
+            background-color: $orange !important;
+            border-radius: 30px;
+            text-decoration: none;
+        }
+
+        .hotel-item-tag {
+            position: absolute;
+            right: 0;
+            font-size: 13px;
+            color: $white;
+            font-weight: $font-weight-regular;
+            z-index: 8;
+            padding: 5px 15px;
+            margin-top: 10px;
+            margin-right: 10px;
+            text-transform: uppercase;
+        }
+
+        .hotel-item-button {
+            position: absolute;
+            width: 100%;
+            top: 40%;
+            left: 70%;
+            transform: translate(-50%, -50%) scale(0.5);
+            z-index: 3;
+            opacity: 0;
+            color: $white !important;
+            transition: all 0.4s;
+            text-decoration: none;
+
+            .btn-detail {
+                background-color: rgba(255, 255, 255, 0.3);
+                color: $orange !important;
+            }
+        }
+    }
+
+    &:hover {
+        .hotel-item-header {
+            &:before {
+                opacity: 1;
+            }
+        
+            img {
+                transform: scale(1.1);
+            }
+        
+            .btn-book-now {
+                opacity: 1;
+                top: 51%;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .hotel-item-button {
+            opacity: 1;
+            top: 51%;
+            transform: translate(-50%, -50%) scale(1);
+        }
+    }
+
+    .hotel-item-caption {
+        position: relative;
+        width: 100%;
+        padding: 28px 22px;
+        margin-top: -120px;
+      
+        .hotel-item-title {
+            .rate-stars {
+                color: $white;
+                margin-bottom: 5px;
+
+                .stars {
+                    color: $yellow;
+                    margin-bottom: 10px;
+                }
+                span {
+                    font-size: 20px;
+                }
+            }
+
+            .title {
+                font-size: 18px;
+                font-weight: $font-weight-medium;
+                margin-bottom: 7px;
+                line-height: 20px;
+                color: $white;
+        
+                a {
+                    font-size: 16px;
+                    color: $black !important;
+                    font-weight: $font-weight-medium;
+                    text-decoration: none;
+                    transition: all 0.3s;
+            
+                    &:hover {
+                        color: $orange !important;
+                    }
+                }
+            }
+        
+            .location {
+                margin-bottom: 20px !important;
+                color: $white;
+                font-size: 14px;
+            }
+        }
+    }
+}

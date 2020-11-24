@@ -1,0 +1,36 @@
+@import '../../assets/scss/variables';
+
+.carousel-slide {
+    .carousel-root {
+        .control-dots {
+            display: none;
+        }
+    
+        .carousel-status {
+            display: none;
+        }
+    
+        .slider-wrapper {
+        }
+    
+        .thumbs-wrapper {
+            .thumbs {
+                @media all and (min-width: 992px) {
+                    .thumb {
+                        width: 125px !important;
+                    }
+                }
+    
+                @media all and (min-width: 1200px) {
+                    .thumb {
+                        width: 165px !important;
+                    }
+                }
+            }
+        }
+    
+        .carousel .thumb.selected, .carousel .thumb:hover {
+            border: 3px solid $orange !important;
+        }
+    }
+}

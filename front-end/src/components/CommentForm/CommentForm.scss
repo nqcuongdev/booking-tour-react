@@ -36,4 +36,17 @@
             min-height: 200px;
         }
     }
+
+    .btn-write-review {
+        background-color: $orange;
+        border: 1px solid $orange;
+        width: 130px;
+        height: 35px;
+        border-radius: 3px;
+
+        &:hover {
+            background: $white;
+            color: $orange;  
+        }
+    }
 }

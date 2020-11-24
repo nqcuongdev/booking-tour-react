@@ -97,40 +97,45 @@ const toursData = [
 const Blogs = (props) => {
     return (
         <MainLayout>
-            <BreadcrumbBanner pageName="Blogs" backgroundImage={bannerBackground} />
-            <Container className="post-list-of-blogs mt-20">
-                <Row>
-                    {postsData.map(post => {
-                        return (
-                            <Col lg={4} md={4}>
-                                <Post
-                                    id={post.id}
-                                    image={post.image}
-                                    dataTime={post.dataTime}
-                                    view={post.view}
-                                    title={post.title}
-                                    description={post.description}
-                                />
-                            </Col>
-                        );
-                    })}
-                </Row>
-                <Paginate />
-                <Row className="pt-50 pb-50">
-                    {toursData.map(tour => {
-                        return (
-                            <Col lg={4} md={6} sx={12} className="mb-30">
-                                <ThumbnailTourItem
-                                    image={tour.image}
-                                    title={tour.title}
-                                    option={tour.option}
-                                    price={tour.price}
-                                />
-                            </Col>
-                        );
-                    })}
-                </Row>
-            </Container>
+            <div className="blogs">
+                <BreadcrumbBanner pageName="Blogs" backgroundImage={bannerBackground} />
+                <Container className="post-list-of-blogs mt-20">
+                    <Row>
+                        {postsData.map(post => {
+                            return (
+                                <Col lg={4} md={4}>
+                                    <Post
+                                        id={post.id}
+                                        image={post.image}
+                                        dataTime={post.dataTime}
+                                        view={post.view}
+                                        title={post.title}
+                                        description={post.description}
+                                    />
+                                </Col>
+                            );
+                        })}
+                    </Row>
+
+                    <Paginate />
+
+                    <p className="popular-tour mt-50">Popular Tour</p>
+                    <Row className="pt-20 pb-50">
+                        {toursData.map(tour => {
+                            return (
+                                <Col lg={4} md={6} sx={12} className="mb-30">
+                                    <ThumbnailTourItem
+                                        image={tour.image}
+                                        title={tour.title}
+                                        option={tour.option}
+                                        price={tour.price}
+                                    />
+                                </Col>
+                            );
+                        })}
+                    </Row>
+                </Container>
+            </div>
         </MainLayout>
     );
 };
