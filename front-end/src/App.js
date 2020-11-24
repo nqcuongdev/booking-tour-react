@@ -9,6 +9,7 @@ import Blogs from "./pages/Blogs";
 import BlogDetail from "./pages/BlogDetail";
 import Hotels from "./pages/Hotels";
 import HotelDetail from "./pages/HotelDetail";
+import TourDetail from "./pages/TourDetail";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route exact path="/contact-us" component={Contact} />
         <Route exact path="/about" component={About} />
         <Route exact path="/tours" component={Tours} />
+        <Route exact path="/tours/:slug" component={TourDetail} />
         <Route exact path="/blogs" component={Blogs} />
         <Route exact path="/blogs/blog-detail" component={BlogDetail} />
         <Route exact path="/hotels" component={Hotels} />

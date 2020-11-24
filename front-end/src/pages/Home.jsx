@@ -10,10 +10,10 @@ import Subscribe from "../components/Subscribe/Subscribe";
 import WhyChooseUs from "../components/WhyChooseUs/WhyChooseUs";
 import HomeContact from "../components/HomeContact/HomeContact";
 import SearchPopularDestination from "../components/SearchPopularDestination/SearchPopularDestination";
-import { Container, Row } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
 import dataImage from "../assets/images/posts/post-1.jpg";
 import TourItem from "../components/TourItem/TourItem";
-import Col from "reactstrap/lib/Col";
+import TopHeader from "../components/TopHeader/TopHeader";
 
 import testimonialBackground from "../assets/images/backgrounds/cloud-background.png";
 
@@ -89,37 +89,40 @@ const popularToursData = [
 
 const Home = (props) => {
   return (
-    <MainLayout>
-      <HeroBanner />
-      <PopularTours />
-      <WhyChooseUs />
-      <SearchPopularDestination />
-      <AdsBanner />
-      <div className="promotion__tours mt-50">
-        <Container>
-          <div className="promotion__tours-title text-center">
-            <h1>Our best promotion tours</h1>
-            <p>Most popular destinations</p>
-          </div>
-          <div className="promotion__tours-list-item">
-            <Row>
-              {popularToursData.map((item) => {
-                return (
-                  <Col lg={4} md={6} className="mb-30">
-                    <TourItem {...item} />
-                  </Col>
-                );
-              })}
-            </Row>
-          </div>
-        </Container>
-      </div>
-      <TopDestination />
-      <Testimonial backgroundImage={testimonialBackground} />
-      <HomePost />
-      <Subscribe />
-      <HomeContact />
-    </MainLayout>
+    <React.Fragment>
+      <TopHeader />
+      <MainLayout>
+        <HeroBanner />
+        <PopularTours />
+        <WhyChooseUs />
+        <SearchPopularDestination />
+        <AdsBanner />
+        <div className="promotion__tours mt-50">
+          <Container>
+            <div className="promotion__tours-title text-center">
+              <h1>Our best promotion tours</h1>
+              <p>Most popular destinations</p>
+            </div>
+            <div className="promotion__tours-list-item">
+              <Row>
+                {popularToursData.map((item) => {
+                  return (
+                    <Col lg={4} md={6} className="mb-30">
+                      <TourItem {...item} />
+                    </Col>
+                  );
+                })}
+              </Row>
+            </div>
+          </Container>
+        </div>
+        <TopDestination />
+        <Testimonial backgroundImage={testimonialBackground} />
+        <HomePost />
+        <Subscribe />
+        <HomeContact />
+      </MainLayout>
+    </React.Fragment>
   );
 };
 
