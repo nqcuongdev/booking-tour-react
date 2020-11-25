@@ -91,10 +91,6 @@ const dashboardRoutes = {
     name: 'Dashboard',
     icon: FeatherIcon.Home,
     header: 'Navigation',
-    badge: {
-        variant: 'success',
-        text: '1',
-    },
     component: Dashboard,
     roles: ['admin'],
     route: PrivateRoute,
@@ -104,6 +100,7 @@ const dashboardRoutes = {
 const tourRoutes = {
     path: '/tour',
     name: 'Tour',
+    header: 'Apps',
     icon: FeatherIcon.Package,
     children: [
         {
@@ -207,7 +204,7 @@ const taskAppRoutes = {
     ],
 };
 
-const appRoutes = [calendarAppRoutes, tourRoutes, emailAppRoutes, projectAppRoutes, taskAppRoutes];
+const appRoutes = [tourRoutes, emailAppRoutes, projectAppRoutes, taskAppRoutes];
 
 // pages
 const pagesRoutes = {

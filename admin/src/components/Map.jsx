@@ -11,8 +11,8 @@ const Map = (props) => {
     return (
         <GoogleMapReact
             bootstrapURLKeys={{ key: 'AIzaSyBMlbwEapFEGY-u7gmU46_xjCf8PZCeXzU' }}
-            defaultCenter={center}
-            defaultZoom="17">
+            center={center}
+            defaultZoom={17}>
             <LocationPin />
         </GoogleMapReact>
     );

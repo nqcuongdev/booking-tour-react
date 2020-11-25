@@ -1,20 +1,25 @@
 import React, { useState } from 'react';
-import { Map } from 'react-feather';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+import { Label } from 'reactstrap';
+import Map from '../components/Map';
 
 const GoogleMapAutoComplete = () => {
     const [address, setAddress] = useState('');
-    const [lat, setLat] = useState('');
-    const [lng, setLng] = useState('');
+    const [lat, setLat] = useState(15.9750106);
+    const [lng, setLng] = useState(108.2510487);
 
     const handleChange = (address) => {
         setAddress(address);
     };
 
     const handleSelect = (address) => {
+        setAddress(address);
         geocodeByAddress(address)
             .then((results) => getLatLng(results[0]))
-            .then((latLng) => console.log('Success', latLng))
+            .then((latLng) => {
+                setLat(latLng.lat);
+                setLng(latLng.lng);
+            })
             .catch((error) => console.error('Error', error));
     };
 
@@ -28,6 +33,7 @@ const GoogleMapAutoComplete = () => {
                                 placeholder: 'Search Places ...',
                                 className: 'form-control',
                             })}
+                            value={address}
                         />
                         <div className="autocomplete-dropdown-container mt-3">
                             {loading && <div>Loading...</div>}
@@ -38,7 +44,6 @@ const GoogleMapAutoComplete = () => {
                                 const style = suggestion.active
                                     ? { backgroundColor: '#fafafa', cursor: 'pointer' }
                                     : { backgroundColor: '#ffffff', cursor: 'pointer' };
-                                console.log(suggestion);
                                 return (
                                     <div
                                         key={suggestion.placeId}
@@ -54,9 +59,10 @@ const GoogleMapAutoComplete = () => {
                     </div>
                 )}
             </PlacesAutocomplete>
-            {/* <div className="google-map mt-5" style={{ height: '372px', width: '100%' }}>
-                <Map />
-            </div> */}
+            <div className="google-map" style={{ height: '372px', width: '100%' }}>
+                <Label>Maps</Label>
+                <Map lat={lat} lng={lng} />
+            </div>
         </React.Fragment>
     );
 };

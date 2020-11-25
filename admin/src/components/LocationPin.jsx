@@ -4,7 +4,7 @@ import * as FeatherIcon from 'react-feather';
 const LocationPin = () => {
     return (
         <div className="pin">
-            <FeatherIcon.MapPin />
+            <FeatherIcon.MapPin size={40} color={'orange'} />
         </div>
     );
 };

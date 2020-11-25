@@ -1,19 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import {
-    Row,
-    Col,
-    Card,
-    CardBody,
-    CustomInput,
-    Form,
-    FormGroup,
-    Label,
-    Input,
-    FormText,
-    Button,
-    InputGroupAddon,
-} from 'reactstrap';
+import { Row, Col, Card, CardBody, CustomInput, Form, FormGroup, Label, Input, FormText, Button } from 'reactstrap';
 import Select from 'react-select';
 
 import PageTitle from '../../components/PageTitle';
@@ -21,6 +8,7 @@ import RichTextEditor from '../../components/RichTextEditor';
 import GoogleMapAutoComplete from '../../components/GoogleMapAutoComplete';
 
 const BasicInputElements = () => {
+    const [itinerary, setItinerary] = useState([1]);
     return (
         <Card>
             <CardBody>
@@ -80,6 +68,53 @@ const BasicInputElements = () => {
                                     </FormGroup>
                                 </Col>
                             </Row>
+
+                            <FormGroup>
+                                <Label for="itinerary">Itinerary</Label>
+                                <div className="header">
+                                    <Row>
+                                        <Col md={2}>Image</Col>
+                                        <Col md={4}>Title - Desc</Col>
+                                        <Col md={5}>Content</Col>
+                                        <Col md={1}></Col>
+                                    </Row>
+                                </div>
+                                <div className="items mt-3">
+                                    {itinerary.map((item) => {
+                                        return (
+                                            <div key={item} className="item">
+                                                <Row>
+                                                    <Col md={2}>
+                                                        <FormGroup>
+                                                            <Label for="iti_image">Image</Label>
+                                                            <Input
+                                                                type="file"
+                                                                name={`iti_image[${item}][image]`}
+                                                                id={`iti_image[${item}][image]`}
+                                                            />
+                                                        </FormGroup>
+                                                    </Col>
+                                                    <Col md={4}>
+                                                        <Input
+                                                            type="text"
+                                                            name={`iti_title[${item}][title]`}
+                                                            placeholder="Title: Day 1"
+                                                        />
+                                                        <Input
+                                                            type="text"
+                                                            className="mt-2"
+                                                            name={`iti_description[${item}][description]`}
+                                                            placeholder="Desc: Da Nang"
+                                                        />
+                                                    </Col>
+                                                    <Col md={5}>Content</Col>
+                                                    <Col md={1}></Col>
+                                                </Row>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </FormGroup>
                         </Form>
                     </Col>
 
@@ -165,7 +200,8 @@ const TourLocation = () => {
         <React.Fragment>
             <h4 className="header-title mt-0">Tour Locations</h4>
             <FormGroup>
-                <Input type="select" name="select" className="custom-select mt-3">
+                <Label for="destination">Destination</Label>
+                <Input type="select" name="select" id="destination" name="category" className="custom-select mt-3">
                     <option>-- Please Select --</option>
                     <option>1</option>
                     <option>2</option>
@@ -174,8 +210,34 @@ const TourLocation = () => {
                     <option>5</option>
                 </Input>
             </FormGroup>
+            <FormGroup className="mb-5">
+                <Label for="address">Real tour address</Label>
+                <GoogleMapAutoComplete id="address" />
+            </FormGroup>
+        </React.Fragment>
+    );
+};
+
+const Pricing = () => {
+    return (
+        <React.Fragment>
+            <h4 className="header-title mt-0">Pricing</h4>
             <FormGroup>
-                <GoogleMapAutoComplete />
+                <h4 className="header-title mt-0">Tour Price</h4>
+                <Row>
+                    <Col lg={6}>
+                        <FormGroup>
+                            <Label for="price">Price</Label>
+                            <Input type="number" name="price" id="price" placeholder="Tour Price" />
+                        </FormGroup>
+                    </Col>
+                    <Col lg={6}>
+                        <FormGroup>
+                            <Label for="sale_price">Sale Price</Label>
+                            <Input type="number" name="sale_price" id="sale_price" placeholder="Tour Sale Price" />
+                        </FormGroup>
+                    </Col>
+                </Row>
             </FormGroup>
         </React.Fragment>
     );
@@ -209,164 +271,6 @@ const Switches = () => {
     );
 };
 
-const CustomCheckboxes = () => {
-    return (
-        <FormGroup>
-            <Label for="exampleCheckbox">Checkboxes</Label>
-            <div>
-                <CustomInput type="checkbox" id="exampleCustomCheckbox" label="Check this custom checkbox" />
-                <CustomInput type="checkbox" id="exampleCustomCheckbox3" label="But not this disabled one" disabled />
-            </div>
-        </FormGroup>
-    );
-};
-
-const InlineCustomCheckboxes = () => {
-    return (
-        <FormGroup>
-            <Label for="exampleCheckbox">Inline</Label>
-            <div>
-                <CustomInput type="checkbox" id="exampleCustomInline" label="An inline custom input" inline />
-                <CustomInput type="checkbox" id="exampleCustomInline2" label="and another one" inline />
-            </div>
-        </FormGroup>
-    );
-};
-
-const CustomRadios = () => {
-    return (
-        <FormGroup>
-            <Label for="exampleCheckbox">Radios</Label>
-            <div>
-                <CustomInput type="radio" id="exampleCustomRadio" name="customRadio" label="Select this custom radio" />
-                <CustomInput type="radio" id="exampleCustomRadio3" label="But not this disabled one" disabled />
-            </div>
-        </FormGroup>
-    );
-};
-
-const DefaultForm = () => {
-    return (
-        <Card>
-            <CardBody>
-                <h4 className="header-title mt-0">Basic Example</h4>
-                <Form>
-                    <FormGroup>
-                        <Label for="exampleEmail2">Email</Label>
-                        <Input type="email" name="email" id="exampleEmail2" placeholder="Enter your email" />
-                        <FormText>We'll never share your email with anyone else.</FormText>
-                    </FormGroup>
-
-                    <FormGroup>
-                        <Label for="examplePassword2">Password</Label>
-                        <Input
-                            type="password"
-                            name="password"
-                            id="examplePassword2"
-                            placeholder="password placeholder"
-                            defaultValue="12345"
-                        />
-                    </FormGroup>
-
-                    <Button color="primary" type="submit">
-                        Submit
-                    </Button>
-                </Form>
-            </CardBody>
-        </Card>
-    );
-};
-
-const HorizontalForm = () => {
-    return (
-        <Card>
-            <CardBody>
-                <h4 className="header-title mt-0">Horizontal Form</h4>
-                <Form>
-                    <FormGroup row>
-                        <Label for="exampleEmail3" sm={3}>
-                            Email
-                        </Label>
-                        <Col sm={9}>
-                            <Input type="email" name="email" id="exampleEmail3" placeholder="Enter your email" />
-                            <FormText>We'll never share your email with anyone else.</FormText>
-                        </Col>
-                    </FormGroup>
-
-                    <FormGroup row>
-                        <Label for="examplePassword3" sm={3}>
-                            Password
-                        </Label>
-                        <Col sm={9}>
-                            <Input
-                                type="password"
-                                name="password"
-                                id="examplePassword3"
-                                placeholder="password placeholder"
-                                defaultValue="12345"
-                            />
-                        </Col>
-                    </FormGroup>
-
-                    <FormGroup row>
-                        <Label for="examplePassword4" sm={3}>
-                            Re-Password
-                        </Label>
-                        <Col sm={9}>
-                            <Input
-                                type="password"
-                                name="password"
-                                id="examplePassword4"
-                                placeholder="password placeholder"
-                                defaultValue="12345"
-                            />
-                        </Col>
-                    </FormGroup>
-
-                    <Button color="primary" type="submit">
-                        Submit
-                    </Button>
-                </Form>
-            </CardBody>
-        </Card>
-    );
-};
-
-const InlineForm = () => {
-    return (
-        <Card>
-            <CardBody>
-                <h4 className="header-title mt-0">Inline Form Example</h4>
-                <Form inline>
-                    <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                        <Label for="exampleEmail4" className="mr-sm-2">
-                            Email
-                        </Label>
-                        <Input type="email" name="email" id="exampleEmail4" placeholder="Enter your email" />
-                    </FormGroup>
-
-                    <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                        <Label for="examplePassword5" className="mr-sm-2">
-                            Password
-                        </Label>
-                        <Input
-                            type="password"
-                            name="password"
-                            id="examplePassword5"
-                            placeholder="password placeholder"
-                            defaultValue="12345"
-                        />
-                    </FormGroup>
-
-                    <Button color="primary" type="submit">
-                        Submit
-                    </Button>
-                </Form>
-            </CardBody>
-        </Card>
-    );
-};
-
 const AddTour = () => {
     return (
         <React.Fragment>
@@ -389,35 +293,22 @@ const AddTour = () => {
             </Row>
 
             <Row>
-                <Col>
+                <Col lg={9}>
                     <Card>
                         <CardBody>
                             <TourLocation />
-                            <Switches />
-                        </CardBody>
-                    </Card>
-                </Col>
-                <Col>
-                    <Card>
-                        <CardBody>
-                            <h4 className="header-title mt-5 mt-sm-0">Checkboxes and radios</h4>
-                            <div className="mt-3">
-                                <CustomCheckboxes />
-                                <CustomRadios />
-                                <InlineCustomCheckboxes />
-                            </div>
                         </CardBody>
                     </Card>
                 </Col>
             </Row>
 
             <Row>
-                <Col lg={6}>
-                    <DefaultForm />
-                </Col>
-
-                <Col lg={6}>
-                    <HorizontalForm />
+                <Col lg={9}>
+                    <Card>
+                        <CardBody>
+                            <Pricing />
+                        </CardBody>
+                    </Card>
                 </Col>
             </Row>
         </React.Fragment>

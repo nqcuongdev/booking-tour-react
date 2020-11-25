@@ -35,20 +35,6 @@ class Dashboard extends Component {
                         <Col sm={4} xl={6}>
                             <h4 className="mb-1 mt-0">Dashboard</h4>
                         </Col>
-                        <Col sm={8} xl={6}>
-                            <form className="form-inline float-sm-right mt-3 mt-sm-0">
-                                <div className="form-group mb-sm-0 mr-2">
-                                    <Flatpickr
-                                        value={this.state.filterDate}
-                                        onChange={(date) => {
-                                            this.setState({ filterDate: date });
-                                        }}
-                                        options={{ mode: 'range' }}
-                                        className="form-control"
-                                    />
-                                </div>
-                            </form>
-                        </Col>
                     </Row>
 
                     {/* stats */}
