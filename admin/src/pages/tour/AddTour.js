@@ -6,192 +6,208 @@ import Select from 'react-select';
 import PageTitle from '../../components/PageTitle';
 import RichTextEditor from '../../components/RichTextEditor';
 import GoogleMapAutoComplete from '../../components/GoogleMapAutoComplete';
+import * as FeatherIcon from 'react-feather';
+import default_image from '../../assets/images/default_upload_image.png';
 
 const BasicInputElements = () => {
     const [itinerary, setItinerary] = useState([1]);
     return (
-        <Card>
-            <CardBody>
-                <Row>
-                    <Col lg={9}>
-                        <Form>
-                            <FormGroup>
-                                <Label for="title">Title</Label>
-                                <Input type="text" name="title" id="title" placeholder="Tour title" />
-                            </FormGroup>
+        <Row>
+            <Col lg={9}>
+                <Card>
+                    <CardBody>
+                        <FormGroup>
+                            <Label for="title">Title</Label>
+                            <Input type="text" name="title" id="title" placeholder="Tour title" />
+                        </FormGroup>
 
-                            <FormGroup>
-                                <Label for="description">Description</Label>
-                                <RichTextEditor name="description" id="description" onEditorContentChange={() => {}} />
-                            </FormGroup>
+                        <FormGroup>
+                            <Label for="description">Description</Label>
+                            <RichTextEditor name="description" id="description" onEditorContentChange={() => {}} />
+                        </FormGroup>
 
-                            <FormGroup>
-                                <Label for="category">Category</Label>
-                                <Select
-                                    className="react-select"
-                                    classNamePrefix="react-select"
-                                    name="category"
-                                    id="category"
-                                    options={[
-                                        { value: 'chocolate', label: 'Chocolate' },
-                                        { value: 'strawberry', label: 'Strawberry' },
-                                        { value: 'vanilla', label: 'Vanilla' },
-                                    ]}></Select>
-                            </FormGroup>
+                        <FormGroup>
+                            <Label for="category">Category</Label>
+                            <Select
+                                className="react-select"
+                                classNamePrefix="react-select"
+                                name="category"
+                                id="category"
+                                options={[
+                                    { value: 'chocolate', label: 'Chocolate' },
+                                    { value: 'strawberry', label: 'Strawberry' },
+                                    { value: 'vanilla', label: 'Vanilla' },
+                                ]}></Select>
+                        </FormGroup>
 
-                            <FormGroup>
-                                <Label for="duration">Duration</Label>
-                                <Input type="number" name="duration" id="duration" placeholder="Duration" />
-                            </FormGroup>
+                        <FormGroup>
+                            <Label for="duration">Duration</Label>
+                            <Input type="number" name="duration" id="duration" placeholder="Duration" />
+                        </FormGroup>
 
-                            <Row>
-                                <Col lg={6}>
-                                    <FormGroup>
-                                        <Label for="min_people">Tour Min People</Label>
-                                        <Input
-                                            type="number"
-                                            name="min_people"
-                                            id="min_people"
-                                            placeholder="Tour Min People"
-                                        />
-                                    </FormGroup>
-                                </Col>
-                                <Col lg={6}>
-                                    <FormGroup>
-                                        <Label for="max_people">Tour Max People</Label>
-                                        <Input
-                                            type="number"
-                                            name="max_people"
-                                            id="max_people"
-                                            placeholder="Tour Max People"
-                                        />
-                                    </FormGroup>
-                                </Col>
-                            </Row>
+                        <Row>
+                            <Col lg={6}>
+                                <FormGroup>
+                                    <Label for="min_people">Tour Min People</Label>
+                                    <Input
+                                        type="number"
+                                        name="min_people"
+                                        id="min_people"
+                                        placeholder="Tour Min People"
+                                    />
+                                </FormGroup>
+                            </Col>
+                            <Col lg={6}>
+                                <FormGroup>
+                                    <Label for="max_people">Tour Max People</Label>
+                                    <Input
+                                        type="number"
+                                        name="max_people"
+                                        id="max_people"
+                                        placeholder="Tour Max People"
+                                    />
+                                </FormGroup>
+                            </Col>
+                        </Row>
 
-                            <FormGroup>
-                                <Label for="itinerary">Itinerary</Label>
-                                <div className="header">
-                                    <Row>
-                                        <Col md={2}>Image</Col>
-                                        <Col md={4}>Title - Desc</Col>
-                                        <Col md={5}>Content</Col>
-                                        <Col md={1}></Col>
-                                    </Row>
-                                </div>
-                                <div className="items mt-3">
-                                    {itinerary.map((item) => {
-                                        return (
-                                            <div key={item} className="item">
-                                                <Row>
-                                                    <Col md={2}>
-                                                        <FormGroup>
-                                                            <Label for="iti_image">Image</Label>
-                                                            <Input
-                                                                type="file"
-                                                                name={`iti_image[${item}][image]`}
-                                                                id={`iti_image[${item}][image]`}
-                                                            />
-                                                        </FormGroup>
-                                                    </Col>
-                                                    <Col md={4}>
+                        <FormGroup>
+                            <Label for="itinerary">Itinerary</Label>
+                            <div className="header">
+                                <Row>
+                                    <Col md={2}>Image</Col>
+                                    <Col md={4}>Title - Desc</Col>
+                                    <Col md={5}>Content</Col>
+                                    <Col md={1}></Col>
+                                </Row>
+                            </div>
+                            <div className="items mt-3">
+                                {itinerary.map((item) => {
+                                    return (
+                                        <div key={item} className="item">
+                                            <Row>
+                                                <Col md={2}>
+                                                    <FormGroup>
                                                         <Input
-                                                            type="text"
-                                                            name={`iti_title[${item}][title]`}
-                                                            placeholder="Title: Day 1"
+                                                            type="file"
+                                                            name={`iti_image[${item}][image]`}
+                                                            id={`iti_image[${item}][image]`}
                                                         />
+                                                    </FormGroup>
+                                                </Col>
+                                                <Col md={4}>
+                                                    <Input
+                                                        type="text"
+                                                        name={`iti_title[${item}][title]`}
+                                                        placeholder="Title: Day 1"
+                                                    />
+                                                    <Input
+                                                        type="text"
+                                                        className="mt-2"
+                                                        name={`iti_description[${item}][description]`}
+                                                        placeholder="Desc: Da Nang"
+                                                    />
+                                                </Col>
+                                                <Col md={5}>
+                                                    <FormGroup>
                                                         <Input
-                                                            type="text"
-                                                            className="mt-2"
-                                                            name={`iti_description[${item}][description]`}
-                                                            placeholder="Desc: Da Nang"
+                                                            type="textarea"
+                                                            name={`iti_description[${item}][content]`}
+                                                            rows="5"
+                                                            placeholder="Content..."
                                                         />
-                                                    </Col>
-                                                    <Col md={5}>Content</Col>
-                                                    <Col md={1}></Col>
-                                                </Row>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </FormGroup>
-                        </Form>
-                    </Col>
+                                                    </FormGroup>
+                                                </Col>
+                                                <Col md={1}>
+                                                    <Button color="danger" size="sm">
+                                                        <FeatherIcon.Trash2 size={16} />
+                                                    </Button>
+                                                </Col>
+                                            </Row>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="image">Banner</Label>
+                            <div>
+                                <img src={default_image} className="mb-5" alt="Default Image" />
+                                <Input type="file" name="image" id="image" />
+                            </div>
+                        </FormGroup>
+                    </CardBody>
+                </Card>
+            </Col>
 
-                    <Col lg={3}>
-                        <Form>
-                            <FormGroup>
-                                <Label for="exampleSelect">Select</Label>
-                                <Input type="select" name="select" id="exampleSelect">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </Input>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="exampleSelectMulti">Select Multiple</Label>
-                                <Input type="select" name="selectMulti" id="exampleSelectMulti" multiple>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </Input>
-                            </FormGroup>
-
-                            <FormGroup>
-                                <Label for="exampleFile">Default file input</Label>
-                                <Input type="file" name="file" id="exampleFile" />
-                            </FormGroup>
-
-                            <FormGroup>
-                                <Label for="exampleDate">Date</Label>
-                                <Input type="date" name="date" id="exampleDate" placeholder="date placeholder" />
-                            </FormGroup>
-
-                            <FormGroup>
-                                <Label for="exampleMonth">Month</Label>
-                                <Input type="month" name="month" id="exampleMonth" placeholder="date month" />
-                            </FormGroup>
-
-                            <FormGroup>
-                                <Label for="exampleTime">Time</Label>
-                                <Input type="time" name="time" id="exampleTime" placeholder="date Time" />
-                            </FormGroup>
-
-                            <FormGroup>
-                                <Label for="exampleWeek">Week</Label>
-                                <Input type="week" name="week" id="exampleWeek" placeholder="date week" />
-                            </FormGroup>
-
-                            <FormGroup>
-                                <Label for="exampleColor">Color</Label>
-                                <Input
-                                    type="color"
-                                    name="color"
-                                    id="exampleColor"
-                                    placeholder="color placeholder"
-                                    defaultValue="#727cf5"
+            <Col lg={3}>
+                <Card>
+                    <CardBody>
+                        <FormGroup>
+                            <Label for="status">Publish</Label>
+                            <div>
+                                <CustomInput type="radio" id="publish" name="status" label="Publish" />
+                                <CustomInput type="radio" id="draft" name="status" label="Draft" />
+                            </div>
+                        </FormGroup>
+                        <FormGroup className="float-right">
+                            <Button color="primary">Save</Button>
+                        </FormGroup>
+                    </CardBody>
+                </Card>
+                <Card>
+                    <CardBody>
+                        <FormGroup>
+                            <Label for="isFeatured">Tour Featured</Label>
+                            <CustomInput type="switch" id="isFeatured" name="isFeatured" label="Enable featured" />
+                        </FormGroup>
+                    </CardBody>
+                </Card>
+                <Card>
+                    <CardBody>
+                        <FormGroup>
+                            <Label for="attribute">Attribute: Travel Styles</Label>
+                            <div>
+                                <CustomInput
+                                    type="checkbox"
+                                    className="mb-3 mt-3"
+                                    id="attribute1"
+                                    name="attribute[]"
+                                    label="Cultural"
                                 />
-                            </FormGroup>
-
-                            <FormGroup>
-                                <Label for="exampleRange">Range</Label>
-                                <input
-                                    className="custom-range"
-                                    type="range"
-                                    name="range"
-                                    id="exampleRange"
-                                    placeholder="range placeholder"
+                                <CustomInput
+                                    type="checkbox"
+                                    className="mb-3"
+                                    id="attribute2"
+                                    name="attribute[]"
+                                    label="Nature Adventure"
                                 />
-                            </FormGroup>
-                        </Form>
-                    </Col>
-                </Row>
-            </CardBody>
-        </Card>
+                                <CustomInput
+                                    type="checkbox"
+                                    className="mb-3"
+                                    id="attribute3"
+                                    name="attribute[]"
+                                    label="Marine"
+                                />
+                                <CustomInput
+                                    type="checkbox"
+                                    className="mb-3"
+                                    id="attribute4"
+                                    name="attribute[]"
+                                    label="Independent"
+                                />
+                                <CustomInput
+                                    type="checkbox"
+                                    className="mb-3"
+                                    id="attribute5"
+                                    name="attribute[]"
+                                    label="Activities"
+                                />
+                            </div>
+                        </FormGroup>
+                    </CardBody>
+                </Card>
+            </Col>
+        </Row>
     );
 };
 
@@ -239,34 +255,6 @@ const Pricing = () => {
                     </Col>
                 </Row>
             </FormGroup>
-        </React.Fragment>
-    );
-};
-
-const Switches = () => {
-    return (
-        <React.Fragment>
-            <h4 className="header-title mt-4">Switches</h4>
-            <p className="text-muted">
-                A switch has the markup of a custom checkbox but uses the <code>.custom-switch</code> class to render a
-                toggle switch. Switches also support the <code>disabled</code> attribute.
-            </p>
-
-            <div>
-                <CustomInput
-                    type="switch"
-                    id="exampleCustomSwitch"
-                    name="customSwitch"
-                    label="Turn on this custom switch"
-                />
-                <CustomInput
-                    type="switch"
-                    id="exampleCustomSwitch4"
-                    label="Can't click this label to turn on!"
-                    htmlFor="exampleCustomSwitch4_X"
-                    disabled
-                />
-            </div>
         </React.Fragment>
     );
 };

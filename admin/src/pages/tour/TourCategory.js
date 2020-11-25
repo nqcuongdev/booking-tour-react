@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Card, CardBody, Input, Button, Badge } from 'reactstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
-import ToolkitProvider, { Search, CSVExport } from 'react-bootstrap-table2-toolkit';
+import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import * as FeatherIcon from 'react-feather';
@@ -10,87 +10,28 @@ import PageTitle from '../../components/PageTitle';
 
 const records = [
     {
-        code: 'VN333',
-        name: 'Vineyard Tour',
-        destination: 'California',
+        title: 'City trips',
+        date: '11/04/2020',
         status: 'active',
     },
     {
-        code: 'VN333',
-        name: 'Vineyard Tour',
-        destination: 'California',
+        title: 'City trips',
+        date: '11/04/2020',
         status: 'active',
     },
     {
-        code: 'VN333',
-        name: 'Vineyard Tour',
-        destination: 'California',
+        title: 'City trips',
+        date: '11/04/2020',
         status: 'active',
     },
     {
-        code: 'VN333',
-        name: 'Vineyard Tour',
-        destination: 'California',
+        title: 'City trips',
+        date: '11/04/2020',
         status: 'active',
     },
     {
-        code: 'VN333',
-        name: 'Vineyard Tour',
-        destination: 'California',
-        status: 'active',
-    },
-    {
-        code: 'VN333',
-        name: 'Vineyard Tour',
-        destination: 'California',
-        status: 'active',
-    },
-    {
-        code: 'VN333',
-        name: 'Vineyard Tour',
-        destination: 'California',
-        status: 'active',
-    },
-    {
-        code: 'VN333',
-        name: 'Vineyard Tour',
-        destination: 'California',
-        status: 'active',
-    },
-    {
-        code: 'VN333',
-        name: 'Vineyard Tour',
-        destination: 'California',
-        status: 'active',
-    },
-    {
-        code: 'VN333',
-        name: 'Vineyard Tour',
-        destination: 'California',
-        status: 'active',
-    },
-    {
-        code: 'VN333',
-        name: 'Vineyard Tour',
-        destination: 'California',
-        status: 'active',
-    },
-    {
-        code: 'VN333',
-        name: 'Vineyard Tour',
-        destination: 'California',
-        status: 'active',
-    },
-    {
-        code: 'VN333',
-        name: 'Vineyard Tour',
-        destination: 'California',
-        status: 'active',
-    },
-    {
-        code: 'VN333',
-        name: 'Vineyard Tour',
-        destination: 'California',
+        title: 'City trips',
+        date: '11/04/2020',
         status: 'active',
     },
 ];
@@ -111,18 +52,13 @@ const badgeStatusCategory = (cell, row, rowIndex) => {
 
 const columns = [
     {
-        dataField: 'code',
-        text: 'Code',
+        dataField: 'title',
+        text: 'Title',
         sort: false,
     },
     {
-        dataField: 'name',
-        text: 'Name',
-        sort: true,
-    },
-    {
-        dataField: 'destination',
-        text: 'Destination',
+        dataField: 'date',
+        text: 'Create Date',
         sort: false,
     },
     {
@@ -166,7 +102,6 @@ const sizePerPageRenderer = ({ options, currSizePerPage, onSizePerPageChange }) 
 
 const TableWithSearch = () => {
     const { SearchBar } = Search;
-    const { ExportCSVButton } = CSVExport;
 
     return (
         <Card>
@@ -186,11 +121,8 @@ const TableWithSearch = () => {
                                 </Col>
                                 <Col className="text-right">
                                     <Button color="primary" className="mr-3">
-                                        Add Tour
+                                        Add Category
                                     </Button>
-                                    <ExportCSVButton {...props.csvProps} className="btn btn-info">
-                                        Export CSV
-                                    </ExportCSVButton>
                                 </Col>
                             </Row>
 
@@ -218,7 +150,7 @@ const TableWithSearch = () => {
     );
 };
 
-const Tour = () => {
+const TourCategory = () => {
     return (
         <React.Fragment>
             <Row className="page-title">
@@ -226,9 +158,9 @@ const Tour = () => {
                     <PageTitle
                         breadCrumbItems={[
                             { label: 'Tour', path: '/tour' },
-                            { label: 'List tour', path: '/tables/list-tour', active: true },
+                            { label: 'Tour Category', path: '/tables/tour-category', active: true },
                         ]}
-                        title={'List tour'}
+                        title={'Tour Category'}
                     />
                 </Col>
             </Row>
@@ -241,4 +173,4 @@ const Tour = () => {
     );
 };
 
-export default Tour;
+export default TourCategory;
