@@ -37,7 +37,7 @@ const TourSchema = new mongoose.Schema({
   lng: String,
   map_zoom: {
     type: Number,
-    max: 10,
+    max: 50,
     default: 5,
   },
   image: [
@@ -78,10 +78,7 @@ const TourSchema = new mongoose.Schema({
     {
       title: String,
       description: String,
-      location: {
-        lat: String,
-        lng: String,
-      },
+      address: String,
       image: String,
     },
   ],

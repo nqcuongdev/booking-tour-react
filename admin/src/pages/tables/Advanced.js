@@ -1,5 +1,15 @@
 import React from 'react';
-import { Row, Col, Card, CardBody, Input, UncontrolledDropdown, DropdownMenu, DropdownItem, DropdownToggle } from 'reactstrap';
+import {
+    Row,
+    Col,
+    Card,
+    CardBody,
+    Input,
+    UncontrolledDropdown,
+    DropdownMenu,
+    DropdownItem,
+    DropdownToggle,
+} from 'reactstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, { Search, CSVExport } from 'react-bootstrap-table2-toolkit';
 import paginationFactory from 'react-bootstrap-table2-paginator';
@@ -468,11 +478,15 @@ const defaultSorted = [
 const sizePerPageRenderer = ({ options, currSizePerPage, onSizePerPageChange }) => (
     <React.Fragment>
         <label className="d-inline mr-1">Show</label>
-        <Input type="select" name="select" id="no-entries" className="custom-select custom-select-sm d-inline col-1"
+        <Input
+            type="select"
+            name="select"
+            id="no-entries"
+            className="custom-select custom-select-sm d-inline col-1"
             defaultValue={currSizePerPage}
             onChange={(e) => onSizePerPageChange(e.target.value)}>
             {options.map((option, idx) => {
-                return <option key={idx}>{option.text}</option>
+                return <option key={idx}>{option.text}</option>;
             })}
         </Input>
         <label className="d-inline ml-1">entries</label>
@@ -557,7 +571,7 @@ const TableWithSearch = () => {
                     columns={columns}
                     search
                     exportCSV={{ onlyExportFiltered: true, exportAll: false }}>
-                    {props => (
+                    {(props) => (
                         <React.Fragment>
                             <Row>
                                 <Col>
@@ -574,7 +588,16 @@ const TableWithSearch = () => {
                                 {...props.baseProps}
                                 bordered={false}
                                 defaultSorted={defaultSorted}
-                                pagination={paginationFactory({ sizePerPage: 5, sizePerPageRenderer: sizePerPageRenderer, sizePerPageList: [{ text: '5', value: 5, }, { text: '10', value: 10 }, { text: '25', value: 25 }, { text: 'All', value: records.length }] })}
+                                pagination={paginationFactory({
+                                    sizePerPage: 5,
+                                    sizePerPageRenderer: sizePerPageRenderer,
+                                    sizePerPageList: [
+                                        { text: '5', value: 5 },
+                                        { text: '10', value: 10 },
+                                        { text: '25', value: 25 },
+                                        { text: 'All', value: records.length },
+                                    ],
+                                })}
                                 wrapperClasses="table-responsive"
                             />
                         </React.Fragment>
@@ -604,7 +627,16 @@ const TableWithSeletableRows = () => {
                     bordered={false}
                     data={records}
                     columns={columns}
-                    pagination={paginationFactory({ sizePerPage: 5, sizePerPageRenderer: sizePerPageRenderer, sizePerPageList: [{ text: '5', value: 5, }, { text: '10', value: 10 }, { text: '25', value: 25 }, { text: 'All', value: records.length }] })}
+                    pagination={paginationFactory({
+                        sizePerPage: 5,
+                        sizePerPageRenderer: sizePerPageRenderer,
+                        sizePerPageList: [
+                            { text: '5', value: 5 },
+                            { text: '10', value: 10 },
+                            { text: '25', value: 25 },
+                            { text: 'All', value: records.length },
+                        ],
+                    })}
                     selectRow={selectRow}
                     wrapperClasses="table-responsive"
                 />
@@ -615,7 +647,7 @@ const TableWithSeletableRows = () => {
 
 const TableWithRowExpand = () => {
     const expandRow = {
-        renderer: row => (
+        renderer: (row) => (
             <div>
                 <p className="mt-2">{`Hello ${row.name}`}</p>
                 <p>You can render anything here, also you can add additional data on every row object</p>
@@ -625,10 +657,10 @@ const TableWithRowExpand = () => {
         showExpandColumn: true,
         onlyOneExpanding: true,
         expandHeaderColumnRenderer: ({ isAnyExpands }) => {
-            return isAnyExpands ? <i className='uil uil-minus'></i> : <i className='uil uil-plus'></i>;
+            return isAnyExpands ? <i className="uil uil-minus"></i> : <i className="uil uil-plus"></i>;
         },
         expandColumnRenderer: ({ expanded }) => {
-            return expanded ? <i className='uil uil-minus'></i> : <i className='uil uil-plus'></i>;
+            return expanded ? <i className="uil uil-minus"></i> : <i className="uil uil-plus"></i>;
         },
     };
 
@@ -644,7 +676,16 @@ const TableWithRowExpand = () => {
                     bordered={false}
                     data={records}
                     columns={columns}
-                    pagination={paginationFactory({ sizePerPage: 5, sizePerPageRenderer: sizePerPageRenderer, sizePerPageList: [{ text: '5', value: 5, }, { text: '10', value: 10 }, { text: '25', value: 25 }, { text: 'All', value: records.length }] })}
+                    pagination={paginationFactory({
+                        sizePerPage: 5,
+                        sizePerPageRenderer: sizePerPageRenderer,
+                        sizePerPageList: [
+                            { text: '5', value: 5 },
+                            { text: '10', value: 10 },
+                            { text: '25', value: 25 },
+                            { text: 'All', value: records.length },
+                        ],
+                    })}
                     expandRow={expandRow}
                     wrapperClasses="table-responsive"
                 />
@@ -653,31 +694,28 @@ const TableWithRowExpand = () => {
     );
 };
 
-const CustomToggleList = ({
-    columns,
-    onColumnToggle,
-    toggles
-}) => (
-        <UncontrolledDropdown className="mb-3">
-            <DropdownToggle tag="button" className="btn btn-white">Select Columns <i className='uil uil-angle-down font-size-15 ml-1 align-middle'></i></DropdownToggle>
-            <DropdownMenu>
-                {columns.map(column => ({
+const CustomToggleList = ({ columns, onColumnToggle, toggles }) => (
+    <UncontrolledDropdown className="mb-3">
+        <DropdownToggle tag="button" className="btn btn-white">
+            Select Columns <i className="uil uil-angle-down font-size-15 ml-1 align-middle"></i>
+        </DropdownToggle>
+        <DropdownMenu>
+            {columns
+                .map((column) => ({
                     ...column,
-                    toggle: toggles[column.dataField]
+                    toggle: toggles[column.dataField],
                 }))
-                    .map(column => (
-                        <DropdownItem key={column.dataField} onClick={() => onColumnToggle(column.dataField)}>
-                            {column.toggle && <i className='uil uil-check'></i>}
-                            <span className="ml-2">{column.text}</span>
-                        </DropdownItem>
-                    ))
-                }
-            </DropdownMenu>
-        </UncontrolledDropdown>
-    );
+                .map((column) => (
+                    <DropdownItem key={column.dataField} onClick={() => onColumnToggle(column.dataField)}>
+                        {column.toggle && <i className="uil uil-check"></i>}
+                        <span className="ml-2">{column.text}</span>
+                    </DropdownItem>
+                ))}
+        </DropdownMenu>
+    </UncontrolledDropdown>
+);
 
 const TableWithColumnToggle = () => {
-
     return (
         <Card>
             <CardBody>
@@ -685,13 +723,22 @@ const TableWithColumnToggle = () => {
                 <p className="sub-header">Show/Hide any column you want</p>
 
                 <ToolkitProvider keyField="id" data={records} columns={columns} columnToggle>
-                    {props => (
+                    {(props) => (
                         <div>
                             <CustomToggleList {...props.columnToggleProps} />
                             <BootstrapTable
                                 {...props.baseProps}
                                 bordered={false}
-                                pagination={paginationFactory({ sizePerPage: 5, sizePerPageRenderer: sizePerPageRenderer, sizePerPageList: [{ text: '5', value: 5, }, { text: '10', value: 10 }, { text: '25', value: 25 }, { text: 'All', value: records.length }] })}
+                                pagination={paginationFactory({
+                                    sizePerPage: 5,
+                                    sizePerPageRenderer: sizePerPageRenderer,
+                                    sizePerPageList: [
+                                        { text: '5', value: 5 },
+                                        { text: '10', value: 10 },
+                                        { text: '25', value: 25 },
+                                        { text: 'All', value: records.length },
+                                    ],
+                                })}
                                 wrapperClasses="table-responsive"
                             />
                         </div>

@@ -41,7 +41,7 @@ const UserSchema = new Schema({
   },
   image: {
     type: String,
-    default: "uploads/users/avatar-1.jpg",
+    default: "uploads/users/avatar-1.png",
   },
   role: {
     type: String,
@@ -64,6 +64,7 @@ const UserSchema = new Schema({
       type: String,
     },
   },
+  bio: String,
   status: {
     type: String,
     required: true,

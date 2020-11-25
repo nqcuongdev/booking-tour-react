@@ -4,17 +4,17 @@
  * @param {*} options
  */
 const fetchJSON = (url, options = {}) => {
-    return fetch(url, options)
-        .then(response => {
+    return fetch(`http://localhost:6969/api/v1/${url}`, options)
+        .then((response) => {
             if (!response.status === 200) {
                 throw response.json();
             }
             return response.json();
         })
-        .then(json => {
+        .then((json) => {
             return json;
         })
-        .catch(error => {
+        .catch((error) => {
             throw error;
         });
 };

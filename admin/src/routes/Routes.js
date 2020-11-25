@@ -3,7 +3,6 @@ import { BrowserRouter, Switch } from 'react-router-dom';
 import Loadable from 'react-loadable';
 import { connect } from 'react-redux';
 
-import { isUserAuthenticated } from '../helpers/authUtils';
 import * as layoutConstants from '../constants/layout';
 import { allFlattenRoutes as routes } from './index';
 
@@ -40,10 +39,10 @@ const HorizontalLayout = Loadable({
 });
 
 class Routes extends Component {
-
     // returns the layout
     getLayout = () => {
-        if (!isUserAuthenticated()) return AuthLayout;
+        const { user } = this.props;
+        if (!user) return AuthLayout;
 
         let layoutCls = VerticalLayout;
 
@@ -56,41 +55,40 @@ class Routes extends Component {
                 break;
         }
         return layoutCls;
-    }
+    };
 
     render() {
         const Layout = this.getLayout();
-        
+        const { user } = this.props;
+
         // rendering the router with layout
-        return <BrowserRouter>
-            <Layout {...this.props}>
-                <Switch>
-                    {routes.map((route, index) => {
-                        return (
-                            !route.children ?
+        return (
+            <BrowserRouter>
+                <Layout {...this.props}>
+                    <Switch>
+                        {routes.map((route, index) => {
+                            return !route.children ? (
                                 <route.route
                                     key={index}
                                     path={route.path}
                                     roles={route.roles}
+                                    user={user}
                                     exact={route.exact}
                                     component={route.component}></route.route>
-                                : null
-                        );
-                    })}
-                </Switch>
-            </Layout>
-        </BrowserRouter>
+                            ) : null;
+                        })}
+                    </Switch>
+                </Layout>
+            </BrowserRouter>
+        );
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         layout: state.Layout,
         user: state.Auth.user,
     };
 };
 
-export default connect(
-    mapStateToProps,
-    null
-)(Routes);
+export default connect(mapStateToProps, null)(Routes);
