@@ -13,6 +13,7 @@ connectDB();
 const auth = require("./routes/auth");
 const destination = require("./routes/destination");
 const user = require("./routes/user");
+const category = require("./routes/category");
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use(cors());
 app.use("/api/v1/", auth);
 app.use("/api/v1/user", user);
 app.use("/api/v1/destination/", destination);
+app.use("/api/v1/category/", category);
 
 //Enable Passport
 app.use(passport.initialize());

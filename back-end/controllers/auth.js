@@ -45,12 +45,12 @@ exports.register = async (req, res) => {
       token: token,
       data: user,
     });
-  } else {
-    return res.status(401).json({
-      success: false,
-      message: "User existed please try with another email",
-    });
   }
+
+  return res.status(401).json({
+    success: false,
+    message: "User existed please try with another email",
+  });
 };
 
 exports.login = async (req, res) => {

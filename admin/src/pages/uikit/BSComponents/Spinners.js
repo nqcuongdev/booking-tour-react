@@ -3,7 +3,6 @@ import { Row, Col, Card, CardBody, Spinner } from 'reactstrap';
 
 const colors = ['primary', 'secondary', 'success', 'danger', 'warning', 'info'];
 
-
 const BorderedSpinners = () => {
     return (
         <React.Fragment>
@@ -11,7 +10,6 @@ const BorderedSpinners = () => {
             <p className="sub-header">Use the border spinners for a lightweight loading indicator.</p>
 
             <div>
-
                 {colors.map((color, index) => {
                     return <Spinner key={index} className="m-2" color={color} />;
                 })}
@@ -24,10 +22,12 @@ const GrowingSpinners = () => {
     return (
         <React.Fragment>
             <h5 className="font-size-15 mb-1">Growing spinner</h5>
-            <p className="sub-header">If you don’t fancy a border spinner, switch to the grow spinner. While it doesn’t technically spin, it does repeatedly grow!</p>
+            <p className="sub-header">
+                If you don’t fancy a border spinner, switch to the grow spinner. While it doesn’t technically spin, it
+                does repeatedly grow!
+            </p>
 
             <div>
-
                 {colors.map((color, index) => {
                     return <Spinner key={index} className="m-2" type="grow" color={color} />;
                 })}
@@ -37,7 +37,6 @@ const GrowingSpinners = () => {
 };
 
 const Spinners = () => {
-
     return (
         <React.Fragment>
             <Card>

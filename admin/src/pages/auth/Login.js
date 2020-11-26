@@ -80,7 +80,7 @@ class Login extends Component {
                                                     {this.props.loading && <Loader />}
 
                                                     <div className="mx-auto mb-5">
-                                                        <a href="/">
+                                                        <a href="/dashboard">
                                                             <img src={logo} alt="Logo booking core" />
                                                         </a>
                                                     </div>
