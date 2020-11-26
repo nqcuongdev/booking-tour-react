@@ -1,5 +1,21 @@
-import React from 'react';
-import { Row, Col, Card, CardBody, Input, Button, Badge } from 'reactstrap';
+import React, { useEffect, useState } from 'react';
+import {
+    Row,
+    Col,
+    Card,
+    CardBody,
+    Input,
+    Button,
+    Badge,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    Form,
+    FormGroup,
+    Label,
+    FormText,
+} from 'reactstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import paginationFactory from 'react-bootstrap-table2-paginator';
@@ -7,34 +23,8 @@ import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import * as FeatherIcon from 'react-feather';
 
 import PageTitle from '../../components/PageTitle';
-
-const records = [
-    {
-        title: 'City trips',
-        date: '11/04/2020',
-        status: 'active',
-    },
-    {
-        title: 'City trips',
-        date: '11/04/2020',
-        status: 'active',
-    },
-    {
-        title: 'City trips',
-        date: '11/04/2020',
-        status: 'active',
-    },
-    {
-        title: 'City trips',
-        date: '11/04/2020',
-        status: 'active',
-    },
-    {
-        title: 'City trips',
-        date: '11/04/2020',
-        status: 'active',
-    },
-];
+import { connect } from 'react-redux';
+import { createTourCategory, getAllTourCategory } from '../../redux/tour/actions';
 
 const rankFormatter = (cell, row, rowIndex) => {
     return (
@@ -57,7 +47,12 @@ const columns = [
         sort: false,
     },
     {
-        dataField: 'date',
+        dataField: 'slug',
+        text: 'Slug',
+        sort: false,
+    },
+    {
+        dataField: 'created_at',
         text: 'Create Date',
         sort: false,
     },
@@ -100,16 +95,34 @@ const sizePerPageRenderer = ({ options, currSizePerPage, onSizePerPageChange }) 
     </React.Fragment>
 );
 
-const TableWithSearch = () => {
+const TableWithSearch = ({ properties, loading, error, categories }) => {
+    const [modal, setModal] = useState(false);
+    const [title, setTitle] = useState('');
     const { SearchBar } = Search;
+
+    /**
+     * Show/hide the modal
+     */
+    const toggle = () => {
+        setModal(!modal);
+    };
+
+    const inputChangeHandler = (e) => {
+        setTitle(e.target.value);
+    };
+
+    const handleCreateNew = () => {
+        properties.createTourCategory(title, 'tour');
+        setModal(!modal);
+    };
 
     return (
         <Card>
             <CardBody>
                 <ToolkitProvider
                     bootstrap4
-                    keyField="id"
-                    data={records}
+                    keyField="_id"
+                    data={properties.categories}
                     columns={columns}
                     search
                     exportCSV={{ onlyExportFiltered: true, exportAll: false }}>
@@ -120,37 +133,70 @@ const TableWithSearch = () => {
                                     <SearchBar {...props.searchProps} />
                                 </Col>
                                 <Col className="text-right">
-                                    <Button color="primary" className="mr-3">
+                                    <Button color="primary" className="mr-3" onClick={toggle}>
                                         Add Category
                                     </Button>
                                 </Col>
                             </Row>
 
-                            <BootstrapTable
-                                {...props.baseProps}
-                                bordered={false}
-                                defaultSorted={defaultSorted}
-                                pagination={paginationFactory({
-                                    sizePerPage: 10,
-                                    sizePerPageRenderer: sizePerPageRenderer,
-                                    sizePerPageList: [
-                                        { text: '10', value: 10 },
-                                        { text: '20', value: 20 },
-                                        { text: '30', value: 30 },
-                                        { text: 'All', value: records.length },
-                                    ],
-                                })}
-                                wrapperClasses="table-responsive"
-                            />
+                            {properties.categories && (
+                                <BootstrapTable
+                                    {...props.baseProps}
+                                    bordered={false}
+                                    defaultSorted={defaultSorted}
+                                    pagination={paginationFactory({
+                                        sizePerPage: 10,
+                                        sizePerPageRenderer: sizePerPageRenderer,
+                                        sizePerPageList: [
+                                            { text: '10', value: 10 },
+                                            { text: '20', value: 20 },
+                                            { text: '30', value: 30 },
+                                            { text: 'All', value: properties.categories.length },
+                                        ],
+                                    })}
+                                    wrapperClasses="table-responsive"
+                                />
+                            )}
                         </React.Fragment>
                     )}
                 </ToolkitProvider>
+                <Modal isOpen={modal} toggle={toggle}>
+                    <ModalHeader toggle={toggle}>Add Category</ModalHeader>
+                    <ModalBody>
+                        <Form>
+                            <FormGroup>
+                                <Label for="title">Title</Label>
+                                <Input
+                                    type="text"
+                                    name="title"
+                                    id="title"
+                                    placeholder="Title"
+                                    onChange={inputChangeHandler}
+                                    defaultValue={title}
+                                />
+                                <FormText color="danger"></FormText>
+                            </FormGroup>
+                        </Form>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary" onClick={handleCreateNew} disabled={!title}>
+                            Save
+                        </Button>
+                        <Button color="secondary" className="ml-1" onClick={toggle}>
+                            Cancel
+                        </Button>
+                    </ModalFooter>
+                </Modal>
             </CardBody>
         </Card>
     );
 };
 
-const TourCategory = () => {
+const TourCategory = (props) => {
+    useEffect(() => {
+        props.getAllTourCategory();
+    }, []);
+
     return (
         <React.Fragment>
             <Row className="page-title">
@@ -166,11 +212,21 @@ const TourCategory = () => {
             </Row>
             <Row>
                 <Col>
-                    <TableWithSearch />
+                    <TableWithSearch
+                        properties={props}
+                        loading={props.loading}
+                        error={props.error}
+                        categories={props.categories}
+                    />
                 </Col>
             </Row>
         </React.Fragment>
     );
 };
 
-export default TourCategory;
+const mapStateToProps = (state) => {
+    const { category, categories, loading, error } = state.Tour;
+    return { category, categories, loading, error };
+};
+
+export default connect(mapStateToProps, { createTourCategory, getAllTourCategory })(TourCategory);

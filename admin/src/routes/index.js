@@ -6,7 +6,6 @@ import * as FeatherIcon from 'react-feather';
 // auth
 const Login = React.lazy(() => import('../pages/auth/Login'));
 const Logout = React.lazy(() => import('../pages/auth/Logout'));
-const Register = React.lazy(() => import('../pages/auth/Register'));
 const ForgetPassword = React.lazy(() => import('../pages/auth/ForgetPassword'));
 const Confirm = React.lazy(() => import('../pages/auth/Confirm'));
 // dashboard
@@ -405,12 +404,6 @@ const authRoutes = {
             path: '/account/logout',
             name: 'Logout',
             component: Logout,
-            route: Route,
-        },
-        {
-            path: '/account/register',
-            name: 'Register',
-            component: Register,
             route: Route,
         },
         {
