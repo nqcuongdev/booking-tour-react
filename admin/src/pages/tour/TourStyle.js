@@ -25,7 +25,7 @@ import * as FeatherIcon from 'react-feather';
 
 import PageTitle from '../../components/PageTitle';
 import { connect, useDispatch } from 'react-redux';
-import { createTourCategory, getAllTourCategory, updateTourCategory } from '../../redux/tour/actions';
+import { getAllTourAttribute, createTourAttribute } from '../../redux/tour/actions';
 
 const sizePerPageRenderer = ({ options, currSizePerPage, onSizePerPageChange }) => (
     <React.Fragment>
@@ -48,8 +48,8 @@ const sizePerPageRenderer = ({ options, currSizePerPage, onSizePerPageChange }) 
 const TableWithSearch = ({ properties }) => {
     const [modal, setModal] = useState(false);
     const [modalInput, setModalInput] = useState({ title: '', status: '' });
-    const [categories, setCategories] = useState([]);
-    const [category, setCategory] = useState('');
+    const [attributes, setAttributes] = useState([]);
+    const [attribute, setAttribute] = useState('');
     const { SearchBar } = Search;
 
     const rankFormatter = (cell, row, rowIndex) => {
@@ -103,17 +103,17 @@ const TableWithSearch = ({ properties }) => {
         },
     ];
 
-    let data = properties.categories;
+    let data = properties.attributes;
     useEffect(() => {
-        if (data) setCategories(data);
+        if (data) setAttributes(data);
     }, [data]);
 
     /**
      * Show/hide the modal
      */
-    const toggle = (category) => {
-        setCategory(category);
-        setModalInput(category);
+    const toggle = (attribute) => {
+        setAttribute(attribute);
+        setModalInput(attribute);
         setModal(!modal);
     };
 
@@ -125,18 +125,18 @@ const TableWithSearch = ({ properties }) => {
     const handleSubmit = (_id) => {
         if (_id) {
             //Default input is 'on' so we must convert into right format for save in db
-            modalInput.status = modalInput.status === 'on' && category.status === 'active' ? 'hide' : 'active';
+            modalInput.status = modalInput.status === 'on' && attribute.status === 'active' ? 'hide' : 'active';
             properties.updateTourCategory(modalInput._id, modalInput.title, 'tour', modalInput.status);
         } else {
-            properties.createTourCategory(modalInput.title, 'tour');
+            properties.createTourAttribute(modalInput.title, 'tour');
         }
 
         if (properties.error === null) {
             setModal(!modal);
-            setCategory();
+            setAttribute();
             setModalInput();
         }
-        properties.getAllTourCategory();
+        properties.getAllTourAttribute();
     };
 
     return (
@@ -145,7 +145,7 @@ const TableWithSearch = ({ properties }) => {
                 <ToolkitProvider
                     bootstrap4
                     keyField="_id"
-                    data={categories}
+                    data={attributes}
                     columns={columns}
                     search
                     exportCSV={{ onlyExportFiltered: true, exportAll: false }}>
@@ -157,12 +157,12 @@ const TableWithSearch = ({ properties }) => {
                                 </Col>
                                 <Col className="text-right">
                                     <Button color="primary" className="mr-3" onClick={toggle}>
-                                        Add Category
+                                        Add Attribute
                                     </Button>
                                 </Col>
                             </Row>
 
-                            {categories && (
+                            {attributes && (
                                 <BootstrapTable
                                     {...props.baseProps}
                                     bordered={false}
@@ -174,7 +174,7 @@ const TableWithSearch = ({ properties }) => {
                                             { text: '10', value: 10 },
                                             { text: '20', value: 20 },
                                             { text: '30', value: 30 },
-                                            { text: 'All', value: categories.length },
+                                            { text: 'All', value: attributes.length },
                                         ],
                                     })}
                                     wrapperClasses="table-responsive"
@@ -184,7 +184,7 @@ const TableWithSearch = ({ properties }) => {
                     )}
                 </ToolkitProvider>
                 <Modal isOpen={modal} toggle={() => toggle()}>
-                    <ModalHeader toggle={() => toggle()}>{category ? 'Edit Category' : 'Add Category'}</ModalHeader>
+                    <ModalHeader toggle={() => toggle()}>{attribute ? 'Edit Attribute' : 'Add Attribute'}</ModalHeader>
                     <ModalBody>
                         <Form>
                             <FormGroup>
@@ -195,18 +195,20 @@ const TableWithSearch = ({ properties }) => {
                                     id="title"
                                     placeholder="Title"
                                     onChange={inputChangeHandler}
-                                    defaultValue={category ? category.title : ''}
+                                    defaultValue={attribute ? attribute.title : ''}
                                 />
                                 {properties.error && <FormText color="danger">{properties.error}</FormText>}
                             </FormGroup>
                             <FormGroup>
-                                {category && category.title && (
+                                {attribute && attribute.title && (
                                     <CustomInput
                                         type="switch"
                                         id="statusSwitch"
                                         name="status"
                                         label="Status"
-                                        defaultChecked={category && category.status === 'active' ? category.status : ''}
+                                        defaultChecked={
+                                            attribute && attribute.status === 'active' ? attribute.status : ''
+                                        }
                                         required
                                         onChange={inputChangeHandler}
                                     />
@@ -215,7 +217,7 @@ const TableWithSearch = ({ properties }) => {
                         </Form>
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="primary" onClick={() => handleSubmit(category ? category._id : '')}>
+                        <Button color="primary" onClick={() => handleSubmit(attribute ? attribute._id : '')}>
                             Save
                         </Button>
                         <Button color="secondary" className="ml-1" onClick={() => toggle()}>
@@ -228,10 +230,10 @@ const TableWithSearch = ({ properties }) => {
     );
 };
 
-const TourCategory = (props) => {
+const TourStyle = (props) => {
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getAllTourCategory());
+        dispatch(getAllTourAttribute());
     }, [dispatch]);
 
     return (
@@ -241,9 +243,9 @@ const TourCategory = (props) => {
                     <PageTitle
                         breadCrumbItems={[
                             { label: 'Tour', path: '/tour' },
-                            { label: 'Tour Category', path: '/tables/tour-category', active: true },
+                            { label: 'Tour Style', path: '/tables/tour-attribute', active: true },
                         ]}
-                        title={'Tour Category'}
+                        title={'Tour Attribute'}
                     />
                 </Col>
             </Row>
@@ -257,8 +259,8 @@ const TourCategory = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    const { category, categories, loading, error } = state.Tour;
-    return { category, categories, loading, error };
+    const { attribute, attributes, loading, error } = state.Tour;
+    return { attribute, attributes, loading, error };
 };
 
-export default connect(mapStateToProps, { createTourCategory, getAllTourCategory, updateTourCategory })(TourCategory);
+export default connect(mapStateToProps, { createTourAttribute, getAllTourAttribute })(TourStyle);

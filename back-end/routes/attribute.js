@@ -1,7 +1,7 @@
 const express = require("express");
 const isAuth = require("../middleware/isAuth");
 const checkRole = require("../middleware/checkRole");
-const { create, update, getAll } = require("../controllers/category");
+const { getAll, create, update } = require("../controllers/attribute");
 
 const router = express.Router();
 

@@ -1,15 +1,15 @@
-const Category = require("../models/category");
+const Attribute = require("../models/attribute");
 const Validator = require("validator");
 
 //Load validate
 const categoryValidate = require("../validators/category/category");
 
 exports.getAll = async (req, res) => {
-  let categories = await Category.find({ type: req.params.type });
+  let attributes = await Attribute.find({ type: req.params.type });
 
   return res.status(200).json({
-    success: !!categories,
-    data: categories,
+    success: !!attributes,
+    data: attributes,
   });
 };
 
@@ -26,10 +26,10 @@ exports.create = async (req, res) => {
 
   const { title, type } = req.body;
 
-  let checkExistedTitle = await Category.findOne({ title });
+  let checkExistedTitle = await Attribute.findOne({ title });
 
   if (!checkExistedTitle) {
-    const category = await Category.create({
+    const category = await Attribute.create({
       title,
       type,
     });
@@ -42,7 +42,7 @@ exports.create = async (req, res) => {
 
   return res.status(401).json({
     success: false,
-    message: "This category has existed!",
+    message: "This attribute has existed!",
   });
 };
 
@@ -67,9 +67,9 @@ exports.update = async (req, res) => {
 
   const { title, type, status } = req.body;
 
-  const checkExistedCategory = await Category.findOne({ _id });
+  let checkExistedAttribute = await Attribute.findOne({ _id });
 
-  if (!checkExistedCategory) {
+  if (!checkExistedAttribute) {
     return res.status(404).json({
       success: false,
       message: "Can not found this category",
@@ -83,13 +83,13 @@ exports.update = async (req, res) => {
     updated_at: Date.now(),
   };
 
-  const category = await Category.findByIdAndUpdate({ _id }, data, {
+  const attribute = await Attribute.findByIdAndUpdate({ _id }, data, {
     new: true,
   });
 
   return res.status(200).json({
-    success: !!category,
-    message: "Update category success",
-    data: category,
+    success: !!attribute,
+    message: "Update attribute success",
+    data: attribute,
   });
 };

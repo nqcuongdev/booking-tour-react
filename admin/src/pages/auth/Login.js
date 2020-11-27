@@ -176,12 +176,7 @@ class Login extends Component {
 
                             <Row className="mt-3">
                                 <Col className="col-12 text-center">
-                                    <p className="text-muted">
-                                        Don't have an account?{' '}
-                                        <Link to="/account/register" className="text-primary font-weight-bold ml-1">
-                                            Sign Up
-                                        </Link>
-                                    </p>
+                                    <p className="text-muted">Don't have an account?</p>
                                 </Col>
                             </Row>
                         </Container>
