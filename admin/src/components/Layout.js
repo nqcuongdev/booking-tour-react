@@ -2,7 +2,6 @@
 import React, { Component, Suspense } from 'react';
 import { connect } from 'react-redux';
 
-import { isUserAuthenticated } from '../helpers/authUtils';
 import * as layoutConstants from '../constants/layout';
 
 // Lazy loading and code splitting -
@@ -14,7 +13,6 @@ const AuthLayout = React.lazy(() => import('../layouts/Auth'));
 const VerticalLayout = React.lazy(() => import('../layouts/Vertical'));
 const HorizontalLayout = React.lazy(() => import('../layouts/Horizontal'));
 
-
 /**
  * Exports the component with layout wrapped to it
  * @param {} WrappedComponent
@@ -25,7 +23,7 @@ const withLayout = (WrappedComponent) => {
          * Returns the layout component based on different properties
          */
         getLayout = () => {
-            if (!isUserAuthenticated()) return AuthLayout;
+            if (!this.props.user) return AuthLayout;
 
             let layoutCls = VerticalLayout;
 
@@ -52,16 +50,14 @@ const withLayout = (WrappedComponent) => {
         }
     };
 
-    const mapStateToProps = state => {
+    const mapStateToProps = (state) => {
         return {
             layout: state.Layout,
+            user: state.Auth,
         };
     };
 
-    return connect(
-        mapStateToProps,
-        null
-    )(HOC);
+    return connect(mapStateToProps, null)(HOC);
 };
 
 export default withLayout;

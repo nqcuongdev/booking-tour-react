@@ -40,7 +40,7 @@ exports.create = async (req, res) => {
   }
 
   return res.status(401).json({
-    success: !!checkExistedTitle,
+    success: false,
     message: "This category has existed!",
   });
 };

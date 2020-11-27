@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'reactstrap';
-import Flatpickr from 'react-flatpickr';
 import { Users, Image, ShoppingBag } from 'react-feather';
 
-import { getLoggedInUser } from '../../helpers/authUtils';
 import Loader from '../../components/Loader';
 import OverviewWidget from '../../components/OverviewWidget';
 
 import Statistics from './Statistics';
 import RevenueChart from './RevenueChart';
 import Orders from './Orders';
+import { connect } from 'react-redux';
 
 class Dashboard extends Component {
     constructor(props) {
@@ -19,7 +18,7 @@ class Dashboard extends Component {
         oneWeekAgo.setDate(oneWeekAgo.getDate() - 15);
 
         this.state = {
-            user: getLoggedInUser(),
+            user: this.props.user,
             filterDate: [oneWeekAgo, new Date()],
         };
     }
@@ -68,4 +67,9 @@ class Dashboard extends Component {
     }
 }
 
-export default Dashboard;
+const mapStateToProps = (state) => {
+    const { user } = state.Auth;
+    return { user };
+};
+
+export default connect(mapStateToProps)(Dashboard);

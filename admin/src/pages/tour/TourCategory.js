@@ -15,6 +15,7 @@ import {
     FormGroup,
     Label,
     FormText,
+    CustomInput,
 } from 'reactstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
@@ -23,59 +24,8 @@ import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import * as FeatherIcon from 'react-feather';
 
 import PageTitle from '../../components/PageTitle';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { createTourCategory, getAllTourCategory } from '../../redux/tour/actions';
-
-const rankFormatter = (cell, row, rowIndex) => {
-    return (
-        <div>
-            <Button color="primary" size="sm">
-                <FeatherIcon.Edit size="18" />
-            </Button>
-        </div>
-    );
-};
-
-const badgeStatusCategory = (cell, row, rowIndex) => {
-    return <Badge color="success">{row.status}</Badge>;
-};
-
-const columns = [
-    {
-        dataField: 'title',
-        text: 'Title',
-        sort: false,
-    },
-    {
-        dataField: 'slug',
-        text: 'Slug',
-        sort: false,
-    },
-    {
-        dataField: 'created_at',
-        text: 'Create Date',
-        sort: false,
-    },
-    {
-        dataField: 'status',
-        text: 'Status',
-        sort: false,
-        formatter: badgeStatusCategory,
-    },
-    {
-        dataField: '',
-        text: 'Action',
-        sort: false,
-        formatter: rankFormatter,
-    },
-];
-
-const defaultSorted = [
-    {
-        dataField: 'id',
-        order: 'asc',
-    },
-];
 
 const sizePerPageRenderer = ({ options, currSizePerPage, onSizePerPageChange }) => (
     <React.Fragment>
@@ -95,25 +45,93 @@ const sizePerPageRenderer = ({ options, currSizePerPage, onSizePerPageChange }) 
     </React.Fragment>
 );
 
-const TableWithSearch = ({ properties, loading, error, categories }) => {
+const TableWithSearch = ({ properties }) => {
     const [modal, setModal] = useState(false);
-    const [title, setTitle] = useState('');
+    const [modalInput, setModalInput] = useState({ title: '', status: '', type: 'tour' });
+    const [categories, setCategories] = useState([]);
+    const [category, setCategory] = useState('');
     const { SearchBar } = Search;
+
+    const rankFormatter = (cell, row, rowIndex) => {
+        return (
+            <div>
+                <Button color="primary" size="sm" onClick={() => toggle(row)}>
+                    <FeatherIcon.Edit size="18" />
+                </Button>
+            </div>
+        );
+    };
+
+    const badgeStatusCategory = (cell, row, rowIndex) => {
+        return <Badge color="success">{row.status}</Badge>;
+    };
+
+    const columns = [
+        {
+            dataField: 'title',
+            text: 'Title',
+            sort: false,
+        },
+        {
+            dataField: 'slug',
+            text: 'Slug',
+            sort: false,
+        },
+        {
+            dataField: 'created_at',
+            text: 'Create Date',
+            sort: false,
+        },
+        {
+            dataField: 'status',
+            text: 'Status',
+            sort: false,
+            formatter: badgeStatusCategory,
+        },
+        {
+            dataField: '',
+            text: 'Action',
+            sort: false,
+            formatter: rankFormatter,
+        },
+    ];
+
+    const defaultSorted = [
+        {
+            dataField: 'id',
+            order: 'asc',
+        },
+    ];
+
+    let data = properties.categories;
+    useEffect(() => {
+        if (data) setCategories(data);
+    }, [data]);
 
     /**
      * Show/hide the modal
      */
-    const toggle = () => {
+    const toggle = (category) => {
+        setCategory(category);
+        setModalInput(category);
         setModal(!modal);
     };
 
     const inputChangeHandler = (e) => {
-        setTitle(e.target.value);
+        setModalInput({ ...modalInput, [e.target.name]: e.target.value });
     };
 
-    const handleCreateNew = () => {
-        properties.createTourCategory(title, 'tour');
-        setModal(!modal);
+    const handleSubmit = (_id) => {
+        if (_id) {
+            properties.createTourCategory(modalInput);
+        }
+
+        if (properties.error === null) {
+            setModal(!modal);
+            setCategory();
+            setModalInput();
+        }
+        properties.getAllTourCategory();
     };
 
     return (
@@ -122,7 +140,7 @@ const TableWithSearch = ({ properties, loading, error, categories }) => {
                 <ToolkitProvider
                     bootstrap4
                     keyField="_id"
-                    data={properties.categories}
+                    data={categories}
                     columns={columns}
                     search
                     exportCSV={{ onlyExportFiltered: true, exportAll: false }}>
@@ -139,7 +157,7 @@ const TableWithSearch = ({ properties, loading, error, categories }) => {
                                 </Col>
                             </Row>
 
-                            {properties.categories && (
+                            {categories && (
                                 <BootstrapTable
                                     {...props.baseProps}
                                     bordered={false}
@@ -151,7 +169,7 @@ const TableWithSearch = ({ properties, loading, error, categories }) => {
                                             { text: '10', value: 10 },
                                             { text: '20', value: 20 },
                                             { text: '30', value: 30 },
-                                            { text: 'All', value: properties.categories.length },
+                                            { text: 'All', value: categories.length },
                                         ],
                                     })}
                                     wrapperClasses="table-responsive"
@@ -160,8 +178,8 @@ const TableWithSearch = ({ properties, loading, error, categories }) => {
                         </React.Fragment>
                     )}
                 </ToolkitProvider>
-                <Modal isOpen={modal} toggle={toggle}>
-                    <ModalHeader toggle={toggle}>Add Category</ModalHeader>
+                <Modal isOpen={modal} toggle={() => toggle()}>
+                    <ModalHeader toggle={() => toggle()}>{category ? 'Edit Category' : 'Add Category'}</ModalHeader>
                     <ModalBody>
                         <Form>
                             <FormGroup>
@@ -172,17 +190,37 @@ const TableWithSearch = ({ properties, loading, error, categories }) => {
                                     id="title"
                                     placeholder="Title"
                                     onChange={inputChangeHandler}
-                                    defaultValue={title}
+                                    defaultValue={category ? category.title : ''}
                                 />
-                                <FormText color="danger"></FormText>
+                                {properties.error && <FormText color="danger">{properties.error}</FormText>}
+                            </FormGroup>
+                            <FormGroup>
+                                {category ? (
+                                    <React.Fragment>
+                                        <CustomInput
+                                            type="switch"
+                                            id="statusSwitch"
+                                            name="status"
+                                            label="Status"
+                                            defaultChecked={category ? category.status : ''}
+                                            required
+                                            onChange={inputChangeHandler}
+                                        />
+                                    </React.Fragment>
+                                ) : (
+                                    ''
+                                )}
                             </FormGroup>
                         </Form>
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="primary" onClick={handleCreateNew} disabled={!title}>
+                        <Button
+                            color="primary"
+                            onClick={() => handleSubmit(category ? category._id : '')}
+                            disabled={category ? !category.title : true}>
                             Save
                         </Button>
-                        <Button color="secondary" className="ml-1" onClick={toggle}>
+                        <Button color="secondary" className="ml-1" onClick={() => toggle()}>
                             Cancel
                         </Button>
                     </ModalFooter>
@@ -193,9 +231,10 @@ const TableWithSearch = ({ properties, loading, error, categories }) => {
 };
 
 const TourCategory = (props) => {
+    const dispatch = useDispatch();
     useEffect(() => {
-        props.getAllTourCategory();
-    }, []);
+        dispatch(getAllTourCategory());
+    }, [dispatch]);
 
     return (
         <React.Fragment>
@@ -212,12 +251,7 @@ const TourCategory = (props) => {
             </Row>
             <Row>
                 <Col>
-                    <TableWithSearch
-                        properties={props}
-                        loading={props.loading}
-                        error={props.error}
-                        categories={props.categories}
-                    />
+                    <TableWithSearch properties={props} />
                 </Col>
             </Row>
         </React.Fragment>
