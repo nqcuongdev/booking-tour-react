@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col, Button } from "reactstrap";
 import './Room.scss';
 import { TiGroup, TiTick } from 'react-icons/ti';
 import { MdZoomOutMap } from 'react-icons/md';
+import BookHotel from '../BookHotel/BookHotel';
 
 const Room = (props) => {
+    const [book, setBook] = useState(false);
+
+    const toggleBook = () => setBook(!book);
+
     return (
+        <>
         <Row className="room">
             <Col xl={3} lg={3} md={4} xs={4}>
                 <div className="room-image">
-                    <img src={props.image} alt=""/>
+                    <img src={props.images[0]} alt=""/>
                 </div>
             </Col>
             <Col xl={9} lg={9} md={8} xs={8}>
@@ -50,13 +56,28 @@ const Room = (props) => {
                                 </ul>
                             </Col>
                             <Col xl={3} lg={3} md={3} xs={12} className="btn-book-now">
-                                <Button>Book now</Button>
+                                <Button
+                                    onClick={() => {
+                                        setBook(true);
+                                    }}
+                                >Book now</Button>
                             </Col>
                         </Row>
                     </div>
                 </div>
             </Col>
         </Row>
+        <BookHotel 
+            isOpen={book} 
+            toggle={toggleBook}
+            title={props.title}
+            images={props.images}
+            price={props.price}
+            people={props.people}
+            acreage={props.acreage}
+            options={props.options}
+        />
+        </>
     );
 }
 

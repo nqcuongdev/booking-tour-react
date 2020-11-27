@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Container, Row, Col } from "reactstrap";
 import { MdLocationOn } from 'react-icons/md';
 import { FaStarHalfAlt, FaStar, FaRegStar, FaTag } from 'react-icons/fa';
-import CarouselSlide from '../components/Carousel/Carousel';
+import CarouselSlide from '../components/CarouselSlide/CarouselSlide';
 import hotelRoom1 from '../assets/images/hotels/hotel-1/hotel-room-1.jpg';
 import hotelRoom2 from '../assets/images/hotels/hotel-1/hotel-room-2.jpg';
 import Room from '../components/Room/Room';
@@ -36,7 +36,7 @@ const hotelData = {
     ],
     rooms: [
         {
-            image: hotelRoom1,
+            images: [hotelRoom1, hotelRoom2],
             title: "Normal room",
             price: 99,
             people: 2,
@@ -51,7 +51,7 @@ const hotelData = {
             ]
         },
         {
-            image: hotelRoom2,
+            images: [hotelRoom2, hotelRoom1],
             title: "Luxury room",
             price: 199,
             people: 2,
@@ -66,8 +66,8 @@ const hotelData = {
             ]
         },
         {
-            image: hotelRoom1,
-            title: "presidential room",
+            images: [hotelRoom1, hotelRoom2],
+            title: "Presidential room",
             price: 199,
             people: 2,
             acreage: 38,
@@ -81,7 +81,7 @@ const hotelData = {
             ]
         },
         {
-            image: hotelRoom2,
+            images: [hotelRoom2, hotelRoom1],
             title: "Family room",
             price: 299,
             people: 4,
@@ -235,6 +235,16 @@ const HotelDetail = (props) => {
 
                 <Container>
                     <CarouselSlide images={hotelData.images} />
+
+                    <div className="hotel-detail-tag mt-3 mb-3">
+                        <ul>
+                            <li>Insurance</li>
+                            <li>all drink included</li>
+                            <li>lunch in restaurant</li>
+                            <li>tour guide</li>
+                            <li>travel Insurance</li>
+                        </ul>
+                    </div>
                 </Container>
 
                 <Container className="room-type mt-50 mb-30">
@@ -242,7 +252,7 @@ const HotelDetail = (props) => {
                     {hotelData.rooms.map(room => {
                         return (
                             <Room
-                                image={room.image}
+                                images={room.images}
                                 title={room.title}
                                 price={room.price}
                                 people={room.people}
