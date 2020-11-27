@@ -14,6 +14,7 @@ const Dashboard = React.lazy(() => import('../pages/dashboard'));
 const AllTour = React.lazy(() => import('../pages/tour/Tour'));
 const AddTour = React.lazy(() => import('../pages/tour/AddTour'));
 const TourCategory = React.lazy(() => import('../pages/tour/TourCategory'));
+const TourStyle = React.lazy(() => import('../pages/tour/TourStyle'));
 // apps
 const CalendarApp = React.lazy(() => import('../pages/apps/Calendar'));
 const EmailInbox = React.lazy(() => import('../pages/apps/Email/Inbox'));
@@ -121,6 +122,13 @@ const tourRoutes = {
             path: '/tour/tour-category',
             name: 'Tour Category',
             component: TourCategory,
+            roles: ['admin'],
+            route: PrivateRoute,
+        },
+        {
+            path: '/tour/tour-style',
+            name: 'Tour Style',
+            component: TourStyle,
             roles: ['admin'],
             route: PrivateRoute,
         },

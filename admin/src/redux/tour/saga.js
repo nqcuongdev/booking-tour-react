@@ -1,12 +1,25 @@
 import {
+    createTourAttributeFailed,
+    createTourAttributeSuccess,
     createTourCategoryFailed,
     createTourCategorySuccess,
+    getAllTourAttributeFailed,
+    getAllTourAttributeSuccess,
     getAllTourCategoryFailed,
     getAllTourCategorySuccess,
+    updateTourAttributeFailed,
+    updateTourAttributeSuccess,
     updateTourCategoryFailed,
     updateTourCategorySuccess,
 } from './actions';
-import { CREATE_TOUR_CATEGORY, GET_ALL_TOUR_CATEGORY, UPDATE_TOUR_CATEGORY } from './constants';
+import {
+    CREATE_TOUR_ATTRIBUTE,
+    CREATE_TOUR_CATEGORY,
+    GET_ALL_TOUR_ATTRIBUTE,
+    GET_ALL_TOUR_CATEGORY,
+    UPDATE_TOUR_ATTRIBUTE,
+    UPDATE_TOUR_CATEGORY,
+} from './constants';
 import { call, put, takeEvery, all, fork } from 'redux-saga/effects';
 import { fetchJSON } from '../../helpers/api';
 
@@ -75,7 +88,7 @@ function* createTourCategory({ payload: { title, type } }) {
 function* updateTourCategory({ payload: { _id, title, type, status } }) {
     const options = {
         body: JSON.stringify({ title, type, status }),
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             Authorization: 'Bearer ' + token,
@@ -105,6 +118,99 @@ function* updateTourCategory({ payload: { _id, title, type, status } }) {
     }
 }
 
+function* getAllTourAttribute({ payload }) {
+    const options = {
+        method: 'GET',
+    };
+    try {
+        const response = yield call(fetchJSON, `attribute/${payload}`, options);
+        if (response && response.success) {
+            yield put(getAllTourAttributeSuccess(response.data));
+        } else {
+            yield put(getAllTourAttributeFailed(response.message));
+        }
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500:
+                message = 'Internal Server Error';
+                break;
+            case 401:
+                message = 'Invalid credentials';
+                break;
+            default:
+                message = error;
+        }
+        yield put(getAllTourAttributeFailed(message));
+    }
+}
+
+function* createTourAttribute({ payload: { title, type } }) {
+    const options = {
+        body: JSON.stringify({ title, type }),
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+        },
+    };
+
+    try {
+        const response = yield call(fetchJSON, 'attribute/create', options);
+        if (response && response.success) {
+            yield put(createTourAttributeSuccess(response.data));
+        } else {
+            yield put(createTourAttributeFailed(response.message));
+        }
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500:
+                message = 'Internal Server Error';
+                break;
+            case 401:
+                message = 'Invalid credentials';
+                break;
+            default:
+                message = error;
+        }
+        yield put(createTourAttributeFailed(message));
+    }
+}
+
+function* updateTourAttribute({ payload: { _id, title, type, status } }) {
+    const options = {
+        body: JSON.stringify({ title, type, status }),
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+        },
+    };
+
+    try {
+        const response = yield call(fetchJSON, `category/update/${_id}`, options);
+        if (response && response.success) {
+            yield put(updateTourAttributeSuccess(response.data));
+        } else {
+            yield put(updateTourAttributeFailed(response.message));
+        }
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500:
+                message = 'Internal Server Error';
+                break;
+            case 401:
+                message = 'Invalid credentials';
+                break;
+            default:
+                message = error;
+        }
+        yield put(updateTourAttributeFailed(message));
+    }
+}
+
 export function* watchGetAllTourCategory() {
     yield takeEvery(GET_ALL_TOUR_CATEGORY, getAllTourCategory);
 }
@@ -117,8 +223,27 @@ export function* watchUpdateTourCategory() {
     yield takeEvery(UPDATE_TOUR_CATEGORY, updateTourCategory);
 }
 
+export function* watchGetAllTourAttribute() {
+    yield takeEvery(GET_ALL_TOUR_ATTRIBUTE, getAllTourAttribute);
+}
+
+export function* watchCreateTourAttribute() {
+    yield takeEvery(CREATE_TOUR_ATTRIBUTE, createTourAttribute);
+}
+
+export function* watchUpdateTourAttribute() {
+    yield takeEvery(UPDATE_TOUR_ATTRIBUTE, updateTourAttribute);
+}
+
 function* tourSaga() {
-    yield all([fork(watchGetAllTourCategory), fork(watchCreateTourCategory), fork(watchUpdateTourCategory)]);
+    yield all([
+        fork(watchGetAllTourCategory),
+        fork(watchCreateTourCategory),
+        fork(watchUpdateTourCategory),
+        fork(watchGetAllTourAttribute),
+        fork(watchCreateTourAttribute),
+        fork(watchUpdateTourAttribute),
+    ]);
 }
 
 export default tourSaga;
