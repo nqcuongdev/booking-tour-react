@@ -245,7 +245,7 @@ const TourStyle = (props) => {
                             { label: 'Tour', path: '/tour' },
                             { label: 'Tour Style', path: '/tables/tour-attribute', active: true },
                         ]}
-                        title={'Tour Category'}
+                        title={'Tour Attribute'}
                     />
                 </Col>
             </Row>
