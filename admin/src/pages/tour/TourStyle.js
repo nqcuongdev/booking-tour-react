@@ -228,7 +228,7 @@ const TableWithSearch = ({ properties }) => {
     );
 };
 
-const TourCategory = (props) => {
+const TourStyle = (props) => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getAllTourCategory());
@@ -261,4 +261,4 @@ const mapStateToProps = (state) => {
     return { category, categories, loading, error };
 };
 
-export default connect(mapStateToProps, { createTourCategory, getAllTourCategory, updateTourCategory })(TourCategory);
+export default connect(mapStateToProps)(TourStyle);
