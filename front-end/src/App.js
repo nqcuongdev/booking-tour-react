@@ -21,9 +21,9 @@ function App() {
         <Route exact path="/tours" component={Tours} />
         <Route exact path="/tours/:slug" component={TourDetail} />
         <Route exact path="/blogs" component={Blogs} />
-        <Route exact path="/blogs/blog-detail" component={BlogDetail} />
+        <Route exact path="/blogs/:slug" component={BlogDetail} />
         <Route exact path="/hotels" component={Hotels} />
-        <Route exact path="/hotels/hotel-detail" component={HotelDetail} />
+        <Route exact path="/hotels/:slug" component={HotelDetail} />
       </Switch>
     </Router>
   );

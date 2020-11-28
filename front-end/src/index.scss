@@ -760,6 +760,103 @@ h1 {
   }
 }
 
+.tours-detail {
+  .tour-detail-link {
+    background-color: $gray95;
+    height: 113px;
+    display: flex;
+    align-items: center;
+  
+    span {
+      text-transform: uppercase;
+
+      span {
+        color: $text;
+      }
+    }
+  }
+  
+  .tour-detail-main {
+    .header {
+      .header-left {
+        .title {
+          text-transform: uppercase;
+          font-size: 36px;
+          font-weight: bold;
+        }
+
+        .title-list {
+          display: inline-block;
+
+          li {
+            display: inline;
+            margin-right: 25px;
+            color: $text;
+          }
+
+          li.location {
+            color: $orange;
+          }
+        }
+      }
+
+      .header-right {
+        display: flex;
+        flex-direction: column;
+
+        .price {
+          display: flex;
+          margin-left: auto;
+          
+          span {
+            color: $orange;
+            font-size: 36px;
+          }
+        }
+
+        .rate-stars {
+          display: flex;
+          margin-left: auto;
+          flex-direction: column;
+
+          .stars-counter {
+            display: flex;
+            flex-direction: row;
+            margin-left: auto;
+
+            .stars-number-calculation {
+              margin-top: 10px;
+              margin-right: 10px;
+            }
+
+            .stars {
+              color: $yellow;
+              margin-right: 5px;
+              font-size: 17px;
+            }
+            
+            .stars-number {
+              font-size: 25px;
+              margin-top: auto;
+
+              .below {
+                color: $text;
+                font-size: 14px;
+              }
+            }
+          }
+        }
+
+        .view {
+          margin-left: auto;
+          color: $text;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
+
 .modal-dialog {
   top: 10%;
 }

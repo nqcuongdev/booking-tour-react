@@ -20,10 +20,6 @@ import RateTable from '../components/RateTable/RateTable';
 import CommentForm from '../components/CommentForm/CommentForm';
 import ThumbnailHotelItem from '../components/ThumbnailHotelItem/ThumbnailHotelItem';
 
-import Korea from "../assets/images/populars/1.jpg";
-import NY from "../assets/images/populars/newyork.jpg";
-import Cali from "../assets/images/populars/califonia.jpg";
-
 const hotelData = {
     title: 'Suarsena House',
     location: '297 Luna Alley Apt.327',
