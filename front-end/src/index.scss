@@ -1053,3 +1053,119 @@ h1 {
     }
   }
 }
+
+.destinations {
+  .destinations-main {
+    .destinations-main-sidebar {
+      .search {
+        display: flex;
+        flex-direction: row;
+  
+        Input {
+          font-size: 14px;
+          background-color: $gray95;
+          border: none !important;
+          border-top-left-radius: 0.25rem !important;
+          border-top-right-radius: 0 !important;
+          border-bottom-right-radius: 0 !important;
+          border-bottom-left-radius: 0.25rem !important;
+        }
+    
+        Button {
+          background-color: $gray95;
+          border: none !important;
+          border-top-left-radius: 0 !important;
+          border-top-right-radius: 0.25rem !important;
+          border-bottom-right-radius: 0.25rem !important;
+          border-bottom-left-radius: 0 !important;
+  
+          .search-icon {
+            color: $gray46;
+          }
+        }
+      }
+
+      .title {
+        font-size: 22px;
+      }
+
+      .popular-destinations {
+        margin-top: 25px;
+
+        .item {
+          color: $text;
+          margin-bottom: 10px !important;
+          text-transform: uppercase;
+        }
+      }
+
+      .faqs {
+        margin-top: 25px;
+
+        .item {
+          color: $text;
+          margin-bottom: 10px !important;
+        }
+      }
+    }
+
+    .destinations-main-content {
+      .destination-item {
+        margin-top: 50px;
+
+        .item {
+          margin-bottom: 40px;
+
+          .image {
+            img {
+              width: 100%;
+              border-radius: 3px;
+            }
+          }
+
+          .content {
+            .title {
+              font-size: 28px;
+              font-weight: bold;
+              margin-bottom: 5px;
+            }
+
+            .country {
+              text-transform: uppercase;
+              color: $text;
+              margin-bottom: 5px;
+            }
+
+            .description {
+              color: $text;
+            }
+
+            .button {
+              .view-detail {
+                background-color: $orange;
+                border: none;
+                margin-right: 5px;
+
+                &:hover {
+                  background-color: $primary;
+                }
+              }
+
+              .view-map {
+                margin-left: 5px;
+                
+                .icon {
+                  color: $orange;
+                }
+
+                span {
+                  border-bottom: 1px solid;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

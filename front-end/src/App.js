@@ -10,6 +10,7 @@ import BlogDetail from "./pages/BlogDetail";
 import Hotels from "./pages/Hotels";
 import HotelDetail from "./pages/HotelDetail";
 import TourDetail from "./pages/TourDetail";
+import Destinations from "./pages/Destinations";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route exact path="/blogs/:slug" component={BlogDetail} />
         <Route exact path="/hotels" component={Hotels} />
         <Route exact path="/hotels/:slug" component={HotelDetail} />
+        <Route exact path="/destinations" component={Destinations} />
       </Switch>
     </Router>
   );
