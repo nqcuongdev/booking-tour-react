@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     FaMapMarkerAlt,
     FaRegCalendarAlt,
@@ -22,6 +22,7 @@ import avatar_3 from '../assets/images/avatar-testimonial/avatar-3.jpg';
 import Comment from '../components/Comment/Comment';
 import RateTable from '../components/RateTable/RateTable';
 import CommentForm from '../components/CommentForm/CommentForm';
+import BookTour from '../components/BookTour/BookTour';
 
 const starsCounter = (stars) => {
     const counter = [1, 2, 3, 4, 5];
@@ -129,11 +130,9 @@ const commentData = [
 ];
 
 const TourDetail = (props) => {
-    const renderStar = (num) => {
-        [Array(num).keys()].map((n) => {
-            return <FaStar key={n + 1} />;
-        });
-    };
+    const [book, setBook] = useState(false);
+
+    const toggleBook = () => setBook(!book);
 
     return (
         <MainLayout>
@@ -239,7 +238,11 @@ const TourDetail = (props) => {
                     })}
                     <div className="button">
                         <div>
-                            <Button className="book-now">Book now</Button>
+                            <Button className="book-now"
+                                onClick={() => {
+                                    setBook(true);
+                                }}
+                            >Book now</Button>
                             <Button className="download-schedule">Download schedule</Button></div>
                         </div>
                 </Container>
@@ -281,6 +284,13 @@ const TourDetail = (props) => {
                 <Container className="mb-50">
                     <CommentForm />
                 </Container>
+
+                <BookTour
+                    isOpen={book} 
+                    toggle={toggleBook}
+                    title={tourData.title}
+                    optionsTags={tourData.optionsTags}
+                />
             </div>
         </MainLayout>
     );

@@ -1,0 +1,59 @@
+@import '../../assets/scss/variables';
+
+.modal-content {
+    .modal-header {
+        ul {
+            li {
+                display: inline;
+                text-transform: uppercase;
+                color: $text;
+                font-size: 15px;
+                font-weight: $font-weight-semi-bold;
+                margin: 20px 20px 20px 0;
+                text-align: center;
+        
+                span {
+                    margin-right: 16px;
+                }
+            }
+        }
+    }
+
+    .modal-body {
+        .table-title {
+            color: $text;
+        }
+
+        .table {
+            color: $text;
+
+            thead {
+                th {
+                    vertical-align: bottom;
+                    border-bottom: 1px solid #dee2e6;
+                    font-weight: normal;
+                }
+
+                .table-title {
+                    th {
+                        color: #565555;
+                        font-weight: normal;
+                    }
+                }
+            }
+
+            tbody {
+                .table-content {
+                    th {
+                        font-weight: normal;
+                    }
+                }
+            }
+        }
+
+        .book-tour {
+            font-size: 27px;
+            font-weight: bold;
+        }
+    }
+}

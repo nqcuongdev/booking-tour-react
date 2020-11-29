@@ -186,6 +186,7 @@ const starsCounter = (stars) => {
 };
 
 const HotelDetail = (props) => {
+
     return (
         <MainLayout>
             <div className="hotel-detail">
