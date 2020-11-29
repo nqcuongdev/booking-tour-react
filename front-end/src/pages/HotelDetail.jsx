@@ -97,7 +97,8 @@ const hotelData = {
         foodAndDrink: ['Bar', 'Restaurant', 'Good coffee'],
         cleaningServices: ['Shoeshine', 'Ironing services', 'Dry cleaning', 'Laundry'],
         popularFacilities: ['Free wifi', 'Parking', 'Outdoor pool', 'Non-smoking room']
-    }
+    },
+    optionsTags: ['Insurance', 'all drink included', 'lunch in restaurant', 'tour guide', 'travel Insurance']
 };
 
 const commentData = [
@@ -232,13 +233,19 @@ const HotelDetail = (props) => {
                 <Container>
                     <CarouselSlide images={hotelData.images} />
 
-                    <div className="hotel-detail-tag mt-3 mb-3">
+                    <div className="hotel-detail-option-tag mt-3 mb-3">
                         <ul>
-                            <li>Insurance</li>
-                            <li>all drink included</li>
-                            <li>lunch in restaurant</li>
-                            <li>tour guide</li>
-                            <li>travel Insurance</li>
+                            {hotelData.optionsTags.map((option, index) => {
+                                if (index === 0) {
+                                    return (
+                                        <li>{option}</li>
+                                    )
+                                } else {
+                                    return (
+                                        <li><span>•</span>{option}</li>
+                                    )
+                                }
+                            })}
                         </ul>
                     </div>
                 </Container>

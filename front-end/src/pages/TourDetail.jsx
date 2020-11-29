@@ -7,7 +7,7 @@ import {
     FaStar, 
     FaRegStar
 } from "react-icons/fa";
-import { Container, Row, Col } from "reactstrap";
+import { Container, Row, Col, Button } from "reactstrap";
 import MainLayout from "../layouts/MainLayout";
 import { Link } from "react-router-dom";
 import CarouselSlide from '../components/CarouselSlide/CarouselSlide';
@@ -15,6 +15,13 @@ import tourImage_1 from '../assets/images/posts/post-1.jpg';
 import tourImage_2 from '../assets/images/posts/post-2.jpg';
 import tourImage_3 from '../assets/images/posts/post-3.jpg';
 import tourImage_4 from '../assets/images/posts/post-4.jpg';
+import Maps from '../components/Maps/Maps';
+import avatar_1 from '../assets/images/avatar-testimonial/avatar-1.jpg';
+import avatar_2 from '../assets/images/avatar-testimonial/avatar-2.jpg';
+import avatar_3 from '../assets/images/avatar-testimonial/avatar-3.jpg';
+import Comment from '../components/Comment/Comment';
+import RateTable from '../components/RateTable/RateTable';
+import CommentForm from '../components/CommentForm/CommentForm';
 
 const starsCounter = (stars) => {
     const counter = [1, 2, 3, 4, 5];
@@ -68,12 +75,63 @@ const tourData = {
         tourImage_4,
         tourImage_1
     ],
+    optionsTags: ['Insurance', 'all drink included', 'lunch in restaurant', 'tour guide', 'travel Insurance'],
+    dayContents: [
+        {
+            title: 'Day 1',
+            image: tourImage_1,
+            description: 'Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively create your very own travel booking website to offer hotel, tours, car and cruise bookings in minutes..Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively create your very own travel booking website to offer hotel, tours, car and cruise bookings in minutes...',
+        },
+        {
+            title: 'Day 2',
+            image: tourImage_2,
+            description: 'Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively create your very own travel booking website to offer hotel, tours, car and cruise bookings in minutes..Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively create your very own travel booking website to offer hotel, tours, car and cruise bookings in minutes...',
+        },
+        {
+            title: 'Day 3',
+            image: tourImage_3,
+            description: 'Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively create your very own travel booking website to offer hotel, tours, car and cruise bookings in minutes..Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively create your very own travel booking website to offer hotel, tours, car and cruise bookings in minutes...',
+        }
+    ]
 };
+
+const location = {
+    center: {
+      lat: 15.9750157,
+      lng: 108.2510487,
+    },
+    zoom: 17,
+    address: "VKU",
+};
+
+const commentData = [
+    {
+        avatar: avatar_1,
+        name: 'Quoc Cuong',
+        content: 'Bài viết hay quá nà, lần sau đừng viết nữa nha. Hihi',
+        rateStars: 4,
+        national: 'Vietnamese'
+    },
+    {
+        avatar: avatar_2,
+        name: 'Chou Chou',
+        content: 'Bạn trên comment kỳ quá à, ai lại nói thẳng ra thế bao giờ :v',
+        rateStars: 5,
+        national: 'Japan'
+    },
+    {
+        avatar: avatar_3,
+        name: 'Hun Hun',
+        content: 'Hai thằng trên im đê, ý kiến lên phường...',
+        rateStars: 3,
+        national: 'Laos'
+    }
+];
 
 const TourDetail = (props) => {
     const renderStar = (num) => {
         [Array(num).keys()].map((n) => {
-        return <FaStar key={n + 1} />;
+            return <FaStar key={n + 1} />;
         });
     };
 
@@ -127,15 +185,101 @@ const TourDetail = (props) => {
                 </Container>
 
                 <Container>
-                    <div className="tours__detail-tag mt-3 mb-3">
+                    <div className="tours-detail-option-tag mt-3 mb-3">
                         <ul>
-                        <li>Insurance</li>
-                        <li>all drink included</li>
-                        <li>lunch in restaurant</li>
-                        <li>tour guide</li>
-                        <li>travel Insurance</li>
+                            {tourData.optionsTags.map((option, index) => {
+                                if (index === 0) {
+                                    return (
+                                        <li>{option}</li>
+                                    )
+                                } else {
+                                    return (
+                                        <li><span>•</span>{option}</li>
+                                    )
+                                }
+                            })}
                         </ul>
                     </div>
+                </Container>
+
+                <Container className="tour-overview mt-50 mb-30">
+                    <p className="title">Tour Overview</p>
+                    {tourData.dayContents.map((day, index) => {
+                        if (index % 2 === 0) {
+                            return (
+                                <Row className="day-item mb-30">
+                                    <Col xl={5} lg={5} md={5} xs={12} className="image">
+                                        <img src={day.image} alt=""/>
+                                    </Col>
+                                    <Col xl={7} lg={7} md={7} xs={12} className="content">
+                                        <p className="day">{day.title}</p>
+                                        <p className="description">{day.description}</p>
+                                        <p>
+                                            <Link><FaMapMarkerAlt /> View on map</Link>
+                                        </p>
+                                    </Col>
+                                </Row>
+                            )
+                        } else {
+                            return (
+                                <Row className="day-item mb-30">
+                                    <Col xl={7} lg={7} md={7} xs={12} className="content">
+                                        <p className="day">{day.title}</p>
+                                        <p className="description">{day.description}</p>
+                                        <p>
+                                            <Link><FaMapMarkerAlt /> View on map</Link>
+                                        </p>
+                                    </Col>
+                                    <Col xl={5} lg={5} md={5} xs={12} className="image">
+                                        <img src={day.image} alt=""/>
+                                    </Col>
+                                </Row>
+                            )
+                        }
+                    })}
+                    <div className="button">
+                        <div>
+                            <Button className="book-now">Book now</Button>
+                            <Button className="download-schedule">Download schedule</Button></div>
+                        </div>
+                </Container>
+
+                <div
+                    className="google-map mt-50 mb-50"
+                    style={{ height: "475px", width: "100%" }}
+                >
+                    <Maps {...location} />
+                </div>
+
+                <Container className="comments mb-50">
+                    <p className="comments-title">Tour reviews<span> (69)</span></p>
+                    <Row>
+                        <Col xl={9} className="comments-list mt-30">
+                            <div>
+                                {commentData.map(comment => {
+                                    return (
+                                        <Comment 
+                                            avatar={comment.avatar} 
+                                            name={comment.name}
+                                            content={comment.content} 
+                                            rateStars={comment.rateStars} 
+                                            national={comment.national}
+                                        />
+                                    );
+                                })}
+                            </div>
+                            <div className="view-more-comment mt-30 mb-30">
+                                <Link><p><span>View more</span> (69)</p></Link>
+                            </div>
+                        </Col>
+                        <Col xl={3}>
+                            <RateTable />
+                        </Col>
+                    </Row>
+                </Container>
+
+                <Container className="mb-50">
+                    <CommentForm />
                 </Container>
             </div>
         </MainLayout>

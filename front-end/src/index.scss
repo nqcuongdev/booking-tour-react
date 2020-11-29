@@ -668,24 +668,20 @@ h1 {
     }
   }
 
-  .hotel-detail-tag {
+  .hotel-detail-option-tag {
     ul {
       li {
+        display: inline;
         text-transform: uppercase;
         color: $text;
         font-size: 15px;
         font-weight: $font-weight-semi-bold;
-        padding: 20px 10px;
+        margin: 20px 20px 20px 0;
         text-align: center;
-      }
-    }
-    
-    ul li {
-      display: inline;
-  
-      &:before {
-         content: "•";
-         padding-right: 20px;
+
+        span {
+          margin-right: 16px;
+        }
       }
     }
   }
@@ -855,6 +851,109 @@ h1 {
       }
     }
   }
+
+  .tours-detail-option-tag {
+    ul {
+      li {
+        display: inline;
+        text-transform: uppercase;
+        color: $text;
+        font-size: 15px;
+        font-weight: $font-weight-semi-bold;
+        margin: 20px 20px 20px 0;
+        text-align: center;
+
+        span {
+          margin-right: 16px;
+        }
+      }
+    }
+  }
+
+  .tour-overview {
+    .title {
+      font-size: 27px;
+      font-weight: bold;
+    }
+
+    .day-item {
+      .image {
+        img {
+          width: 100%;
+        }
+      }
+
+      .content {
+        .day {
+          font-size: 24px;
+          font-weight: bold;
+        }
+
+        .description {
+          color: $text;
+        }
+      }
+    }
+
+    .button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 70px 0;
+
+      .book-now {
+        background-color: $orange;
+        border: 1px solid $orange;
+        width: 170px;
+        margin-right: 15px;
+
+        &:hover {
+          background-color: $primary;
+        border: 1px solid $white;
+        }
+      }
+
+      .download-schedule {
+        background-color: $white;
+        border: 1px solid $orange;
+        width: 170px;
+        margin-left: 15px;
+        color: $orange;
+      }
+    }
+  }
+
+  .maps {
+    height: "372px";
+    width: "100%";
+    margin-bottom: 200px;
+  }
+
+  .comments {
+    .comments-title {
+      font-size: 27px;
+      font-weight: bold;
+
+      span {
+        color: $orange;
+      }
+    }
+
+    .view-more-comment {
+      text-align: center;
+
+      p {
+        text-transform: uppercase;
+        font-weight: bold;
+        color: $text;
+        font-size: 15px;
+
+        span {
+          color: $primary;
+        }
+      }
+    }
+  }
 }
 
 .modal-dialog {
@@ -954,26 +1053,3 @@ h1 {
     }
   }
 }
-
-.tours__detail-tag {
-  ul {
-    li {
-      text-transform: uppercase;
-      color: $text;
-      font-size: 15px;
-      font-weight: $font-weight-semi-bold;
-      padding: 20px 10px;
-      text-align: center;
-    }
-  }
-  
-  ul li {
-    display: inline;
-
-    &:before {
-       content: "•";
-       padding-right: 20px;
-    }
-  }
-}
-

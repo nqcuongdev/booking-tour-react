@@ -9,6 +9,19 @@
     .comment-form-subtitle {
         font-size: 14px;
         font-weight: bold;
+
+        .stars {
+            color: $text;
+            margin-left: 30px;
+            
+            .stars-hover {
+                margin-right: 10px;
+
+                &:hover {
+                    color: $yellow;
+                }
+            }
+        }
     }
 
     .obligatory-icon {
