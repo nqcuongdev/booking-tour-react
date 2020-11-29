@@ -3,17 +3,11 @@ import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-au
 import { Label } from 'reactstrap';
 import Map from '../components/Map';
 
-const GoogleMapAutoComplete = () => {
-    const [address, setAddress] = useState('');
-    const [lat, setLat] = useState(15.9750106);
-    const [lng, setLng] = useState(108.2510487);
-
-    const handleChange = (address) => {
-        setAddress(address);
-    };
+const GoogleMapAutoComplete = (props) => {
+    const [lat, setLat] = useState(props.lat ? props.lat : 15.9750106);
+    const [lng, setLng] = useState(props.lng ? props.lng : 108.2510487);
 
     const handleSelect = (address) => {
-        setAddress(address);
         geocodeByAddress(address)
             .then((results) => getLatLng(results[0]))
             .then((latLng) => {
@@ -25,7 +19,11 @@ const GoogleMapAutoComplete = () => {
 
     return (
         <React.Fragment>
-            <PlacesAutocomplete value={address} onChange={handleChange} onSelect={handleSelect}>
+            {console.log(props.address)}
+            <PlacesAutocomplete
+                value={props.address}
+                onChange={props.handleAddressChange}
+                onSelect={props.handleSelectAddress}>
                 {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                     <div>
                         <input
@@ -33,7 +31,9 @@ const GoogleMapAutoComplete = () => {
                                 placeholder: 'Search Places ...',
                                 className: 'form-control',
                             })}
-                            value={address}
+                            id={props.id}
+                            name={props.name}
+                            value={props.address}
                         />
                         <div className="autocomplete-dropdown-container mt-3">
                             {loading && <div>Loading...</div>}

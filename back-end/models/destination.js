@@ -48,11 +48,7 @@ const DestinationSchema = new mongoose.Schema({
     enum: ["active", "hide"],
     default: "active",
   },
-  isTop: {
-    type: Boolean,
-    default: false,
-  },
-  isPopular: {
+  isFeatured: {
     type: Boolean,
     default: false,
   },

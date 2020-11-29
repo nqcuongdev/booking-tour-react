@@ -2,3 +2,4 @@ export * from './auth/actions';
 export * from './layout/actions';
 export * from './appMenu/actions';
 export * from './tour/actions';
+export * from './destination/actions';

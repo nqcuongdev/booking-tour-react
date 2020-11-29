@@ -6,12 +6,7 @@ const Destination = require("../models/destination");
 const destinationValidate = require("../validators/destination/create");
 
 exports.all = async (req, res) => {
-  const PER_PAGE = 10;
-  let page = Math.max(0, req.body.pageOffset);
-
-  const destination = await Destination.find({})
-    .limit(PER_PAGE)
-    .skip(PER_PAGE * page);
+  const destination = await Destination.find({});
 
   return res.status(200).json({
     success: !!destination,
@@ -62,7 +57,7 @@ exports.create = async (req, res) => {
     });
   }
 
-  const { title, description, address, isTop, isPopular } = req.body;
+  const { title, description, address, isFeatured } = req.body;
 
   const checkExistedDestination = await Destination.findOne({ title: title });
   if (!checkExistedDestination) {
@@ -75,8 +70,7 @@ exports.create = async (req, res) => {
       description,
       address,
       image,
-      isTop,
-      isPopular,
+      isFeatured,
     });
 
     return res.status(200).json({

@@ -10,6 +10,9 @@ const ForgetPassword = React.lazy(() => import('../pages/auth/ForgetPassword'));
 const Confirm = React.lazy(() => import('../pages/auth/Confirm'));
 // dashboard
 const Dashboard = React.lazy(() => import('../pages/dashboard'));
+//Destination
+const ListDestination = React.lazy(() => import('../pages/destination/ListDestination'));
+const AddDestination = React.lazy(() => import('../pages/destination/AddDestination'));
 //Tour
 const AllTour = React.lazy(() => import('../pages/tour/Tour'));
 const AddTour = React.lazy(() => import('../pages/tour/AddTour'));
@@ -91,17 +94,39 @@ const dashboardRoutes = {
     path: '/dashboard',
     name: 'Dashboard',
     icon: FeatherIcon.Home,
-    header: 'Navigation',
     component: Dashboard,
     roles: ['admin'],
     route: PrivateRoute,
+};
+
+//Destination
+const destinationRoutes = {
+    path: '/destination',
+    name: 'Destination',
+    header: 'Apps',
+    icon: FeatherIcon.Compass,
+    children: [
+        {
+            path: '/destination/list-destination',
+            name: 'List Destination',
+            component: ListDestination,
+            roles: ['admin'],
+            route: PrivateRoute,
+        },
+        {
+            path: '/destination/add-destination',
+            name: 'Add Destination',
+            component: AddDestination,
+            roles: ['admin'],
+            route: PrivateRoute,
+        },
+    ],
 };
 
 //Tour
 const tourRoutes = {
     path: '/tour',
     name: 'Tour',
-    header: 'Apps',
     icon: FeatherIcon.Package,
     children: [
         {
@@ -219,7 +244,7 @@ const taskAppRoutes = {
     ],
 };
 
-const appRoutes = [tourRoutes, emailAppRoutes, projectAppRoutes, taskAppRoutes];
+const appRoutes = [destinationRoutes, tourRoutes, emailAppRoutes, projectAppRoutes, taskAppRoutes];
 
 // pages
 const pagesRoutes = {
