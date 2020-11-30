@@ -31,13 +31,8 @@ const BasicInputElements = () => {
         setFormInput({ ...formInput, description: description });
     };
 
-    const onUpdateAddress = (address) => {
-        console.log('onUpdateAddress', address);
-        setFormInput({ ...formInput, address: address });
-    };
-
-    const onUpdateLatLng = (lat, lng) => {
-        setFormInput({ ...formInput, lat: lat, lng: lng });
+    const onUpdateLocation = (lat, lng, address) => {
+        setFormInput({ ...formInput, lat: lat, address: address, lng: lng, address: address });
     };
 
     const onSubmitForm = (e) => {
@@ -74,10 +69,7 @@ const BasicInputElements = () => {
 
                             <FormGroup className="mb-5">
                                 <Label>Real tour address</Label>
-                                <GoogleMapAutoComplete
-                                    onUpdateAddress={onUpdateAddress}
-                                    onUpdateLatLng={onUpdateLatLng}
-                                />
+                                <GoogleMapAutoComplete onUpdateLocation={onUpdateLocation} />
                             </FormGroup>
 
                             <FormGroup>

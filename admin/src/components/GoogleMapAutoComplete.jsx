@@ -3,7 +3,7 @@ import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-au
 import { Label } from 'reactstrap';
 import Map from '../components/Map';
 
-const GoogleMapAutoComplete = ({ onUpdateAddress, onUpdateLatLng }) => {
+const GoogleMapAutoComplete = ({ onUpdateLocation }) => {
     const [lat, setLat] = useState(15.9750106);
     const [lng, setLng] = useState(108.2510487);
     const [address, setAddress] = useState('');
@@ -13,9 +13,6 @@ const GoogleMapAutoComplete = ({ onUpdateAddress, onUpdateLatLng }) => {
     };
 
     const handleSelect = (address) => {
-        // Pass address to parent component
-        onUpdateAddress(address);
-
         //Show address in label
         setAddress(address);
 
@@ -24,7 +21,7 @@ const GoogleMapAutoComplete = ({ onUpdateAddress, onUpdateLatLng }) => {
             .then((results) => getLatLng(results[0]))
             .then((latLng) => {
                 //Pass lat lng to parent component
-                onUpdateLatLng(latLng.lat, latLng.lng);
+                onUpdateLocation(latLng.lat, latLng.lng, address);
                 setLat(latLng.lat);
                 setLng(latLng.lng);
             })
