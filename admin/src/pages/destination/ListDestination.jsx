@@ -171,7 +171,7 @@ const ListDestination = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    const { destinations, loading, error } = state.Tour;
+    const { destinations, loading, error } = state.Destination;
     return { destinations, loading, error };
 };
 

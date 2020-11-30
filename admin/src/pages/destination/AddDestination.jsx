@@ -4,8 +4,9 @@ import { Row, Col, Card, CardBody, CustomInput, Form, FormGroup, Label, Input, B
 import PageTitle from '../../components/PageTitle';
 import RichTextEditor from '../../components/RichTextEditor';
 import GoogleMapAutoComplete from '../../components/GoogleMapAutoComplete';
-import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import default_image from '../../assets/images/default_upload_image.png';
+import { connect } from 'react-redux';
+import { createDestination } from '../../redux/actions';
 
 const BasicInputElements = () => {
     const [formInput, setFormInput] = useState({
@@ -18,31 +19,34 @@ const BasicInputElements = () => {
     });
 
     const inputChangeHandler = (e) => {
-        const { name, value } = e.target;
-        setFormInput({ ...formInput, [name]: value });
+        const { name, value, files } = e.target;
+        if (files) {
+            setFormInput({ ...formInput, [name]: files });
+        } else {
+            setFormInput({ ...formInput, [name]: value });
+        }
     };
 
-    const handleAddressChange = (address) => {
+    const onInputDescription = (description) => {
+        setFormInput({ ...formInput, description: description });
+    };
+
+    const onUpdateAddress = (address) => {
+        console.log('onUpdateAddress', address);
         setFormInput({ ...formInput, address: address });
     };
 
-    const handleSelectAddress = (address) => {
-        console.log(address);
-        setFormInput({ ...formInput, address: address });
+    const onUpdateLatLng = (lat, lng) => {
+        setFormInput({ ...formInput, lat: lat, lng: lng });
+    };
 
-        geocodeByAddress(address)
-            .then((results) => getLatLng(results[0]))
-            .then((latLng) => {
-                setFormInput({ ...formInput, lat: latLng.lat });
-                setFormInput({ ...formInput, lng: latLng.lng });
-            })
-            .catch((error) => console.error('Error', error));
-
-        console.log(formInput);
+    const onSubmitForm = (e) => {
+        e.preventDefault();
+        console.log('formInput after submit', formInput);
     };
 
     return (
-        <Form>
+        <Form onSubmit={onSubmitForm}>
             <Row>
                 <Col lg={9}>
                     <Card>
@@ -62,23 +66,17 @@ const BasicInputElements = () => {
                             <FormGroup>
                                 <Label for="description">Description</Label>
                                 <RichTextEditor
-                                    name="description"
                                     id="description"
-                                    onEditorContentChange={inputChangeHandler}
+                                    onEditorContentChange={onInputDescription}
                                     defaultValue={formInput.description}
                                 />
                             </FormGroup>
 
                             <FormGroup className="mb-5">
-                                <Label for="address">Real tour address</Label>
+                                <Label>Real tour address</Label>
                                 <GoogleMapAutoComplete
-                                    id="address"
-                                    name="address"
-                                    address={formInput.address}
-                                    lat={formInput.lat}
-                                    lng={formInput.lng}
-                                    handleAddressChange={handleAddressChange}
-                                    handleSelectAddress={handleSelectAddress}
+                                    onUpdateAddress={onUpdateAddress}
+                                    onUpdateLatLng={onUpdateLatLng}
                                 />
                             </FormGroup>
 
@@ -86,7 +84,7 @@ const BasicInputElements = () => {
                                 <Label for="image">Banner</Label>
                                 <div>
                                     <img src={default_image} className="mb-5" alt="Default Image" />
-                                    <Input type="file" multiple name="image" id="image" />
+                                    <Input type="file" multiple name="image" id="image" onChange={inputChangeHandler} />
                                 </div>
                             </FormGroup>
                         </CardBody>
@@ -97,7 +95,13 @@ const BasicInputElements = () => {
                         <CardBody>
                             <FormGroup>
                                 <Label for="isFeatured">Tour Featured</Label>
-                                <CustomInput type="switch" id="isFeatured" name="isFeatured" label="Enable featured" />
+                                <CustomInput
+                                    type="switch"
+                                    id="isFeatured"
+                                    name="isFeatured"
+                                    label="Enable featured"
+                                    onChange={inputChangeHandler}
+                                />
                             </FormGroup>
                         </CardBody>
                     </Card>
@@ -106,8 +110,20 @@ const BasicInputElements = () => {
                             <FormGroup>
                                 <Label for="status">Publish</Label>
                                 <div>
-                                    <CustomInput type="radio" id="publish" name="status" label="Publish" />
-                                    <CustomInput type="radio" id="draft" name="status" label="Draft" />
+                                    <CustomInput
+                                        type="radio"
+                                        id="publish"
+                                        name="status"
+                                        label="Publish"
+                                        onChange={inputChangeHandler}
+                                    />
+                                    <CustomInput
+                                        type="radio"
+                                        id="draft"
+                                        name="status"
+                                        label="Draft"
+                                        onChange={inputChangeHandler}
+                                    />
                                 </div>
                             </FormGroup>
                             <FormGroup className="float-right">
@@ -131,7 +147,7 @@ const AddDestination = () => {
                             { label: 'Destination', path: '/destination' },
                             { label: 'Add Destination', path: '/destination/add-destination', active: true },
                         ]}
-                        title={'Form Elements'}
+                        title={'Add Destination'}
                     />
                 </Col>
             </Row>
@@ -144,4 +160,10 @@ const AddDestination = () => {
         </React.Fragment>
     );
 };
-export default AddDestination;
+
+const mapStateToProps = (state) => {
+    const { loading, error } = state.Destination;
+    return { loading, error };
+};
+
+export default connect(mapStateToProps, { createDestination })(AddDestination);
