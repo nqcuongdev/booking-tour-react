@@ -114,7 +114,7 @@ const destinationRoutes = {
             route: PrivateRoute,
         },
         {
-            path: '/destination/add-destination',
+            path: '/destination/:id',
             name: 'Add Destination',
             component: AddDestination,
             roles: ['admin'],

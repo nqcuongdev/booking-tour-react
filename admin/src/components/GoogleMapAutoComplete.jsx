@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { Label } from 'reactstrap';
 import Map from '../components/Map';
 
-const GoogleMapAutoComplete = ({ onUpdateLocation }) => {
+const GoogleMapAutoComplete = ({ onUpdateLocation, data }) => {
     const [lat, setLat] = useState(15.9750106);
     const [lng, setLng] = useState(108.2510487);
     const [address, setAddress] = useState('');
+
+    useEffect(() => {
+        if (data.address) {
+            setAddress(data.address);
+            setLat(data.lat);
+            setLng(data.lng);
+        }
+    }, [data.address]);
 
     const handleAddress = (address) => {
         setAddress(address);

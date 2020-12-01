@@ -20,8 +20,8 @@ module.exports = function validateDestinationInput(data) {
     errors.description = "Description field is required";
   }
 
-  if (!Validator.isLength(data.description, { min: 2, max: 500 })) {
-    errors.description = "Description must be between 2 and 500 characters";
+  if (!Validator.isLength(data.description, { min: 2 })) {
+    errors.description = "Description must be least 2 characters";
   }
 
   if (Validator.isEmpty(data.address)) {

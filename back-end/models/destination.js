@@ -29,8 +29,8 @@ const DestinationSchema = new mongoose.Schema({
       index: "2dsphere",
     },
   },
-  lat: String,
-  lng: String,
+  lat: Number,
+  lng: Number,
   map_zoom: {
     type: Number,
     max: 50,

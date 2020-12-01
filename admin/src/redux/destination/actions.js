@@ -5,6 +5,9 @@ import {
     GET_ALL_DESTINATION,
     GET_ALL_DESTINATION_FAILED,
     GET_ALL_DESTINATION_SUCCESS,
+    GET_DESTINATION,
+    GET_DESTINATION_FAILED,
+    GET_DESTINATION_SUCCESS,
 } from './constants';
 
 export const getAllDestination = () => ({
@@ -18,6 +21,21 @@ export const getAllDestinationSuccess = (destinations) => ({
 
 export const getAllDestinationFailed = (error) => ({
     type: GET_ALL_DESTINATION_FAILED,
+    payload: error,
+});
+
+export const getDestination = (_id) => ({
+    type: GET_DESTINATION,
+    payload: _id,
+});
+
+export const getDestinationSuccess = (destination) => ({
+    type: GET_DESTINATION_SUCCESS,
+    payload: destination,
+});
+
+export const getDestinationFailed = (error) => ({
+    type: GET_DESTINATION_FAILED,
     payload: error,
 });
 

@@ -17,18 +17,24 @@ class RichTextEditor extends Component {
         this.onEditorStateChange = this.onEditorStateChange.bind(this);
     }
 
-    UNSAFE_componentDidMount(prevProps) {
-        if (this.props.initialContent) {
-            const { contentBlocks, entityMap } = htmlToDraft(this.props.initialContent);
-            const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
-            this.setState({ editorState: EditorState.createWithContent(contentState) });
-        }
+    componentDidMount() {
+        console.log('hero');
     }
+
+    // UNSAFE_componentDidMount() {
+    //     console.log('component did mount work');
+    //     if (this.props.initialContent) {
+    //         const { contentBlocks, entityMap } = htmlToDraft(this.props.initialContent);
+    //         const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+    //         this.setState({ editorState: EditorState.createWithContent(contentState) });
+    //     }
+    // }
 
     /**
      * On editor body change
      */
     onEditorStateChange = (editorState) => {
+        console.log(editorState);
         this.setState({
             editorState,
         });

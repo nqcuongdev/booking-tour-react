@@ -30,7 +30,7 @@ const upload = multer({ storage: storage, fileFilter: fileFilter }).array(
 );
 
 router.get("/", all);
-router.get("/:id", isAuth, show);
+router.get("/:id", show);
 router.post("/create", upload, isAuth, checkRole, create);
 router.put("/update/:id", upload, isAuth, checkRole, update);
 
