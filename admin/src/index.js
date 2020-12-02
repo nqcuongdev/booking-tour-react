@@ -5,6 +5,7 @@ import * as serviceWorker from './serviceWorker';
 
 import { Provider } from 'react-redux';
 import { configureStore } from './redux/store';
+import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.render(
     <Provider store={configureStore()}>
@@ -17,4 +18,3 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: http://bit.ly/CRA-PWA
 serviceWorker.unregister();
-

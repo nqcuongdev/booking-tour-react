@@ -6,12 +6,7 @@ const Destination = require("../models/destination");
 const destinationValidate = require("../validators/destination/create");
 
 exports.all = async (req, res) => {
-  const PER_PAGE = 10;
-  let page = Math.max(0, req.body.pageOffset);
-
-  const destination = await Destination.find({})
-    .limit(PER_PAGE)
-    .skip(PER_PAGE * page);
+  const destination = await Destination.find({});
 
   return res.status(200).json({
     success: !!destination,
@@ -49,6 +44,14 @@ exports.create = async (req, res) => {
 
   //Check value request
   if (!isValid) {
+    req.files.forEach((element) => {
+      //Remove upload file
+      fs.unlink(element.path, (err) => {
+        if (err) console.log(err);
+        return;
+      });
+    });
+
     return res.status(400).json({
       success: false,
       message: errors,
@@ -62,7 +65,7 @@ exports.create = async (req, res) => {
     });
   }
 
-  const { title, description, address, isTop, isPopular } = req.body;
+  const { title, description, address, isFeatured } = req.body;
 
   const checkExistedDestination = await Destination.findOne({ title: title });
   if (!checkExistedDestination) {
@@ -75,12 +78,11 @@ exports.create = async (req, res) => {
       description,
       address,
       image,
-      isTop,
-      isPopular,
+      isFeatured,
     });
 
     return res.status(200).json({
-      success: !!checkExistedDestination,
+      success: !!destination,
       message: "Create destination success",
       data: destination,
     });
@@ -120,16 +122,17 @@ exports.update = async (req, res) => {
     });
   }
 
-  const { title, description, address, status } = req.body;
+  const { title, description, address, status, image } = req.body;
 
   const checkExistedDestination = await Destination.findOne({ _id });
 
   if (!checkExistedDestination) {
-    //Remove upload file
-    if (req.file && req.file !== "") {
-      fs.unlink(req.file.path, (err) => {
-        if (err) console.log(err);
-        return;
+    if (req.files && req.files !== "") {
+      req.files.forEach((file) => {
+        fs.unlink(file.path, (err) => {
+          if (err) console.log(err);
+          return;
+        });
       });
     }
 
@@ -139,14 +142,36 @@ exports.update = async (req, res) => {
     });
   }
 
-  let image = checkExistedDestination.image;
-  if (req.file && req.file !== "") {
-    //Remove upload file
-    fs.unlink(image, (err) => {
-      image = req.file.path;
+  let imageInSV = checkExistedDestination.image;
 
-      if (err) console.log(err);
-      return;
+  if (image && image.length > 1) {
+    // Image request is array
+    imageInSV.forEach((img, index) => {
+      let imgInReq = image.includes(img);
+      if (!imgInReq) {
+        imageInSV.splice(index, 1);
+        fs.unlink(img, (err) => {
+          if (err) console.log(err);
+          return;
+        });
+      }
+    });
+  } else {
+    // Image request is string
+    imageInSV.forEach((img, index) => {
+      if (image !== img) {
+        imageInSV.splice(index, 1);
+        fs.unlink(img, (err) => {
+          if (err) console.log(err);
+          return;
+        });
+      }
+    });
+  }
+
+  if (req.files && req.files !== "") {
+    req.files.forEach((file) => {
+      imageInSV.push(file.path);
     });
   }
 
@@ -154,8 +179,9 @@ exports.update = async (req, res) => {
     title: title,
     description: description,
     address: address,
-    image: image,
+    image: imageInSV,
     status: status,
+    updated_at: Date.now(),
   };
 
   const destination = await Destination.findByIdAndUpdate({ _id }, data, {

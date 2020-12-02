@@ -1,0 +1,32 @@
+.attach-demo {
+    margin: 0 -7px;
+
+    .image-item {
+        flex: 0 0 20%;
+        margin-bottom: 10px;
+        padding: 0 7px;
+        border-radius: 3px;
+        height: 160px;
+        overflow: hidden;
+        position: relative;
+
+        .inner {
+            border: 1px solid rgba(195, 207, 216, 0.3);
+            background: #fafbfc;
+        }
+
+        .delete {
+            display: none;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            cursor: pointer;
+        }
+
+        &:hover {
+            .delete {
+                display: block;
+            }
+        }
+    }
+}
