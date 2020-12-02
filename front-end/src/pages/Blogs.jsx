@@ -73,6 +73,8 @@ const toursData = [
           during: 2,
           place: "Port Canaveral",
         },
+        sale: 30,
+        saleToday: null
     },
     {
         title: "The Bahamas",
@@ -82,6 +84,8 @@ const toursData = [
           during: 2,
           place: "Port Canaveral",
         },
+        sale: null,
+        saleToday: null
     },
     {
         title: "The Bahamas",
@@ -91,6 +95,8 @@ const toursData = [
           during: 2,
           place: "Port Canaveral",
         },
+        sale: null,
+        saleToday: 25
     }
 ];
 
@@ -129,6 +135,8 @@ const Blogs = (props) => {
                                         title={tour.title}
                                         option={tour.option}
                                         price={tour.price}
+                                        sale={tour.sale}
+                                        saleToday={tour.saleToday}
                                     />
                                 </Col>
                             );

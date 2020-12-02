@@ -12,6 +12,8 @@ import post_2 from "../assets/images/posts/post-2.jpg";
 import post_3 from "../assets/images/posts/post-3.jpg";
 import Paginate from "../components/Paginate/Paginate";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import PopularDestinations from "../components/PopularDestinations/PopularDestinations";
+import Faq from "../components/Faq/Faq";
 
 const popularDestinations = [
     'Rome', 'Indonesia', 'London', 'venice', 'paris', 'florence', 'tokyo', 'vietnam', 'thailand'
@@ -74,28 +76,10 @@ const Destinations = props => {
                                 <Input placeholder="Search keyword" />
                                 <Button><AiOutlineSearch className="search-icon" /></Button>
                             </div>
-                            <div className="popular-destinations">
-                                <p className="title">Popular destinations</p>
-                                <Row>
-                                    {popularDestinations.map(category => {
-                                        return (
-                                            <Col xl={6} className="item">
-                                                <Link to="#"><AiFillCaretRight/> {category}</Link>
-                                            </Col>
-                                        );
-                                    })}
-                                </Row>
-                            </div>
-                            <div className="faqs">
-                                <p className="title">FAQ’s</p>
-                                {faqs.map(faq => {
-                                        return (
-                                            <p className="item">
-                                                <Link to="#"><AiFillCaretRight/> {faq}</Link>
-                                            </p>
-                                        );
-                                    })}
-                            </div>
+                            
+                            <PopularDestinations popularDestinations={popularDestinations} />
+
+                            <Faq faqs={faqs} />
 
                             <AdItem {...popularItem} />
                         </Col>

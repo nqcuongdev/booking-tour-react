@@ -328,7 +328,9 @@ const Tours = (props) => {
               })}
             </Col>
           </Row>
-          <Paginate />
+          <div className="mb-50">
+            <Paginate />
+          </div>
         </Container>
       </div>
     </MainLayout>

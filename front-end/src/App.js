@@ -11,6 +11,7 @@ import Hotels from "./pages/Hotels";
 import HotelDetail from "./pages/HotelDetail";
 import TourDetail from "./pages/TourDetail";
 import Destinations from "./pages/Destinations";
+import DestinationDetail from "./pages/DestinationDetail";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route exact path="/hotels" component={Hotels} />
         <Route exact path="/hotels/:slug" component={HotelDetail} />
         <Route exact path="/destinations" component={Destinations} />
+        <Route exact path="/destinations/:slug" component={DestinationDetail} />
       </Switch>
     </Router>
   );
