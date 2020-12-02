@@ -73,12 +73,15 @@ exports.create = async (req, res) => {
     req.files.forEach((element) => {
       image.push(element.path);
     });
+    let arrAddress = address.split(",");
+    let country = arrAddress[arrAddress.length - 1];
     const destination = await Destination.create({
       title,
       description,
       address,
       image,
       isFeatured,
+      country,
     });
 
     return res.status(200).json({
@@ -175,10 +178,13 @@ exports.update = async (req, res) => {
     });
   }
 
+  let arrAddress = address.split(",");
+  let country = arrAddress[arrAddress.length - 1];
   let data = {
     title: title,
     description: description,
     address: address,
+    country: country,
     image: imageInSV,
     status: status,
     updated_at: Date.now(),

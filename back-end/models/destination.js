@@ -18,6 +18,10 @@ const DestinationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  country: {
+    type: String,
+    trim: true,
+  },
   location: {
     // GeoJSON Point
     type: {
