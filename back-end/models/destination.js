@@ -89,15 +89,22 @@ DestinationSchema.pre("save", async function (next) {
   next();
 });
 
-DestinationSchema.pre("findByIdAndUpdate", async function (next) {
-  const loc = await geocoder.geocode(this.address);
-  this.location = {
-    type: "Point",
-    coordinates: [loc[0].longitude, loc[0].latitude],
-  };
-  this.lat = loc[0].latitude;
-  this.lng = loc[0].longitude;
+DestinationSchema.pre("findOneAndUpdate", async function (next) {
+  const loc = await geocoder.geocode(this._update.address);
+  this.set({
+    location: {
+      type: "Point",
+      coordinates: [loc[0].longitude, loc[0].latitude],
+    },
+    lat: loc[0].latitude,
+    lng: loc[0].longitude,
+  });
 
+  next();
+});
+
+DestinationSchema.pre("findOneAndUpdate", function (next) {
+  this.set({ slug: slugify(this._update.title, { lower: true }) });
   next();
 });
 

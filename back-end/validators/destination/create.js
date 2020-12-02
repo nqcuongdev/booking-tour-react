@@ -28,8 +28,8 @@ module.exports = function validateDestinationInput(data) {
     errors.address = "Address field is required";
   }
 
-  if (!Validator.isLength(data.address, { min: 2, max: 200 })) {
-    errors.address = "Address must be between 2 and 200 characters";
+  if (!Validator.isLength(data.address, { min: 2, max: 500 })) {
+    errors.address = "Address must be between 2 and 500 characters";
   }
 
   return {

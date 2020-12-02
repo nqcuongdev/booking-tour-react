@@ -8,6 +8,9 @@ import {
     GET_DESTINATION,
     GET_DESTINATION_FAILED,
     GET_DESTINATION_SUCCESS,
+    UPDATE_DESTINATION,
+    UPDATE_DESTINATION_FAILED,
+    UPDATE_DESTINATION_SUCCESS,
 } from './constants';
 
 const INIT_STATE = {
@@ -30,12 +33,17 @@ const Destination = (state = INIT_STATE, action) => {
             return { ...state, destination: action.payload, loading: false, error: null };
         case CREATE_DESTINATION_FAILED:
             return { ...state, error: action.payload, loading: false };
-        case GET_DESTINATION: {
+        case GET_DESTINATION:
             return { ...state, loading: true };
-        }
         case GET_DESTINATION_SUCCESS:
             return { ...state, destination: action.payload, loading: false, error: null };
         case GET_DESTINATION_FAILED:
+            return { ...state, error: action.payload, loading: false };
+        case UPDATE_DESTINATION:
+            return { ...state, loading: true };
+        case UPDATE_DESTINATION_SUCCESS:
+            return { ...state, destination: action.payload, loading: false, error: null };
+        case UPDATE_DESTINATION_FAILED:
             return { ...state, error: action.payload, loading: false };
         default:
             return { ...state };

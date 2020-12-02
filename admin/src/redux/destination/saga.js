@@ -5,10 +5,12 @@ import {
     getAllDestinationSuccess,
     getDestinationSuccess,
     getDestinationFailed,
+    updateDestinationSuccess,
+    updateDestinationFailed,
 } from './actions';
 import { call, put, takeEvery, all, fork } from 'redux-saga/effects';
 import { fetchJSON } from '../../helpers/api';
-import { CREATE_DESTINATION, GET_ALL_DESTINATION, GET_DESTINATION } from './constants';
+import { CREATE_DESTINATION, GET_ALL_DESTINATION, GET_DESTINATION, UPDATE_DESTINATION } from './constants';
 
 const token = localStorage.getItem('jwtKey');
 
@@ -99,6 +101,38 @@ function* getDestination({ payload: _id }) {
     }
 }
 
+function* updateDestination({ payload: inputData }) {
+    const options = {
+        body: inputData,
+        method: 'PUT',
+        headers: {
+            Authorization: 'Bearer ' + token,
+        },
+    };
+
+    try {
+        const response = yield call(fetchJSON, `destination/${inputData.get('_id')}`, options);
+        if (response && response.success) {
+            yield put(updateDestinationSuccess(response.data));
+        } else {
+            yield put(updateDestinationFailed(response.message));
+        }
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500:
+                message = 'Internal Server Error';
+                break;
+            case 401:
+                message = 'Invalid credentials';
+                break;
+            default:
+                message = error;
+        }
+        yield put(updateDestinationFailed(message));
+    }
+}
+
 export function* watchGetAllDestination() {
     yield takeEvery(GET_ALL_DESTINATION, getAllDestination);
 }
@@ -111,8 +145,17 @@ export function* watchGetDestination() {
     yield takeEvery(GET_DESTINATION, getDestination);
 }
 
+export function* watchUpdateDestination() {
+    yield takeEvery(UPDATE_DESTINATION, updateDestination);
+}
+
 function* destinationSaga() {
-    yield all([fork(watchGetAllDestination), fork(watchCreateDestination), fork(watchGetDestination)]);
+    yield all([
+        fork(watchGetAllDestination),
+        fork(watchCreateDestination),
+        fork(watchGetDestination),
+        fork(watchUpdateDestination),
+    ]);
 }
 
 export default destinationSaga;

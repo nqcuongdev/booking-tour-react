@@ -12,7 +12,7 @@ const Confirm = React.lazy(() => import('../pages/auth/Confirm'));
 const Dashboard = React.lazy(() => import('../pages/dashboard'));
 //Destination
 const ListDestination = React.lazy(() => import('../pages/destination/ListDestination'));
-const AddDestination = React.lazy(() => import('../pages/destination/AddDestination'));
+const HandleDestination = React.lazy(() => import('../pages/destination/HandleDestination'));
 //Tour
 const AllTour = React.lazy(() => import('../pages/tour/Tour'));
 const AddTour = React.lazy(() => import('../pages/tour/AddTour'));
@@ -116,7 +116,7 @@ const destinationRoutes = {
         {
             path: '/destination/:id',
             name: 'Add Destination',
-            component: AddDestination,
+            component: HandleDestination,
             roles: ['admin'],
             route: PrivateRoute,
         },

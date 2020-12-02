@@ -6,7 +6,7 @@ import RichTextEditor from '../../components/RichTextEditor';
 import GoogleMapAutoComplete from '../../components/GoogleMapAutoComplete';
 import default_image from '../../assets/images/default_upload_image.png';
 import { connect, useDispatch } from 'react-redux';
-import { createDestination, getDestination } from '../../redux/actions';
+import { createDestination, getDestination, updateDestination } from '../../redux/actions';
 import { ToastContainer, toast } from 'react-toastify';
 import { url } from '../../helpers/url';
 import * as FeatherIcon from 'react-feather';
@@ -22,6 +22,15 @@ const BasicInputElements = ({ props }) => {
         lng: '',
     });
 
+    // Reload page when click add new :))
+    useEffect(() => {
+        if (props.match.params.id === ':id') {
+            props.history.push('/destination/add-destination');
+            window.location.reload();
+        }
+    }, [props.match.params]);
+
+    // Check param if difference add-destination then fetch api
     useEffect(() => {
         if (props.match.params.id !== 'add-destination') {
             dispatch(getDestination(props.match.params.id));
@@ -41,7 +50,15 @@ const BasicInputElements = ({ props }) => {
 
     const inputChangeHandler = (e) => {
         const { name, value, files } = e.target;
-        setFormInput({ ...formInput, [name]: value, image: files });
+        setFormInput({ ...formInput, [name]: value });
+        if (files) {
+            let images = formInput.image && formInput.image.length > 0 ? formInput.image : [];
+            for (let i = 0; i < files.length; i++) {
+                images.push(files[i]);
+            }
+
+            setFormInput({ ...formInput, [name]: value, image: images });
+        }
     };
 
     const onInputDescription = (description) => {
@@ -62,14 +79,19 @@ const BasicInputElements = ({ props }) => {
         formData.append('lat', formInput.lat);
         formData.append('lng', formInput.lng);
         formData.append('isFeatured', formInput.isFeatured === 'on' ? true : false);
-        formData.append('status', formInput.status === 'publish' ? 'active' : 'hide');
+        formData.append('status', formInput.status === 'publish' || formInput.status === 'active' ? 'active' : 'hide');
 
         const files = formInput.image;
         for (let i = 0; i < files.length; i++) {
             formData.append('image', files[i]);
         }
 
-        props.createDestination(formData);
+        if (formInput._id) {
+            formData.append('_id', formInput._id);
+            props.updateDestination(formData);
+        } else {
+            props.createDestination(formData);
+        }
 
         toast.success(`${formInput._id ? 'Edit' : 'Add'} Destination success`, {
             position: 'top-right',
@@ -109,11 +131,16 @@ const BasicInputElements = ({ props }) => {
 
                             <FormGroup>
                                 <Label for="description">Description</Label>
-                                <RichTextEditor
-                                    id="description"
-                                    onEditorContentChange={onInputDescription}
-                                    initialContent={formInput.description}
-                                />
+                                {formInput.description && (
+                                    <RichTextEditor
+                                        id="description"
+                                        onEditorContentChange={onInputDescription}
+                                        initialContent={formInput.description}
+                                    />
+                                )}
+                                {formInput.description === '' && (
+                                    <RichTextEditor id="description" onEditorContentChange={onInputDescription} />
+                                )}
                             </FormGroup>
 
                             <FormGroup className="mb-5">
@@ -122,9 +149,8 @@ const BasicInputElements = ({ props }) => {
                             </FormGroup>
 
                             <FormGroup>
-                                <Label for="image">Banner</Label>
+                                <Label for="image">Gallery</Label>
                                 <div className="attach-demo d-flex">
-                                    {formInput.image && console.log(formInput.image)}
                                     {formInput.image && formInput.image.length > 0 ? (
                                         formInput.image.map((img, index) => (
                                             <div key={index} className="image-item">
@@ -142,6 +168,14 @@ const BasicInputElements = ({ props }) => {
                                                             className="mb-5"
                                                             alt={formInput.title}
                                                         />
+                                                    ) : typeof img === 'object' ? (
+                                                        <React.Fragment>
+                                                            <img
+                                                                src={URL.createObjectURL(img)}
+                                                                className="mb-5"
+                                                                alt={formInput.title}
+                                                            />
+                                                        </React.Fragment>
                                                     ) : (
                                                         <img src={img} className="mb-5" alt={formInput.title} />
                                                     )}
@@ -159,7 +193,7 @@ const BasicInputElements = ({ props }) => {
                                         name="image"
                                         id="image"
                                         onChange={inputChangeHandler}
-                                        required
+                                        required={formInput.image && formInput.image.length < 0}
                                     />
                                 </div>
                             </FormGroup>
@@ -251,7 +285,7 @@ const BasicInputElements = ({ props }) => {
     );
 };
 
-const AddDestination = (props) => {
+const HandleDestination = (props) => {
     return (
         <React.Fragment>
             <Row className="page-title">
@@ -291,4 +325,4 @@ const mapStateToProps = (state) => {
     return { loading, destination, error };
 };
 
-export default connect(mapStateToProps, { createDestination })(AddDestination);
+export default connect(mapStateToProps, { createDestination, updateDestination })(HandleDestination);

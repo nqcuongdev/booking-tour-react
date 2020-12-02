@@ -35,7 +35,7 @@ const TableWithSearch = ({ properties }) => {
     const rankFormatter = (cell, row, rowIndex) => {
         return (
             <div>
-                <Button color="primary" size="sm">
+                <Button color="primary" size="sm" onClick={() => properties.history.push(row._id)}>
                     <FeatherIcon.Edit size="18" />
                 </Button>
             </div>
@@ -110,7 +110,10 @@ const TableWithSearch = ({ properties }) => {
                                     <SearchBar {...props.searchProps} />
                                 </Col>
                                 <Col className="text-right">
-                                    <Button color="primary" className="mr-3">
+                                    <Button
+                                        color="primary"
+                                        className="mr-3"
+                                        onClick={() => properties.history.push('/destination/add-destination')}>
                                         Add Destination
                                     </Button>
                                 </Col>

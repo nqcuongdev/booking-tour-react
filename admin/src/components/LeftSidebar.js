@@ -43,14 +43,6 @@ const UserProfile = (props) => {
                             <FeatherIcon.Settings className="icon-dual icon-xs mr-2" />
                             <span>Settings</span>
                         </Link>
-                        <Link to="/" className="dropdown-item notify-item">
-                            <FeatherIcon.HelpCircle className="icon-dual icon-xs mr-2" />
-                            <span>Support</span>
-                        </Link>
-                        <Link to="/" className="dropdown-item notify-item">
-                            <FeatherIcon.Lock className="icon-dual icon-xs mr-2" />
-                            <span>Lock Screen</span>
-                        </Link>
                         <DropdownItem divider />
                         <Link to="/account/logout" className="dropdown-item notify-item">
                             <FeatherIcon.LogOut className="icon-dual icon-xs mr-2" />
