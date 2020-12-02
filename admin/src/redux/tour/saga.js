@@ -7,6 +7,8 @@ import {
     getAllTourAttributeSuccess,
     getAllTourCategoryFailed,
     getAllTourCategorySuccess,
+    getAllTourFailed,
+    getAllTourSuccess,
     updateTourAttributeFailed,
     updateTourAttributeSuccess,
     updateTourCategoryFailed,
@@ -15,6 +17,7 @@ import {
 import {
     CREATE_TOUR_ATTRIBUTE,
     CREATE_TOUR_CATEGORY,
+    GET_ALL_TOUR,
     GET_ALL_TOUR_ATTRIBUTE,
     GET_ALL_TOUR_CATEGORY,
     UPDATE_TOUR_ATTRIBUTE,
@@ -24,6 +27,33 @@ import { call, put, takeEvery, all, fork } from 'redux-saga/effects';
 import { fetchJSON } from '../../helpers/api';
 
 const token = localStorage.getItem('jwtKey');
+
+function* getAllTour() {
+    const options = {
+        method: 'GET',
+    };
+    try {
+        const response = yield call(fetchJSON, 'tour', options);
+        if (response && response.success) {
+            yield put(getAllTourSuccess(response.data));
+        } else {
+            yield put(getAllTourFailed(response.message));
+        }
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500:
+                message = 'Internal Server Error';
+                break;
+            case 401:
+                message = 'Invalid credentials';
+                break;
+            default:
+                message = error;
+        }
+        yield put(getAllTourFailed(message));
+    }
+}
 
 function* getAllTourCategory({ payload }) {
     const options = {
@@ -211,6 +241,10 @@ function* updateTourAttribute({ payload: { _id, title, type, status } }) {
     }
 }
 
+export function* watchGetAllTour() {
+    yield takeEvery(GET_ALL_TOUR, getAllTour);
+}
+
 export function* watchGetAllTourCategory() {
     yield takeEvery(GET_ALL_TOUR_CATEGORY, getAllTourCategory);
 }
@@ -237,6 +271,7 @@ export function* watchUpdateTourAttribute() {
 
 function* tourSaga() {
     yield all([
+        fork(watchGetAllTour),
         fork(watchGetAllTourCategory),
         fork(watchCreateTourCategory),
         fork(watchUpdateTourCategory),

@@ -15,6 +15,7 @@ const destination = require("./routes/destination");
 const user = require("./routes/user");
 const category = require("./routes/category");
 const attribute = require("./routes/attribute");
+const tour = require("./routes/tour");
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use("/api/v1/user", user);
 app.use("/api/v1/destination/", destination);
 app.use("/api/v1/category/", category);
 app.use("/api/v1/attribute", attribute);
+app.use("/api/v1/tour", tour);
 
 //Enable Passport
 app.use(passport.initialize());

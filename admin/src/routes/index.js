@@ -15,7 +15,7 @@ const ListDestination = React.lazy(() => import('../pages/destination/ListDestin
 const HandleDestination = React.lazy(() => import('../pages/destination/HandleDestination'));
 //Tour
 const AllTour = React.lazy(() => import('../pages/tour/Tour'));
-const AddTour = React.lazy(() => import('../pages/tour/AddTour'));
+const HandleTour = React.lazy(() => import('../pages/tour/HandleTour'));
 const TourCategory = React.lazy(() => import('../pages/tour/TourCategory'));
 const TourStyle = React.lazy(() => import('../pages/tour/TourStyle'));
 // apps
@@ -137,9 +137,9 @@ const tourRoutes = {
             route: PrivateRoute,
         },
         {
-            path: '/tour/add-tour',
+            path: '/tour/:id',
             name: 'Add Tour',
-            component: AddTour,
+            component: HandleTour,
             roles: ['admin'],
             route: PrivateRoute,
         },

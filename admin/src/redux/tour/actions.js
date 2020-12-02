@@ -5,12 +5,15 @@ import {
     CREATE_TOUR_CATEGORY,
     CREATE_TOUR_CATEGORY_FAILED,
     CREATE_TOUR_CATEGORY_SUCCESS,
+    GET_ALL_TOUR,
     GET_ALL_TOUR_ATTRIBUTE,
     GET_ALL_TOUR_ATTRIBUTE_FAILED,
     GET_ALL_TOUR_ATTRIBUTE_SUCCESS,
     GET_ALL_TOUR_CATEGORY,
     GET_ALL_TOUR_CATEGORY_FAILED,
     GET_ALL_TOUR_CATEGORY_SUCCESS,
+    GET_ALL_TOUR_FAILED,
+    GET_ALL_TOUR_SUCCESS,
     UPDATE_TOUR_ATTRIBUTE,
     UPDATE_TOUR_ATTRIBUTE_FAILED,
     UPDATE_TOUR_ATTRIBUTE_SUCCESS,
@@ -18,6 +21,20 @@ import {
     UPDATE_TOUR_CATEGORY_FAILED,
     UPDATE_TOUR_CATEGORY_SUCCESS,
 } from './constants';
+
+export const getAllTour = () => ({
+    type: GET_ALL_TOUR,
+});
+
+export const getAllTourSuccess = (tours) => ({
+    type: GET_ALL_TOUR_SUCCESS,
+    payload: tours,
+});
+
+export const getAllTourFailed = (error) => ({
+    type: GET_ALL_TOUR_FAILED,
+    payload: error,
+});
 
 export const getAllTourCategory = () => ({
     type: GET_ALL_TOUR_CATEGORY,
