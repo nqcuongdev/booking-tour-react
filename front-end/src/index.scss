@@ -1381,3 +1381,179 @@ h1 {
     }
   }
 }
+
+
+.tour-cart {
+  .cart-link {
+    background-color: $gray95;
+    height: 113px;
+    display: flex;
+    align-items: center;
+    
+    span {
+      text-transform: uppercase;
+    
+      span {
+        color: $text;
+      }
+    }
+  }
+
+  .cart-content {
+    .scroll-cart {
+      // overflow: auto;
+      // white-space: nowrap;
+
+      .cart-col {
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+
+      @media all and (max-width: 991px) {
+        .cart-col {
+          display: none !important;
+        }
+      }
+
+      .cart-list {
+        .cart-item {
+          background-color: $grayF8;
+          margin-bottom: 30px;
+  
+          .cart-title {
+            font-size: 16px;
+            font-weight: bold;
+          }
+  
+          .cart-content {
+            margin-right: 0;
+            margin-left: 0;
+            display: flex;
+            
+            .image-info {
+              color: $text;
+              
+              .image {
+                // width: 230px;
+                // height: 150px;
+                // min-width: 230px;
+                // min-height: 150px;
+                // overflow: hidden;
+                // background-size: cover;
+                // background-position: center;
+                // border-radius: 3px;
+
+                img {
+                  width: 100%;
+                }
+              }
+            }
+  
+            .info {
+              display: flex;
+              align-items: center;
+              padding: 5px 20px;
+              color: $text;
+            }
+
+            .adult {
+              display: flex;
+              align-items: center;
+
+              Input {
+                width: 150px;
+              }
+            }
+
+            .children {
+              display: flex;
+              align-items: center;
+
+              Input {
+                width: 150px;
+              }
+            }
+
+            .total {
+              display: flex;
+              justify-content: center;
+              padding-top: 50px;
+              min-width: 115px;
+            }
+
+            .btn-delete {
+              display: flex;
+              justify-content: center;
+              padding-top: 50px;
+              
+              .icon {
+                font-size: 20px;
+              }
+            }
+          }
+        }
+      }
+    }
+    .total-pay {
+      .input-gift {
+        display: flex;
+        align-items: center;
+
+        Input {
+          width: 80%;
+          font-size: 14px;
+          padding-right: 30px;
+        }
+
+        @media all and (max-width: 768px) {
+          Input {
+            width: 100%;
+          }
+        }
+
+        .icon {
+          color: $orange;
+          font-size: 16px;
+          margin-left: -25px;
+        }
+      }
+
+      .total-to-pay {
+        margin-left: auto;
+        color: $text;
+        font-weight: bold;
+        display: flex;
+
+        p {
+          margin-top: 15px;
+          margin-left: auto;
+
+          span {
+            color: $orange;
+            margin-left: 50px;
+          }
+        }
+      }
+    }
+
+    .btn-update-checkout {
+      display: flex;
+      justify-content: center;
+
+      .btn-update-cart {
+        background-color: $white;
+        border: 1px solid $orange;
+        color: $orange;
+        margin-right: 15px;
+        width: 200px;
+      }
+
+      .btn-checkout {
+        background-color: $orange;
+        border: 1px solid $orange;
+        // margin-left: 15px;
+        // width: 200px;
+      }
+    }
+  }
+}
