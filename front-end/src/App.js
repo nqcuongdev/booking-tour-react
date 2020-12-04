@@ -13,6 +13,7 @@ import TourDetail from "./pages/TourDetail";
 import Destinations from "./pages/Destinations";
 import DestinationDetail from "./pages/DestinationDetail";
 import TourCart from "./pages/TourCart";
+import HotelCart from "./pages/HotelCart";
 
 function App() {
   return (
@@ -29,7 +30,8 @@ function App() {
         <Route exact path="/hotels/:slug" component={HotelDetail} />
         <Route exact path="/destinations" component={Destinations} />
         <Route exact path="/destinations/:slug" component={DestinationDetail} />
-        <Route exact path="/cart-tour" component={TourCart} />
+        <Route exact path="/tour-cart" component={TourCart} />
+        <Route exact path="/hotel-cart" component={HotelCart} />
       </Switch>
     </Router>
   );

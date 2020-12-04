@@ -85,10 +85,10 @@ const TourCart = props => {
                                     <div className="cart-item">
                                         <Row xl={12} lg={12} md={12} xs={12} className="cart-title">{item.title}</Row>
                                         <Row className="cart-content">
-                                            <Col xl={3} lg={3} md={6} xs={6} className="image">
+                                            <Col xl={3} lg={3} md={6} xs={12} className="image">
                                                 <img src={item.image} alt=""/>
                                             </Col>
-                                            <Col xl={3} lg={3} md={6} xs={6} className="info">
+                                            <Col xl={3} lg={3} md={6} xs={12} className="info">
                                                 <div>
                                                     <p>Check in date: {item.checkInDate}</p>
                                                     <p>Check out date: {item.checkOutDate}</p>
@@ -113,7 +113,7 @@ const TourCart = props => {
                                             <Col xl={2} lg={2} md={4} xs={4} className="total">
                                                 <div className="price">
                                                     <span className="show-hide-scale">Total</span>
-                                                    <span>
+                                                    <span classnames="scale-total">
                                                         $ {calculationTotalItem(
                                                             item.adult, item.children, item.priceOfAdult, item.priceOfChildren
                                                         )}
