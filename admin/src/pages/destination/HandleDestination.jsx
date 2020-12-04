@@ -105,7 +105,7 @@ const BasicInputElements = ({ props }) => {
     };
 
     const handleRemoveImage = (index) => {
-        let images = formInput.image;
+        let images = [...formInput.image];
         images.splice(index, 1);
         setFormInput({ ...formInput, image: images });
     };

@@ -10,10 +10,6 @@ const TourSchema = new mongoose.Schema({
     required: true,
   },
   slug: String,
-  code: {
-    type: String,
-    required: true,
-  },
   description: {
     type: String,
     required: true,
@@ -97,18 +93,34 @@ const TourSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "destination",
   },
-  start_date: [
-    {
-      type: Date,
-      required: true,
-    },
-  ],
-  end_date: [
-    {
-      type: Date,
-      required: true,
-    },
-  ],
+  created_at: {
+    type: Date,
+    default: Date.now,
+  },
+  updated_at: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+const TourAvailabilitySchema = new mongoose.Schema({
+  code: {
+    type: String,
+    required: true,
+  },
+  start_date: {
+    type: Date,
+    required: true,
+  },
+  end_date: {
+    type: Date,
+    required: true,
+  },
+  available: {
+    type: Number,
+    required: true,
+    default: 1,
+  },
   created_at: {
     type: Date,
     default: Date.now,
@@ -138,19 +150,32 @@ TourSchema.pre("save", async function (next) {
   next();
 });
 
-TourSchema.pre("findByIdAndUpdate", async function (next) {
-  const loc = await geocoder.geocode(this.address);
-  this.location = {
-    type: "Point",
-    coordinates: [loc[0].longitude, loc[0].latitude],
-  };
-  this.lat = loc[0].latitude;
-  this.lng = loc[0].longitude;
+TourSchema.pre("findOneAndUpdate", async function (next) {
+  const loc = await geocoder.geocode(this._update.address);
+  this.set({
+    location: {
+      type: "Point",
+      coordinates: [loc[0].longitude, loc[0].latitude],
+    },
+    lat: loc[0].latitude,
+    lng: loc[0].longitude,
+  });
 
+  next();
+});
+
+TourSchema.pre("findOneAndUpdate", function (next) {
+  this.set({ slug: slugify(this._update.title, { lower: true }) });
   next();
 });
 
 // Add index for location and text for full text search
 TourSchema.index({ location: "2dsphere" });
 
-module.exports = mongoose.model("tour", TourSchema);
+const Tour = mongoose.model("tour", TourSchema);
+const TourAvailability = mongoose.model(
+  "TourAvailability",
+  TourAvailabilitySchema
+);
+
+module.exports = { Tour, TourAvailability };

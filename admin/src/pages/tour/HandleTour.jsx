@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { Row, Col, Card, CardBody, CustomInput, FormGroup, Label, Input, Button } from 'reactstrap';
-import Select from 'react-select';
 
 import PageTitle from '../../components/PageTitle';
 import RichTextEditor from '../../components/RichTextEditor';
@@ -11,47 +10,27 @@ import default_image from '../../assets/images/default_upload_image.png';
 import { getAllDestination } from '../../redux/destination/actions';
 import { getAllTourAttribute, getAllTourCategory } from '../../redux/tour/actions';
 
-const BasicInputElements = ({ categories, attributes }) => {
-    const [itinerary, setItinerary] = useState(0);
+const BasicInputElements = ({ categories, attributes, formInput, inputChangeHandler, onInputDescription }) => {
+    const [itineraryList, setItineraryList] = useState([]);
 
-    const renderItinerary = (number) => {
-        for (let index = 0; index <= number; index++) {
-            <div key={index} className="item">
-                <Row>
-                    <Col md={2}>
-                        <FormGroup>
-                            <img src={default_image} className="mb-5 img-fluid" alt="Default Picture tour" />
-                            <Input type="file" name={`iti_image[${index}][image]`} id={`iti_image[${index}][image]`} />
-                        </FormGroup>
-                    </Col>
-                    <Col md={4}>
-                        <Input type="text" name={`iti_title[${index}][title]`} placeholder="Title: Day 1" />
-                        <Input
-                            type="text"
-                            className="mt-2"
-                            name={`iti_description[${index}][description]`}
-                            placeholder="Desc: Da Nang"
-                        />
-                    </Col>
-                    <Col md={5}>
-                        <FormGroup>
-                            <Input
-                                type="textarea"
-                                name={`iti_description[${index}][content]`}
-                                rows="5"
-                                placeholder="Content..."
-                            />
-                        </FormGroup>
-                    </Col>
-                    <Col md={1}>
-                        <Button color="danger" size="sm">
-                            <FeatherIcon.Trash2 size={16} />
-                        </Button>
-                    </Col>
-                </Row>
-            </div>;
-        }
+    useEffect(() => {
+        setItineraryList(formInput.itinerary);
+    }, [formInput.itinerary]);
+
+    // Handle click event of the Remove button
+    const handleRemoveClick = (index) => {
+        const list = [...itineraryList];
+        list.splice(index, 1);
+        setItineraryList(list);
     };
+
+    // Handle click event of the Add button
+    const handleAddClick = () => {
+        setItineraryList([...itineraryList, { image: '', title: '', description: '', address: '' }]);
+    };
+
+    // Handle get input of itinerary
+    const inputItineraryChangeHandler = (e) => {};
 
     return (
         <Row>
@@ -60,19 +39,35 @@ const BasicInputElements = ({ categories, attributes }) => {
                     <CardBody>
                         <FormGroup>
                             <Label for="title">Title</Label>
-                            <Input type="text" name="title" id="title" placeholder="Tour title" />
+                            <Input
+                                type="text"
+                                name="title"
+                                id="title"
+                                placeholder="Tour title"
+                                onChange={inputChangeHandler}
+                                defaultValue={formInput.title}
+                            />
                         </FormGroup>
 
                         <FormGroup>
                             <Label for="description">Description</Label>
-                            <RichTextEditor name="description" id="description" onEditorContentChange={() => {}} />
+                            <RichTextEditor
+                                name="description"
+                                id="description"
+                                onEditorContentChange={onInputDescription}
+                            />
                         </FormGroup>
 
                         <Row>
                             <Col lg={6}>
                                 <FormGroup>
                                     <Label for="category">Category</Label>
-                                    <Input type="select" id="category" name="category" className="custom-select">
+                                    <Input
+                                        type="select"
+                                        id="category"
+                                        name="category"
+                                        className="custom-select"
+                                        onChange={inputChangeHandler}>
                                         <option>-- Please Select --</option>
                                         {categories &&
                                             categories.map((category) => {
@@ -88,7 +83,14 @@ const BasicInputElements = ({ categories, attributes }) => {
                             <Col lg={6}>
                                 <FormGroup>
                                     <Label for="duration">Duration</Label>
-                                    <Input type="number" name="duration" id="duration" placeholder="Duration" />
+                                    <Input
+                                        type="number"
+                                        name="duration"
+                                        id="duration"
+                                        placeholder="Duration"
+                                        onChange={inputChangeHandler}
+                                        defaultValue={formInput.duration}
+                                    />
                                 </FormGroup>
                             </Col>
                         </Row>
@@ -102,6 +104,8 @@ const BasicInputElements = ({ categories, attributes }) => {
                                         name="min_people"
                                         id="min_people"
                                         placeholder="Tour Min People"
+                                        onChange={inputChangeHandler}
+                                        defaultValue={formInput.min_people}
                                     />
                                 </FormGroup>
                             </Col>
@@ -113,6 +117,8 @@ const BasicInputElements = ({ categories, attributes }) => {
                                         name="max_people"
                                         id="max_people"
                                         placeholder="Tour Max People"
+                                        onChange={inputChangeHandler}
+                                        defaultValue={formInput.max_people}
                                     />
                                 </FormGroup>
                             </Col>
@@ -128,14 +134,68 @@ const BasicInputElements = ({ categories, attributes }) => {
                                     <Col md={1}></Col>
                                 </Row>
                             </div>
-                            {itinerary && itinerary > 0 && (
-                                <div className="items mt-3">{renderItinerary(itinerary)}</div>
+                            {itineraryList && itineraryList.length > 0 && (
+                                <div className="items mt-3">
+                                    {itineraryList.map((itinerary, index) => {
+                                        return (
+                                            <div key={index} className="item">
+                                                <Row>
+                                                    <Col md={2}>
+                                                        <FormGroup>
+                                                            <img
+                                                                src={itinerary.image ? itinerary.image : default_image}
+                                                                className="mb-5 img-fluid"
+                                                                alt="Default Picture tour"
+                                                            />
+                                                            <Input
+                                                                type="file"
+                                                                name={`iti_image[${index}][image]`}
+                                                                id={`iti_image[${index}][image]`}
+                                                            />
+                                                        </FormGroup>
+                                                    </Col>
+                                                    <Col md={4}>
+                                                        <Input
+                                                            type="text"
+                                                            name={`iti_title[${index}][title]`}
+                                                            placeholder="Title: Day 1"
+                                                            defaultValue={itinerary.title}
+                                                        />
+                                                        <Input
+                                                            type="text"
+                                                            className="mt-2"
+                                                            name={`iti_description[${index}][description]`}
+                                                            placeholder="Desc: Da Nang"
+                                                            defaultValue={itinerary.address}
+                                                        />
+                                                    </Col>
+                                                    <Col md={5}>
+                                                        <FormGroup>
+                                                            <Input
+                                                                type="textarea"
+                                                                name={`iti_description[${index}][content]`}
+                                                                rows="5"
+                                                                placeholder="Content..."
+                                                                defaultValue={itinerary.description}
+                                                            />
+                                                        </FormGroup>
+                                                    </Col>
+                                                    <Col md={1}>
+                                                        <Button
+                                                            color="danger"
+                                                            size="sm"
+                                                            onClick={() => handleRemoveClick(index)}>
+                                                            <FeatherIcon.Trash2 size={16} />
+                                                        </Button>
+                                                    </Col>
+                                                </Row>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
                             )}
-                        </FormGroup>
-
-                        <FormGroup className="float-right mt-3">
-                            <Button color="success" size="xs">
-                                Add more
+                            <Button className="float-right mt-2" color="success" onClick={handleAddClick}>
+                                Add more <FeatherIcon.PlusCircle size={16} />
                             </Button>
                         </FormGroup>
 
@@ -156,8 +216,22 @@ const BasicInputElements = ({ categories, attributes }) => {
                         <FormGroup>
                             <Label for="status">Publish</Label>
                             <div>
-                                <CustomInput type="radio" id="publish" name="status" label="Publish" />
-                                <CustomInput type="radio" id="draft" name="status" label="Draft" />
+                                <CustomInput
+                                    type="radio"
+                                    id="publish"
+                                    name="status"
+                                    label="Publish"
+                                    value="publish"
+                                    onChange={inputChangeHandler}
+                                />
+                                <CustomInput
+                                    type="radio"
+                                    id="draft"
+                                    name="status"
+                                    label="Draft"
+                                    value="draft"
+                                    onChange={inputChangeHandler}
+                                />
                             </div>
                         </FormGroup>
                         <FormGroup className="float-right">
@@ -169,7 +243,13 @@ const BasicInputElements = ({ categories, attributes }) => {
                     <CardBody>
                         <FormGroup>
                             <Label for="isFeatured">Tour Featured</Label>
-                            <CustomInput type="switch" id="isFeatured" name="isFeatured" label="Enable featured" />
+                            <CustomInput
+                                type="switch"
+                                id="isFeatured"
+                                name="isFeatured"
+                                label="Enable featured"
+                                onChange={inputChangeHandler}
+                            />
                         </FormGroup>
                     </CardBody>
                 </Card>
@@ -189,6 +269,7 @@ const BasicInputElements = ({ categories, attributes }) => {
                                                 name="attribute[]"
                                                 value={attribute._id}
                                                 label={attribute.title}
+                                                onChange={inputChangeHandler}
                                             />
                                         );
                                     })}
@@ -227,7 +308,7 @@ const TourLocation = ({ destinations, onUpdateLocation, formInput }) => {
     );
 };
 
-const Pricing = () => {
+const Pricing = ({ inputChangeHandler, formInput }) => {
     return (
         <React.Fragment>
             <FormGroup>
@@ -236,13 +317,27 @@ const Pricing = () => {
                     <Col lg={6}>
                         <FormGroup>
                             <Label for="price">Price</Label>
-                            <Input type="number" name="price" id="price" placeholder="Tour Price" />
+                            <Input
+                                type="number"
+                                name="price"
+                                id="price"
+                                placeholder="Tour Price"
+                                onChange={inputChangeHandler}
+                                defaultValue={formInput.price}
+                            />
                         </FormGroup>
                     </Col>
                     <Col lg={6}>
                         <FormGroup>
                             <Label for="sale_price">Sale Price</Label>
-                            <Input type="number" name="sale_price" id="sale_price" placeholder="Tour Sale Price" />
+                            <Input
+                                type="number"
+                                name="sale_price"
+                                id="sale_price"
+                                placeholder="Tour Sale Price"
+                                onChange={inputChangeHandler}
+                                defaultValue={formInput.sale_price}
+                            />
                         </FormGroup>
                     </Col>
                 </Row>
@@ -260,6 +355,15 @@ const AddTour = (props) => {
         isFeatured: '',
         lat: '',
         lng: '',
+        attribute: [],
+        category: '',
+        itinerary: [],
+        price: '',
+        sale_price: '',
+        duration: '',
+        min_people: '',
+        max_people: '',
+        destination: '',
     });
     const [destinations, setDestination] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -267,6 +371,10 @@ const AddTour = (props) => {
 
     const onUpdateLocation = (lat, lng, address) => {
         setFormInput({ ...formInput, lat: lat, lng: lng, address: address });
+    };
+
+    const onInputDescription = (description) => {
+        setFormInput({ ...formInput, description: description });
     };
 
     useEffect(() => {
@@ -289,6 +397,27 @@ const AddTour = (props) => {
         }
     }, [props.destinations, props.categories, props.attributes]);
 
+    // Reload page when click add new :))
+    useEffect(() => {
+        if (props.match.params.id === ':id') {
+            props.history.push('/tour/add-tour');
+            window.location.reload();
+        }
+    }, [props.match.params]);
+
+    const inputChangeHandler = (e) => {
+        const { name, value, files } = e.target;
+        setFormInput({ ...formInput, [name]: value });
+        if (files) {
+            let images = formInput.image && formInput.image.length > 0 ? formInput.image : [];
+            for (let i = 0; i < files.length; i++) {
+                images.push(files[i]);
+            }
+
+            setFormInput({ ...formInput, [name]: value, image: images });
+        }
+    };
+
     return (
         <React.Fragment>
             <Row className="page-title">
@@ -305,7 +434,13 @@ const AddTour = (props) => {
 
             <Row>
                 <Col>
-                    <BasicInputElements categories={categories} attributes={attributes} />
+                    <BasicInputElements
+                        categories={categories}
+                        attributes={attributes}
+                        formInput={formInput}
+                        inputChangeHandler={inputChangeHandler}
+                        onInputDescription={onInputDescription}
+                    />
                 </Col>
             </Row>
 
@@ -313,7 +448,7 @@ const AddTour = (props) => {
                 <Col lg={9}>
                     <Card>
                         <CardBody>
-                            <Pricing />
+                            <Pricing inputChangeHandler={inputChangeHandler} formInput={formInput} />
                         </CardBody>
                     </Card>
                 </Col>
