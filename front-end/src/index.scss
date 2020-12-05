@@ -1842,3 +1842,282 @@ h1 {
     }
   }
 }
+
+// HOTEL - CHECKOUT
+.hotel-checkout {
+  .checkout-link {
+    background-color: $gray95;
+    height: 113px;
+    display: flex;
+    align-items: center;
+    
+    span {
+      text-transform: uppercase;
+    
+      span {
+        color: $text;
+      }
+    }
+  }
+
+  .checkout-content {
+    .content-top {
+      color: $text;
+
+      p {
+        margin: 0;
+
+        .link {
+          color: $orange !important;
+          font-size: 14px !important;
+          border-bottom: 1px solid $gray88;
+
+          &:hover {
+            color: $primary !important;
+          }
+        }
+      }
+    }
+    
+    .content-main {
+      .content-form {
+
+        .title {
+          font-size: 36px;
+          font-weight: bold;
+        }
+
+        .content {
+          color: $text;
+
+          .required {
+            color: red;
+          }
+
+          .form-check {
+            padding-left: 0;
+          }
+
+          // custom checkbox
+          .checkbox-custom {
+            display: block;
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+          }
+
+          // Hide the browser's default checkbox
+          .checkbox-custom input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+          }
+
+          // Create a custom checkbox
+          .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 17px;
+            width: 17px;
+            background-color: $white;
+            border-radius: .25rem;
+            border: 1px solid;
+            margin-top: 1px;
+          }
+
+          // On mouse-over, add a grey background color
+          .checkbox-custom:hover input ~ .checkmark {
+            transition: 0.3s;
+            background-color: $orange;
+            border: 1px solid $orange;
+          }
+
+          // When the checkbox is checked, add a blue background
+          .checkbox-custom input:checked ~ .checkmark {
+            background-color: $orange;
+            border: 1px solid $orange;
+          }
+
+          // Create the checkmark/indicator (hidden when not checked)
+          .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+          }
+
+          // Show the checkmark when checked
+          .checkbox-custom input:checked ~ .checkmark:after {
+            display: block;
+          }
+
+          // Style the checkmark/indicator
+          .checkbox-custom .checkmark:after {
+            left: 5px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+          }
+        }
+      }
+
+      .content-bill {
+        .bill {
+          background-color: $grayF8;
+          border-radius: 3px;
+          padding: 20px;
+
+          .title {
+            font-size: 20px;
+            font-weight: bold;
+            color: $orange;
+            padding: 0 12px;
+          }
+  
+          .content {
+            .table {
+              margin: 0;
+  
+              tr {
+                td {
+                  padding: 10px 12px;
+                }
+  
+                td.gray-text {
+                  color: $text;
+                }
+  
+                td.orange-text {
+                  color: $orange;
+                }
+              }
+  
+              tr.total {
+                border-top: 1px solid $gray88;
+                
+                td {
+                  padding: 15px 12px;
+                }
+              }
+            }
+  
+            .pay {
+              border-top: 1px solid $gray88;
+              border-bottom: 1px solid $gray88;
+              padding: 15px 12px;
+  
+              .form-check {
+                padding-left: 0;
+              }
+  
+              // custom radio
+              .radio-custom {
+                display: block;
+                position: relative;
+                padding-left: 24px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                cursor: pointer;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+              }
+    
+              // Hide the browser's default checkbox
+              .radio-custom input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+                height: 0;
+                width: 0;
+              }
+    
+              // Create a custom checkbox
+              .checkmark {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 18px;
+                width: 18px;
+                background-color: $white;
+                border-radius: 50%;
+                border: 1px solid $orange;
+                margin-top: 1px;
+              }
+    
+              // On mouse-over, add a grey background color
+              .radio-custom:hover input ~ .checkmark {
+                transition: 0.3s;
+                background-color: $orange;
+                border: 1px solid $orange;
+              }
+    
+              // When the checkbox is checked, add a blue background
+              .radio-custom input:checked ~ .checkmark {
+                background-color: $orange;
+                border: 1px solid $orange;
+              }
+    
+              // Create the checkmark/indicator (hidden when not checked)
+              .checkmark:after {
+                content: "";
+                position: absolute;
+                display: none;
+              }
+    
+              // Show the checkmark when checked
+              .radio-custom input:checked ~ .checkmark:after {
+                display: block;
+              }
+    
+              // Style the checkmark/indicator
+              .radio-custom .checkmark:after {
+                // left: 5px;
+                // top: 2px;
+                // width: 5px;
+                // height: 10px;
+                // border: solid white;
+                // border-width: 0 3px 3px 0;
+                // -webkit-transform: rotate(45deg);
+                // -ms-transform: rotate(45deg);
+                // transform: rotate(45deg);
+                left: 5px;
+                top: 5px;
+                width: 6px;
+                height: 6px;
+                border: solid white;
+                border-radius: 50%;
+              }
+            }
+  
+            .order {
+              display: flex;
+              justify-content: center;
+              padding: 30px 0 10px 0;
+  
+              .btn-order {
+                width: 180px;
+                height: 45px;
+                background-color: $orange;
+                border: 1px solid $orange;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
