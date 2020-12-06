@@ -95,6 +95,15 @@ exports.login = async (req, res) => {
   });
 };
 
+exports.loginWithGoogle = async (req, res) => {
+  console.log(req.user.social_login.social_type === "google");
+  // if (req.user.auth_type === "google") {
+  //   const google_id = req.user.google_id;
+  //   const user = await User.findOne({ google_id });
+  //   sendTokenResponse(user, 200, res);
+  // }
+};
+
 // Get token from model, create cookie and send response
 const sendTokenResponse = (user) => {
   // Create token

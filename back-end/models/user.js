@@ -60,9 +60,7 @@ const UserSchema = new Schema({
       type: String,
       enum: ["google", "facebook", "twitter"],
     },
-    social_id: {
-      type: String,
-    },
+    social_id: String,
   },
   bio: String,
   status: {
