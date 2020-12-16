@@ -30,7 +30,9 @@ const BasicInputElements = ({ categories, attributes, formInput, inputChangeHand
     };
 
     // Handle get input of itinerary
-    const inputItineraryChangeHandler = (e) => {};
+    const inputItineraryChangeHandler = (e) => {
+        const { name, value, files } = e.target;
+    };
 
     return (
         <Row>
