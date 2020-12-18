@@ -10,7 +10,15 @@ import default_image from '../../assets/images/default_upload_image.png';
 import { getAllDestination } from '../../redux/destination/actions';
 import { getAllTourAttribute, getAllTourCategory } from '../../redux/tour/actions';
 
-const BasicInputElements = ({ categories, attributes, formInput, inputChangeHandler, onInputDescription }) => {
+const BasicInputElements = ({
+    categories,
+    attributes,
+    formInput,
+    inputChangeHandler,
+    onInputDescription,
+    onSubmitForm,
+    onSelectAttribute,
+}) => {
     const [itineraryList, setItineraryList] = useState([]);
 
     useEffect(() => {
@@ -237,7 +245,9 @@ const BasicInputElements = ({ categories, attributes, formInput, inputChangeHand
                             </div>
                         </FormGroup>
                         <FormGroup className="float-right">
-                            <Button color="primary">Save</Button>
+                            <Button color="primary" onClick={onSubmitForm}>
+                                Save
+                            </Button>
                         </FormGroup>
                     </CardBody>
                 </Card>
@@ -268,10 +278,10 @@ const BasicInputElements = ({ categories, attributes, formInput, inputChangeHand
                                                 type="checkbox"
                                                 className="mb-3 mt-3"
                                                 id={attribute.slug}
-                                                name="attribute[]"
+                                                name="attributes"
                                                 value={attribute._id}
                                                 label={attribute.title}
-                                                onChange={inputChangeHandler}
+                                                onChange={onSelectAttribute}
                                             />
                                         );
                                     })}
@@ -357,7 +367,7 @@ const AddTour = (props) => {
         isFeatured: '',
         lat: '',
         lng: '',
-        attribute: [],
+        attributes: [],
         category: '',
         itinerary: [],
         price: '',
@@ -420,6 +430,19 @@ const AddTour = (props) => {
         }
     };
 
+    const onSelectAttribute = (e) => {
+        const { value, checked } = e.target;
+        let attributes = [];
+        if (checked) attributes.push(value);
+        else attributes.splice(attributes.indexOf(value), 1);
+        console.log(attributes);
+        setFormInput({ ...formInput, attributes: attributes });
+    };
+
+    const onSubmitForm = () => {
+        console.log(formInput);
+    };
+
     return (
         <React.Fragment>
             <Row className="page-title">
@@ -442,6 +465,8 @@ const AddTour = (props) => {
                         formInput={formInput}
                         inputChangeHandler={inputChangeHandler}
                         onInputDescription={onInputDescription}
+                        onSubmitForm={onSubmitForm}
+                        onSelectAttribute={onSelectAttribute}
                     />
                 </Col>
             </Row>

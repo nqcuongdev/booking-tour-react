@@ -25,16 +25,12 @@ const UserSchema = new Schema({
   password: {
     type: String,
     trim: true,
-    required: true,
   },
   address: {
     type: String,
     default: "",
   },
-  phone: {
-    type: String,
-    required: true,
-  },
+  phone: String,
   gender: {
     type: String,
     default: "",

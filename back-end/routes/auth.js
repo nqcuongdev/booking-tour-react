@@ -1,5 +1,5 @@
 const express = require("express");
-const { register, login, loginWithGoogle } = require("../controllers/auth");
+const { register, login, loginWithSocial } = require("../controllers/auth");
 require("../config/passport");
 const passport = require("passport");
 
@@ -20,7 +20,13 @@ router.get(
     session: false,
     failureRedirect: "/auth/google",
   }),
-  loginWithGoogle
+  loginWithSocial
+);
+router.get("/facebook", passport.authenticate("facebook", { session: false }));
+router.get(
+  "/facebook/callback",
+  passport.authenticate("facebook", { session: false }),
+  loginWithSocial
 );
 
 module.exports = router;

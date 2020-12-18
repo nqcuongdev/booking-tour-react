@@ -58,6 +58,11 @@ passport.deserializeUser((id, done) => {
 });
 
 /**
+ * Login with email and password
+ */
+passport.use(jwtLogin);
+
+/**
  * Login with google
  */
 passport.use(
@@ -77,9 +82,23 @@ passport.use(
         });
 
         if (user) {
-          if (user.social_login.social_type === "google") {
-            return done(null, user);
+          if (!user.social_login.social_id) {
+            let data = {
+              "social_login.social_type": "google",
+              "social_login.social_id": profile.id,
+            };
+            const newUser = await User.findByIdAndUpdate(
+              { _id: user._id },
+              data,
+              {
+                new: true,
+              }
+            );
+
+            return done(null, newUser);
           }
+
+          return done(null, user);
         }
 
         const newUser = new User({
@@ -106,9 +125,8 @@ passport.use(
 );
 
 /**
- * Login with facebook
+ * Login with Facebook
  */
-
 passport.use(
   new FacebookStrategy(
     {
@@ -119,11 +137,29 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       const user = await User.findOne({
-        facebook_id: profile.id,
-        authType: "facebook",
+        $or: [
+          { "social_login.social_id": profile.id, auth_type: "social" },
+          { email: profile.email },
+        ],
       });
 
       if (user) {
+        if (!user.social_login.social_id) {
+          let data = {
+            "social_login.social_type": "facebook",
+            "social_login.social_id": profile.id,
+          };
+          const newUser = await User.findByIdAndUpdate(
+            { _id: user._id },
+            data,
+            {
+              new: true,
+            }
+          );
+
+          return done(null, newUser);
+        }
+
         return done(null, user);
       }
 
