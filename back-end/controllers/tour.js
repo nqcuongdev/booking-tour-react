@@ -10,3 +10,5 @@ exports.all = async (req, res) => {
     data: tours,
   });
 };
+
+exports.create = async (req, res) => {};
