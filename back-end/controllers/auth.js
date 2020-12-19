@@ -95,6 +95,18 @@ exports.login = async (req, res) => {
   });
 };
 
+exports.loginWithSocial = async (req, res) => {
+  user = req.user;
+
+  let token = sendTokenResponse(user, 200, res);
+
+  return res.status(200).json({
+    success: !!user,
+    token: token,
+    data: user,
+  });
+};
+
 // Get token from model, create cookie and send response
 const sendTokenResponse = (user) => {
   // Create token

@@ -130,20 +130,6 @@ const tourRoutes = {
     icon: FeatherIcon.Package,
     children: [
         {
-            path: '/tour/list-tour',
-            name: 'List Tour',
-            component: AllTour,
-            roles: ['admin'],
-            route: PrivateRoute,
-        },
-        {
-            path: '/tour/:id',
-            name: 'Add Tour',
-            component: HandleTour,
-            roles: ['admin'],
-            route: PrivateRoute,
-        },
-        {
             path: '/tour/tour-category',
             name: 'Tour Category',
             component: TourCategory,
@@ -154,6 +140,20 @@ const tourRoutes = {
             path: '/tour/tour-style',
             name: 'Tour Style',
             component: TourStyle,
+            roles: ['admin'],
+            route: PrivateRoute,
+        },
+        {
+            path: '/tour/list-tour',
+            name: 'List Tour',
+            component: AllTour,
+            roles: ['admin'],
+            route: PrivateRoute,
+        },
+        {
+            path: '/tour/:id',
+            name: 'Add Tour',
+            component: HandleTour,
             roles: ['admin'],
             route: PrivateRoute,
         },

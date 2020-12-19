@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Container } from "reactstrap";
 import "./TopHeader.scss";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import SignInForm from "../SignInForm/SignInForm";
 import SignUpForm from "../SignUpForm/SignUpForm";
+import AuthContext from "../../contexts/auth";
 
-const TopHeader = () => {
+const TopHeader = (props) => {
   const [signIn, setSignIn] = useState(false);
   const [signUp, setSignUp] = useState(false);
 
@@ -22,26 +23,34 @@ const TopHeader = () => {
           </div>
           <div className="d-flex align-items-center">
             <ul className="nav">
-              <li className="nav-item">
-                <Link
-                  className="nav-link"
-                  onClick={() => {
-                    setSignIn(true);
-                  }}
-                >
-                  Login
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className="nav-link"
-                  onClick={() => {
-                    setSignUp(true);
-                  }}
-                >
-                  Sign Up
-                </Link>
-              </li>
+              {props.user ? (
+                <li className="nav-item">
+                  <Link className="nav-link">Logout</Link>
+                </li>
+              ) : (
+                <React.Fragment>
+                  <li className="nav-item">
+                    <Link
+                      className="nav-link"
+                      onClick={() => {
+                        setSignIn(true);
+                      }}
+                    >
+                      Login
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link
+                      className="nav-link"
+                      onClick={() => {
+                        setSignUp(true);
+                      }}
+                    >
+                      Sign Up
+                    </Link>
+                  </li>
+                </React.Fragment>
+              )}
             </ul>
           </div>
         </div>

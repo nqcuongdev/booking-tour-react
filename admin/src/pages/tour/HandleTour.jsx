@@ -9,8 +9,18 @@ import * as FeatherIcon from 'react-feather';
 import default_image from '../../assets/images/default_upload_image.png';
 import { getAllDestination } from '../../redux/destination/actions';
 import { getAllTourAttribute, getAllTourCategory } from '../../redux/tour/actions';
+import { url } from '../../helpers/url';
 
-const BasicInputElements = ({ categories, attributes, formInput, inputChangeHandler, onInputDescription }) => {
+const BasicInputElements = ({
+    categories,
+    attributes,
+    formInput,
+    inputChangeHandler,
+    onInputDescription,
+    onSubmitForm,
+    onSelectAttribute,
+    onSetItinerary,
+}) => {
     const [itineraryList, setItineraryList] = useState([]);
 
     useEffect(() => {
@@ -24,13 +34,22 @@ const BasicInputElements = ({ categories, attributes, formInput, inputChangeHand
         setItineraryList(list);
     };
 
+    // Handle get input of itinerary
+    const onInputItineraryChange = (index, e) => {
+        const values = [...itineraryList];
+        const { name, value, files } = e.target;
+        values[index][name] = value;
+        if (files) {
+            values[index][name] = files;
+        }
+        setItineraryList(values);
+        onSetItinerary(itineraryList);
+    };
+
     // Handle click event of the Add button
     const handleAddClick = () => {
         setItineraryList([...itineraryList, { image: '', title: '', description: '', address: '' }]);
     };
-
-    // Handle get input of itinerary
-    const inputItineraryChangeHandler = (e) => {};
 
     return (
         <Row>
@@ -142,41 +161,71 @@ const BasicInputElements = ({ categories, attributes, formInput, inputChangeHand
                                                 <Row>
                                                     <Col md={2}>
                                                         <FormGroup>
+                                                            {/* {itinerary.image ? (
+                                                                typeof itinerary.image === 'string' ? (
+                                                                    <img
+                                                                        src={`${url}/${itinerary.image}`}
+                                                                        className="mb-5"
+                                                                        alt="Default Picture tour"
+                                                                    />
+                                                                ) : typeof itinerary.image === 'object' ? (
+                                                                    <React.Fragment>
+                                                                        <img
+                                                                            srcObject={URL.createObjectURL(
+                                                                                itinerary.image
+                                                                            )}
+                                                                            className="mb-5"
+                                                                            alt="Default Picture tour"
+                                                                        />
+                                                                    </React.Fragment>
+                                                                ) : (
+                                                                    <img
+                                                                        src={itinerary.image}
+                                                                        className="mb-5"
+                                                                        alt="Default Picture tour"
+                                                                    />
+                                                                )
+                                                            ) : (
+                                                                
+                                                            )} */}
                                                             <img
-                                                                src={itinerary.image ? itinerary.image : default_image}
+                                                                src={default_image}
                                                                 className="mb-5 img-fluid"
-                                                                alt="Default Picture tour"
+                                                                alt="Default"
                                                             />
                                                             <Input
                                                                 type="file"
-                                                                name={`iti_image[${index}][image]`}
-                                                                id={`iti_image[${index}][image]`}
+                                                                name="image"
+                                                                onChange={(e) => onInputItineraryChange(index, e)}
                                                             />
                                                         </FormGroup>
                                                     </Col>
                                                     <Col md={4}>
                                                         <Input
                                                             type="text"
-                                                            name={`iti_title[${index}][title]`}
+                                                            name="title"
                                                             placeholder="Title: Day 1"
                                                             defaultValue={itinerary.title}
+                                                            onChange={(e) => onInputItineraryChange(index, e)}
                                                         />
                                                         <Input
                                                             type="text"
                                                             className="mt-2"
-                                                            name={`iti_description[${index}][description]`}
+                                                            name="address"
                                                             placeholder="Desc: Da Nang"
                                                             defaultValue={itinerary.address}
+                                                            onChange={(e) => onInputItineraryChange(index, e)}
                                                         />
                                                     </Col>
                                                     <Col md={5}>
                                                         <FormGroup>
                                                             <Input
                                                                 type="textarea"
-                                                                name={`iti_description[${index}][content]`}
+                                                                name="description"
                                                                 rows="5"
                                                                 placeholder="Content..."
                                                                 defaultValue={itinerary.description}
+                                                                onChange={(e) => onInputItineraryChange(index, e)}
                                                             />
                                                         </FormGroup>
                                                     </Col>
@@ -235,7 +284,9 @@ const BasicInputElements = ({ categories, attributes, formInput, inputChangeHand
                             </div>
                         </FormGroup>
                         <FormGroup className="float-right">
-                            <Button color="primary">Save</Button>
+                            <Button color="primary" onClick={onSubmitForm}>
+                                Save
+                            </Button>
                         </FormGroup>
                     </CardBody>
                 </Card>
@@ -266,10 +317,10 @@ const BasicInputElements = ({ categories, attributes, formInput, inputChangeHand
                                                 type="checkbox"
                                                 className="mb-3 mt-3"
                                                 id={attribute.slug}
-                                                name="attribute[]"
+                                                name="attributes"
                                                 value={attribute._id}
                                                 label={attribute.title}
-                                                onChange={inputChangeHandler}
+                                                onChange={onSelectAttribute}
                                             />
                                         );
                                     })}
@@ -355,7 +406,7 @@ const AddTour = (props) => {
         isFeatured: '',
         lat: '',
         lng: '',
-        attribute: [],
+        attributes: [],
         category: '',
         itinerary: [],
         price: '',
@@ -418,6 +469,23 @@ const AddTour = (props) => {
         }
     };
 
+    // Handle select attribute checkbox
+    const onSelectAttribute = (e) => {
+        const { value, checked } = e.target;
+        let attributes = [...formInput.attributes];
+        if (checked) attributes.push(value);
+        else attributes.splice(attributes.indexOf(value), 1);
+        setFormInput({ ...formInput, attributes: attributes });
+    };
+
+    const onSetItinerary = (itinerary) => {
+        setFormInput({ ...formInput, itinerary: itinerary });
+    };
+
+    const onSubmitForm = () => {
+        console.log(formInput);
+    };
+
     return (
         <React.Fragment>
             <Row className="page-title">
@@ -440,6 +508,9 @@ const AddTour = (props) => {
                         formInput={formInput}
                         inputChangeHandler={inputChangeHandler}
                         onInputDescription={onInputDescription}
+                        onSubmitForm={onSubmitForm}
+                        onSelectAttribute={onSelectAttribute}
+                        onSetItinerary={onSetItinerary}
                     />
                 </Col>
             </Row>
