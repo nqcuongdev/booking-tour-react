@@ -482,8 +482,26 @@ const AddTour = (props) => {
         setFormInput({ ...formInput, itinerary: itinerary });
     };
 
-    const onSubmitForm = () => {
+    const onSubmitForm = (e) => {
+        e.preventDefault();
         console.log(formInput);
+        const formData = new FormData();
+        formData.append('title', formInput.title);
+        formData.append('description', formInput.description);
+        formData.append('address', formInput.address);
+        formData.append('lat', formInput.lat);
+        formData.append('lng', formInput.lng);
+        formData.append('isFeatured', formInput.isFeatured === 'on' ? true : false);
+        formData.append('status', formInput.status === 'publish' || formInput.status === 'active' ? 'active' : 'hide');
+
+        const files = formInput.image;
+        for (let i = 0; i < files.length; i++) {
+            formData.append('image', files[i]);
+        }
+        console.log(formInput.itinerary);
+        // for (let i = 0; i < formInput.itinerary.length; i++) {
+        //     formData.append('')
+        // }
     };
 
     return (
