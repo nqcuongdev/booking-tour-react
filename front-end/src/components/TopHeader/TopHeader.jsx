@@ -23,6 +23,7 @@ const TopHeader = (props) => {
           </div>
           <div className="d-flex align-items-center">
             <ul className="nav">
+              {console.log(props.user)}
               {props.user ? (
                 <li className="nav-item">
                   <Link className="nav-link">Logout</Link>
