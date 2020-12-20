@@ -12,7 +12,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import PageTitle from '../../components/PageTitle';
 import calImg from '../../assets/images/cal.png';
 
-const CalendarApp = () => {
+const Availability = () => {
     const events = [
         {
             id: 1,
@@ -129,4 +129,4 @@ const CalendarApp = () => {
     );
 };
 
-export default CalendarApp;
+export default Availability;

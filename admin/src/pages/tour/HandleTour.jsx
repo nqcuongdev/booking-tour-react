@@ -10,6 +10,7 @@ import default_image from '../../assets/images/default_upload_image.png';
 import { getAllDestination } from '../../redux/destination/actions';
 import { getAllTourAttribute, getAllTourCategory } from '../../redux/tour/actions';
 import { url } from '../../helpers/url';
+import { ToastContainer, toast } from 'react-toastify';
 
 const BasicInputElements = ({
     categories,
@@ -484,11 +485,19 @@ const AddTour = (props) => {
 
     const onSubmitForm = (e) => {
         e.preventDefault();
-        console.log(formInput);
+
         const formData = new FormData();
         formData.append('title', formInput.title);
         formData.append('description', formInput.description);
         formData.append('address', formInput.address);
+        formData.append('attribute', formInput.attribute);
+        formData.append('category', formInput.category);
+        formData.append('price', formInput.price);
+        formData.append('sale_price', formInput.sale_price);
+        formData.append('duration', formInput.duration);
+        formData.append('min_people', formInput.min_people);
+        formData.append('max_people', formInput.max_people);
+        formData.append('destination', formInput.destination);
         formData.append('lat', formInput.lat);
         formData.append('lng', formInput.lng);
         formData.append('isFeatured', formInput.isFeatured === 'on' ? true : false);
@@ -498,10 +507,29 @@ const AddTour = (props) => {
         for (let i = 0; i < files.length; i++) {
             formData.append('image', files[i]);
         }
-        console.log(formInput.itinerary);
-        // for (let i = 0; i < formInput.itinerary.length; i++) {
-        //     formData.append('')
-        // }
+
+        for (let i = 0; i < formInput.itinerary.length; i++) {
+            formData.append(`itinerary[${i}][title]`, formInput.itinerary[i].title);
+            formData.append(`itinerary[${i}][image]`, formInput.itinerary[i].image);
+            formData.append(`itinerary[${i}][description]`, formInput.itinerary[i].description);
+            formData.append(`itinerary[${i}][address]`, formInput.itinerary[i].address);
+        }
+
+        if (formInput._id) {
+            formData.append('_id', formInput._id);
+        } else {
+            props.createTour(formData);
+        }
+
+        toast.success(`${formInput._id ? 'Edit' : 'Add'} Tour success`, {
+            position: 'top-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
     };
 
     return (
@@ -558,6 +586,17 @@ const AddTour = (props) => {
                     </Card>
                 </Col>
             </Row>
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </React.Fragment>
     );
 };

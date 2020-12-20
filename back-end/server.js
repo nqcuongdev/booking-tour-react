@@ -5,9 +5,13 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const passport = require("passport");
 const connectDB = require("./config/database");
+const paypalConfig = require("./config/paypal");
 
 // Connect to database
 connectDB();
+
+// Load config paypal
+paypalConfig();
 
 // Route files
 const auth = require("./routes/auth");
@@ -16,6 +20,8 @@ const user = require("./routes/user");
 const category = require("./routes/category");
 const attribute = require("./routes/attribute");
 const tour = require("./routes/tour");
+const paypal = require("./routes/paypal");
+const stripe = require("./routes/stripe");
 
 const app = express();
 
@@ -39,6 +45,8 @@ app.use("/api/v1/destination/", destination);
 app.use("/api/v1/category/", category);
 app.use("/api/v1/attribute", attribute);
 app.use("/api/v1/tour", tour);
+app.use("/api/v1/paypal", paypal);
+app.use("/api/v1/stripe", stripe);
 
 //Enable Passport
 app.use(passport.initialize());
