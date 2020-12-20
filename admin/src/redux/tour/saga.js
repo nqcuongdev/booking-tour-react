@@ -3,6 +3,8 @@ import {
     createTourAttributeSuccess,
     createTourCategoryFailed,
     createTourCategorySuccess,
+    createTourFailed,
+    createTourSuccess,
     getAllTourAttributeFailed,
     getAllTourAttributeSuccess,
     getAllTourCategoryFailed,
@@ -15,6 +17,7 @@ import {
     updateTourCategorySuccess,
 } from './actions';
 import {
+    CREATE_TOUR,
     CREATE_TOUR_ATTRIBUTE,
     CREATE_TOUR_CATEGORY,
     GET_ALL_TOUR,
@@ -23,7 +26,7 @@ import {
     UPDATE_TOUR_ATTRIBUTE,
     UPDATE_TOUR_CATEGORY,
 } from './constants';
-import { call, put, takeEvery, all, fork } from 'redux-saga/effects';
+import { call, put, takeEvery, all, fork, take } from 'redux-saga/effects';
 import { fetchJSON } from '../../helpers/api';
 
 const token = localStorage.getItem('jwtKey');
@@ -52,6 +55,38 @@ function* getAllTour() {
                 message = error;
         }
         yield put(getAllTourFailed(message));
+    }
+}
+
+function* createTour({ data }) {
+    const options = {
+        body: data,
+        method: 'POST',
+        headers: {
+            Authorization: 'Bearer ' + token,
+        },
+    };
+
+    try {
+        const response = yield call(fetchJSON, 'tour/create', options);
+        if (response && response.success) {
+            yield put(createTourSuccess(response.data));
+        } else {
+            yield put(createTourFailed(response.message));
+        }
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500:
+                message = 'Internal Server Error';
+                break;
+            case 401:
+                message = 'Invalid credentials';
+                break;
+            default:
+                message = error;
+        }
+        yield put(createTourFailed(message));
     }
 }
 
@@ -245,6 +280,10 @@ export function* watchGetAllTour() {
     yield takeEvery(GET_ALL_TOUR, getAllTour);
 }
 
+export function* watchCreateTour() {
+    yield takeEvery(CREATE_TOUR, createTour);
+}
+
 export function* watchGetAllTourCategory() {
     yield takeEvery(GET_ALL_TOUR_CATEGORY, getAllTourCategory);
 }
@@ -272,6 +311,7 @@ export function* watchUpdateTourAttribute() {
 function* tourSaga() {
     yield all([
         fork(watchGetAllTour),
+        fork(watchCreateTour),
         fork(watchGetAllTourCategory),
         fork(watchCreateTourCategory),
         fork(watchUpdateTourCategory),

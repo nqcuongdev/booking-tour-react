@@ -1,10 +1,13 @@
 import {
+    CREATE_TOUR,
     CREATE_TOUR_ATTRIBUTE,
     CREATE_TOUR_ATTRIBUTE_FAILED,
     CREATE_TOUR_ATTRIBUTE_SUCCESS,
     CREATE_TOUR_CATEGORY,
     CREATE_TOUR_CATEGORY_FAILED,
     CREATE_TOUR_CATEGORY_SUCCESS,
+    CREATE_TOUR_FAILED,
+    CREATE_TOUR_SUCCESS,
     GET_ALL_TOUR,
     GET_ALL_TOUR_ATTRIBUTE,
     GET_ALL_TOUR_ATTRIBUTE_FAILED,
@@ -33,6 +36,21 @@ export const getAllTourSuccess = (tours) => ({
 
 export const getAllTourFailed = (error) => ({
     type: GET_ALL_TOUR_FAILED,
+    payload: error,
+});
+
+export const createTour = (data) => ({
+    type: CREATE_TOUR,
+    payload: data,
+});
+
+export const createTourSuccess = (tour) => ({
+    type: CREATE_TOUR_SUCCESS,
+    payload: tour,
+});
+
+export const createTourFailed = (error) => ({
+    type: CREATE_TOUR_FAILED,
     payload: error,
 });
 

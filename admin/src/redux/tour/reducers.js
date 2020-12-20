@@ -20,12 +20,16 @@ import {
     GET_ALL_TOUR,
     GET_ALL_TOUR_SUCCESS,
     GET_ALL_TOUR_FAILED,
+    CREATE_TOUR,
+    CREATE_TOUR_SUCCESS,
+    CREATE_TOUR_FAILED,
 } from './constants';
 
 const INIT_STATE = {
     categories: null,
     category: null,
     tours: null,
+    tour: null,
     attributes: null,
     attribute: null,
     loading: false,
@@ -38,6 +42,12 @@ const Tour = (state = INIT_STATE, action) => {
         case GET_ALL_TOUR_SUCCESS:
             return { ...state, tours: action.payload, loading: false, error: null };
         case GET_ALL_TOUR_FAILED:
+            return { ...state, error: action.payload, loading: false };
+        case CREATE_TOUR:
+            return { ...state, loading: true };
+        case CREATE_TOUR_SUCCESS:
+            return { ...state, tour: action.payload, loading: false, error: null };
+        case CREATE_TOUR_FAILED:
             return { ...state, error: action.payload, loading: false };
         case GET_ALL_TOUR_CATEGORY:
             return { ...state, loading: true };
