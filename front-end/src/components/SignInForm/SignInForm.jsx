@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import './SignInForm.scss';
+import "./SignInForm.scss";
 import {
   Button,
   Col,
   CustomInput,
   Form,
+  FormFeedback,
   FormGroup,
   Input,
   Modal,
@@ -19,22 +20,12 @@ import authApi from "../../api/authApi";
 
 const SignInForm = (props) => {
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const [error, setError] = useState({ email: "", password: "", message: "" });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-
-  // thông báo
-  const [notification, setNotification] = useState({})
-  const handleNotificationFailed = () => setNotification({
-    status: false,
-    message: 'Email or Password wrong please try again'
-  });
-  const handleNotificationSuccess = () => setNotification({
-    status: true,
-    message: '',
-  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,17 +34,13 @@ const SignInForm = (props) => {
 
       if (response.success) {
         localStorage.setItem("jwtKey", response.token);
-        // thông báo
-        handleNotificationSuccess();
-        // đóng modal sau khi login
-        setTimeout(() => {
-          props.toggle();
-        }, 400);
-        
+        props.toggle();
       }
-    } catch (error) {
-      console.log('error: ', error);
-      handleNotificationFailed();
+    } catch (errors) {
+      if (errors.response.data) {
+        let err = errors.response.data;
+        setError(err.message);
+      }
     }
   };
 
@@ -70,7 +57,9 @@ const SignInForm = (props) => {
               name="email"
               placeholder="Email address"
               onChange={handleInputChange}
+              invalid={error && error.email}
             />
+            {error && error.email && <FormFeedback>{error.email}</FormFeedback>}
           </FormGroup>
           <FormGroup>
             <Input
@@ -78,7 +67,11 @@ const SignInForm = (props) => {
               name="password"
               placeholder="Password"
               onChange={handleInputChange}
+              invalid={error && error.password}
             />
+            {error && error.password && (
+              <FormFeedback>{error.password}</FormFeedback>
+            )}
           </FormGroup>
           <FormGroup>
             <div className="d-flex justify-content-between mt-1">
@@ -99,13 +92,11 @@ const SignInForm = (props) => {
             </Button>
           </FormGroup>
 
-          <div className="notification">
-            {notification.status ? (
-              <span className="success">{notification.message}</span>
-            ) : (
-              <span className="failed">{notification.message}</span>
-            )}
-          </div>
+          {error && error.message && (
+            <div className="notification">
+              <span className="failed">{error.message}</span>
+            </div>
+          )}
 
           <div className="advanced">
             <p className="text-center mt-5">or continue with</p>
