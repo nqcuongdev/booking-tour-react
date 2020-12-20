@@ -1,34 +1,45 @@
 @import '../../assets/scss/variables';
 
-.signin-form {
-    .custom-control-label {
-        padding-top: 2px;
+.custom-control-label {
+    padding-top: 2px;
+}
+
+.text__inform {
+    color: $text !important;
+    font-size: 14px;
+    padding-top: 2px;
+
+    &:hover {
+        color: $orange !important;
     }
-    
-    .text__inform {
-        color: $text !important;
+}
+
+.btn-orange {
+    text-transform: uppercase;
+    height: 45px;
+    font-weight: $font-weight-semi-bold;
+}
+
+.modal-body {
+    input {
+        height: 50px;
+        box-shadow: none;
+        border: 1px solid $gainsboro;
+        border-radius: 2px;
         font-size: 14px;
-        padding-top: 2px;
-    
-        &:hover {
-            color: $orange !important;
-        }
+        color: $gainsboro;
     }
-    
-    .btn-orange {
-        text-transform: uppercase;
-        height: 45px;
-        font-weight: $font-weight-semi-bold;
+}  
+
+.notification {
+    min-height: 21px;
+    text-align: center;
+
+    .success {
+        color: green;
     }
-    
-    .modal-body {
-        input {
-            height: 50px;
-            box-shadow: none;
-            border: 1px solid $gainsboro;
-            border-radius: 2px;
-            font-size: 14px;
-            color: $gainsboro;
-        }
-    }    
+
+    .failed {
+        color: red;
+    }
 }
