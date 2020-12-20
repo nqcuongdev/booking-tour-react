@@ -79,10 +79,19 @@ const TourSchema = new mongoose.Schema({
     },
   ],
   price: {
-    type: Number,
-    required: true,
+    child: {
+      type: Number,
+      required: true,
+    },
+    adult: {
+      type: Number,
+      required: true,
+    },
   },
-  sale_price: Number,
+  sale_price: {
+    child: Number,
+    adult: Number,
+  },
   duration: {
     type: String,
     required: true,
@@ -92,6 +101,10 @@ const TourSchema = new mongoose.Schema({
   destination: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "destination",
+  },
+  created_by: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
   },
   created_at: {
     type: Date,
@@ -107,19 +120,22 @@ const TourAvailabilitySchema = new mongoose.Schema({
   code: {
     type: String,
     required: true,
+    unique: true,
   },
-  start_date: {
-    type: Date,
-    required: true,
+  tour: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "tour",
   },
-  end_date: {
-    type: Date,
-    required: true,
-  },
+  start_date: Date,
+  end_date: Date,
   available: {
     type: Number,
     required: true,
     default: 1,
+  },
+  remainder: {
+    type: Number,
+    default: 0,
   },
   created_at: {
     type: Date,

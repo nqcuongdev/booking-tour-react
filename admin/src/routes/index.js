@@ -18,6 +18,7 @@ const AllTour = React.lazy(() => import('../pages/tour/Tour'));
 const HandleTour = React.lazy(() => import('../pages/tour/HandleTour'));
 const TourCategory = React.lazy(() => import('../pages/tour/TourCategory'));
 const TourStyle = React.lazy(() => import('../pages/tour/TourStyle'));
+const TourAvailability = React.lazy(() => import('../pages/tour/Availability'));
 // apps
 const CalendarApp = React.lazy(() => import('../pages/apps/Calendar'));
 const EmailInbox = React.lazy(() => import('../pages/apps/Email/Inbox'));
@@ -151,6 +152,13 @@ const tourRoutes = {
             route: PrivateRoute,
         },
         {
+            path: '/tour/schedule',
+            name: 'Schedule',
+            component: TourAvailability,
+            roles: ['admin'],
+            route: PrivateRoute,
+        },
+        {
             path: '/tour/:id',
             name: 'Add Tour',
             component: HandleTour,
@@ -244,7 +252,7 @@ const taskAppRoutes = {
     ],
 };
 
-const appRoutes = [destinationRoutes, tourRoutes, emailAppRoutes, projectAppRoutes, taskAppRoutes];
+const appRoutes = [destinationRoutes, tourRoutes, calendarAppRoutes, emailAppRoutes, projectAppRoutes, taskAppRoutes];
 
 // pages
 const pagesRoutes = {

@@ -3,7 +3,13 @@ const multer = require("multer");
 const path = require("path");
 const isAuth = require("../middleware/isAuth");
 const checkRole = require("../middleware/checkRole");
-const { all, create } = require("../controllers/tour");
+const {
+  all,
+  show,
+  create,
+  getScheduleTour,
+  bookTour,
+} = require("../controllers/tour");
 
 const router = express.Router();
 
@@ -30,6 +36,9 @@ const upload = multer({
 }).any();
 
 router.get("/", all);
+router.get("/:id", show);
+router.get("/:id/schedule", isAuth, checkRole, getScheduleTour);
+router.post("/:id/booking", bookTour);
 router.post("/create", upload, isAuth, checkRole, create);
 
 module.exports = router;

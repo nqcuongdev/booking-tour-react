@@ -8,3 +8,5 @@
 # uploads file folder
 uploads/destinations/*
 uploads/hotels/*
+uploads/tours/*
+uploads/users/*
