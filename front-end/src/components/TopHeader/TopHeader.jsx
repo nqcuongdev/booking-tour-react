@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
+import React, { useEffect, useState} from "react";
 import { Container, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import "./TopHeader.scss";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
 import SignInForm from "../SignInForm/SignInForm";
 import SignUpForm from "../SignUpForm/SignUpForm";
 import AuthContext from "../../contexts/auth";
@@ -17,21 +16,13 @@ const TopHeader = (props) => {
   const toggleSignIn = () => setSignIn(!signIn)
   const toggleSignUp = () => setSignUp(!signUp)
 
-  // dropdown menu when login
+  // dropdown menu after login
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const toggleDropdown = () => setDropdownOpen(prevState => !prevState)
 
-  const checkLogin = () => {
-    if (localStorage.getItem('jwtKey')) {
-      return true
-    } else {
-      return false
-    }
-  }
-
-  // console.log('User: ', props.user)
   const logout = async () => {
     localStorage.removeItem('jwtKey')
+    window.location.reload()
   }
 
   return (
@@ -43,11 +34,10 @@ const TopHeader = (props) => {
           </div>
           <div className="d-flex align-items-center">
             <ul className="nav">
-              {checkLogin() ? (
+              {props.user.full_name ? (
                 <React.Fragment>
                   <li className="nav-item">
                   <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
-                    {console.log(props.user)}
                     <DropdownToggle caret>
                       {props.user.full_name}<i class="arrow"></i>
                     </DropdownToggle>

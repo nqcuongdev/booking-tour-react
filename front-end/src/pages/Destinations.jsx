@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import MainLayout from "../layouts/MainLayout";
 import BreadcrumbBanner from "../components/BreadcrumbBanner/BreadcrumbBanner";
 import bannerBackground from "../assets/images/background-1.jpg";
 import { Button, Col, Container, Input, Row } from "reactstrap";
 import { AiOutlineSearch, AiFillCaretRight } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 import AdItem from "../components/AdItem/AdItem";
 import adImage from "../assets/images/ad.png";
 import post_1 from "../assets/images/posts/post-1.jpg";
@@ -14,6 +14,7 @@ import Paginate from "../components/Paginate/Paginate";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import PopularDestinations from "../components/PopularDestinations/PopularDestinations";
 import Faq from "../components/Faq/Faq";
+import DestinationApi from "../api/destinationsApi";
 
 const popularDestinations = [
     'Rome', 'Indonesia', 'London', 'venice', 'paris', 'florence', 'tokyo', 'vietnam', 'thailand'
@@ -29,40 +30,42 @@ const popularItem = {
     image: adImage,
 };
 
-const destinationList = [
-    {
-        title: 'Alaska',
-        image: post_3,
-        country: 'Alaska',
-        description: 'Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively create your very own travel booking website to offer hotel, tours, car and cruise bookings in minutes...'
-    },
-    {
-        title: 'Berlin',
-        image: post_2,
-        country: 'Germany',
-        description: 'Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively create your very own travel booking website to offer hotel, tours, car and cruise bookings in minutes...'
-    },
-    {
-        title: 'Hawaii',
-        image: post_1,
-        country: 'us state',
-        description: 'Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively create your very own travel booking website to offer hotel, tours, car and cruise bookings in minutes...'
-    },
-    {
-        title: 'Mu Cang Chai',
-        image: post_2,
-        country: 'viet nam',
-        description: 'Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively create your very own travel booking website to offer hotel, tours, car and cruise bookings in minutes...'
-    },
-    {
-        title: 'London',
-        image: post_3,
-        country: 'england',
-        description: 'Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively create your very own travel booking website to offer hotel, tours, car and cruise bookings in minutes...'
-    }
-]
-
 const Destinations = props => {
+    const [destinationsList, setDestinationsList] = useState([])
+
+    useEffect(() => {
+        const fetchDestinations = async () => {
+            try {
+                const params = { pageOffset: 0 }
+                const response = await DestinationApi.getAll()
+
+                // console.log(response)
+                setDestinationsList(response.data)
+            } catch (error) {
+                console.log('Fail to fetch Destinations list: ', error)
+            }
+        }
+
+        fetchDestinations()
+    }, [])
+
+    const viewOnMap = (lat, lng, map_zoom) => {
+        // window.open(`https://maps.google.com?q=${lat},${lng}`);
+        window.open(`https://www.google.com/maps/@${lat},${lng},${map_zoom}z`);
+    };
+
+    const imageUrl = 'http://localhost:6969/';
+    // lấy đường dẫn hiện tại
+    const { url } = useRouteMatch();
+
+    const innerHTML = (htmlCode) => {
+        if (htmlCode.length <= 200) {
+            return {__html: `${htmlCode}`};
+        } else {
+            return {__html: `${htmlCode.substring(0, 200)}...`};
+        }
+    }
+
     return (
         <MainLayout>
             <div className="destinations">
@@ -87,19 +90,30 @@ const Destinations = props => {
                         <Col xl={9} lg={9} md={9} xs={12} className="destinations-main-content">
                             <div className="destination-item">
                                 <Container>
-                                    {destinationList.map(item => {
+                                    {destinationsList.map(item => {
                                         return (
                                             <Row className="item">
                                                 <Col xl={5} lg={5} md={5} xs={12} className="image">
-                                                    <img src={item.image} alt=""/>
+                                                    <img src={imageUrl + item.image[0]} alt=""/>
                                                 </Col>
                                                 <Col xl={7} lg={7} md={7} xs={12} className="content">
                                                     <p className="title">{item.title}</p>
-                                                    <p className="country">{item.country}</p>
-                                                    <p className="description">{item.description}</p>
+                                                    <p className="address">{item.address}</p>
+                                                    <div 
+                                                        className="description" 
+                                                        dangerouslySetInnerHTML={ innerHTML(item.description) }>
+                                                    </div>
                                                     <div className="button">
-                                                        <Button className="view-detail">View detail</Button>
-                                                        <Link className="view-map">
+                                                        <Link to={{
+                                                            pathname: `${url}/${item.slug}`,
+                                                            state: {id: `${item._id}`}
+                                                        }}>
+                                                            <Button className="view-detail">View detail</Button>
+                                                        </Link>
+                                                        <Link 
+                                                            className="view-map" 
+                                                            onClick={() => viewOnMap(item.lat, item.lng, item.map_zoom)}
+                                                        >
                                                             <FaMapMarkerAlt className="icon" /> <span>View on map</span>
                                                         </Link>
                                                     </div>

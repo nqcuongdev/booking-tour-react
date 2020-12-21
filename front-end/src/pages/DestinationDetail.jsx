@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import MainLayout from "../layouts/MainLayout";
-import { Link } from 'react-router-dom';
+import { Link, useParams, useRouteMatch } from 'react-router-dom';
 import { Container, Row, Col, Input, Button } from 'reactstrap';
 import { AiOutlineSearch } from "react-icons/ai";
 import PopularDestinations from "../components/PopularDestinations/PopularDestinations";
@@ -27,13 +27,14 @@ import avatar_2 from '../assets/images/avatar-testimonial/avatar-2.jpg';
 import avatar_3 from '../assets/images/avatar-testimonial/avatar-3.jpg';
 import Comment from '../components/Comment/Comment';
 import CommentForm from '../components/CommentForm/CommentForm';
+import DestinationApi from "../api/destinationsApi";
 
 const destinationData = {
     title: 'Hawaii',
-    location: 'us state',
+    address: 'us state',
     rateStars: 4.7,
     view: 69,
-    images: [
+    image: [
         tourImage_1,
         tourImage_2,
         tourImage_3,
@@ -104,15 +105,6 @@ const toursData = [
     }
 ];
 
-const location = {
-    center: {
-      lat: 15.9750157,
-      lng: 108.2510487,
-    },
-    zoom: 17,
-    address: "VKU",
-};
-
 const commentData = [
     {
         avatar: avatar_1,
@@ -142,46 +134,65 @@ const starsCounter = (stars) => {
     if (Number.isInteger(stars)) {
         return (
             counter.map(i => {
-                if (i <= stars) {
-                    return (
-                        <FaStar className="stars" />
-                    );
-                } else {
-                    return (
-                        <FaRegStar className="stars" />
-                    );
-                }
+                if (i <= stars) return ( <FaStar className="stars" /> ); 
+                else return ( <FaRegStar className="stars" /> );
             })
         )
     } else {
         const roundStars = Math.round(stars)
         return (
             counter.map(i => {
-                if (i < roundStars) {
-                    return (
-                        <FaStar className="stars" />
-                    );
-                } else if (i === roundStars) {
-                    return (
-                        <FaStarHalfAlt className="stars" />
-                    );
-                } else {
-                    return (
-                        <FaRegStar className="stars" />
-                    )
-                }
+                if (i < roundStars) return ( <FaStar className="stars" /> ); 
+                else if (i === roundStars) return ( <FaStarHalfAlt className="stars" /> ); 
+                else return ( <FaRegStar className="stars" /> );
             })
         )
     }
 };
 
 const DestinationDetail = (props) => {
+    const [destination, setDestination] = useState([])
+    const [imageList, setImageList] = useState([])
+
+    useEffect(() => {
+        const fetchDestinations = async () => {
+            try {
+                const id = props.location.state.id
+                const response = await DestinationApi.show(id)
+
+                setDestination(response.data)
+                setImageList(response.data.image)
+            } catch (error) {
+                console.log('Fail to fetch Destination: ', error)
+            }
+        }
+        fetchDestinations()
+    }, [])
+
+    const location = {
+        center: {
+          lat: destination.lat,
+          lng: destination.lng,
+        },
+        zoom: destination.map_zoom,
+        address: destination.address,
+    };
+
+    // const location = {
+    //     center: {
+    //       lat: 15.9750157,
+    //       lng: 108.2510487,
+    //     },
+    //     zoom: 17,
+    //     address: "VKU",
+    // };
+
     return (
         <MainLayout>
             <div className="destination-detail">
                 <div className="destination-detail-link">
                     <Container>
-                        <span><span><Link to="/">Home</Link> / <Link to="/Destinations">Destinations</Link> /</span> {destinationData.title}</span>
+                        <span><span><Link to="/">Home</Link> / <Link to="/Destinations">Destinations</Link> /</span> {destination.title}</span>
                     </Container>
                 </div>
 
@@ -197,7 +208,7 @@ const DestinationDetail = (props) => {
                             <PopularDestinations popularDestinations={popularDestinations} />
 
                             <div className="popular-hotel-in-here mt-30 mb-50">
-                                <p className="title">Popular hotels in {destinationData.title}</p>
+                                <p className="title">Popular hotels in {destination.title}</p>
                                 {popularHotelInHere.map(hotel => {
                                     return (
                                         <Row className="popular-hotel-item">
@@ -239,28 +250,28 @@ const DestinationDetail = (props) => {
                         <Col xl={8} lg={8} md={6} xs={12} className="destination-detail-main-content">
                             <Row className="header">
                                 <Col xl={6} lg={6} md={6} xs={12} className="header-left">
-                                    <p className="title">{destinationData.title}</p>
-                                    <p className="location">{destinationData.location}</p>
+                                    <p className="title">{destination.title}</p>
+                                    <p className="location">{destination.address}</p>
                                 </Col>
                                 <Col xl={6} lg={6} md={6} xs={12} className="header-right">
                                     <div className="rate-stars">
                                         <div className="stars-counter">
                                             <span className="stars-number-calculation">
-                                                {starsCounter(destinationData.rateStars)}
+                                                {starsCounter(destination.rating)}
                                             </span>
                                             <span className="stars-number">
-                                                <span>{destinationData.rateStars}</span><span className="below"> /5</span>
+                                                <span>{destination.rating}</span><span className="below"> /5</span>
                                             </span>
                                         </div>
-                                        <p className="view">Based on {destinationData.view} views</p>
+                                        <p className="view">Based on {destination.views} views</p>
                                     </div>
                                 </Col>
                             </Row>
 
-                            <CarouselSlide images={destinationData.images} />
+                            <CarouselSlide image={imageList} />
 
                             <div className="description">
-                                <p>{destinationData.description1}</p>
+                                <p dangerouslySetInnerHTML={{__html: destination.description}}></p>
                             </div>
 
                             <div className="tour-packages mt-50">
@@ -284,7 +295,7 @@ const DestinationDetail = (props) => {
                             </div>
 
                             <div className="description">
-                                <p>{destinationData.description2}</p>
+                                <p dangerouslySetInnerHTML={{__html: destination.description}}></p>
                             </div>
 
                             <div

@@ -19,30 +19,31 @@ import { Link } from "react-router-dom";
 import authApi from "../../api/authApi";
 
 const SignInForm = (props) => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const [error, setError] = useState({ email: "", password: "", message: "" });
+  const [formData, setFormData] = useState({ email: "", password: "" })
+  const [error, setError] = useState({ email: "", password: "", message: "" })
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await authApi.login(formData);
+      const response = await authApi.login(formData)
 
       if (response.success) {
-        localStorage.setItem("jwtKey", response.token);
-        props.toggle();
+        localStorage.setItem("jwtKey", response.token)
+        props.toggle()
+        window.location.reload()
       }
-    } catch (errors) {
-      if (errors.response.data) {
-        let err = errors.response.data;
-        setError(err.message);
+    } catch (error) { 
+      if (error.response.data) { 
+        let err = error.response.data
+        setError(err.message)
       }
     }
-  };
+  }
 
   return (
     <Modal isOpen={props.isOpen} toggle={props.toggle}>
@@ -91,7 +92,6 @@ const SignInForm = (props) => {
               Login
             </Button>
           </FormGroup>
-
           {error && error.message && (
             <div className="notification">
               <span className="failed">{error.message}</span>
