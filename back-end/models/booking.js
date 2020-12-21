@@ -29,6 +29,12 @@ const BookingSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
   },
+  checkin: Date,
+  checkout: Date,
+  option: {
+    child: Number,
+    adult: Number,
+  },
   status: {
     type: String,
     required: true,

@@ -34,4 +34,4 @@ FacilitySchema.pre("save", function (next) {
   next();
 });
 
-module.exports = mongoose.model("hotel", FacilitySchema);
+module.exports = mongoose.model("facility", FacilitySchema);

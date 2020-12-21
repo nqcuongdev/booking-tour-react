@@ -179,45 +179,6 @@ exports.bookTour = async (req, res) => {
   });
 };
 
-exports.paymentSuccess = async (req, res) => {
-  const { errors, isValid } = paymentValidate(req.body);
-
-  //Check value request
-  if (!isValid) {
-    return res.status(400).json({
-      success: false,
-      message: errors,
-    });
-  }
-
-  const { booking_id, transaction_id, package } = req.body;
-
-  let transactionBookTour = await Booking.findOne({
-    $and: [{ _id: booking_id }, { package: package }],
-  });
-
-  if (!transactionBookTour) {
-    return res.status(404).json({
-      success: !!transactionBookTour,
-      message: "Can not found this booking transaction",
-    });
-  }
-
-  let book = await Booking.findOneAndUpdate(
-    { _id: tour._id },
-    { "payment.transaction_id": transaction_id },
-    {
-      new: true,
-    }
-  );
-
-  return res.json({
-    success: !!book,
-    message: "Payment Success",
-    data: book,
-  });
-};
-
 exports.create = async (req, res) => {
   const { errors, isValid } = tourValidate(req.body);
 

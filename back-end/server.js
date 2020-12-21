@@ -22,6 +22,8 @@ const attribute = require("./routes/attribute");
 const tour = require("./routes/tour");
 const paypal = require("./routes/paypal");
 const stripe = require("./routes/stripe");
+const booking = require("./routes/booking");
+const hotel = require("./routes/hotel");
 
 const app = express();
 
@@ -47,6 +49,8 @@ app.use("/api/v1/attribute", attribute);
 app.use("/api/v1/tour", tour);
 app.use("/api/v1/paypal", paypal);
 app.use("/api/v1/stripe", stripe);
+app.use("/api/v1/booking", booking);
+app.use("/api/v1/hotel", hotel);
 
 //Enable Passport
 app.use(passport.initialize());
