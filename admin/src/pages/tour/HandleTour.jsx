@@ -453,7 +453,6 @@ const AddTour = (props) => {
     useEffect(() => {
         if (props.match.params.id === ':id') {
             props.history.push('/tour/add-tour');
-            window.location.reload();
         }
     }, [props.match.params]);
 

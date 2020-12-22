@@ -26,6 +26,7 @@ import * as FeatherIcon from 'react-feather';
 import PageTitle from '../../components/PageTitle';
 import { connect, useDispatch } from 'react-redux';
 import { createTourCategory, getAllTourCategory, updateTourCategory } from '../../redux/tour/actions';
+import moment from 'moment';
 
 const sizePerPageRenderer = ({ options, currSizePerPage, onSizePerPageChange }) => (
     <React.Fragment>
@@ -66,6 +67,10 @@ const TableWithSearch = ({ properties }) => {
         return <Badge color="success">{row.status}</Badge>;
     };
 
+    const dateFormatter = (cell, row, rowIndex) => {
+        return moment(cell).format('YYYY-MM-DD HH:mm:ss');
+    };
+
     const columns = [
         {
             dataField: 'title',
@@ -81,6 +86,7 @@ const TableWithSearch = ({ properties }) => {
             dataField: 'created_at',
             text: 'Create Date',
             sort: false,
+            formatter: dateFormatter,
         },
         {
             dataField: 'status',
@@ -106,7 +112,7 @@ const TableWithSearch = ({ properties }) => {
     let data = properties.categories;
     useEffect(() => {
         if (data) setCategories(data);
-    }, [data]);
+    }, [data, properties.category]);
 
     /**
      * Show/hide the modal
@@ -133,10 +139,10 @@ const TableWithSearch = ({ properties }) => {
 
         if (properties.error === null) {
             setModal(!modal);
-            setCategory();
-            setModalInput();
+            setCategory('');
+            setModalInput({ title: '', status: '' });
         }
-        properties.getAllTourCategory();
+        // properties.getAllTourCategory();
     };
 
     return (
