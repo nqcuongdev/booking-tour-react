@@ -24,6 +24,9 @@ const paypal = require("./routes/paypal");
 const stripe = require("./routes/stripe");
 const booking = require("./routes/booking");
 const hotel = require("./routes/hotel");
+const tag = require("./routes/tag");
+const post = require("./routes/post");
+const rating = require("./routes/rating");
 
 const app = express();
 
@@ -43,14 +46,17 @@ app.use(cors());
 //Router
 app.use("/api/v1/", auth);
 app.use("/api/v1/user", user);
-app.use("/api/v1/destination/", destination);
-app.use("/api/v1/category/", category);
+app.use("/api/v1/destination", destination);
+app.use("/api/v1/category", category);
 app.use("/api/v1/attribute", attribute);
 app.use("/api/v1/tour", tour);
 app.use("/api/v1/paypal", paypal);
 app.use("/api/v1/stripe", stripe);
 app.use("/api/v1/booking", booking);
 app.use("/api/v1/hotel", hotel);
+app.use("/api/v1/tag", tag);
+app.use("/api/v1/post", post);
+app.use("/api/v1/rating", rating);
 
 //Enable Passport
 app.use(passport.initialize());

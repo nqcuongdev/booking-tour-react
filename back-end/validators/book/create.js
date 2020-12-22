@@ -1,7 +1,7 @@
 const Validator = require("validator");
 const isEmpty = require("../isEmpty");
 
-module.exports = function validateDestinationInput(data) {
+module.exports = function validateBookingInput(data) {
   let errors = {};
 
   data.email = !isEmpty(data.title) ? data.title : "";
