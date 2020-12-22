@@ -15,9 +15,10 @@ const ListDestination = React.lazy(() => import('../pages/destination/ListDestin
 const HandleDestination = React.lazy(() => import('../pages/destination/HandleDestination'));
 //Tour
 const AllTour = React.lazy(() => import('../pages/tour/Tour'));
-const AddTour = React.lazy(() => import('../pages/tour/AddTour'));
+const HandleTour = React.lazy(() => import('../pages/tour/HandleTour'));
 const TourCategory = React.lazy(() => import('../pages/tour/TourCategory'));
 const TourStyle = React.lazy(() => import('../pages/tour/TourStyle'));
+const TourAvailability = React.lazy(() => import('../pages/tour/Availability'));
 // apps
 const CalendarApp = React.lazy(() => import('../pages/apps/Calendar'));
 const EmailInbox = React.lazy(() => import('../pages/apps/Email/Inbox'));
@@ -130,20 +131,6 @@ const tourRoutes = {
     icon: FeatherIcon.Package,
     children: [
         {
-            path: '/tour/list-tour',
-            name: 'List Tour',
-            component: AllTour,
-            roles: ['admin'],
-            route: PrivateRoute,
-        },
-        {
-            path: '/tour/add-tour',
-            name: 'Add Tour',
-            component: AddTour,
-            roles: ['admin'],
-            route: PrivateRoute,
-        },
-        {
             path: '/tour/tour-category',
             name: 'Tour Category',
             component: TourCategory,
@@ -154,6 +141,27 @@ const tourRoutes = {
             path: '/tour/tour-style',
             name: 'Tour Style',
             component: TourStyle,
+            roles: ['admin'],
+            route: PrivateRoute,
+        },
+        {
+            path: '/tour/list-tour',
+            name: 'List Tour',
+            component: AllTour,
+            roles: ['admin'],
+            route: PrivateRoute,
+        },
+        {
+            path: '/tour/schedule',
+            name: 'Schedule',
+            component: TourAvailability,
+            roles: ['admin'],
+            route: PrivateRoute,
+        },
+        {
+            path: '/tour/:id',
+            name: 'Add Tour',
+            component: HandleTour,
             roles: ['admin'],
             route: PrivateRoute,
         },
@@ -244,7 +252,7 @@ const taskAppRoutes = {
     ],
 };
 
-const appRoutes = [destinationRoutes, tourRoutes, emailAppRoutes, projectAppRoutes, taskAppRoutes];
+const appRoutes = [destinationRoutes, tourRoutes, calendarAppRoutes, emailAppRoutes, projectAppRoutes, taskAppRoutes];
 
 // pages
 const pagesRoutes = {

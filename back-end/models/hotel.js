@@ -42,6 +42,12 @@ const HotelSchema = new mongoose.Schema({
       required: true,
     },
   ],
+  attribute: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "attribute",
+    },
+  ],
   status: {
     type: String,
     required: true,
@@ -69,11 +75,16 @@ const HotelSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "destination",
   },
-  isFacility: {
-    type: Boolean,
-    require: true,
-    default: true,
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
   },
+  facility: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "facility",
+    },
+  ],
   status: {
     type: String,
     required: true,

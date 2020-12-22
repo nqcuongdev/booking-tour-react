@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Col,
@@ -15,20 +15,47 @@ import "./SignInForm.scss";
 import { IoIosClose } from "react-icons/io";
 import { FaFacebookF, FaGooglePlusG, FaTwitter } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import authApi from "../../api/authApi";
 
 const SignInForm = (props) => {
+  const [formData, setFormData] = useState({ email: "", password: "" });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await authApi.login(formData);
+    console.log(response);
+    if (response.success) {
+      localStorage.setItem("jwtKey", response.token);
+    }
+  };
+
   return (
     <Modal isOpen={props.isOpen} toggle={props.toggle}>
       <ModalHeader toggle={props.toggle} charCode={<IoIosClose size={34} />}>
         Log In
       </ModalHeader>
       <ModalBody>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <FormGroup>
-            <Input type="text" name="email" placeholder="Email address" />
+            <Input
+              type="text"
+              name="email"
+              placeholder="Email address"
+              onChange={handleInputChange}
+            />
           </FormGroup>
           <FormGroup>
-            <Input type="password" name="password" placeholder="Password" />
+            <Input
+              type="password"
+              name="password"
+              placeholder="Password"
+              onChange={handleInputChange}
+            />
           </FormGroup>
           <FormGroup>
             <div className="d-flex justify-content-between mt-1">
@@ -44,7 +71,7 @@ const SignInForm = (props) => {
             </div>
           </FormGroup>
           <FormGroup>
-            <Button color="orange" className="mt-2">
+            <Button color="orange" className="mt-2" type="submit">
               Login
             </Button>
           </FormGroup>

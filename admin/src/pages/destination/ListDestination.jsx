@@ -29,7 +29,7 @@ const sizePerPageRenderer = ({ options, currSizePerPage, onSizePerPageChange }) 
 );
 
 const TableWithSearch = ({ properties }) => {
-    const [categories, setCategories] = useState([]);
+    const [destinations, setDestinations] = useState([]);
     const { SearchBar } = Search;
 
     const rankFormatter = (cell, row, rowIndex) => {
@@ -90,7 +90,7 @@ const TableWithSearch = ({ properties }) => {
 
     let data = properties.destinations;
     useEffect(() => {
-        if (data) setCategories(data);
+        if (data) setDestinations(data);
     }, [data]);
 
     return (
@@ -99,7 +99,7 @@ const TableWithSearch = ({ properties }) => {
                 <ToolkitProvider
                     bootstrap4
                     keyField="_id"
-                    data={categories}
+                    data={destinations}
                     columns={columns}
                     search
                     exportCSV={{ onlyExportFiltered: true, exportAll: false }}>
@@ -119,7 +119,7 @@ const TableWithSearch = ({ properties }) => {
                                 </Col>
                             </Row>
 
-                            {categories && (
+                            {destinations && (
                                 <BootstrapTable
                                     {...props.baseProps}
                                     bordered={false}
@@ -131,7 +131,7 @@ const TableWithSearch = ({ properties }) => {
                                             { text: '10', value: 10 },
                                             { text: '20', value: 20 },
                                             { text: '30', value: 30 },
-                                            { text: 'All', value: categories.length },
+                                            { text: 'All', value: destinations.length },
                                         ],
                                     })}
                                     wrapperClasses="table-responsive"

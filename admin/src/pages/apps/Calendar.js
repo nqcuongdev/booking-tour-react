@@ -12,7 +12,6 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import PageTitle from '../../components/PageTitle';
 import calImg from '../../assets/images/cal.png';
 
-
 const CalendarApp = () => {
     const events = [
         {
@@ -68,14 +67,18 @@ const CalendarApp = () => {
                                 <Col xl={10} lg={9}>
                                     <div className="mt-4 mt-lg-0">
                                         <h5 className="mt-0 mb-1 font-weight-bold">Welcome to Your Calendar</h5>
-                                        <p className="text-muted mb-2">The calendar shows the events synced from all
-                                            your linked calendars.
-                                            Click on event to see or edit the details. You can create new event by
-                                            clicking on "Create New event" button or any cell available
-                                                    in calendar below.</p>
+                                        <p className="text-muted mb-2">
+                                            The calendar shows the events synced from all your linked calendars. Click
+                                            on event to see or edit the details. You can create new event by clicking on
+                                            "Create New event" button or any cell available in calendar below.
+                                        </p>
 
-                                        <Button color="primary" className="mt-2 mr-2"><i className="uil-plus-circle"></i> Create New Event</Button>
-                                        <Button color="white" className="mt-2"><i className="uil-sync"></i> Link Calendars</Button>
+                                        <Button color="primary" className="mt-2 mr-2">
+                                            <i className="uil-plus-circle"></i> Create New Event
+                                        </Button>
+                                        <Button color="white" className="mt-2">
+                                            <i className="uil-sync"></i> Link Calendars
+                                        </Button>
                                     </div>
                                 </Col>
                             </Row>
@@ -91,15 +94,25 @@ const CalendarApp = () => {
                             <FullCalendar
                                 defaultView="dayGridMonth"
                                 plugins={[BootstrapTheme, dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin]}
-                                slotDuration='00:15:00'
-                                minTime='08:00:00' maxTime='19:00:00' themeSystem='bootstrap'
+                                slotDuration="00:15:00"
+                                minTime="08:00:00"
+                                maxTime="19:00:00"
+                                themeSystem="bootstrap"
                                 handleWindowResize={true}
                                 bootstrapFontAwesome={false}
-                                buttonText={{today: 'Today', month: 'Month', week: 'Week', day: 'Day', list: 'List', prev: 'Prev', next: 'Next' }}
+                                buttonText={{
+                                    today: 'Today',
+                                    month: 'Month',
+                                    week: 'Week',
+                                    day: 'Day',
+                                    list: 'List',
+                                    prev: 'Prev',
+                                    next: 'Next',
+                                }}
                                 header={{
                                     left: 'prev,next today',
                                     center: 'title',
-                                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+                                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
                                 }}
                                 droppable={true}
                                 editable={true}

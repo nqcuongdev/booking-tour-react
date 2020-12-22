@@ -105,7 +105,7 @@ const BasicInputElements = ({ props }) => {
     };
 
     const handleRemoveImage = (index) => {
-        let images = formInput.image;
+        let images = [...formInput.image];
         images.splice(index, 1);
         setFormInput({ ...formInput, image: images });
     };
@@ -183,7 +183,7 @@ const BasicInputElements = ({ props }) => {
                                             </div>
                                         ))
                                     ) : (
-                                        <img src={default_image} className="mb-5" alt="Default" />
+                                        <img src={default_image} className="mb-5 img-fluid" alt="Default" />
                                     )}
                                 </div>
                                 <div className="upload-box">

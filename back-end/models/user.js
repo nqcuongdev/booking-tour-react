@@ -25,16 +25,12 @@ const UserSchema = new Schema({
   password: {
     type: String,
     trim: true,
-    required: true,
   },
   address: {
     type: String,
     default: "",
   },
-  phone: {
-    type: String,
-    required: true,
-  },
+  phone: String,
   gender: {
     type: String,
     default: "",
@@ -46,7 +42,7 @@ const UserSchema = new Schema({
   role: {
     type: String,
     required: true,
-    enum: ["user", "admin"],
+    enum: ["user", "admin", "hotel_partner", "tour_partner"],
     default: "user",
   },
   auth_type: {
@@ -60,9 +56,7 @@ const UserSchema = new Schema({
       type: String,
       enum: ["google", "facebook", "twitter"],
     },
-    social_id: {
-      type: String,
-    },
+    social_id: String,
   },
   bio: String,
   status: {
