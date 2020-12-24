@@ -68,7 +68,7 @@ const TableWithSearch = ({ properties }) => {
     };
 
     const dateFormatter = (cell, row, rowIndex) => {
-        return moment(cell).format('YYYY-MM-DD HH:mm:ss');
+        return moment(cell).format('YYYY-MM-DD');
     };
 
     const columns = [
@@ -112,7 +112,11 @@ const TableWithSearch = ({ properties }) => {
     let data = properties.categories;
     useEffect(() => {
         if (data) setCategories(data);
-    }, [data, properties.category]);
+    }, [data]);
+
+    useEffect(() => {
+        properties.getAllTourCategory();
+    }, [properties.category]);
 
     /**
      * Show/hide the modal
@@ -136,13 +140,11 @@ const TableWithSearch = ({ properties }) => {
         } else {
             properties.createTourCategory(modalInput.title, 'tour');
         }
-
         if (properties.error === null) {
             setModal(!modal);
             setCategory('');
             setModalInput({ title: '', status: '' });
         }
-        // properties.getAllTourCategory();
     };
 
     return (

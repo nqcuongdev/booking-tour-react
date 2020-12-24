@@ -8,7 +8,7 @@ import GoogleMapAutoComplete from '../../components/GoogleMapAutoComplete';
 import * as FeatherIcon from 'react-feather';
 import default_image from '../../assets/images/default_upload_image.png';
 import { getAllDestination } from '../../redux/destination/actions';
-import { getAllTourAttribute, getAllTourCategory } from '../../redux/tour/actions';
+import { getAllTourAttribute, getAllTourCategory, getTour, createTour } from '../../redux/tour/actions';
 import { url } from '../../helpers/url';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -71,11 +71,21 @@ const BasicInputElements = ({
 
                         <FormGroup>
                             <Label for="description">Description</Label>
-                            <RichTextEditor
-                                name="description"
-                                id="description"
-                                onEditorContentChange={onInputDescription}
-                            />
+                            {formInput.description && (
+                                <RichTextEditor
+                                    name="description"
+                                    id="description"
+                                    onEditorContentChange={onInputDescription}
+                                    initialContent={formInput.description}
+                                />
+                            )}
+                            {formInput.description === '' && (
+                                <RichTextEditor
+                                    name="description"
+                                    id="description"
+                                    onEditorContentChange={onInputDescription}
+                                />
+                            )}
                         </FormGroup>
 
                         <Row>
@@ -87,7 +97,8 @@ const BasicInputElements = ({
                                         id="category"
                                         name="category"
                                         className="custom-select"
-                                        onChange={inputChangeHandler}>
+                                        onChange={inputChangeHandler}
+                                        defaultValue={formInput.category && formInput.category._id}>
                                         <option>-- Please Select --</option>
                                         {categories &&
                                             categories.map((category) => {
@@ -104,7 +115,7 @@ const BasicInputElements = ({
                                 <FormGroup>
                                     <Label for="duration">Duration</Label>
                                     <Input
-                                        type="number"
+                                        type="text"
                                         name="duration"
                                         id="duration"
                                         placeholder="Duration"
@@ -253,7 +264,7 @@ const BasicInputElements = ({
                             <Label for="image">Gallery</Label>
                             <div>
                                 <img src={default_image} className="mb-5 img-fluid" alt="Default" />
-                                <Input type="file" name="image" id="image" />
+                                <Input type="file" name="image" id="image" multiple onChange={inputChangeHandler} />
                             </div>
                         </FormGroup>
                     </CardBody>
@@ -317,11 +328,12 @@ const BasicInputElements = ({
                                                 key={attribute._id}
                                                 type="checkbox"
                                                 className="mb-3 mt-3"
-                                                id={attribute.slug}
+                                                // id={attribute.slug}
                                                 name="attributes"
                                                 value={attribute._id}
                                                 label={attribute.title}
                                                 onChange={onSelectAttribute}
+                                                id={formInput.attribute.includes(attribute._id)}
                                             />
                                         );
                                     })}
@@ -334,13 +346,19 @@ const BasicInputElements = ({
     );
 };
 
-const TourLocation = ({ destinations, onUpdateLocation, formInput }) => {
+const TourLocation = ({ inputChangeHandler, destinations, onUpdateLocation, formInput, props }) => {
     return (
         <React.Fragment>
             <h4 className="header-title">Tour Locations</h4>
             <FormGroup>
                 <Label for="destination">Destination</Label>
-                <Input type="select" id="destination" name="destination" className="custom-select">
+                <Input
+                    type="select"
+                    id="destination"
+                    name="destination"
+                    className="custom-select"
+                    onChange={inputChangeHandler}
+                    defaultValue={formInput.destination && formInput.destination._id}>
                     <option>-- Please Select --</option>
                     {destinations &&
                         destinations.map((destination) => {
@@ -354,7 +372,7 @@ const TourLocation = ({ destinations, onUpdateLocation, formInput }) => {
             </FormGroup>
             <FormGroup className="mb-5">
                 <Label for="address">Real tour address</Label>
-                <GoogleMapAutoComplete onUpdateLocation={onUpdateLocation} data={formInput} />
+                <GoogleMapAutoComplete onUpdateLocation={onUpdateLocation} data={formInput} props={props} />
             </FormGroup>
         </React.Fragment>
     );
@@ -368,28 +386,66 @@ const Pricing = ({ inputChangeHandler, formInput }) => {
                 <Row>
                     <Col lg={6}>
                         <FormGroup>
-                            <Label for="price">Price</Label>
-                            <Input
-                                type="number"
-                                name="price"
-                                id="price"
-                                placeholder="Tour Price"
-                                onChange={inputChangeHandler}
-                                defaultValue={formInput.price}
-                            />
+                            <Label>Price</Label>
+                            <Row>
+                                <Col lg={6}>
+                                    <FormGroup>
+                                        <Input
+                                            type="number"
+                                            name="adult_price"
+                                            placeholder="Adult Price"
+                                            onChange={inputChangeHandler}
+                                            defaultValue={
+                                                formInput.adult_price || (formInput.price && formInput.price.adult)
+                                            }
+                                        />
+                                    </FormGroup>
+                                </Col>
+                                <Col lg={6}>
+                                    <Input
+                                        type="number"
+                                        name="child_price"
+                                        placeholder="Child Price"
+                                        onChange={inputChangeHandler}
+                                        defaultValue={
+                                            formInput.child_price || (formInput.price && formInput.price.child)
+                                        }
+                                    />
+                                </Col>
+                            </Row>
                         </FormGroup>
                     </Col>
                     <Col lg={6}>
                         <FormGroup>
-                            <Label for="sale_price">Sale Price</Label>
-                            <Input
-                                type="number"
-                                name="sale_price"
-                                id="sale_price"
-                                placeholder="Tour Sale Price"
-                                onChange={inputChangeHandler}
-                                defaultValue={formInput.sale_price}
-                            />
+                            <Label>Sale Price</Label>
+                            <Row>
+                                <Col lg={6}>
+                                    <FormGroup>
+                                        <Input
+                                            type="number"
+                                            name="adult_sale_price"
+                                            placeholder="Adult Sale Price"
+                                            onChange={inputChangeHandler}
+                                            defaultValue={
+                                                formInput.adult_sale_price ||
+                                                (formInput.sale_price && formInput.sale_price.adult)
+                                            }
+                                        />
+                                    </FormGroup>
+                                </Col>
+                                <Col lg={6}>
+                                    <Input
+                                        type="number"
+                                        name="child_sale_price"
+                                        placeholder="Child Sale Price"
+                                        onChange={inputChangeHandler}
+                                        defaultValue={
+                                            formInput.child_sale_price ||
+                                            (formInput.sale_price && formInput.sale_price.child)
+                                        }
+                                    />
+                                </Col>
+                            </Row>
                         </FormGroup>
                     </Col>
                 </Row>
@@ -410,8 +466,10 @@ const AddTour = (props) => {
         attributes: [],
         category: '',
         itinerary: [],
-        price: '',
-        sale_price: '',
+        adult_price: '',
+        child_price: '',
+        adult_sale_price: '',
+        child_sale_price: '',
         duration: '',
         min_people: '',
         max_people: '',
@@ -430,10 +488,29 @@ const AddTour = (props) => {
     };
 
     useEffect(() => {
+        if (props.match.params.id !== 'add-tour') {
+            dispatch(getTour(props.match.params.id));
+        }
+
         dispatch(getAllDestination());
         dispatch(getAllTourCategory());
         dispatch(getAllTourAttribute());
     }, [dispatch]);
+
+    useEffect(() => {
+        if (props.match.params.id === ':id') {
+            props.history.push('/tour/add-tour');
+        }
+    }, [props.match.params]);
+
+    useEffect(() => {
+        if (props.tour) {
+            props.history.push(`/tour/${props.tour._id}`);
+            setFormInput(props.tour);
+        } else {
+            props.history.push('/tour/add-tour');
+        }
+    }, [props.tour]);
 
     useEffect(() => {
         if (props.destinations) {
@@ -448,13 +525,6 @@ const AddTour = (props) => {
             setAttributes(props.attributes);
         }
     }, [props.destinations, props.categories, props.attributes]);
-
-    // Reload page when click add new :))
-    useEffect(() => {
-        if (props.match.params.id === ':id') {
-            props.history.push('/tour/add-tour');
-        }
-    }, [props.match.params]);
 
     const inputChangeHandler = (e) => {
         const { name, value, files } = e.target;
@@ -484,15 +554,16 @@ const AddTour = (props) => {
 
     const onSubmitForm = (e) => {
         e.preventDefault();
-
         const formData = new FormData();
         formData.append('title', formInput.title);
         formData.append('description', formInput.description);
         formData.append('address', formInput.address);
-        formData.append('attribute', formInput.attribute);
+        formData.append('attribute', formInput.attributes);
         formData.append('category', formInput.category);
-        formData.append('price', formInput.price);
-        formData.append('sale_price', formInput.sale_price);
+        formData.append('adult_price', formInput.adult_price);
+        formData.append('child_price', formInput.child_price);
+        formData.append('adult_sale_price', formInput.adult_sale_price);
+        formData.append('child_sale_price', formInput.child_sale_price);
         formData.append('duration', formInput.duration);
         formData.append('min_people', formInput.min_people);
         formData.append('max_people', formInput.max_people);
@@ -576,9 +647,11 @@ const AddTour = (props) => {
                         <CardBody>
                             {destinations && destinations.length > 0 && (
                                 <TourLocation
+                                    inputChangeHandler={inputChangeHandler}
                                     destinations={destinations}
                                     onUpdateLocation={onUpdateLocation}
                                     formInput={formInput}
+                                    props={props}
                                 />
                             )}
                         </CardBody>
@@ -603,8 +676,8 @@ const AddTour = (props) => {
 const mapStateToProps = (state) => {
     const { user } = state.Auth;
     const { destinations } = state.Destination;
-    const { categories, attributes } = state.Tour;
-    return { user, destinations, categories, attributes };
+    const { categories, attributes, tour } = state.Tour;
+    return { user, destinations, categories, attributes, tour };
 };
 
-export default connect(mapStateToProps)(AddTour);
+export default connect(mapStateToProps, { createTour })(AddTour);

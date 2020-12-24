@@ -1,6 +1,9 @@
 # dependencies
 /node_modules
 
+# develope
+.idea
+
 # misc
 .DS_Store
 .env

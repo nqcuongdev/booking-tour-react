@@ -11,6 +11,8 @@ import {
     getAllTourCategorySuccess,
     getAllTourFailed,
     getAllTourSuccess,
+    getTourFailed,
+    getTourSuccess,
     updateTourAttributeFailed,
     updateTourAttributeSuccess,
     updateTourCategoryFailed,
@@ -23,6 +25,7 @@ import {
     GET_ALL_TOUR,
     GET_ALL_TOUR_ATTRIBUTE,
     GET_ALL_TOUR_CATEGORY,
+    GET_TOUR,
     UPDATE_TOUR_ATTRIBUTE,
     UPDATE_TOUR_CATEGORY,
 } from './constants';
@@ -58,7 +61,7 @@ function* getAllTour() {
     }
 }
 
-function* createTour({ data }) {
+function* createTour({ payload: data }) {
     const options = {
         body: data,
         method: 'POST',
@@ -87,6 +90,34 @@ function* createTour({ data }) {
                 message = error;
         }
         yield put(createTourFailed(message));
+    }
+}
+
+function* getTour({ payload: _id }) {
+    const options = {
+        method: 'GET',
+    };
+
+    try {
+        const response = yield call(fetchJSON, `tour/${_id}`, options);
+        if (response && response.success) {
+            yield put(getTourSuccess(response.data));
+        } else {
+            yield put(getTourFailed(response.message));
+        }
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500:
+                message = 'Internal Server Error';
+                break;
+            case 401:
+                message = 'Invalid credentials';
+                break;
+            default:
+                message = error;
+        }
+        yield put(getTourFailed(message));
     }
 }
 
@@ -280,6 +311,10 @@ export function* watchGetAllTour() {
     yield takeEvery(GET_ALL_TOUR, getAllTour);
 }
 
+export function* watchGetTour() {
+    yield takeEvery(GET_TOUR, getTour);
+}
+
 export function* watchCreateTour() {
     yield takeEvery(CREATE_TOUR, createTour);
 }
@@ -311,6 +346,7 @@ export function* watchUpdateTourAttribute() {
 function* tourSaga() {
     yield all([
         fork(watchGetAllTour),
+        fork(watchGetTour),
         fork(watchCreateTour),
         fork(watchGetAllTourCategory),
         fork(watchCreateTourCategory),

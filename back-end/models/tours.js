@@ -106,6 +106,10 @@ const TourSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
   },
+  updated_by: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+  },
   created_at: {
     type: Date,
     default: Date.now,

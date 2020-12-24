@@ -18,7 +18,6 @@ const GoogleMapAutoComplete = ({ onUpdateLocation, data, props }) => {
 
     useEffect(() => {
         if (props.match.params.id === ':id') {
-            props.history.push('/destination/add-destination');
             setAddress('');
             setLat(15.9750106);
             setLng(108.2510487);
@@ -89,7 +88,7 @@ const GoogleMapAutoComplete = ({ onUpdateLocation, data, props }) => {
             </PlacesAutocomplete>
             <div className="google-map" style={{ height: '372px', width: '100%' }}>
                 <Label>Maps</Label>
-                <Map lat={lat} lng={lng} />
+                <Map lat={parseFloat(lat)} lng={parseFloat(lng)} />
             </div>
         </React.Fragment>
     );

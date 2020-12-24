@@ -5,10 +5,13 @@ const Booking = require("../models/booking");
 // Load validate
 const tourValidate = require("../validators/tour/create");
 const bookingValidate = require("../validators/book/create");
-const paymentValidate = require("../validators/book/payment");
 
 exports.all = async (req, res) => {
-  const tours = await Tour.find({});
+  const tours = await Tour.find({})
+    .populate("destination")
+    .populate("category")
+    .populate("attribute")
+    .populate("created_by", "full_name");
 
   return res.status(200).json({
     success: !!tours,
@@ -26,7 +29,10 @@ exports.show = async (req, res) => {
     });
   }
 
-  const tour = await Tour.findOne({ _id });
+  let tour = await Tour.findOne({ _id })
+    .populate("destination")
+    .populate("category")
+    .populate("attribute");
 
   if (!tour) {
     return res.status(404).json({
@@ -205,7 +211,7 @@ exports.create = async (req, res) => {
     });
   }
 
-  const {
+  let {
     title,
     description,
     address,
@@ -215,7 +221,8 @@ exports.create = async (req, res) => {
     itinerary,
     child_price,
     adult_price,
-    sale_price,
+    adult_sale_price,
+    child_sale_price,
     duration,
     min_people,
     max_people,
@@ -235,10 +242,17 @@ exports.create = async (req, res) => {
         itinerary[index].image = element.path;
       }
     });
-
+    let arr_atr = [];
+    attribute.split(",").forEach((atr) => {
+      arr_atr.push(atr);
+    });
     let price = {
       child: child_price,
       adult: adult_price,
+    };
+    let sale_price = {
+      child: child_sale_price,
+      adult: adult_sale_price,
     };
     let create_by = req.user.id;
     const tour = await Tour.create({
@@ -246,7 +260,7 @@ exports.create = async (req, res) => {
       description,
       address,
       isFeatured,
-      attribute,
+      attribute: arr_atr,
       category,
       itinerary,
       price,
@@ -258,22 +272,22 @@ exports.create = async (req, res) => {
       destination,
       create_by,
     });
-    let d = new Date();
-    if (tour) {
-      let code = "";
-      title.split(" ").forEach((item) => {
-        code += item.charAt(0).toUpperCase();
-      });
+    // let d = new Date();
+    // if (tour) {
+    //   let code = "";
+    //   title.split(" ").forEach((item) => {
+    //     code += item.charAt(0).toUpperCase();
+    //   });
 
-      code += `${d.getDate()}${d.getMonth()}${d.getFullYear()}`;
+    //   code += `${d.getDate()}${d.getMonth()}${d.getFullYear()}`;
 
-      await TourAvailability.create({
-        code,
-        tour: tour._id,
-        start_date: tour.created_at,
-        available,
-      });
-    }
+    //   await TourAvailability.create({
+    //     code,
+    //     tour: tour._id,
+    //     start_date: tour.created_at,
+    //     available,
+    //   });
+    // }
 
     return res.status(200).json({
       success: !!tour,

@@ -17,6 +17,9 @@ import {
     GET_ALL_TOUR_CATEGORY_SUCCESS,
     GET_ALL_TOUR_FAILED,
     GET_ALL_TOUR_SUCCESS,
+    GET_TOUR,
+    GET_TOUR_FAILED,
+    GET_TOUR_SUCCESS,
     UPDATE_TOUR_ATTRIBUTE,
     UPDATE_TOUR_ATTRIBUTE_FAILED,
     UPDATE_TOUR_ATTRIBUTE_SUCCESS,
@@ -36,6 +39,21 @@ export const getAllTourSuccess = (tours) => ({
 
 export const getAllTourFailed = (error) => ({
     type: GET_ALL_TOUR_FAILED,
+    payload: error,
+});
+
+export const getTour = (_id) => ({
+    type: GET_TOUR,
+    payload: _id,
+});
+
+export const getTourSuccess = (tour) => ({
+    type: GET_TOUR_SUCCESS,
+    payload: tour,
+});
+
+export const getTourFailed = (error) => ({
+    type: GET_TOUR_FAILED,
     payload: error,
 });
 
