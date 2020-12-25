@@ -3,7 +3,7 @@ import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 
 import { fetchJSON } from '../../helpers/api';
 
-import { LOGIN_USER, LOGOUT_USER, REGISTER_USER, FORGET_PASSWORD, RECEIVER_AUTH } from './constants';
+import { LOGIN_USER, LOGOUT_USER, REGISTER_USER, FORGET_PASSWORD, RECEIVER_AUTH, LOGIN_WITH_GOOGLE } from './constants';
 
 import {
     loginUserSuccess,
@@ -27,10 +27,16 @@ function* login({ payload: { email, password } }) {
     };
 
     try {
+        let roles = ['admin', 'hotel_partner', 'tour_partner'];
         const response = yield call(fetchJSON, 'login', options);
         if (response && response.success) {
-            localStorage.setItem('jwtKey', response.token);
-            yield put(loginUserSuccess(response.data));
+            if (roles.includes(response.data.role)) {
+                localStorage.setItem('jwtKey', response.token);
+                yield put(loginUserSuccess(response.data));
+            } else {
+                let message = 'You not have permission';
+                yield put(loginUserFailed(message));
+            }
         } else {
             yield put(loginUserFailed(response.message));
         }
@@ -48,6 +54,17 @@ function* login({ payload: { email, password } }) {
         }
         yield put(loginUserFailed(message));
     }
+}
+
+function* loginWithGoogle() {
+    const options = {
+        method: 'GET',
+    };
+
+    try {
+        const response = yield call(fetchJSON, 'google', options);
+        console.log(response);
+    } catch (error) {}
 }
 
 /**
@@ -150,6 +167,10 @@ export function* watchLoginUser() {
     yield takeEvery(LOGIN_USER, login);
 }
 
+export function* watchLoginInGoogle() {
+    yield takeEvery(LOGIN_WITH_GOOGLE, loginWithGoogle);
+}
+
 export function* watchLogoutUser() {
     yield takeEvery(LOGOUT_USER, logout);
 }
@@ -173,6 +194,7 @@ function* authSaga() {
         fork(watchRegisterUser),
         fork(watchForgetPassword),
         fork(receiveAuth),
+        fork(watchLoginInGoogle),
     ]);
 }
 

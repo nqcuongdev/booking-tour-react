@@ -29,7 +29,7 @@ import {
     UPDATE_TOUR_ATTRIBUTE,
     UPDATE_TOUR_CATEGORY,
 } from './constants';
-import { call, put, takeEvery, all, fork, take } from 'redux-saga/effects';
+import { call, put, takeEvery, all, fork } from 'redux-saga/effects';
 import { fetchJSON } from '../../helpers/api';
 
 const token = localStorage.getItem('jwtKey');

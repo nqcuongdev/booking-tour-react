@@ -71,13 +71,13 @@ const PrivateRoute = ({ component: Component, user, roles, ...rest }) => (
 
             const loggedInUser = user;
             // check if route is restricted by role
-            if (roles && roles.indexOf(loggedInUser.role) === 'admin') {
-                // role not authorised so redirect to home page
-                return <Redirect to={{ pathname: '/' }} />;
+            if (roles && roles.includes(loggedInUser.role)) {
+                // authorized so return component
+                return <Component {...props} />;
             }
 
-            // authorised so return component
-            return <Component {...props} />;
+            // role not authorized so redirect to home page
+            // return <Redirect to={{ pathname: '/' }} />;
         }}
     />
 );
@@ -96,7 +96,7 @@ const dashboardRoutes = {
     name: 'Dashboard',
     icon: FeatherIcon.Home,
     component: Dashboard,
-    roles: ['admin'],
+    roles: ['admin', 'hotel_partner', 'tour_partner'],
     route: PrivateRoute,
 };
 
@@ -111,14 +111,14 @@ const destinationRoutes = {
             path: '/destination/list-destination',
             name: 'List Destination',
             component: ListDestination,
-            roles: ['admin'],
+            roles: ['admin', 'hotel_partner', 'tour_partner'],
             route: PrivateRoute,
         },
         {
             path: '/destination/:id',
             name: 'Add Destination',
             component: HandleDestination,
-            roles: ['admin'],
+            roles: ['admin', 'hotel_partner', 'tour_partner'],
             route: PrivateRoute,
         },
     ],
@@ -134,35 +134,35 @@ const tourRoutes = {
             path: '/tour/tour-category',
             name: 'Tour Category',
             component: TourCategory,
-            roles: ['admin'],
+            roles: ['admin', 'tour_partner'],
             route: PrivateRoute,
         },
         {
             path: '/tour/tour-style',
             name: 'Tour Style',
             component: TourStyle,
-            roles: ['admin'],
+            roles: ['admin', 'tour_partner'],
             route: PrivateRoute,
         },
         {
             path: '/tour/list-tour',
             name: 'List Tour',
             component: AllTour,
-            roles: ['admin'],
+            roles: ['admin', 'tour_partner'],
             route: PrivateRoute,
         },
         {
             path: '/tour/schedule',
             name: 'Schedule',
             component: TourAvailability,
-            roles: ['admin'],
+            roles: ['admin', 'tour_partner'],
             route: PrivateRoute,
         },
         {
             path: '/tour/:id',
             name: 'Add Tour',
             component: HandleTour,
-            roles: ['admin'],
+            roles: ['admin', 'tour_partner'],
             route: PrivateRoute,
         },
     ],
