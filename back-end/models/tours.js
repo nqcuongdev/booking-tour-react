@@ -60,7 +60,7 @@ const TourSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  attribute: [
+  attributes: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "attribute",
@@ -103,6 +103,10 @@ const TourSchema = new mongoose.Schema({
     ref: "destination",
   },
   created_by: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+  },
+  updated_by: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
   },

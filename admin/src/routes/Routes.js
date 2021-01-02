@@ -7,7 +7,7 @@ import * as layoutConstants from '../constants/layout';
 import { allFlattenRoutes as routes } from './index';
 
 // Lazy loading and code splitting -
-// Derieved idea from https://blog.logrocket.com/lazy-loading-components-in-react-16-6-6cea535c0b52
+// Delivered idea from https://blog.logrocket.com/lazy-loading-components-in-react-16-6-6cea535c0b52
 const loading = () => <div></div>;
 
 // All layouts/containers

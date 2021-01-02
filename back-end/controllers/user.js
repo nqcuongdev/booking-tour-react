@@ -26,3 +26,15 @@ exports.show = async (req, res) => {
     data: user,
   });
 };
+
+exports.updateProfile = async (req, res) => {
+  const { id } = req.user;
+
+  let checkIDValid = Validator.isMongoId(id);
+  if (!checkIDValid) {
+    return res.status(400).json({
+      success: false,
+      message: "Your ID is not valid",
+    });
+  }
+}

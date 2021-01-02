@@ -1,4 +1,5 @@
 const Category = require("../models/category");
+const Notification = require("../models/notification");
 const Validator = require("validator");
 
 //Load validate
@@ -32,6 +33,13 @@ exports.create = async (req, res) => {
     const category = await Category.create({
       title,
       type,
+    });
+
+    // Create notification
+    await Notification.create({
+      type: "category",
+      content: `${req.user.full_name} has created new category: ${title}`,
+      package: category._id,
     });
 
     return res.status(200).json({
@@ -85,6 +93,13 @@ exports.update = async (req, res) => {
 
   const category = await Category.findByIdAndUpdate({ _id }, data, {
     new: true,
+  });
+
+  // Create notification
+  await Notification.create({
+    type: "category",
+    content: `${req.user.full_name} has updated category ${checkExistedCategory.title} to ${title}.`,
+    package: category._id,
   });
 
   return res.status(200).json({

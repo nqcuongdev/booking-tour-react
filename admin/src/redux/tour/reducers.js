@@ -23,6 +23,12 @@ import {
     CREATE_TOUR,
     CREATE_TOUR_SUCCESS,
     CREATE_TOUR_FAILED,
+    GET_TOUR,
+    GET_TOUR_SUCCESS,
+    GET_TOUR_FAILED,
+    UPDATE_TOUR,
+    UPDATE_TOUR_SUCCESS,
+    UPDATE_TOUR_FAILED,
 } from './constants';
 
 const INIT_STATE = {
@@ -38,16 +44,28 @@ const INIT_STATE = {
 const Tour = (state = INIT_STATE, action) => {
     switch (action.type) {
         case GET_ALL_TOUR:
-            return { ...state, loading: true };
+            return { ...state, loading: true, tour: null };
         case GET_ALL_TOUR_SUCCESS:
             return { ...state, tours: action.payload, loading: false, error: null };
         case GET_ALL_TOUR_FAILED:
+            return { ...state, error: action.payload, loading: false };
+        case GET_TOUR:
+            return { ...state, loading: true };
+        case GET_TOUR_SUCCESS:
+            return { ...state, tour: action.payload, loading: false, error: null };
+        case GET_TOUR_FAILED:
             return { ...state, error: action.payload, loading: false };
         case CREATE_TOUR:
             return { ...state, loading: true };
         case CREATE_TOUR_SUCCESS:
             return { ...state, tour: action.payload, loading: false, error: null };
         case CREATE_TOUR_FAILED:
+            return { ...state, error: action.payload, loading: false };
+        case UPDATE_TOUR:
+            return { ...state, loading: true };
+        case UPDATE_TOUR_SUCCESS:
+            return { ...state, tour: action.payload, loading: false, error: null };
+        case UPDATE_TOUR_FAILED:
             return { ...state, error: action.payload, loading: false };
         case GET_ALL_TOUR_CATEGORY:
             return { ...state, loading: true };

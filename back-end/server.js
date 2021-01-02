@@ -27,6 +27,7 @@ const hotel = require("./routes/hotel");
 const tag = require("./routes/tag");
 const post = require("./routes/post");
 const rating = require("./routes/rating");
+const notification = require("./routes/notification");
 
 const app = express();
 
@@ -57,6 +58,7 @@ app.use("/api/v1/hotel", hotel);
 app.use("/api/v1/tag", tag);
 app.use("/api/v1/post", post);
 app.use("/api/v1/rating", rating);
+app.use("/api/v1/notification", notification);
 
 //Enable Passport
 app.use(passport.initialize());

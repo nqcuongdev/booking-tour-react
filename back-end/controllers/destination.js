@@ -84,6 +84,13 @@ exports.create = async (req, res) => {
       country,
     });
 
+    // Create notification
+    await Notification.create({
+      type: "destination",
+      content: `${req.user.full_name} has create destination: ${title}.`,
+      package: destination._id,
+    });
+
     return res.status(200).json({
       success: !!destination,
       message: "Create destination success",

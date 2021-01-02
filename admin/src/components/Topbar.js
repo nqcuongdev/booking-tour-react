@@ -6,7 +6,8 @@ import { Menu, X, Settings, User, LogOut } from 'react-feather';
 
 import { showRightSidebar } from '../redux/actions';
 import ProfileDropdown from './ProfileDropdown';
-
+import NotificationDropdown from './NotificationDropdown';
+import { getAllNotification } from '../redux/notification/actions';
 import logo from '../assets/images/logo.svg';
 
 const ProfileMenus = [
@@ -35,6 +36,10 @@ class Topbar extends Component {
         this.handleRightSideBar = this.handleRightSideBar.bind(this);
     }
 
+    componentDidMount() {
+        this.props.getAllNotification();
+    }
+
     /**
      * Toggles the right sidebar
      */
@@ -43,7 +48,7 @@ class Topbar extends Component {
     };
 
     render() {
-        const { user } = this.props;
+        const { user, notifications } = this.props;
         return (
             <React.Fragment>
                 <div className="navbar navbar-expand flex-column flex-md-row navbar-custom">
@@ -71,6 +76,7 @@ class Topbar extends Component {
                         </ul>
 
                         <ul className="navbar-nav flex-row ml-auto d-flex list-unstyled topnav-menu float-right mb-0">
+                            {notifications && <NotificationDropdown notifications={notifications} />}
                             <li className="notification-list">
                                 <button
                                     className="btn btn-link nav-link right-bar-toggle"
@@ -95,7 +101,8 @@ class Topbar extends Component {
 
 const mapStateToProps = (state) => {
     const { user, loading, error } = state.Auth;
-    return { user, loading, error };
+    const { notifications } = state.Notification;
+    return { user, loading, error, notifications };
 };
 
-export default connect(mapStateToProps, { showRightSidebar })(Topbar);
+export default connect(mapStateToProps, { showRightSidebar, getAllNotification })(Topbar);
