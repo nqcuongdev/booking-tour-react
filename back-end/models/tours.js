@@ -60,7 +60,7 @@ const TourSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  attribute: [
+  attributes: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "attribute",

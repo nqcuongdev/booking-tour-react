@@ -8,7 +8,7 @@ import GoogleMapAutoComplete from '../../components/GoogleMapAutoComplete';
 import * as FeatherIcon from 'react-feather';
 import default_image from '../../assets/images/default_upload_image.png';
 import { getAllDestination } from '../../redux/destination/actions';
-import { getAllTourAttribute, getAllTourCategory, getTour, createTour } from '../../redux/tour/actions';
+import { getAllTourAttribute, getAllTourCategory, getTour, createTour, updateTour } from '../../redux/tour/actions';
 import { url } from '../../helpers/url';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -21,6 +21,7 @@ const BasicInputElements = ({
     onSubmitForm,
     onSelectAttribute,
     onSetItinerary,
+    setFormInput,
 }) => {
     const [itineraryList, setItineraryList] = useState([]);
 
@@ -41,7 +42,8 @@ const BasicInputElements = ({
         const { name, value, files } = e.target;
         values[index][name] = value;
         if (files) {
-            values[index][name] = files;
+            console.log(files);
+            values[index][name] = files[0];
         }
         setItineraryList(values);
         onSetItinerary(itineraryList);
@@ -50,6 +52,12 @@ const BasicInputElements = ({
     // Handle click event of the Add button
     const handleAddClick = () => {
         setItineraryList([...itineraryList, { image: '', title: '', description: '', address: '' }]);
+    };
+
+    const handleRemoveImage = (index) => {
+        let images = [...formInput.image];
+        images.splice(index, 1);
+        setFormInput({ ...formInput, image: images });
     };
 
     return (
@@ -98,7 +106,7 @@ const BasicInputElements = ({
                                         name="category"
                                         className="custom-select"
                                         onChange={inputChangeHandler}
-                                        defaultValue={formInput.category && formInput.category._id}>
+                                        value={formInput.category && formInput.category._id}>
                                         <option>-- Please Select --</option>
                                         {categories &&
                                             categories.map((category) => {
@@ -173,20 +181,18 @@ const BasicInputElements = ({
                                                 <Row>
                                                     <Col md={2}>
                                                         <FormGroup>
-                                                            {/* {itinerary.image ? (
+                                                            {itinerary.image ? (
                                                                 typeof itinerary.image === 'string' ? (
                                                                     <img
                                                                         src={`${url}/${itinerary.image}`}
-                                                                        className="mb-5"
+                                                                        className="img-fluid mb-5"
                                                                         alt="Default Picture tour"
                                                                     />
                                                                 ) : typeof itinerary.image === 'object' ? (
                                                                     <React.Fragment>
                                                                         <img
-                                                                            srcObject={URL.createObjectURL(
-                                                                                itinerary.image
-                                                                            )}
-                                                                            className="mb-5"
+                                                                            src={URL.createObjectURL(itinerary.image)}
+                                                                            className="img-fluid mb-5"
                                                                             alt="Default Picture tour"
                                                                         />
                                                                     </React.Fragment>
@@ -198,13 +204,12 @@ const BasicInputElements = ({
                                                                     />
                                                                 )
                                                             ) : (
-                                                                
-                                                            )} */}
-                                                            <img
-                                                                src={default_image}
-                                                                className="mb-5 img-fluid"
-                                                                alt="Default"
-                                                            />
+                                                                <img
+                                                                    src={default_image}
+                                                                    className="mb-5 img-fluid"
+                                                                    alt="Default"
+                                                                />
+                                                            )}
                                                             <Input
                                                                 type="file"
                                                                 name="image"
@@ -262,9 +267,47 @@ const BasicInputElements = ({
 
                         <FormGroup className="mt-5">
                             <Label for="image">Gallery</Label>
-                            <div>
-                                <img src={default_image} className="mb-5 img-fluid" alt="Default" />
-                                <Input type="file" name="image" id="image" multiple onChange={inputChangeHandler} />
+                            <div className="attach-demo d-flex">
+                                {formInput.image && formInput.image.length > 0 ? (
+                                    formInput.image.map((img, index) => (
+                                        <div key={index} className="image-item">
+                                            <div className="inner">
+                                                <Button
+                                                    size="sm"
+                                                    color="danger"
+                                                    className="delete"
+                                                    onClick={() => handleRemoveImage(index)}>
+                                                    <FeatherIcon.Trash />
+                                                </Button>
+                                                {typeof img === 'string' ? (
+                                                    <img src={`${url}/${img}`} className="mb-5" alt={formInput.title} />
+                                                ) : typeof img === 'object' ? (
+                                                    <React.Fragment>
+                                                        <img
+                                                            src={URL.createObjectURL(img)}
+                                                            className="mb-5"
+                                                            alt={formInput.title}
+                                                        />
+                                                    </React.Fragment>
+                                                ) : (
+                                                    <img src={img} className="mb-5" alt={formInput.title} />
+                                                )}
+                                            </div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <img src={default_image} className="mb-5 img-fluid" alt="Default" />
+                                )}
+                            </div>
+                            <div className="upload-box">
+                                <Input
+                                    type="file"
+                                    multiple
+                                    name="image"
+                                    id="image"
+                                    onChange={inputChangeHandler}
+                                    required={formInput.image && formInput.image.length < 0}
+                                />
                             </div>
                         </FormGroup>
                     </CardBody>
@@ -277,22 +320,47 @@ const BasicInputElements = ({
                         <FormGroup>
                             <Label for="status">Publish</Label>
                             <div>
-                                <CustomInput
-                                    type="radio"
-                                    id="publish"
-                                    name="status"
-                                    label="Publish"
-                                    value="publish"
-                                    onChange={inputChangeHandler}
-                                />
-                                <CustomInput
-                                    type="radio"
-                                    id="draft"
-                                    name="status"
-                                    label="Draft"
-                                    value="draft"
-                                    onChange={inputChangeHandler}
-                                />
+                                {formInput.status ? (
+                                    <React.Fragment>
+                                        <CustomInput
+                                            type="radio"
+                                            id="publish"
+                                            name="status"
+                                            label="Publish"
+                                            value="publish"
+                                            onChange={inputChangeHandler}
+                                            defaultChecked={formInput.status === 'active' ? true : false}
+                                        />
+                                        <CustomInput
+                                            type="radio"
+                                            id="draft"
+                                            name="status"
+                                            label="Draft"
+                                            value="draft"
+                                            onChange={inputChangeHandler}
+                                            defaultChecked={formInput.status === 'hide' ? true : false}
+                                        />
+                                    </React.Fragment>
+                                ) : (
+                                    <React.Fragment>
+                                        <CustomInput
+                                            type="radio"
+                                            id="publish"
+                                            name="status"
+                                            label="Publish"
+                                            value="publish"
+                                            onChange={inputChangeHandler}
+                                        />
+                                        <CustomInput
+                                            type="radio"
+                                            id="draft"
+                                            name="status"
+                                            label="Draft"
+                                            value="draft"
+                                            onChange={inputChangeHandler}
+                                        />
+                                    </React.Fragment>
+                                )}
                             </div>
                         </FormGroup>
                         <FormGroup className="float-right">
@@ -306,13 +374,24 @@ const BasicInputElements = ({
                     <CardBody>
                         <FormGroup>
                             <Label for="isFeatured">Tour Featured</Label>
-                            <CustomInput
-                                type="switch"
-                                id="isFeatured"
-                                name="isFeatured"
-                                label="Enable featured"
-                                onChange={inputChangeHandler}
-                            />
+                            {formInput.isFeatured ? (
+                                <CustomInput
+                                    type="switch"
+                                    id="isFeatured"
+                                    name="isFeatured"
+                                    label="Enable featured"
+                                    onChange={inputChangeHandler}
+                                    defaultChecked={formInput.isFeatured ? true : false}
+                                />
+                            ) : (
+                                <CustomInput
+                                    type="switch"
+                                    id="isFeatured"
+                                    name="isFeatured"
+                                    label="Enable featured"
+                                    onChange={inputChangeHandler}
+                                />
+                            )}
                         </FormGroup>
                     </CardBody>
                 </Card>
@@ -328,12 +407,14 @@ const BasicInputElements = ({
                                                 key={attribute._id}
                                                 type="checkbox"
                                                 className="mb-3 mt-3"
-                                                // id={attribute.slug}
+                                                id={attribute.slug}
                                                 name="attributes"
                                                 value={attribute._id}
                                                 label={attribute.title}
                                                 onChange={onSelectAttribute}
-                                                id={formInput.attribute.includes(attribute._id)}
+                                                defaultChecked={
+                                                    formInput.attributes && formInput.attributes.includes(attribute._id)
+                                                }
                                             />
                                         );
                                     })}
@@ -487,30 +568,12 @@ const AddTour = (props) => {
         setFormInput({ ...formInput, description: description });
     };
 
+    // For select box
     useEffect(() => {
-        if (props.match.params.id !== 'add-tour') {
-            dispatch(getTour(props.match.params.id));
-        }
-
         dispatch(getAllDestination());
         dispatch(getAllTourCategory());
         dispatch(getAllTourAttribute());
     }, [dispatch]);
-
-    useEffect(() => {
-        if (props.match.params.id === ':id') {
-            props.history.push('/tour/add-tour');
-        }
-    }, [props.match.params]);
-
-    useEffect(() => {
-        if (props.tour) {
-            props.history.push(`/tour/${props.tour._id}`);
-            setFormInput(props.tour);
-        } else {
-            props.history.push('/tour/add-tour');
-        }
-    }, [props.tour]);
 
     useEffect(() => {
         if (props.destinations) {
@@ -525,6 +588,49 @@ const AddTour = (props) => {
             setAttributes(props.attributes);
         }
     }, [props.destinations, props.categories, props.attributes]);
+
+    // Check router has id
+    useEffect(() => {
+        if (props.match.params.id === ':id') {
+            props.history.push('/tour/add-tour');
+            setFormInput({
+                title: '',
+                description: '',
+                address: '',
+                isFeatured: '',
+                lat: '',
+                lng: '',
+                attributes: [],
+                category: '',
+                itinerary: [],
+                adult_price: '',
+                child_price: '',
+                adult_sale_price: '',
+                child_sale_price: '',
+                duration: '',
+                min_people: '',
+                max_people: '',
+                destination: '',
+            });
+        }
+    }, [props.match.params]);
+
+    // Router has id => fetch data with id
+    useEffect(() => {
+        if (props.match.params.id !== 'add-tour') {
+            dispatch(getTour(props.match.params.id));
+        }
+    }, [dispatch]);
+
+    // Show form data after create new
+    useEffect(() => {
+        if (props.tour) {
+            props.history.push(`/tour/${props.tour._id}`);
+            setFormInput(props.tour);
+        } else {
+            props.history.push('/tour/add-tour');
+        }
+    }, [props.tour]);
 
     const inputChangeHandler = (e) => {
         const { name, value, files } = e.target;
@@ -558,16 +664,22 @@ const AddTour = (props) => {
         formData.append('title', formInput.title);
         formData.append('description', formInput.description);
         formData.append('address', formInput.address);
-        formData.append('attribute', formInput.attributes);
-        formData.append('category', formInput.category);
-        formData.append('adult_price', formInput.adult_price);
-        formData.append('child_price', formInput.child_price);
-        formData.append('adult_sale_price', formInput.adult_sale_price);
-        formData.append('child_sale_price', formInput.child_sale_price);
+        formData.append('attributes', formInput.attributes);
+        formData.append('category', formInput.category._id ? formInput.category._id : formInput.category);
+        formData.append('adult_price', formInput.price ? formInput.price.adult : formInput.adult_price);
+        formData.append('child_price', formInput.price ? formInput.price.child : formInput.child_price);
+        formData.append(
+            'adult_sale_price',
+            formInput.sale_price ? formInput.sale_price.adult : formInput.adult_sale_price
+        );
+        formData.append(
+            'child_sale_price',
+            formInput.sale_price ? formInput.sale_price.child : formInput.child_sale_price
+        );
         formData.append('duration', formInput.duration);
         formData.append('min_people', formInput.min_people);
         formData.append('max_people', formInput.max_people);
-        formData.append('destination', formInput.destination);
+        formData.append('destination', formInput.destination._id ? formInput.destination._id : formInput.destination);
         formData.append('lat', formInput.lat);
         formData.append('lng', formInput.lng);
         formData.append('isFeatured', formInput.isFeatured === 'on' ? true : false);
@@ -587,6 +699,7 @@ const AddTour = (props) => {
 
         if (formInput._id) {
             formData.append('_id', formInput._id);
+            props.updateTour(formData);
         } else {
             props.createTour(formData);
         }
@@ -627,6 +740,7 @@ const AddTour = (props) => {
                         onSubmitForm={onSubmitForm}
                         onSelectAttribute={onSelectAttribute}
                         onSetItinerary={onSetItinerary}
+                        setFormInput={setFormInput}
                     />
                 </Col>
             </Row>
@@ -680,4 +794,4 @@ const mapStateToProps = (state) => {
     return { user, destinations, categories, attributes, tour };
 };
 
-export default connect(mapStateToProps, { createTour })(AddTour);
+export default connect(mapStateToProps, { createTour, updateTour })(AddTour);

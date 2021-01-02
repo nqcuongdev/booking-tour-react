@@ -17,6 +17,8 @@ import {
     updateTourAttributeSuccess,
     updateTourCategoryFailed,
     updateTourCategorySuccess,
+    updateTourFailed,
+    updateTourSuccess,
 } from './actions';
 import {
     CREATE_TOUR,
@@ -26,6 +28,7 @@ import {
     GET_ALL_TOUR_ATTRIBUTE,
     GET_ALL_TOUR_CATEGORY,
     GET_TOUR,
+    UPDATE_TOUR,
     UPDATE_TOUR_ATTRIBUTE,
     UPDATE_TOUR_CATEGORY,
 } from './constants';
@@ -90,6 +93,37 @@ function* createTour({ payload: data }) {
                 message = error;
         }
         yield put(createTourFailed(message));
+    }
+}
+
+function* updateTour({ payload: inputData }) {
+    const options = {
+        body: inputData,
+        method: 'PUT',
+        headers: {
+            Authorization: 'Bearer ' + token,
+        },
+    };
+    try {
+        const response = yield call(fetchJSON, `tour/${inputData.get('_id')}`, options);
+        if (response && response.success) {
+            yield put(updateTourSuccess(response.data));
+        } else {
+            yield put(updateTourFailed(response.message));
+        }
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500:
+                message = 'Internal Server Error';
+                break;
+            case 401:
+                message = 'Invalid credentials';
+                break;
+            default:
+                message = error;
+        }
+        yield put(updateTourFailed(message));
     }
 }
 
@@ -319,6 +353,10 @@ export function* watchCreateTour() {
     yield takeEvery(CREATE_TOUR, createTour);
 }
 
+export function* watchUpdateTour() {
+    yield takeEvery(UPDATE_TOUR, updateTour);
+}
+
 export function* watchGetAllTourCategory() {
     yield takeEvery(GET_ALL_TOUR_CATEGORY, getAllTourCategory);
 }
@@ -348,6 +386,7 @@ function* tourSaga() {
         fork(watchGetAllTour),
         fork(watchGetTour),
         fork(watchCreateTour),
+        fork(watchUpdateTour),
         fork(watchGetAllTourCategory),
         fork(watchCreateTourCategory),
         fork(watchUpdateTourCategory),

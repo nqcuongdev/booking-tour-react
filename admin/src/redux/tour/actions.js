@@ -20,12 +20,15 @@ import {
     GET_TOUR,
     GET_TOUR_FAILED,
     GET_TOUR_SUCCESS,
+    UPDATE_TOUR,
     UPDATE_TOUR_ATTRIBUTE,
     UPDATE_TOUR_ATTRIBUTE_FAILED,
     UPDATE_TOUR_ATTRIBUTE_SUCCESS,
     UPDATE_TOUR_CATEGORY,
     UPDATE_TOUR_CATEGORY_FAILED,
     UPDATE_TOUR_CATEGORY_SUCCESS,
+    UPDATE_TOUR_FAILED,
+    UPDATE_TOUR_SUCCESS,
 } from './constants';
 
 export const getAllTour = () => ({
@@ -69,6 +72,21 @@ export const createTourSuccess = (tour) => ({
 
 export const createTourFailed = (error) => ({
     type: CREATE_TOUR_FAILED,
+    payload: error,
+});
+
+export const updateTour = (inputData) => ({
+    type: UPDATE_TOUR,
+    payload: inputData,
+});
+
+export const updateTourSuccess = (tour) => ({
+    type: UPDATE_TOUR_SUCCESS,
+    payload: tour,
+});
+
+export const updateTourFailed = (error) => ({
+    type: UPDATE_TOUR_FAILED,
     payload: error,
 });
 

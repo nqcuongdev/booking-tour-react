@@ -42,8 +42,8 @@ module.exports = function validateTourInput(data) {
     errors.destination = "Destination invalid";
   }
 
-  if (!Validator.isLength(data.duration, { min: 2, max: 100 })) {
-    errors.duration = "Address must be between 2 and 100 characters";
+  if (!Validator.isLength(data.duration)) {
+    errors.duration = "Duration field is required";
   }
 
   // if (!Validator.isLength(data.price, { min: 2, max: 100 })) {
