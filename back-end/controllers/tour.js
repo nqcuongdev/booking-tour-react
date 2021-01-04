@@ -65,6 +65,50 @@ exports.getScheduleTour = async (req, res) => {
   });
 };
 
+exports.createScheduleTour = async (req, res) => {
+  let _id = req.params.id;
+  let checkIDValid = Validator.isMongoId(_id);
+  if (!checkIDValid) {
+    return res.status(400).json({
+      success: false,
+      message: "Your ID is not valid",
+    });
+  }
+
+  const checkExistedTour = await Tour.findOne({ _id });
+
+  if (!checkExistedTour) {
+    return res.status(404).json({
+      success: !!tour,
+      message: "Can not found this tour",
+    });
+  }
+
+  const { start_date, end_date, available } = req.body;
+
+  let d = new Date();
+  let code = "";
+  title.split(" ").forEach((item) => {
+    code += item.charAt(0).toUpperCase();
+  });
+
+  code += `${d.getDate()}${d.getMonth()}${d.getFullYear()}`;
+
+  let schedule = await TourAvailability.create({
+    code,
+    tour: _id,
+    start_date,
+    end_date,
+    available,
+  });
+
+  return res.status(200).json({
+    success: !!schedule,
+    message: "Create schedule success",
+    data: schedule,
+  });
+};
+
 exports.bookTour = async (req, res) => {
   let _id = req.params.id;
   let checkIDValid = Validator.isMongoId(_id);
@@ -275,20 +319,6 @@ exports.create = async (req, res) => {
       destination,
       created_by,
     });
-    // let d = new Date();
-    // if (tour) {
-    //   let code = "";
-    //   title.split(" ").forEach((item) => {
-    //     code += item.charAt(0).toUpperCase();
-    //   });
-
-    //   code += `${d.getDate()}${d.getMonth()}${d.getFullYear()}`;
-
-    //   await TourAvailability.create({
-    //     code,
-    //     tour: tour._id,
-    //   });
-    // }
 
     return res.status(200).json({
       success: !!tour,

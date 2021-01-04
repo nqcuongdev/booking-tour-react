@@ -22,6 +22,8 @@ import {
     TOUR_HANDLE_FAILED,
     TOUR_SCHEDULE,
     TOUR_SCHEDULE_SUCCESS,
+    ADD_TOUR_SCHEDULE,
+    ADD_TOUR_SCHEDULE_SUCCESS,
 } from './constants';
 
 const INIT_STATE = {
@@ -33,53 +35,47 @@ const INIT_STATE = {
     attribute: null,
     loading: false,
     schedule: null,
+    schedules: null,
 };
 
 const Tour = (state = INIT_STATE, action) => {
     switch (action.type) {
-        case GET_ALL_TOUR:
+        case GET_ALL_TOUR ||
+            GET_TOUR ||
+            UPDATE_TOUR ||
+            CREATE_TOUR ||
+            GET_ALL_TOUR_CATEGORY ||
+            GET_ALL_TOUR_ATTRIBUTE ||
+            CREATE_TOUR_CATEGORY ||
+            CREATE_TOUR_ATTRIBUTE ||
+            UPDATE_TOUR_ATTRIBUTE ||
+            UPDATE_TOUR_CATEGORY ||
+            TOUR_SCHEDULE ||
+            ADD_TOUR_SCHEDULE:
             return { ...state, loading: true, tour: null };
         case GET_ALL_TOUR_SUCCESS:
             return { ...state, tours: action.payload, loading: false, error: null };
-        case GET_TOUR:
-            return { ...state, loading: true };
         case GET_TOUR_SUCCESS:
             return { ...state, tour: action.payload, loading: false, error: null };
-        case CREATE_TOUR:
-            return { ...state, loading: true };
         case CREATE_TOUR_SUCCESS:
             return { ...state, tour: action.payload, loading: false, error: null };
-        case UPDATE_TOUR:
-            return { ...state, loading: true };
         case UPDATE_TOUR_SUCCESS:
             return { ...state, tour: action.payload, loading: false, error: null };
-        case GET_ALL_TOUR_CATEGORY:
-            return { ...state, loading: true };
         case GET_ALL_TOUR_CATEGORY_SUCCESS:
             return { ...state, categories: action.payload, loading: false, error: null };
-        case GET_ALL_TOUR_ATTRIBUTE:
-            return { ...state, loading: true };
         case GET_ALL_TOUR_ATTRIBUTE_SUCCESS:
             return { ...state, attributes: action.payload, loading: false, error: null };
-        case CREATE_TOUR_CATEGORY:
-            return { ...state, loading: true };
         case CREATE_TOUR_CATEGORY_SUCCESS:
             return { ...state, category: action.payload, loading: false, error: null };
-        case CREATE_TOUR_ATTRIBUTE:
-            return { ...state, loading: true };
         case CREATE_TOUR_ATTRIBUTE_SUCCESS:
             return { ...state, attribute: action.payload, loading: false, error: null };
-        case UPDATE_TOUR_CATEGORY:
-            return { ...state, loading: true };
         case UPDATE_TOUR_CATEGORY_SUCCESS:
             return { ...state, category: action.payload, loading: false, error: null };
-        case UPDATE_TOUR_ATTRIBUTE:
-            return { ...state, loading: true };
         case UPDATE_TOUR_ATTRIBUTE_SUCCESS:
             return { ...state, attribute: action.payload, loading: false, error: null };
-        case TOUR_SCHEDULE:
-            return { ...state, loading: true };
         case TOUR_SCHEDULE_SUCCESS:
+            return { ...state, schedules: action.payload, loading: false, error: null };
+        case ADD_TOUR_SCHEDULE_SUCCESS:
             return { ...state, schedule: action.payload, loading: false, error: null };
         case TOUR_HANDLE_FAILED:
             return { ...state, error: action.payload, loading: false };

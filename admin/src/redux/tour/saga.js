@@ -1,4 +1,5 @@
 import {
+    addTourScheduleSuccess,
     createTourAttributeSuccess,
     createTourCategorySuccess,
     createTourSuccess,
@@ -13,6 +14,7 @@ import {
     updateTourSuccess,
 } from './actions';
 import {
+    ADD_TOUR_SCHEDULE,
     CREATE_TOUR,
     CREATE_TOUR_ATTRIBUTE,
     CREATE_TOUR_CATEGORY,
@@ -362,12 +364,49 @@ function* getSchedule({ payload: _id }) {
     }
 }
 
+function* addTourSchedule({ payload: start_date, end_date, available, tour_id }) {
+    const options = {
+        body: JSON.stringify({ start_date, end_date, available }),
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+        },
+    };
+
+    try {
+        const response = yield call(fetchJSON, `tour/${tour_id}/schedule`, options);
+        if (response && response.success) {
+            yield put(addTourScheduleSuccess(response.data));
+        } else {
+            yield put(tourHandleFailed(response.message));
+        }
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500:
+                message = 'Internal Server Error';
+                break;
+            case 401:
+                message = 'Invalid credentials';
+                break;
+            default:
+                message = error;
+        }
+        yield put(tourHandleFailed(message));
+    }
+}
+
 export function* watchGetAllTour() {
     yield takeEvery(GET_ALL_TOUR, getAllTour);
 }
 
 export function* watchGetTour() {
     yield takeEvery(GET_TOUR, getTour);
+}
+
+export function* watchAddScheduleTour() {
+    yield takeEvery(ADD_TOUR_SCHEDULE, addTourSchedule);
 }
 
 export function* watchGetSchedule() {
@@ -411,6 +450,7 @@ function* tourSaga() {
         fork(watchGetAllTour),
         fork(watchGetTour),
         fork(watchGetSchedule),
+        fork(watchAddScheduleTour),
         fork(watchCreateTour),
         fork(watchUpdateTour),
         fork(watchGetAllTourCategory),

@@ -1,4 +1,6 @@
 import {
+    ADD_TOUR_SCHEDULE,
+    ADD_TOUR_SCHEDULE_SUCCESS,
     CREATE_TOUR,
     CREATE_TOUR_ATTRIBUTE,
     CREATE_TOUR_ATTRIBUTE_SUCCESS,
@@ -68,9 +70,9 @@ export const getSchedule = (_id) => ({
     payload: _id,
 });
 
-export const getScheduleSuccess = (schedule) => ({
+export const getScheduleSuccess = (schedules) => ({
     type: TOUR_SCHEDULE_SUCCESS,
-    payload: schedule,
+    payload: schedules,
 });
 
 export const getAllTourCategory = () => ({
@@ -131,6 +133,16 @@ export const updateTourAttribute = (_id, title, type, status) => ({
 export const updateTourAttributeSuccess = (attribute) => ({
     type: UPDATE_TOUR_ATTRIBUTE_SUCCESS,
     payload: attribute,
+});
+
+export const addTourSchedule = (start_date, end_date, available, tour_id) => ({
+    type: ADD_TOUR_SCHEDULE,
+    payload: { start_date, end_date, available, tour_id },
+});
+
+export const addTourScheduleSuccess = (schedule) => ({
+    type: ADD_TOUR_SCHEDULE_SUCCESS,
+    payload: schedule,
 });
 
 export const tourHandleFailed = (error) => ({
