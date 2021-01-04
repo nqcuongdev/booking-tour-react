@@ -57,7 +57,7 @@ exports.getScheduleTour = async (req, res) => {
     });
   }
 
-  const tours = await TourAvailability.findOne({ _id });
+  const tours = await TourAvailability.find({ tour: _id });
 
   return res.status(200).json({
     success: !!tours,
@@ -287,8 +287,6 @@ exports.create = async (req, res) => {
     //   await TourAvailability.create({
     //     code,
     //     tour: tour._id,
-    //     start_date: tour.created_at,
-    //     available,
     //   });
     // }
 

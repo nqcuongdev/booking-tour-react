@@ -37,7 +37,7 @@ class Dashboard extends Component {
                     </Row>
 
                     {/* stats */}
-                    <Statistics></Statistics>
+                    <Statistics user={this.state.user}></Statistics>
 
                     {/* charts */}
                     <Row>
@@ -45,8 +45,8 @@ class Dashboard extends Component {
                             <OverviewWidget
                                 items={[
                                     { title: '121,000', description: 'Total Visitors', icon: Users },
-                                    { title: '21,000', description: 'Product Views', icon: Image },
-                                    { title: '$21.5', description: 'Revenue Per Visitor', icon: ShoppingBag },
+                                    { title: '21,000', description: 'Total Product', icon: Image },
+                                    { title: '$21.5', description: 'Revenue This Month', icon: ShoppingBag },
                                 ]}></OverviewWidget>
                         </Col>
 

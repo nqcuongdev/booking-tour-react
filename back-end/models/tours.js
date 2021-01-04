@@ -137,10 +137,6 @@ const TourAvailabilitySchema = new mongoose.Schema({
     required: true,
     default: 1,
   },
-  remainder: {
-    type: Number,
-    default: 0,
-  },
   created_at: {
     type: Date,
     default: Date.now,
@@ -194,7 +190,7 @@ TourSchema.index({ location: "2dsphere" });
 
 const Tour = mongoose.model("tour", TourSchema);
 const TourAvailability = mongoose.model(
-  "TourAvailability",
+  "tour_availability",
   TourAvailabilitySchema
 );
 

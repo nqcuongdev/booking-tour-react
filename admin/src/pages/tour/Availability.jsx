@@ -1,6 +1,6 @@
 // @flow
-import React from 'react';
-import { Row, Col, Card, CardBody, Button } from 'reactstrap';
+import React, { useEffect, useState } from 'react';
+import { Row, Col, Card, CardBody, Nav, NavItem, NavLink } from 'reactstrap';
 
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -10,37 +10,42 @@ import listPlugin from '@fullcalendar/list';
 import timeGridPlugin from '@fullcalendar/timegrid';
 
 import PageTitle from '../../components/PageTitle';
-import calImg from '../../assets/images/cal.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllTour, getSchedule } from '../../redux/tour/actions';
 
 const Availability = () => {
-    const events = [
-        {
-            id: 1,
-            title: 'Meeting with Mr. Shreyu!',
-            start: new Date().setDate(new Date().getDate() + 1),
-            end: new Date().setDate(new Date().getDate() + 2),
-            className: 'bg-warning text-white',
-        },
-        {
-            id: 2,
-            title: 'See John Deo',
-            start: new Date(),
-            end: new Date(),
-            className: 'bg-success text-white',
-        },
-        {
-            id: 3,
-            title: 'Meet John Deo',
-            start: new Date().setDate(new Date().getDate() + 8),
-            className: 'bg-info text-white',
-        },
-        {
-            id: 4,
-            title: 'Buy a Theme',
-            start: new Date().setDate(new Date().getDate() + 7),
-            className: 'bg-primary text-white',
-        },
-    ];
+    const dispatch = useDispatch();
+    const [listTours, setTours] = useState([]);
+    const [listSchedule, setSchedule] = useState([]);
+    const [modal, setModal] = useState(false);
+
+    const { tours, schedule } = useSelector((state) => ({
+        tours: state.Tour.tours,
+        schedule: state.Tour.schedule,
+    }));
+
+    useEffect(() => {
+        dispatch(getAllTour());
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (tours) {
+            setTours(tours);
+        }
+        if (schedule) {
+            setSchedule(schedule);
+        }
+    }, [tours, schedule]);
+
+    const onGetTourSchedule = (tour) => {
+        dispatch(getSchedule(tour._id));
+    };
+
+    const handleDateClick = (arg) => {
+        console.log(arg);
+    };
+
+    const toggle = () => setModal(!modal);
 
     return (
         <React.Fragment>
@@ -51,43 +56,34 @@ const Availability = () => {
                             { label: 'Apps', path: '/apps/calendar' },
                             { label: 'Calendar', path: '/apps/calendar', active: true },
                         ]}
-                        title={'Calendar'}
+                        title={'Tour Schedule'}
                     />
                 </Col>
             </Row>
 
-            <Row className="align-items-center">
-                <Col>
+            <Row>
+                <Col className="col-3">
                     <Card>
                         <CardBody>
-                            <Row className="align-items-center">
-                                <Col xl={2} lg={3}>
-                                    <img src={calImg} className="mr-4 align-self-center img-fluid" alt="cal" />
-                                </Col>
-                                <Col xl={10} lg={9}>
-                                    <div className="mt-4 mt-lg-0">
-                                        <h5 className="mt-0 mb-1 font-weight-bold">Welcome to Your Calendar</h5>
-                                        <p className="text-muted mb-2">
-                                            The calendar shows the events synced from all your linked calendars. Click
-                                            on event to see or edit the details. You can create new event by clicking on
-                                            "Create New event" button or any cell available in calendar below.
-                                        </p>
-
-                                        <Button color="primary" className="mt-2 mr-2">
-                                            <i className="uil-plus-circle"></i> Create New Event
-                                        </Button>
-                                        <Button color="white" className="mt-2">
-                                            <i className="uil-sync"></i> Link Calendars
-                                        </Button>
-                                    </div>
-                                </Col>
-                            </Row>
+                            <Nav vertical>
+                                {listTours && listTours.length > 0 ? (
+                                    listTours.map((tour, index) => (
+                                        <NavItem key={tour._id}>
+                                            <NavLink href={`#${tour.slug}`} onClick={(tour) => onGetTourSchedule(tour)}>
+                                                #{index + 1} {tour.title}
+                                            </NavLink>
+                                        </NavItem>
+                                    ))
+                                ) : (
+                                    <NavItem>
+                                        <NavLink href="#">Nothing</NavLink>
+                                    </NavItem>
+                                )}
+                            </Nav>
                         </CardBody>
                     </Card>
                 </Col>
-            </Row>
-            <Row>
-                <Col className="col-12">
+                <Col className="col-9">
                     <Card>
                         <CardBody>
                             {/* fullcalendar control */}
@@ -118,7 +114,7 @@ const Availability = () => {
                                 editable={true}
                                 eventLimit={true} // allow "more" link when too many events
                                 selectable={true}
-                                events={events}
+                                event={listSchedule}
                                 id="calendar"
                             />
                         </CardBody>
