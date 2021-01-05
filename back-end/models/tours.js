@@ -121,7 +121,7 @@ const TourSchema = new mongoose.Schema({
 });
 
 const TourAvailabilitySchema = new mongoose.Schema({
-  code: {
+  title: {
     type: String,
     required: true,
     unique: true,
@@ -130,8 +130,14 @@ const TourAvailabilitySchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "tour",
   },
-  start_date: Date,
-  end_date: Date,
+  start: {
+    type: Date,
+    required: true,
+  },
+  end: {
+    type: Date,
+    required: true,
+  },
   available: {
     type: Number,
     required: true,

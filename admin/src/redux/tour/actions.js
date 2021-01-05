@@ -24,6 +24,8 @@ import {
     UPDATE_TOUR_CATEGORY,
     UPDATE_TOUR_CATEGORY_SUCCESS,
     UPDATE_TOUR_SUCCESS,
+    UPDATE_TOUR_SCHEDULE,
+    UPDATE_TOUR_SCHEDULE_SUCCESS,
 } from './constants';
 
 export const getAllTour = () => ({
@@ -135,13 +137,23 @@ export const updateTourAttributeSuccess = (attribute) => ({
     payload: attribute,
 });
 
-export const addTourSchedule = (start_date, end_date, available, tour_id) => ({
+export const addTourSchedule = (formInput) => ({
     type: ADD_TOUR_SCHEDULE,
-    payload: { start_date, end_date, available, tour_id },
+    payload: formInput,
 });
 
 export const addTourScheduleSuccess = (schedule) => ({
     type: ADD_TOUR_SCHEDULE_SUCCESS,
+    payload: schedule,
+});
+
+export const updateTourSchedule = (formInput) => ({
+    type: UPDATE_TOUR_SCHEDULE,
+    payload: formInput,
+});
+
+export const updateTourScheduleSuccess = (schedule) => ({
+    type: UPDATE_TOUR_SCHEDULE_SUCCESS,
     payload: schedule,
 });
 

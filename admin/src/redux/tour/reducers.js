@@ -24,6 +24,8 @@ import {
     TOUR_SCHEDULE_SUCCESS,
     ADD_TOUR_SCHEDULE,
     ADD_TOUR_SCHEDULE_SUCCESS,
+    UPDATE_TOUR_SCHEDULE,
+    UPDATE_TOUR_SCHEDULE_SUCCESS,
 } from './constants';
 
 const INIT_STATE = {
@@ -51,7 +53,8 @@ const Tour = (state = INIT_STATE, action) => {
             UPDATE_TOUR_ATTRIBUTE ||
             UPDATE_TOUR_CATEGORY ||
             TOUR_SCHEDULE ||
-            ADD_TOUR_SCHEDULE:
+            ADD_TOUR_SCHEDULE ||
+            UPDATE_TOUR_SCHEDULE:
             return { ...state, loading: true, tour: null };
         case GET_ALL_TOUR_SUCCESS:
             return { ...state, tours: action.payload, loading: false, error: null };
@@ -76,6 +79,8 @@ const Tour = (state = INIT_STATE, action) => {
         case TOUR_SCHEDULE_SUCCESS:
             return { ...state, schedules: action.payload, loading: false, error: null };
         case ADD_TOUR_SCHEDULE_SUCCESS:
+            return { ...state, schedule: action.payload, loading: false, error: null };
+        case UPDATE_TOUR_SCHEDULE_SUCCESS:
             return { ...state, schedule: action.payload, loading: false, error: null };
         case TOUR_HANDLE_FAILED:
             return { ...state, error: action.payload, loading: false };

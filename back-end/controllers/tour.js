@@ -5,6 +5,7 @@ const Booking = require("../models/booking");
 // Load validate
 const tourValidate = require("../validators/tour/create");
 const bookingValidate = require("../validators/book/create");
+const { findOne } = require("../models/booking");
 
 exports.all = async (req, res) => {
   const tours = await Tour.find({})
@@ -84,27 +85,63 @@ exports.createScheduleTour = async (req, res) => {
     });
   }
 
-  const { start_date, end_date, available } = req.body;
+  const { start, end, available } = req.body;
 
   let d = new Date();
   let code = "";
-  title.split(" ").forEach((item) => {
+  checkExistedTour.title.split(" ").forEach((item) => {
     code += item.charAt(0).toUpperCase();
   });
 
-  code += `${d.getDate()}${d.getMonth()}${d.getFullYear()}`;
+  code += d.getTime();
 
   let schedule = await TourAvailability.create({
-    code,
+    title: code,
     tour: _id,
-    start_date,
-    end_date,
+    start,
+    end,
     available,
   });
 
   return res.status(200).json({
     success: !!schedule,
     message: "Create schedule success",
+    data: schedule,
+  });
+};
+
+exports.editScheduleTour = async (req, res) => {
+  let _id = req.params.id;
+  let checkIDValid = Validator.isMongoId(_id);
+  if (!checkIDValid) {
+    return res.status(400).json({
+      success: false,
+      message: "Your ID is not valid",
+    });
+  }
+
+  const checkExistedSchedule = await TourAvailability.findOne({ _id });
+
+  if (!checkExistedSchedule) {
+    return res.status(404).json({
+      success: !!tour,
+      message: "Can not found this schedule",
+    });
+  }
+
+  const { start, end, available } = req.body;
+
+  const schedule = await TourAvailability.findByIdAndUpdate(
+    { _id },
+    { start, end, available },
+    {
+      new: true,
+    }
+  );
+
+  return res.status(200).json({
+    success: !!schedule,
+    message: "Update schedule success",
     data: schedule,
   });
 };

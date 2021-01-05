@@ -11,6 +11,7 @@ import {
     tourHandleFailed,
     updateTourAttributeSuccess,
     updateTourCategorySuccess,
+    updateTourScheduleSuccess,
     updateTourSuccess,
 } from './actions';
 import {
@@ -26,6 +27,7 @@ import {
     UPDATE_TOUR,
     UPDATE_TOUR_ATTRIBUTE,
     UPDATE_TOUR_CATEGORY,
+    UPDATE_TOUR_SCHEDULE,
 } from './constants';
 import { call, put, takeEvery, all, fork } from 'redux-saga/effects';
 import { fetchJSON } from '../../helpers/api';
@@ -364,9 +366,9 @@ function* getSchedule({ payload: _id }) {
     }
 }
 
-function* addTourSchedule({ payload: start_date, end_date, available, tour_id }) {
+function* addTourSchedule({ payload: { start, end, available, tour_id } }) {
     const options = {
-        body: JSON.stringify({ start_date, end_date, available }),
+        body: JSON.stringify({ start, end, available }),
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -378,6 +380,39 @@ function* addTourSchedule({ payload: start_date, end_date, available, tour_id })
         const response = yield call(fetchJSON, `tour/${tour_id}/schedule`, options);
         if (response && response.success) {
             yield put(addTourScheduleSuccess(response.data));
+        } else {
+            yield put(tourHandleFailed(response.message));
+        }
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500:
+                message = 'Internal Server Error';
+                break;
+            case 401:
+                message = 'Invalid credentials';
+                break;
+            default:
+                message = error;
+        }
+        yield put(tourHandleFailed(message));
+    }
+}
+
+function* updateTourSchedule({ payload: { start, end, available, _id } }) {
+    const options = {
+        body: JSON.stringify({ start, end, available }),
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+        },
+    };
+
+    try {
+        const response = yield call(fetchJSON, `tour/schedule/${_id}`, options);
+        if (response && response.success) {
+            yield put(updateTourScheduleSuccess(response.data));
         } else {
             yield put(tourHandleFailed(response.message));
         }
@@ -421,6 +456,10 @@ export function* watchUpdateTour() {
     yield takeEvery(UPDATE_TOUR, updateTour);
 }
 
+export function* watchUpdateScheduleTour() {
+    yield takeEvery(UPDATE_TOUR_SCHEDULE, updateTourSchedule);
+}
+
 export function* watchGetAllTourCategory() {
     yield takeEvery(GET_ALL_TOUR_CATEGORY, getAllTourCategory);
 }
@@ -450,6 +489,7 @@ function* tourSaga() {
         fork(watchGetAllTour),
         fork(watchGetTour),
         fork(watchGetSchedule),
+        fork(watchUpdateScheduleTour),
         fork(watchAddScheduleTour),
         fork(watchCreateTour),
         fork(watchUpdateTour),

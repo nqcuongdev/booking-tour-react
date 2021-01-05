@@ -11,6 +11,8 @@ const {
   bookTour,
   update,
   createScheduleTour,
+  editScheduleTour,
+  getScheduleByTitle,
 } = require("../controllers/tour");
 
 const router = express.Router();
@@ -41,6 +43,7 @@ router.get("/", all);
 router.get("/:id", show);
 router.get("/:id/schedule", getScheduleTour);
 router.post("/:id/schedule", isAuth, checkRole, createScheduleTour);
+router.put("/schedule/:id", isAuth, checkRole, editScheduleTour);
 router.post("/:id/booking", bookTour);
 router.post("/create", upload, isAuth, checkRole, create);
 router.put("/:id", upload, isAuth, checkRole, update);

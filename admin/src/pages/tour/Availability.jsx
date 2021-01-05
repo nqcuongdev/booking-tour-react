@@ -29,12 +29,18 @@ import Flatpickr from 'react-flatpickr';
 
 import PageTitle from '../../components/PageTitle';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllTour, getSchedule } from '../../redux/tour/actions';
+import { addTourSchedule, getAllTour, getSchedule, updateTourSchedule } from '../../redux/tour/actions';
 import { ToastContainer, toast } from 'react-toastify';
+import moment from 'moment';
 
 const Availability = () => {
     const dispatch = useDispatch();
-    const [formInput, setFormInput] = useState({ start_date: '', end_date: '', available: '' });
+    const [formInput, setFormInput] = useState({
+        start: '',
+        end: '',
+        available: '',
+        tour_id: '',
+    });
     const [tour, setTour] = useState();
     const [listTours, setTours] = useState([]);
     const [listSchedule, setSchedule] = useState([]);
@@ -50,6 +56,12 @@ const Availability = () => {
     }, [dispatch]);
 
     useEffect(() => {
+        if (tour && tour._id) {
+            dispatch(getSchedule(tour._id));
+        }
+    }, [tour]);
+
+    useEffect(() => {
         if (tours) {
             setTours(tours);
         }
@@ -61,6 +73,7 @@ const Availability = () => {
     const onGetTourSchedule = (tour) => {
         dispatch(getSchedule(tour._id));
         setTour(tour);
+        setFormInput({ ...formInput, tour_id: tour._id });
     };
 
     const handleDateClick = (arg) => {
@@ -74,21 +87,56 @@ const Availability = () => {
                 draggable: true,
                 progress: undefined,
             });
+        } else if (moment(arg.date).format('YYYY-MM-DD') < moment().format('YYYY-MM-DD')) {
+            toast.error('You can not select this day', {
+                position: 'top-right',
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         } else {
             setModal(!modal);
-            setFormInput({ ...formInput, start_date: arg.date });
+            setFormInput({ ...formInput, start: moment(arg.date).format('YYYY-MM-DD') });
         }
     };
 
     const toggle = () => {
         setModal(!modal);
-        setTour();
+        setFormInput({ start: '', end: '', available: '', tour_id: '' });
     };
 
     const onAddSchedule = () => {
-        console.log(formInput);
+        if (formInput._id) {
+            dispatch(updateTourSchedule(formInput));
+        } else {
+            dispatch(addTourSchedule(formInput));
+        }
+
+        toast.success(`${formInput._id ? 'Edit' : 'Add'} schedule success`, {
+            position: 'top-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        toggle();
     };
 
+    const onEvenEdit = ({ event, el }) => {
+        setModal(!modal);
+        setFormInput({
+            ...formInput,
+            start: event.start,
+            end: event.end,
+            available: event.extendedProps.available,
+            _id: event.extendedProps._id,
+        });
+    };
     return (
         <React.Fragment>
             <Row className="page-title">
@@ -109,10 +157,10 @@ const Availability = () => {
                         <CardBody>
                             <Nav vertical>
                                 {listTours && listTours.length > 0 ? (
-                                    listTours.map((tour, index) => (
-                                        <NavItem key={tour._id}>
-                                            <NavLink href={`#${tour.slug}`} onClick={() => onGetTourSchedule(tour)}>
-                                                #{index + 1} {tour.title}
+                                    listTours.map((item, index) => (
+                                        <NavItem key={item._id}>
+                                            <NavLink href="#" onClick={() => onGetTourSchedule(item)}>
+                                                #{index + 1} {item.title}
                                             </NavLink>
                                         </NavItem>
                                     ))
@@ -126,42 +174,57 @@ const Availability = () => {
                     </Card>
                 </Col>
                 <Col className="col-9">
-                    <Card>
-                        <CardBody>
-                            {/* fullcalendar control */}
-                            <FullCalendar
-                                defaultView="dayGridMonth"
-                                plugins={[BootstrapTheme, dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin]}
-                                slotDuration="00:15:00"
-                                minTime="08:00:00"
-                                maxTime="19:00:00"
-                                themeSystem="bootstrap"
-                                handleWindowResize={true}
-                                bootstrapFontAwesome={false}
-                                buttonText={{
-                                    today: 'Today',
-                                    month: 'Month',
-                                    week: 'Week',
-                                    day: 'Day',
-                                    list: 'List',
-                                    prev: 'Prev',
-                                    next: 'Next',
-                                }}
-                                header={{
-                                    left: 'prev,next today',
-                                    center: 'title',
-                                    right: 'dayGridMonth',
-                                }}
-                                droppable={true}
-                                editable={true}
-                                eventLimit={true} // allow "more" link when too many events
-                                selectable={true}
-                                event={listSchedule}
-                                dateClick={handleDateClick}
-                                id="calendar"
-                            />
-                        </CardBody>
-                    </Card>
+                    {tour && (
+                        <Card>
+                            <CardBody>
+                                {/* fullcalendar control */}
+                                <FullCalendar
+                                    defaultView="dayGridMonth"
+                                    plugins={[
+                                        BootstrapTheme,
+                                        dayGridPlugin,
+                                        interactionPlugin,
+                                        timeGridPlugin,
+                                        listPlugin,
+                                    ]}
+                                    slotDuration="00:15:00"
+                                    minTime="08:00:00"
+                                    maxTime="19:00:00"
+                                    themeSystem="bootstrap"
+                                    handleWindowResize={true}
+                                    bootstrapFontAwesome={false}
+                                    buttonText={{
+                                        today: 'Today',
+                                        month: 'Month',
+                                        week: 'Week',
+                                        day: 'Day',
+                                        list: 'List',
+                                        prev: 'Prev',
+                                        next: 'Next',
+                                    }}
+                                    header={{
+                                        left: 'prev,next today',
+                                        center: 'title',
+                                        right: 'dayGridMonth',
+                                    }}
+                                    droppable={true}
+                                    allDay={false}
+                                    editable={false}
+                                    eventLimit={true} // allow "more" link when too many events
+                                    selectable={true}
+                                    events={listSchedule}
+                                    dateClick={handleDateClick}
+                                    eventClick={onEvenEdit}
+                                    displayEventTime={false}
+                                    addEvents={listSchedule}
+                                    eventDidMount={(info) => {
+                                        console.log(info.event);
+                                    }}
+                                    id="calendar"
+                                />
+                            </CardBody>
+                        </Card>
+                    )}
                 </Col>
 
                 <Modal isOpen={modal} toggle={toggle}>
@@ -172,9 +235,17 @@ const Availability = () => {
                                 <Label>End date</Label>
                                 <div className="form-group mb-sm-0 mr-2">
                                     <Flatpickr
-                                        value={formInput.end_date}
+                                        options={{
+                                            minDate:
+                                                formInput.start &&
+                                                moment(formInput.start).add(1, 'd').format('YYYY-MM-DD'),
+                                        }}
+                                        value={formInput.end}
                                         onChange={(date) => {
-                                            setFormInput({ ...formInput, end_date: date });
+                                            setFormInput({
+                                                ...formInput,
+                                                end: moment(date[0]).format('YYYY-MM-DD'),
+                                            });
                                         }}
                                         className="form-control"
                                         placeholder="Select end date"
