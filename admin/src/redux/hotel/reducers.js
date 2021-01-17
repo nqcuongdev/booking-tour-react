@@ -4,8 +4,6 @@ const INIT_STATE = {
     hotels: null,
     hotel: null,
     loading: false,
-    type: null,
-    types: null,
 };
 
 const Hotel = (state = INIT_STATE, action) => {

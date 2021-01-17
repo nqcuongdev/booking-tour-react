@@ -25,7 +25,8 @@ import * as FeatherIcon from 'react-feather';
 
 import PageTitle from '../../components/PageTitle';
 import { connect, useDispatch } from 'react-redux';
-import { createTourCategory, getAllTourCategory, updateTourCategory } from '../../redux/tour/actions';
+import { getAllType } from '../../redux/hotel/actions';
+import { createTourCategory, updateTourCategory } from '../../redux/tour/actions';
 import moment from 'moment';
 
 const sizePerPageRenderer = ({ options, currSizePerPage, onSizePerPageChange }) => (
@@ -49,8 +50,8 @@ const sizePerPageRenderer = ({ options, currSizePerPage, onSizePerPageChange }) 
 const TableWithSearch = ({ properties }) => {
     const [modal, setModal] = useState(false);
     const [modalInput, setModalInput] = useState({ title: '', status: '' });
-    const [categories, setCategories] = useState([]);
-    const [category, setCategory] = useState('');
+    const [types, setTypes] = useState([]);
+    const [type, setType] = useState();
     const { SearchBar } = Search;
 
     const rankFormatter = (cell, row, rowIndex) => {
@@ -108,22 +109,22 @@ const TableWithSearch = ({ properties }) => {
             order: 'asc',
         },
     ];
-
-    let data = properties.categories;
+    const dispatch = useDispatch();
+    let data = properties.types;
     useEffect(() => {
-        if (data) setCategories(data);
+        if (data) setTypes(data);
     }, [data]);
 
     useEffect(() => {
-        properties.getAllTourCategory();
-    }, [properties.category]);
+        dispatch(getAllType());
+    }, [dispatch]);
 
     /**
      * Show/hide the modal
      */
-    const toggle = (category) => {
-        setCategory(category);
-        setModalInput(category);
+    const toggle = (type) => {
+        setType(type);
+        setModalInput(type);
         setModal(!modal);
     };
 
@@ -135,16 +136,15 @@ const TableWithSearch = ({ properties }) => {
     const handleSubmit = (_id) => {
         if (_id) {
             //Default input is 'on' so we must convert into right format for save in db
-            modalInput.status = modalInput.status === 'on' && category.status === 'active' ? 'hide' : 'active';
-            properties.updateTourCategory(modalInput._id, modalInput.title, 'tour', modalInput.status);
+            modalInput.status = modalInput.status === 'on' && type.status === 'active' ? 'hide' : 'active';
+            dispatch(updateTourCategory(modalInput._id, modalInput.title, 'hotel', modalInput.status));
         } else {
-            properties.createTourCategory(modalInput.title, 'tour');
+            dispatch(createTourCategory(modalInput.title, 'hotel'));
         }
-        if (properties.error === null) {
-            setModal(!modal);
-            setCategory('');
-            setModalInput({ title: '', status: '' });
-        }
+        setModal(!modal);
+        setType();
+        setModalInput({ title: '', status: '' });
+        dispatch(getAllType());
     };
 
     return (
@@ -153,7 +153,7 @@ const TableWithSearch = ({ properties }) => {
                 <ToolkitProvider
                     bootstrap4
                     keyField="_id"
-                    data={categories}
+                    data={types}
                     columns={columns}
                     search
                     exportCSV={{ onlyExportFiltered: true, exportAll: false }}>
@@ -170,7 +170,7 @@ const TableWithSearch = ({ properties }) => {
                                 </Col>
                             </Row>
 
-                            {categories && (
+                            {types && (
                                 <BootstrapTable
                                     {...props.baseProps}
                                     bordered={false}
@@ -182,7 +182,7 @@ const TableWithSearch = ({ properties }) => {
                                             { text: '10', value: 10 },
                                             { text: '20', value: 20 },
                                             { text: '30', value: 30 },
-                                            { text: 'All', value: categories.length },
+                                            { text: 'All', value: types.length },
                                         ],
                                     })}
                                     wrapperClasses="table-responsive"
@@ -192,7 +192,7 @@ const TableWithSearch = ({ properties }) => {
                     )}
                 </ToolkitProvider>
                 <Modal isOpen={modal} toggle={() => toggle()}>
-                    <ModalHeader toggle={() => toggle()}>{category ? 'Edit Category' : 'Add Category'}</ModalHeader>
+                    <ModalHeader toggle={() => toggle()}>{type ? 'Edit Category' : 'Add Category'}</ModalHeader>
                     <ModalBody>
                         <Form>
                             <FormGroup>
@@ -203,18 +203,18 @@ const TableWithSearch = ({ properties }) => {
                                     id="title"
                                     placeholder="Title"
                                     onChange={inputChangeHandler}
-                                    defaultValue={category ? category.title : ''}
+                                    defaultValue={type ? type.title : ''}
                                 />
                                 {properties.error && <FormText color="danger">{properties.error}</FormText>}
                             </FormGroup>
                             <FormGroup>
-                                {category && category.title && (
+                                {type && type.title && (
                                     <CustomInput
                                         type="switch"
                                         id="statusSwitch"
                                         name="status"
                                         label="Status"
-                                        defaultChecked={category && category.status === 'active' ? category.status : ''}
+                                        defaultChecked={type && type.status === 'active' ? type.status : ''}
                                         required
                                         onChange={inputChangeHandler}
                                     />
@@ -223,7 +223,7 @@ const TableWithSearch = ({ properties }) => {
                         </Form>
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="primary" onClick={() => handleSubmit(category ? category._id : '')}>
+                        <Button color="primary" onClick={() => handleSubmit(type ? type._id : '')}>
                             Save
                         </Button>
                         <Button color="secondary" className="ml-1" onClick={() => toggle()}>
@@ -237,11 +237,6 @@ const TableWithSearch = ({ properties }) => {
 };
 
 const Type = (props) => {
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getAllTourCategory());
-    }, [dispatch]);
-
     return (
         <React.Fragment>
             <Row className="page-title">
@@ -265,8 +260,8 @@ const Type = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    const { category, categories, loading, error } = state.Tour;
-    return { category, categories, loading, error };
+    const { type, types, loading, error } = state.Hotel;
+    return { type, types, loading, error };
 };
 
-export default connect(mapStateToProps, { createTourCategory, getAllTourCategory, updateTourCategory })(Type);
+export default connect(mapStateToProps)(Type);

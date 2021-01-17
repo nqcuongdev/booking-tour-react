@@ -11,6 +11,7 @@ export const getAllHotelSuccess = (hotels) => ({
 
 export const getAllType = () => ({
     type: GET_ALL_TYPE,
+    payload: 'hotel',
 });
 
 export const getAllTypeSuccess = (types) => ({
