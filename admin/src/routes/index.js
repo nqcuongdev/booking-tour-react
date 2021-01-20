@@ -23,7 +23,7 @@ const TourAvailability = React.lazy(() => import('../pages/tour/Availability'));
 const ListHotel = React.lazy(() => import('../pages/hotel/ListHotel'));
 const HotelType = React.lazy(() => import('../pages/hotel/Type'));
 const HandleForm = React.lazy(() => import('../pages/hotel/HandleForm'));
-const Attribute = React.lazy(() => import('../pages/hotel/Attribute'));
+const Facility = React.lazy(() => import('../pages/hotel/Facility'));
 // apps
 const CalendarApp = React.lazy(() => import('../pages/apps/Calendar'));
 const EmailInbox = React.lazy(() => import('../pages/apps/Email/Inbox'));
@@ -194,9 +194,9 @@ const hotelRoutes = {
             route: PrivateRoute,
         },
         {
-            path: '/hotel/hotel-attribute',
-            name: 'Hotel Attribute',
-            component: Attribute,
+            path: '/hotel/hotel-facility',
+            name: 'Hotel Facility',
+            component: Facility,
             roles: ['admin', 'hotel_partner'],
             route: PrivateRoute,
         },

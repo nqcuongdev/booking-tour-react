@@ -316,7 +316,7 @@ function* updateTourAttribute({ payload: { _id, title, type, status } }) {
     };
 
     try {
-        const response = yield call(fetchJSON, `category/update/${_id}`, options);
+        const response = yield call(fetchJSON, `attribute/update/${_id}`, options);
         if (response && response.success) {
             yield put(updateTourAttributeSuccess(response.data));
         } else {

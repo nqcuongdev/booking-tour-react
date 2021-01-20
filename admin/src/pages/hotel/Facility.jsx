@@ -26,6 +26,7 @@ import * as FeatherIcon from 'react-feather';
 import PageTitle from '../../components/PageTitle';
 import { connect, useDispatch } from 'react-redux';
 import moment from 'moment';
+import { createFacility, getAllHotelFacility } from '../../redux/actions';
 
 const sizePerPageRenderer = ({ options, currSizePerPage, onSizePerPageChange }) => (
     <React.Fragment>
@@ -47,7 +48,7 @@ const sizePerPageRenderer = ({ options, currSizePerPage, onSizePerPageChange }) 
 
 const TableWithSearch = ({ properties }) => {
     const [modal, setModal] = useState(false);
-    const [modalInput, setModalInput] = useState({ title: '', status: '' });
+    const [modalInput, setModalInput] = useState({ title: '', status: '', facility_type: '' });
     const [attributes, setAttributes] = useState([]);
     const [attribute, setAttribute] = useState();
     const { SearchBar } = Search;
@@ -108,21 +109,22 @@ const TableWithSearch = ({ properties }) => {
         },
     ];
     const dispatch = useDispatch();
-    let data = properties.types;
+    let data = properties.facilities;
     useEffect(() => {
+        console.log(data);
         if (data) setAttributes(data);
     }, [data]);
 
     useEffect(() => {
-        dispatch(getAllType());
+        dispatch(getAllHotelFacility());
     }, [dispatch]);
 
     /**
      * Show/hide the modal
      */
-    const toggle = (type) => {
-        setAttribute(type);
-        setModalInput(type);
+    const toggle = (attribute) => {
+        setAttribute(attribute);
+        setModalInput(attribute);
         setModal(!modal);
     };
 
@@ -132,17 +134,17 @@ const TableWithSearch = ({ properties }) => {
     };
 
     const handleSubmit = (_id) => {
-        // if (_id) {
-        //     //Default input is 'on' so we must convert into right format for save in db
-        //     modalInput.status = modalInput.status === 'on' && type.status === 'active' ? 'hide' : 'active';
-        //     dispatch(updateTourCategory(modalInput._id, modalInput.title, 'hotel', modalInput.status));
-        // } else {
-        //     dispatch(createTourCategory(modalInput.title, 'hotel'));
-        // }
-        // setModal(!modal);
-        // setType();
-        // setModalInput({ title: '', status: '' });
-        // dispatch(getAllType());
+        if (_id) {
+            //Default input is 'on' so we must convert into right format for save in db
+            modalInput.status = modalInput.status === 'on' && attribute.status === 'active' ? 'hide' : 'active';
+            // dispatch(updateTourAttribute(modalInput._id, modalInput.title, 'hotel', modalInput.status));
+        } else {
+            dispatch(createFacility(modalInput));
+        }
+        setModal(!modal);
+        setAttribute();
+        setModalInput({ title: '', status: '' });
+        dispatch(getAllHotelFacility());
     };
 
     return (
@@ -168,7 +170,7 @@ const TableWithSearch = ({ properties }) => {
                                 </Col>
                             </Row>
 
-                            {types && (
+                            {attributes && (
                                 <BootstrapTable
                                     {...props.baseProps}
                                     bordered={false}
@@ -206,6 +208,22 @@ const TableWithSearch = ({ properties }) => {
                                 {properties.error && <FormText color="danger">{properties.error}</FormText>}
                             </FormGroup>
                             <FormGroup>
+                                <Label for="facility_type">Type</Label>
+                                <Input
+                                    type="select"
+                                    id="facility_type"
+                                    name="facility_type"
+                                    className="custom-select"
+                                    onChange={inputChangeHandler}
+                                    value={attribute && attribute.facility_type}>
+                                    <option>-- Please Select --</option>
+                                    <option value="Wellness Facilities">Wellness Facilities</option>
+                                    <option value="Food & Drink">Food & Drink</option>
+                                    <option value="Cleaning services">Cleaning services</option>
+                                    <option value="Popular Facilities">Popular Facilities</option>
+                                </Input>
+                            </FormGroup>
+                            <FormGroup>
                                 {attribute && attribute.title && (
                                     <CustomInput
                                         type="switch"
@@ -236,7 +254,7 @@ const TableWithSearch = ({ properties }) => {
     );
 };
 
-const Attribute = (props) => {
+const Facility = (props) => {
     return (
         <React.Fragment>
             <Row className="page-title">
@@ -260,8 +278,8 @@ const Attribute = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    const { attributes, loading, error } = state.Hotel;
-    return { attributes, loading, error };
+    const { facilities, loading, error } = state.Hotel;
+    return { facilities, loading, error };
 };
 
-export default connect(mapStateToProps)(Attribute);
+export default connect(mapStateToProps)(Facility);

@@ -1,7 +1,13 @@
 import { call, put, takeEvery, all, fork } from 'redux-saga/effects';
 import { fetchJSON } from '../../helpers/api';
-import { getAllHotelSuccess, getAllTypeSuccess, getAttributeHotelSuccess, hotelFailed } from './actions';
-import { GET_ALL_HOTEL, GET_ALL_TYPE, GET_ATTRIBUTE_HOTEL } from './constants';
+import {
+    createFacilitySuccess,
+    getAllHotelFacilitySuccess,
+    getAllHotelSuccess,
+    getAllTypeSuccess,
+    hotelFailed,
+} from './actions';
+import { CREATE_FACILITY, GET_ALL_HOTEL, GET_ALL_TYPE } from './constants';
 
 const token = localStorage.getItem('jwtKey');
 
@@ -60,14 +66,48 @@ function* getHotelType({ payload }) {
     }
 }
 
-function* getHotelAttribute({ payload }) {
+function* createFacility({ payload: facility }) {
+    const options = {
+        body: JSON.stringify({ title: facility.title, facility_type: facility.facility_type }),
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+        },
+    };
+
+    try {
+        const response = yield call(fetchJSON, 'facility/create', options);
+        if (response && response.success) {
+            yield put(createFacilitySuccess(response.data));
+        } else {
+            yield put(hotelFailed(response.message));
+        }
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500:
+                message = 'Internal Server Error';
+                break;
+            case 401:
+                message = 'Invalid credentials';
+                break;
+            default:
+                message = error;
+        }
+        yield put(hotelFailed(message));
+    }
+}
+
+function* getAllFacility() {
     const options = {
         method: 'GET',
     };
+
     try {
-        const response = yield call(fetchJSON, `attribute/${payload}`, options);
+        const response = yield call(fetchJSON, 'facility', options);
         if (response && response.success) {
-            yield put(getAttributeHotelSuccess(response.data));
+            yield put(getAllHotelFacilitySuccess(response.data));
         } else {
             yield put(hotelFailed(response.message));
         }
@@ -95,12 +135,21 @@ export function* watchGetAllHotelType() {
     yield takeEvery(GET_ALL_TYPE, getHotelType);
 }
 
-export function* watchGetHotelAttribute() {
-    yield takeEvery(GET_ATTRIBUTE_HOTEL, getHotelAttribute);
+export function* watchCreateFacility() {
+    yield takeEvery(CREATE_FACILITY, createFacility);
+}
+
+export function* watchGetAllFacility() {
+    yield takeEvery(CREATE_FACILITY, getAllFacility);
 }
 
 function* hotelSaga() {
-    yield all([fork(watchGetAllHotel), fork(watchGetAllHotelType), fork(watchGetHotelAttribute)]);
+    yield all([
+        fork(watchGetAllHotel),
+        fork(watchGetAllHotelType),
+        fork(watchCreateFacility),
+        fork(watchGetAllFacility),
+    ]);
 }
 
 export default hotelSaga;
