@@ -24,6 +24,10 @@ const RoomSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  hotel: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "hotels",
+  },
   attribute: [
     {
       type: mongoose.Schema.Types.ObjectId,

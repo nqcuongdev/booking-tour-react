@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Card, CardBody, Col, CustomInput, Form, FormGroup, Input, Label, Row } from 'reactstrap';
 import PageTitle from '../../components/PageTitle';
 import { Formik } from 'formik';
@@ -10,6 +10,7 @@ import * as FeatherIcon from 'react-feather';
 import { url } from '../../helpers/url';
 import { toast } from 'react-toastify';
 import default_image from '../../assets/images/default_upload_image.png';
+import { getAttributeHotel } from '../../redux/hotel/actions';
 
 const HandleForm = (props) => {
     const dispatch = useDispatch();
@@ -35,7 +36,9 @@ const HandleForm = (props) => {
     const [destinations, setDestinations] = useState([]);
     const [attributes, setAttributes] = useState([]);
     const [facilities, setFacilities] = useState([]);
-    const [rooms, setRooms] = useState([]);
+    useEffect(() => {
+        dispatch(getAttributeHotel());
+    }, [dispatch]);
 
     const onUpdateLocation = (lat, lng, address) => {
         setFormInput({ ...formInput, lat: lat, lng: lng, address: address });
@@ -67,30 +70,6 @@ const HandleForm = (props) => {
         if (checked) attributes.push(value);
         else attributes.splice(attributes.indexOf(value), 1);
         setFormInput({ ...formInput, attributes: attributes });
-    };
-
-    // Handle click event of the Add button
-    const handleAddClick = () => {
-        setRooms([...rooms, { image: '', title: '', description: '', address: '' }]);
-    };
-
-    // Handle click event of the Remove button
-    const handleRemoveClick = (index) => {
-        const list = [...rooms];
-        list.splice(index, 1);
-        setRooms(list);
-    };
-
-    // Handle get input of itinerary
-    const onInputItineraryChange = (index, e) => {
-        const values = [...rooms];
-        const { name, value, files } = e.target;
-        values[index][name] = value;
-        if (files) {
-            console.log(files);
-            values[index][name] = files[0];
-        }
-        setRooms(values);
     };
 
     return (
@@ -136,130 +115,6 @@ const HandleForm = (props) => {
                                                 <FormGroup>
                                                     <Label for="description">Description</Label>
                                                     <RichTextEditor name="description" id="description" />
-                                                </FormGroup>
-                                                <FormGroup>
-                                                    <Label for="room">Room</Label>
-                                                    <div className="header">
-                                                        <Row>
-                                                            <Col md={2}>Image</Col>
-                                                            <Col md={4}>Title - Desc</Col>
-                                                            <Col md={5}>Content</Col>
-                                                            <Col md={1}></Col>
-                                                        </Row>
-                                                    </div>
-                                                    {rooms && rooms.length > 0 && (
-                                                        <div className="items mt-3">
-                                                            {rooms.map((room, index) => {
-                                                                return (
-                                                                    <div key={index} className="item">
-                                                                        <Row>
-                                                                            <Col md={2}>
-                                                                                <FormGroup>
-                                                                                    {room.image ? (
-                                                                                        typeof room.image ===
-                                                                                        'string' ? (
-                                                                                            <img
-                                                                                                src={`${url}/${room.image}`}
-                                                                                                className="img-fluid mb-5"
-                                                                                                alt="Default Picture tour"
-                                                                                            />
-                                                                                        ) : typeof room.image ===
-                                                                                          'object' ? (
-                                                                                            <React.Fragment>
-                                                                                                <img
-                                                                                                    src={URL.createObjectURL(
-                                                                                                        room.image
-                                                                                                    )}
-                                                                                                    className="img-fluid mb-5"
-                                                                                                    alt="Default Picture tour"
-                                                                                                />
-                                                                                            </React.Fragment>
-                                                                                        ) : (
-                                                                                            <img
-                                                                                                src={room.image}
-                                                                                                className="mb-5"
-                                                                                                alt="Default Picture tour"
-                                                                                            />
-                                                                                        )
-                                                                                    ) : (
-                                                                                        <img
-                                                                                            src={default_image}
-                                                                                            className="mb-5 img-fluid"
-                                                                                            alt="Default"
-                                                                                        />
-                                                                                    )}
-                                                                                    <Input
-                                                                                        type="file"
-                                                                                        name="image"
-                                                                                        onChange={(e) =>
-                                                                                            onInputItineraryChange(
-                                                                                                index,
-                                                                                                e
-                                                                                            )
-                                                                                        }
-                                                                                    />
-                                                                                </FormGroup>
-                                                                            </Col>
-                                                                            <Col md={4}>
-                                                                                <Input
-                                                                                    type="text"
-                                                                                    name="title"
-                                                                                    placeholder="Title: Day 1"
-                                                                                    defaultValue={room.title}
-                                                                                    onChange={(e) =>
-                                                                                        onInputItineraryChange(index, e)
-                                                                                    }
-                                                                                />
-                                                                                <Input
-                                                                                    type="text"
-                                                                                    className="mt-2"
-                                                                                    name="address"
-                                                                                    placeholder="Desc: Da Nang"
-                                                                                    defaultValue={room.address}
-                                                                                    onChange={(e) =>
-                                                                                        onInputItineraryChange(index, e)
-                                                                                    }
-                                                                                />
-                                                                            </Col>
-                                                                            <Col md={5}>
-                                                                                <FormGroup>
-                                                                                    <Input
-                                                                                        type="textarea"
-                                                                                        name="description"
-                                                                                        rows="5"
-                                                                                        placeholder="Content..."
-                                                                                        defaultValue={room.description}
-                                                                                        onChange={(e) =>
-                                                                                            onInputItineraryChange(
-                                                                                                index,
-                                                                                                e
-                                                                                            )
-                                                                                        }
-                                                                                    />
-                                                                                </FormGroup>
-                                                                            </Col>
-                                                                            <Col md={1}>
-                                                                                <Button
-                                                                                    color="danger"
-                                                                                    size="sm"
-                                                                                    onClick={() =>
-                                                                                        handleRemoveClick(index)
-                                                                                    }>
-                                                                                    <FeatherIcon.Trash2 size={16} />
-                                                                                </Button>
-                                                                            </Col>
-                                                                        </Row>
-                                                                    </div>
-                                                                );
-                                                            })}
-                                                        </div>
-                                                    )}
-                                                    <Button
-                                                        className="float-right mt-2"
-                                                        color="success"
-                                                        onClick={handleAddClick}>
-                                                        Add more <FeatherIcon.PlusCircle size={16} />
-                                                    </Button>
                                                 </FormGroup>
                                                 <FormGroup>
                                                     <Row>
