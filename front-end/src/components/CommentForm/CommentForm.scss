@@ -1,0 +1,65 @@
+@import '../../assets/scss/_variables.scss';
+
+.comment-form {
+    .comment-form-title {
+        font-size: 27px;
+        font-weight: bold;
+    }
+
+    .comment-form-subtitle {
+        font-size: 14px;
+        font-weight: bold;
+
+        .stars {
+            color: $text;
+            margin-left: 30px;
+            
+            .stars-hover {
+                margin-right: 10px;
+
+                &:hover {
+                    color: $yellow;
+                }
+            }
+        }
+    }
+
+    .obligatory-icon {
+        color: red;
+    }
+
+    .input-info {
+        font-size: 14px;
+    }
+
+    .comment-info {
+        Label {
+            color: $text;
+            margin-bottom: 3px;
+        }
+    }
+
+    .comment-content {
+        Label {
+            color: $text;
+            margin-bottom: 3px;
+        }
+
+        Input {
+            min-height: 200px;
+        }
+    }
+
+    .btn-write-review {
+        background-color: $orange;
+        border: 1px solid $orange;
+        width: 130px;
+        height: 35px;
+        border-radius: 3px;
+
+        &:hover {
+            background: $white;
+            color: $orange;  
+        }
+    }
+}

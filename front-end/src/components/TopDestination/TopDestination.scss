@@ -48,7 +48,7 @@
     }
 
     .top-destination-list {
-        font-size: 13px;
+        font-size: 14px;
 
         .image {
             width: 100%;
@@ -61,8 +61,19 @@
             border-radius: 5px;
 
             img {
-                // width: 100%;
                 height: 100%;
+            }
+
+            @media all and (max-width: 992px) {
+                img {
+                    width: 100%;
+                } 
+            }
+
+            @media all and (max-width: 768px) {
+                img {
+                    width: auto;
+                } 
             }
         }
 
@@ -98,5 +109,9 @@
         .stars-rate {
             font-size: 22px;
         }
+    }
+
+    .carousel .thumb.selected, .carousel .thumb:hover {
+        border: 3px solid $orange !important;
     }
 }

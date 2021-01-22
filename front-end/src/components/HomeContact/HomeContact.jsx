@@ -14,7 +14,7 @@ const HomeContact = () => {
             <Container>
                 <Row>
                     <Col lg='4' md='4' className="footer-contact-left">
-                        <h5>Book by Phone</h5>
+                        <p className="title-item">Book by Phone</p>
                         <div className="phone">
                             <AiFillPhone size={19} />
                             <div className="phone-info">
@@ -24,7 +24,7 @@ const HomeContact = () => {
                         </div>
                     </Col>
                     <Col lg='4' md='4' className="footer-contact-mid">
-                        <h5>Give your Feedback</h5>
+                        <p className="title-item">Give your Feedback</p>
                         <div className="mail">
                             <FiMail size={19} />
                             <div className="mail-info">
@@ -34,7 +34,7 @@ const HomeContact = () => {
                         </div>
                     </Col>
                     <Col lg='4' md='4' className="footer-contact-right">
-                        <h5>Our Partners</h5>
+                        <p className="title-item">Our Partners</p>
                         <ul className="our-partners">
                             <li><a href=""><img src={airbnb_logo}></img></a></li>
                             <li><a href=""><img src={travelloka_logo}></img></a></li>

@@ -1,0 +1,109 @@
+@import "../../assets/scss/variables";
+
+.hotel {
+    .card {
+        border-color: $grayF8;
+
+        .card-img-top {
+            min-height: 240px;
+        }
+
+        .card-img-overlay {
+            background-size: cover;
+            height: 240px;
+            display: flex;
+            flex-direction: column;
+            padding: 5px 20px !important;
+            
+            .overlay-item {
+                margin-top: auto;
+
+                p {
+                    margin-bottom: 0;
+                    color: $white;
+                }
+
+                span {
+                    font-size: 25px;
+                    color: $orange;
+                }
+            }
+        }
+
+        .card-body {
+            .hotel-name-rate {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+
+                .hotel-name {
+                    display: flex;
+                    margin-right: auto;
+                    font-size: 18px;
+                    font-weight: bold;
+                    margin-bottom: 10px;
+                }
+
+                .hotel-rate {
+                    display: flex;
+                    margin-left: auto;
+
+                    .stars {
+                        margin: auto 3px auto 0;
+                        color: $yellow;
+                    }
+
+                    span {
+                        color: $text;
+                        font-size: 12px;
+                        margin-top: auto;
+                    }
+                }
+            }
+
+            .button-group {
+                Button {
+                    width: 100%;
+                }
+
+                .btn-book-now {
+                    background-color: $orange;
+                    border-color: $orange;
+
+                    &:hover {
+                        background-color: $primary;
+                        border-color: $primary;
+                    }
+                }
+                
+                .btn-view-detail {
+                    background-color: $white;
+                    border-color: $gray95;
+                    color: $orange;
+
+                    &:hover {
+                        background-color: $primary;
+                        border-color: $primary;
+                        color: $white;
+                    }
+                }
+            }
+        }
+
+        .hotel-location {
+            color: $text;
+            font-size: 12px;
+            margin-bottom: 5px;
+
+            .location-icon {
+                color: $orange;
+            }
+        }
+
+        .hotel-tag {
+            color: $text;
+            font-size: 12px;
+        }
+    }
+}

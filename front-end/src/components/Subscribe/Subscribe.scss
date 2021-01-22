@@ -38,12 +38,13 @@
 
         }
         .subscribe-button {
-            background-color: $orange;
-            border: none;
-            border-top-left-radius: 0;
-            border-top-right-radius: 0.25rem;
-            border-bottom-right-radius: 0.25rem;
-            border-bottom-left-radius: 0;
+            background-color: $orange !important;
+            border: none !important;
+            height: 38px !important;
+            border-top-left-radius: 0 !important;
+            border-top-right-radius: 0.25rem !important;
+            border-bottom-right-radius: 0.25rem !important;
+            border-bottom-left-radius: 0 !important;
         }
     }
     

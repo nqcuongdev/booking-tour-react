@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import MainLayout from "../layouts/MainLayout";
 import background from "../assets/images/background-1.jpg";
 import BreadcrumbBanner from "../components/BreadcrumbBanner/BreadcrumbBanner";
@@ -24,6 +24,7 @@ import Paginate from "../components/Paginate/Paginate";
 import adImage from "../assets/images/ad.png";
 import AdItem from "../components/AdItem/AdItem";
 import SingleListItem from "../components/SingleListItem/SingleListItem";
+import ToursApi from "../api/toursApi";
 
 const data = [
   {
@@ -181,6 +182,27 @@ const popularItem = {
 };
 
 const Tours = (props) => {
+  const [toursList, setToursList] = useState([]);
+
+  useEffect(() => {
+    const fetchToursList = async () => {
+      try {
+        const params = {
+          _page: 1,
+          _limit: 10,
+
+        };
+        const response = await ToursApi.getAll(params);
+        console.log(response);
+        setToursList(response.data);
+      } catch (error) {
+        console.log('Failed to fetch Tours list: ', error);
+      }
+    }
+
+    fetchToursList();
+  }, []);
+
   return (
     <MainLayout>
       <BreadcrumbBanner pageName="Tours" backgroundImage={background} />
@@ -328,7 +350,9 @@ const Tours = (props) => {
               })}
             </Col>
           </Row>
-          <Paginate />
+          <div className="mb-50">
+            <Paginate />
+          </div>
         </Container>
       </div>
     </MainLayout>

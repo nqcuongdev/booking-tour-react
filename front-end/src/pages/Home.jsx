@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import MainLayout from "../layouts/MainLayout";
 import HeroBanner from "../components/HeroBanner/HeroBanner";
 import PopularTours from "../components/PopularTours/PopularTours";
@@ -13,10 +13,8 @@ import SearchPopularDestination from "../components/SearchPopularDestination/Sea
 import { Container, Row, Col } from "reactstrap";
 import dataImage from "../assets/images/posts/post-1.jpg";
 import TourItem from "../components/TourItem/TourItem";
-import TopHeader from "../components/TopHeader/TopHeader";
 
 import testimonialBackground from "../assets/images/backgrounds/cloud-background.png";
-import AuthContext from "../contexts/auth";
 
 const popularToursData = [
   {
@@ -89,12 +87,9 @@ const popularToursData = [
 ];
 
 const Home = (props) => {
-  const user = useContext(AuthContext);
+
   return (
     <React.Fragment>
-      <AuthContext.Consumer>
-        {(user) => <TopHeader user={user} />}
-      </AuthContext.Consumer>
       <MainLayout>
         <HeroBanner />
         <PopularTours />

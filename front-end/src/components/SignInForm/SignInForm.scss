@@ -29,4 +29,12 @@
         font-size: 14px;
         color: $gainsboro;
     }
+}  
+
+.notification {
+    text-align: center;
+
+    .failed {
+        color: red;
+    }
 }

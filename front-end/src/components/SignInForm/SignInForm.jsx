@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import "./SignInForm.scss";
 import {
   Button,
   Col,
   CustomInput,
   Form,
+  FormFeedback,
   FormGroup,
   Input,
   Modal,
@@ -11,28 +13,37 @@ import {
   ModalHeader,
   Row,
 } from "reactstrap";
-import "./SignInForm.scss";
 import { IoIosClose } from "react-icons/io";
 import { FaFacebookF, FaGooglePlusG, FaTwitter } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import authApi from "../../api/authApi";
 
 const SignInForm = (props) => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ email: "", password: "" })
+  const [error, setError] = useState({ email: "", password: "", message: "" })
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await authApi.login(formData);
-    console.log(response);
-    if (response.success) {
-      localStorage.setItem("jwtKey", response.token);
+    try {
+      const response = await authApi.login(formData)
+
+      if (response.success) {
+        localStorage.setItem("jwtKey", response.token)
+        props.toggle()
+        window.location.reload()
+      }
+    } catch (error) { 
+      if (error.response.data) { 
+        let err = error.response.data
+        setError(err.message)
+      }
     }
-  };
+  }
 
   return (
     <Modal isOpen={props.isOpen} toggle={props.toggle}>
@@ -47,7 +58,9 @@ const SignInForm = (props) => {
               name="email"
               placeholder="Email address"
               onChange={handleInputChange}
+              invalid={error && error.email}
             />
+            {error && error.email && <FormFeedback>{error.email}</FormFeedback>}
           </FormGroup>
           <FormGroup>
             <Input
@@ -55,7 +68,11 @@ const SignInForm = (props) => {
               name="password"
               placeholder="Password"
               onChange={handleInputChange}
+              invalid={error && error.password}
             />
+            {error && error.password && (
+              <FormFeedback>{error.password}</FormFeedback>
+            )}
           </FormGroup>
           <FormGroup>
             <div className="d-flex justify-content-between mt-1">
@@ -75,6 +92,12 @@ const SignInForm = (props) => {
               Login
             </Button>
           </FormGroup>
+          {error && error.message && (
+            <div className="notification">
+              <span className="failed">{error.message}</span>
+            </div>
+          )}
+
           <div className="advanced">
             <p className="text-center mt-5">or continue with</p>
             <Row>
@@ -96,9 +119,6 @@ const SignInForm = (props) => {
                 </Link>
               </Col>
             </Row>
-          </div>
-          <div className="text-center mt-4">
-            Do not have an account? <Link>Sign Up</Link>
           </div>
         </Form>
       </ModalBody>

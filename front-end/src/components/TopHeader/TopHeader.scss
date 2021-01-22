@@ -2,4 +2,31 @@
 
 .navbar__top {
   background: $top-header;
+  min-height: 35px;
+
+  .dropdown {
+    .btn-secondary {
+      font-size: 13px !important;
+      color: $text;
+      background-color: $gray88;
+      border-color: $gray88;
+      background: none !important;
+      border: none !important;
+      outline-style: none !important;
+      margin-top: 2px !important;
+
+      &:hover {
+        color: $orange;
+      }
+    }
+
+    .btn-secondary:focus {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+  }
+
+  .dropdown-menu {
+    transition: 0.3s;
+  }
 }
