@@ -10,6 +10,7 @@ import { MdSettings } from 'react-icons/md';
 import { RiLogoutBoxLine } from 'react-icons/ri';
 
 const TopHeader = (props) => {
+  const { user, setUser } = props
   const [signIn, setSignIn] = useState(false)
   const [signUp, setSignUp] = useState(false)
 
@@ -22,9 +23,10 @@ const TopHeader = (props) => {
 
   const logout = async () => {
     localStorage.removeItem('jwtKey')
-    window.location.reload()
+    setUser({})
   }
 
+  // console.log({user})
   return (
     <div className="navbar__top d-none d-lg-block">
       <Container>
@@ -34,12 +36,12 @@ const TopHeader = (props) => {
           </div>
           <div className="d-flex align-items-center">
             <ul className="nav">
-              {props.user.full_name ? (
+              {user.full_name ? (
                 <React.Fragment>
                   <li className="nav-item">
                   <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
                     <DropdownToggle caret>
-                      {props.user.full_name}<i class="arrow"></i>
+                      {user.full_name}<i class="arrow"></i>
                     </DropdownToggle>
                     <DropdownMenu>
                       <DropdownItem>
@@ -83,8 +85,8 @@ const TopHeader = (props) => {
           </div>
         </div>
       </Container>
-      <SignInForm isOpen={signIn} toggle={toggleSignIn} />
-      <SignUpForm isOpen={signUp} toggle={toggleSignUp} />
+      <SignInForm isOpen={signIn} toggle={toggleSignIn} setUser={setUser} />
+      <SignUpForm isOpen={signUp} toggle={toggleSignUp} setUser={setUser} />
     </div>
   );
 };

@@ -105,7 +105,7 @@ const Destinations = props => {
                                                     </div>
                                                     <div className="button">
                                                         <Link to={{
-                                                            pathname: `${url}/${item.slug}`,
+                                                            pathname: `${url}${item.slug}`,
                                                             state: {id: `${item._id}`}
                                                         }}>
                                                             <Button className="view-detail">View detail</Button>

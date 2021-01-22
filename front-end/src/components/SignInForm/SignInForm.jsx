@@ -19,6 +19,8 @@ import { Link } from "react-router-dom";
 import authApi from "../../api/authApi";
 
 const SignInForm = (props) => {
+  const { setUser } = props
+
   const [formData, setFormData] = useState({ email: "", password: "" })
   const [error, setError] = useState({ email: "", password: "", message: "" })
 
@@ -35,10 +37,11 @@ const SignInForm = (props) => {
       if (response.success) {
         localStorage.setItem("jwtKey", response.token)
         props.toggle()
-        window.location.reload()
+        setUser(response.data)
+        // console.log({response})
       }
     } catch (error) { 
-      if (error.response.data) { 
+      if (error.response?.data) { 
         let err = error.response.data
         setError(err.message)
       }

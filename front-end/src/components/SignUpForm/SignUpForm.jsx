@@ -19,6 +19,8 @@ import "./SignUpForm.scss";
 import authApi from "../../api/authApi";
 
 const SignUpForm = (props) => {
+  const { setUser } = props
+
   const [formData, setFormData] = useState({ first_name: "", last_name: "", phone: "", email: "", password: "", c_password: "" });
   const [error, setError] = useState({ first_name: "", last_name: "", phone: "", email: "", password: "", c_password: "", message: "" })
 
@@ -35,7 +37,7 @@ const SignUpForm = (props) => {
       if (response.success) {
         localStorage.setItem("jwtKey", response.token)
         props.toggle()
-        window.location.reload()
+        // setUser(response.data)
       }
     } catch (errors) { 
       if (errors.response.data) { 

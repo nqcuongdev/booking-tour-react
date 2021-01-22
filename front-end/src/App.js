@@ -20,32 +20,37 @@ import AuthContext from "./contexts/auth";
 import authApi from "./api/authApi";
 
 // Get jwt token form local storage
-let token = localStorage.getItem("jwtKey");
+let token = localStorage.getItem("jwtKey"); 
 
-function App() {
-  const [user, setUser] = useState({});
+function App() { 
+  const [user, setUser] = useState({}); 
 
-  useEffect(() => {
-    const fetchUserFromToken = async () => {
-      try {
-        if (token) {
-          let headers = "Bearer " + token;
-          const response = await authApi.me(headers);
-          if (response.success) {
-            setUser(response.data);
-          }
-        }
-      } catch (error) {
-        console.log("An error occur", error);
-      }
-    };
+  useEffect(() => { 
+    const fetchUserFromToken = async () => { 
+      try { 
+        if (token) { 
+          let headers = "Bearer " + token; 
+          const response = await authApi.me(headers); 
+          if (response.success) { 
+            setUser(response.data); 
+          } 
+        } 
+      } catch (error) { 
+        console.log("An error occur", error); 
+      } 
+    }; 
 
-    fetchUserFromToken();
-  }, []);
+    fetchUserFromToken(); 
+  }, []); 
 
+  // console.log({user})
+  
   return (
     <Router>
-      <AuthContext.Provider value={user}>
+      <AuthContext.Provider value={{
+        user: user,
+        setUser: setUser,
+      }}> 
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/contact-us" component={Contact} />
