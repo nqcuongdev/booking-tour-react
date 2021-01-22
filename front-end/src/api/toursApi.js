@@ -9,13 +9,18 @@ const ToursApi = {
   },
 
   get: (id) => {
-    const url = `/tour/${id}`;
+    const url = `api/v1/tour/${id}`;
     return axiosClient.get(url);
   },
 
   book: (params) => {
-    const url = `/tour/book/`;
+    const url = `api/v1/tour/book/`;
     return axiosClient.post(url, params); // params sẽ chứa thông tin abc xyz...
+  },
+
+  getSchedule: (id) => {
+    const url = `api/v1/tour/${id}/schedule`;
+    return axiosClient.get(url);
   },
 };
 

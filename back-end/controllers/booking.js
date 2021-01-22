@@ -9,6 +9,16 @@ exports.all = async (req, res) => {
   });
 };
 
+exports.doBooking = async (req, res) => {
+  const book = await Book.create(req.body);
+  book.populate("package", "user");
+
+  return res.status(200).json({
+    success: !!book,
+    data: book,
+  });
+};
+
 exports.getListBookByUser = async (req, res) => {
   let user = req.user;
   const books = await Book.find({

@@ -51,7 +51,7 @@ function App() {
           <Route exact path="/contact-us" component={Contact} />
           <Route exact path="/about" component={About} />
           <Route exact path="/tours" component={Tours} />
-          <Route exact path="/tours/:slug" component={TourDetail} />
+          <Route exact path="/tours/:id" component={TourDetail} />
           <Route exact path="/blogs" component={Blogs} />
           <Route exact path="/blogs/:slug" component={BlogDetail} />
           <Route exact path="/hotels" component={Hotels} />
