@@ -7,19 +7,15 @@ import {
   Button,
   Col,
   Container,
-  CustomInput,
   Form,
   FormGroup,
   Input,
   InputGroup,
-  InputGroupAddon,
   InputGroupText,
-  Label,
   Row,
 } from "reactstrap";
-import { FaList, FaMapMarkerAlt, FaSearch, FaTh } from "react-icons/fa";
+import { FaMapMarkerAlt, FaSearch, FaTh } from "react-icons/fa";
 import image from "../assets/images/hawaii-secret-beach.jpg";
-import ThumbnailTourItem from "../components/ThumbnailTourItem/ThumbnailTourItem";
 import Paginate from "../components/Paginate/Paginate";
 import adImage from "../assets/images/ad.png";
 import AdItem from "../components/AdItem/AdItem";
@@ -187,18 +183,12 @@ const Tours = (props) => {
   useEffect(() => {
     const fetchToursList = async () => {
       try {
-        const params = {
-          _page: 1,
-          _limit: 10,
-
-        };
-        const response = await ToursApi.getAll(params);
-        console.log(response);
+        const response = await ToursApi.getAll();
         setToursList(response.data);
       } catch (error) {
-        console.log('Failed to fetch Tours list: ', error);
+        console.log("Failed to fetch Tours list: ", error);
       }
-    }
+    };
 
     fetchToursList();
   }, []);
@@ -287,65 +277,18 @@ const Tours = (props) => {
                   </FormGroup>
                 </Form>
               </div>
-              <div className="filter__section-category mt-50">
-                <h4 className="title">Popular destinations</h4>
-                <ul className="list-category mt-3">
-                  <li>
-                    <div className="cs-checkbox">
-                      <label>
-                        <input type="checkbox" id="cat_id" value="1" />
-                        Check this custom checkbox
-                        <span className="check__mark"></span>
-                      </label>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="cs-checkbox">
-                      <label>
-                        <input type="checkbox" id="cat_id" value="1" />
-                        Check this custom checkbox
-                        <span className="check__mark"></span>
-                      </label>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="cs-checkbox">
-                      <label>
-                        <input type="checkbox" id="cat_id" value="1" />
-                        Check this custom checkbox
-                        <span className="check__mark"></span>
-                      </label>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="cs-checkbox">
-                      <label>
-                        <input type="checkbox" id="cat_id" value="1" />
-                        Check this custom checkbox
-                        <span className="check__mark"></span>
-                      </label>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="cs-checkbox">
-                      <label>
-                        <input type="checkbox" id="cat_id" value="1" />
-                        Check this custom checkbox
-                        <span className="check__mark"></span>
-                      </label>
-                    </div>
-                  </li>
-                </ul>
-              </div>
               <AdItem {...popularItem} />
             </Col>
             <Col md={6} lg={9}>
               <div className="list__tour-text">
-                We found <span style={{ color: "#ff7d3e" }}>54</span> tours
-                available for you
+                We found{" "}
+                <span style={{ color: "#ff7d3e" }}>
+                  {toursList ? toursList.length : 0}
+                </span>{" "}
+                tours available for you
               </div>
 
-              {dummyData.map((item) => {
+              {toursList.map((item) => {
                 return <SingleListItem {...item} />;
               })}
             </Col>

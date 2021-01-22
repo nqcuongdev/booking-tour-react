@@ -7,12 +7,17 @@ const TourItem = (props) => {
     <div className="tour__item">
       {props.isFeature ? <div className="item-tag">Feature</div> : ""}
       <div className="tour__item-header">
-        {props.salePrice ? (
-          <div className="sale_info">{props.salePrice}%</div>
+        {(props.sale_price && props.sale_price.adult) ||
+        props.sale_price.child ? (
+          <div className="sale_info">{props.sale_price.adult}%</div>
         ) : (
           ""
         )}
-        <img src={props.image} className="img-fluid" alt={props.title} />
+        <img
+          src={`${process.env.REACT_APP_API_URL}/${props.image}`}
+          className="img-fluid"
+          alt={props.title}
+        />
         <Link className="btn btn-primary btn-book-now">Book now</Link>
       </div>
       <div className="tour__item-caption">
@@ -21,19 +26,20 @@ const TourItem = (props) => {
             <Link>{props.title}</Link>
           </h3>
           <p className="duration">
-            <span>{props.options.time}</span>{" "}
-            {props.options.time > 1 ? "hours" : "hour"} -{" "}
-            <i>{props.options.place}</i>
+            <span>
+              {props.address.split(",")[props.address.split(",").length - 1]}
+            </span>
           </p>
         </div>
         <div className="tour__item-price">
           <div className="price">
-            {props.onSale ? (
-              <span className="onsale">${props.onSale}</span>
+            {(props.sale_price && props.sale_price.adult) ||
+            props.sale_price.child ? (
+              <span className="onsale">${props.sale_price.adult}</span>
             ) : (
               ""
             )}
-            <div className="text-price">${props.price}</div>
+            <div className="text-price">${props.price.adult}</div>
           </div>
         </div>
       </div>

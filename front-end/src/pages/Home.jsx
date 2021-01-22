@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 import HeroBanner from "../components/HeroBanner/HeroBanner";
 import PopularTours from "../components/PopularTours/PopularTours";
@@ -15,6 +15,8 @@ import dataImage from "../assets/images/posts/post-1.jpg";
 import TourItem from "../components/TourItem/TourItem";
 
 import testimonialBackground from "../assets/images/backgrounds/cloud-background.png";
+import DestinationApi from "../api/destinationsApi";
+import ToursApi from "../api/toursApi";
 
 const popularToursData = [
   {
@@ -87,12 +89,41 @@ const popularToursData = [
 ];
 
 const Home = (props) => {
+  const [destinations, setDestinations] = useState([]);
+  const [tours, setTours] = useState([]);
+
+  useEffect(() => {
+    const fetchDestination = async () => {
+      try {
+        const listDestination = await DestinationApi.getAll();
+        if (listDestination.success) {
+          setDestinations(listDestination.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const fetchTours = async () => {
+      try {
+        const listTour = await ToursApi.getAll();
+        if (listTour.success) {
+          setTours(listTour.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchDestination();
+    fetchTours();
+  }, []);
 
   return (
     <React.Fragment>
       <MainLayout>
         <HeroBanner />
-        <PopularTours />
+        {destinations && <PopularTours data={destinations} />}
         <WhyChooseUs />
         <SearchPopularDestination />
         <AdsBanner />
@@ -104,9 +135,9 @@ const Home = (props) => {
             </div>
             <div className="promotion__tours-list-item">
               <Row>
-                {popularToursData.map((item) => {
+                {tours.map((item) => {
                   return (
-                    <Col lg={4} md={6} className="mb-30">
+                    <Col lg={4} md={6} className="mb-30" key={item._id}>
                       <TourItem {...item} />
                     </Col>
                   );

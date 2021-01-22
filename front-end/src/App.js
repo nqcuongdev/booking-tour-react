@@ -45,8 +45,8 @@ function App() {
 
   return (
     <Router>
-      <AuthContext.Provider value={user}>
-        <Switch>
+      <Switch>
+        <AuthContext.Provider value={user}>
           <Route exact path="/" component={Home} />
           <Route exact path="/contact-us" component={Contact} />
           <Route exact path="/about" component={About} />
@@ -57,13 +57,17 @@ function App() {
           <Route exact path="/hotels" component={Hotels} />
           <Route exact path="/hotels/:slug" component={HotelDetail} />
           <Route exact path="/destinations" component={Destinations} />
-          <Route exact path="/destinations/:slug" component={DestinationDetail} />
+          <Route
+            exact
+            path="/destinations/:slug"
+            component={DestinationDetail}
+          />
           <Route exact path="/tour-cart" component={TourCart} />
           <Route exact path="/hotel-cart" component={HotelCart} />
           <Route exact path="/hotel-checkout" component={HotelCheckout} />
           <Route exact path="/tour-checkout" component={TourCheckout} />
-        </Switch>
-      </AuthContext.Provider>
+        </AuthContext.Provider>
+      </Switch>
     </Router>
   );
 }
