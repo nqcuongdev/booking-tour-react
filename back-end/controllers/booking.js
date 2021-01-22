@@ -1,4 +1,5 @@
 const Book = require("../models/booking");
+const Validator = require("validator");
 
 exports.all = async (req, res) => {
   const books = await Book.find({}).sort({ created_at: 1 });
@@ -131,5 +132,23 @@ exports.update = async (req, res) => {
     success: !!book,
     message: "Update Transaction Success",
     data: book,
+  });
+};
+
+exports.getCarts = async (req, res) => {
+  const card = await Book.find({
+    $and: [{ status: "process" }, { user: req.user.id }],
+  }).populate("package");
+
+  if (!bookTransaction) {
+    return res.status(404).json({
+      success: !!card,
+      message: "Can not found this card",
+    });
+  }
+
+  return res.json({
+    success: !!card,
+    data: card,
   });
 };

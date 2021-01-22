@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import "./BookTour.scss";
 import { FaFacebookF, FaGooglePlusG, FaTwitter } from "react-icons/fa";
 import { IoIosClose } from "react-icons/io";
-import { Link } from "react-router-dom";
 import {
   Button,
   Col,
@@ -17,6 +16,8 @@ import {
 import ToursApi from "../../api/toursApi";
 import moment from "moment";
 import AuthContext from "../../contexts/auth";
+import BookingApi from "../../api/bookingApi";
+import { useHistory } from "react-router-dom";
 
 const BookTour = (props) => {
   //Get current date and next date to fill in label
@@ -33,6 +34,7 @@ const BookTour = (props) => {
   const [schedules, setSchedules] = useState([]);
   const [bookForm, setBookForm] = useState({});
   const user = useContext(AuthContext);
+  const history = useHistory();
 
   useEffect(() => {
     const fetchSchedule = async () => {
@@ -65,8 +67,25 @@ const BookTour = (props) => {
     }
   };
 
-  const onBooking = () => {
-    console.log(user);
+  const onBooking = async () => {
+    let data = {
+      code: bookForm.code,
+      package: bookForm.price.tour._id,
+      user: user._id,
+      option: {
+        child: bookForm.child,
+        adult: bookForm.adult,
+      },
+    };
+
+    try {
+      const response = await BookingApi.book(data);
+      if (response.success) {
+        history.push("/tour-cart");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -110,7 +129,7 @@ const BookTour = (props) => {
             {schedules &&
               schedules.map((schedule) => {
                 return (
-                  <tr className="table-content">
+                  <tr className="table-content" key={schedule._id}>
                     <th scope="row">{schedule.title}</th>
                     <td>{moment(schedule.start).format("YYYY-MM-DD")}</td>
                     <td>{moment(schedule.end).format("YYYY-MM-DD")}</td>
@@ -136,6 +155,7 @@ const BookTour = (props) => {
                   name="code"
                   id="code"
                   onChange={onBookFormChange}
+                  required
                 >
                   <option>Select One</option>
                   {schedules &&
@@ -157,6 +177,7 @@ const BookTour = (props) => {
                   placeholder="Enter number adult"
                   name="adult"
                   id="adult"
+                  required
                   onChange={onBookFormChange}
                 />
               </div>
@@ -169,6 +190,7 @@ const BookTour = (props) => {
                   placeholder="Enter number children"
                   name="child"
                   id="child"
+                  required
                   onChange={onBookFormChange}
                 />
               </div>

@@ -7,6 +7,7 @@ const {
   paymentSuccess,
   show,
   doBooking,
+  getCarts,
 } = require("../controllers/booking");
 const { update } = require("../models/hotel");
 
@@ -17,6 +18,7 @@ router.get("/list-tour-booked", isAuth, getListBookByUser);
 router.get("/:id", isAuth, show);
 router.put("/:id/payment-success", paymentSuccess);
 router.put("/:id", isAuth, checkRole, update);
-router.post("/booking", isAuth, doBooking);
+router.post("/", isAuth, doBooking);
+router.get("/cart", isAuth, getCarts);
 
 module.exports = router;

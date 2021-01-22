@@ -5,7 +5,7 @@ const BookingSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  package: mongoose.Schema.Types.ObjectId,
+  package: [{ type: mongoose.Schema.Types.ObjectId }],
   email: String,
   first_name: String,
   last_name: String,

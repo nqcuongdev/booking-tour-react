@@ -63,9 +63,9 @@ function App() {
             component={DestinationDetail}
           />
           <Route exact path="/tour-cart" component={TourCart} />
-          <Route exact path="/hotel-cart" component={HotelCart} />
+          <Route exact path="/cart/:id" component={HotelCart} />
           <Route exact path="/hotel-checkout" component={HotelCheckout} />
-          <Route exact path="/tour-checkout" component={TourCheckout} />
+          <Route exact path="/checkout" component={TourCheckout} />
         </AuthContext.Provider>
       </Switch>
     </Router>
