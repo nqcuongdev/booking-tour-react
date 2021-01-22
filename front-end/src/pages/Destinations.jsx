@@ -39,7 +39,8 @@ const Destinations = props => {
                 const params = { pageOffset: 0 }
                 const response = await DestinationApi.getAll()
 
-                // console.log(response)
+                console.log({response})
+                
                 setDestinationsList(response.data)
             } catch (error) {
                 console.log('Fail to fetch Destinations list: ', error)
@@ -55,6 +56,7 @@ const Destinations = props => {
     };
 
     const imageUrl = 'http://localhost:6969/';
+    // const imageUrl = 'http://192.168.1.63:6969';
     // lấy đường dẫn hiện tại
     const { url } = useRouteMatch();
 
@@ -105,7 +107,7 @@ const Destinations = props => {
                                                     </div>
                                                     <div className="button">
                                                         <Link to={{
-                                                            pathname: `${url}${item.slug}`,
+                                                            pathname: `${url}/${item.slug}`,
                                                             state: {id: `${item._id}`}
                                                         }}>
                                                             <Button className="view-detail">View detail</Button>

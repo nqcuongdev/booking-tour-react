@@ -8,6 +8,7 @@ import AuthContext from "../../contexts/auth";
 import { BsFillPersonFill } from 'react-icons/bs';
 import { MdSettings } from 'react-icons/md';
 import { RiLogoutBoxLine } from 'react-icons/ri';
+import { ToastContainer, toast } from 'react-toastify';
 
 const TopHeader = (props) => {
   const { user, setUser } = props
@@ -24,6 +25,16 @@ const TopHeader = (props) => {
   const logout = async () => {
     localStorage.removeItem('jwtKey')
     setUser({})
+
+    toast.warning(`Logged out!`, {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   }
 
   // console.log({user})

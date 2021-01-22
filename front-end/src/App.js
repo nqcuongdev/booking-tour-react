@@ -32,7 +32,8 @@ function App() {
           let headers = "Bearer " + token; 
           const response = await authApi.me(headers); 
           if (response.success) { 
-            setUser(response.data); 
+            setUser(response.data);
+
           } 
         } 
       } catch (error) { 
@@ -46,30 +47,32 @@ function App() {
   // console.log({user})
   
   return (
-    <Router>
-      <AuthContext.Provider value={{
-        user: user,
-        setUser: setUser,
-      }}> 
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/contact-us" component={Contact} />
-          <Route exact path="/about" component={About} />
-          <Route exact path="/tours" component={Tours} />
-          <Route exact path="/tours/:slug" component={TourDetail} />
-          <Route exact path="/blogs" component={Blogs} />
-          <Route exact path="/blogs/:slug" component={BlogDetail} />
-          <Route exact path="/hotels" component={Hotels} />
-          <Route exact path="/hotels/:slug" component={HotelDetail} />
-          <Route exact path="/destinations" component={Destinations} />
-          <Route exact path="/destinations/:slug" component={DestinationDetail} />
-          <Route exact path="/tour-cart" component={TourCart} />
-          <Route exact path="/hotel-cart" component={HotelCart} />
-          <Route exact path="/hotel-checkout" component={HotelCheckout} />
-          <Route exact path="/tour-checkout" component={TourCheckout} />
-        </Switch>
-      </AuthContext.Provider>
-    </Router>
+    <>
+      <Router>
+        <AuthContext.Provider value={{
+          user: user,
+          setUser: setUser,
+        }}> 
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/contact-us" component={Contact} />
+            <Route exact path="/about" component={About} />
+            <Route exact path="/tours" component={Tours} />
+            <Route exact path="/tours/:slug" component={TourDetail} />
+            <Route exact path="/blogs" component={Blogs} />
+            <Route exact path="/blogs/:slug" component={BlogDetail} />
+            <Route exact path="/hotels" component={Hotels} />
+            <Route exact path="/hotels/:slug" component={HotelDetail} />
+            <Route exact path="/destinations" component={Destinations} />
+            <Route exact path="/destinations/:slug" component={DestinationDetail} />
+            <Route exact path="/tour-cart" component={TourCart} />
+            <Route exact path="/hotel-cart" component={HotelCart} />
+            <Route exact path="/hotel-checkout" component={HotelCheckout} />
+            <Route exact path="/tour-checkout" component={TourCheckout} />
+          </Switch>
+        </AuthContext.Provider>
+      </Router>
+    </>
   );
 }
 

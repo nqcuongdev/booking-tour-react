@@ -17,6 +17,7 @@ import {
 } from "reactstrap";
 import "./SignUpForm.scss";
 import authApi from "../../api/authApi";
+import { ToastContainer, toast } from 'react-toastify';
 
 const SignUpForm = (props) => {
   const { setUser } = props
@@ -37,12 +38,32 @@ const SignUpForm = (props) => {
       if (response.success) {
         localStorage.setItem("jwtKey", response.token)
         props.toggle()
-        // setUser(response.data)
+        setUser(response.data)
+
+        toast.success(`Register successfully, welcome ${response.data.full_name}!`, {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     } catch (errors) { 
       if (errors.response.data) { 
         let err = errors.response.data
         setError(err.message)
+
+        toast.error(`Error ${err.message}!`, {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     }
   }
