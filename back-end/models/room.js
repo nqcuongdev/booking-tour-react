@@ -12,10 +12,21 @@ const RoomSchema = new mongoose.Schema({
     min: 1,
     required: true,
   },
-  buffet_price: Number,
+  options: {
+    buffer_price: Number,
+    bed: String,
+  },
+  image: {
+    type: String,
+    required: true,
+  },
   width: {
     type: String,
     required: true,
+  },
+  hotel: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "hotels",
   },
   attribute: [
     {

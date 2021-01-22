@@ -3,21 +3,27 @@ import { Redirect } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import * as FeatherIcon from 'react-feather';
 
-// auth
+// Auth
 const Login = React.lazy(() => import('../pages/auth/Login'));
 const Logout = React.lazy(() => import('../pages/auth/Logout'));
 const ForgetPassword = React.lazy(() => import('../pages/auth/ForgetPassword'));
 const Confirm = React.lazy(() => import('../pages/auth/Confirm'));
-// dashboard
+// Dashboard
 const Dashboard = React.lazy(() => import('../pages/dashboard'));
-//Destination
+// Destination
 const ListDestination = React.lazy(() => import('../pages/destination/ListDestination'));
 const HandleDestination = React.lazy(() => import('../pages/destination/HandleDestination'));
-//Tour
+// Tour
 const AllTour = React.lazy(() => import('../pages/tour/Tour'));
 const HandleTour = React.lazy(() => import('../pages/tour/HandleTour'));
 const TourCategory = React.lazy(() => import('../pages/tour/TourCategory'));
 const TourStyle = React.lazy(() => import('../pages/tour/TourStyle'));
+const TourAvailability = React.lazy(() => import('../pages/tour/Availability'));
+// Hotel
+const ListHotel = React.lazy(() => import('../pages/hotel/ListHotel'));
+const HotelType = React.lazy(() => import('../pages/hotel/Type'));
+const HandleForm = React.lazy(() => import('../pages/hotel/HandleForm'));
+const Facility = React.lazy(() => import('../pages/hotel/Facility'));
 // apps
 const CalendarApp = React.lazy(() => import('../pages/apps/Calendar'));
 const EmailInbox = React.lazy(() => import('../pages/apps/Email/Inbox'));
@@ -70,13 +76,13 @@ const PrivateRoute = ({ component: Component, user, roles, ...rest }) => (
 
             const loggedInUser = user;
             // check if route is restricted by role
-            if (roles && roles.indexOf(loggedInUser.role) === 'admin') {
-                // role not authorised so redirect to home page
-                return <Redirect to={{ pathname: '/' }} />;
+            if (roles && roles.includes(loggedInUser.role)) {
+                // authorized so return component
+                return <Component {...props} />;
             }
 
-            // authorised so return component
-            return <Component {...props} />;
+            // role not authorized so redirect to home page
+            // return <Redirect to={{ pathname: '/' }} />;
         }}
     />
 );
@@ -95,7 +101,7 @@ const dashboardRoutes = {
     name: 'Dashboard',
     icon: FeatherIcon.Home,
     component: Dashboard,
-    roles: ['admin'],
+    roles: ['admin', 'hotel_partner', 'tour_partner'],
     route: PrivateRoute,
 };
 
@@ -110,14 +116,14 @@ const destinationRoutes = {
             path: '/destination/list-destination',
             name: 'List Destination',
             component: ListDestination,
-            roles: ['admin'],
+            roles: ['admin', 'hotel_partner', 'tour_partner'],
             route: PrivateRoute,
         },
         {
             path: '/destination/:id',
             name: 'Add Destination',
             component: HandleDestination,
-            roles: ['admin'],
+            roles: ['admin', 'hotel_partner', 'tour_partner'],
             route: PrivateRoute,
         },
     ],
@@ -133,28 +139,72 @@ const tourRoutes = {
             path: '/tour/tour-category',
             name: 'Tour Category',
             component: TourCategory,
-            roles: ['admin'],
+            roles: ['admin', 'tour_partner'],
             route: PrivateRoute,
         },
         {
             path: '/tour/tour-style',
             name: 'Tour Style',
             component: TourStyle,
-            roles: ['admin'],
+            roles: ['admin', 'tour_partner'],
             route: PrivateRoute,
         },
         {
             path: '/tour/list-tour',
             name: 'List Tour',
             component: AllTour,
-            roles: ['admin'],
+            roles: ['admin', 'tour_partner'],
+            route: PrivateRoute,
+        },
+        {
+            path: '/tour/schedule',
+            name: 'Schedule',
+            component: TourAvailability,
+            roles: ['admin', 'tour_partner'],
             route: PrivateRoute,
         },
         {
             path: '/tour/:id',
             name: 'Add Tour',
             component: HandleTour,
-            roles: ['admin'],
+            roles: ['admin', 'tour_partner'],
+            route: PrivateRoute,
+        },
+    ],
+};
+
+// Hotel
+const hotelRoutes = {
+    path: '/hotel',
+    name: 'Hotel',
+    icon: FeatherIcon.Briefcase,
+    children: [
+        {
+            path: '/hotel/list-hotel',
+            name: 'List Hotel',
+            component: ListHotel,
+            roles: ['admin', 'hotel_partner'],
+            route: PrivateRoute,
+        },
+        {
+            path: '/hotel/hotel-type',
+            name: 'Hotel Type',
+            component: HotelType,
+            roles: ['admin', 'hotel_partner'],
+            route: PrivateRoute,
+        },
+        {
+            path: '/hotel/hotel-facility',
+            name: 'Hotel Facility',
+            component: Facility,
+            roles: ['admin', 'hotel_partner'],
+            route: PrivateRoute,
+        },
+        {
+            path: '/hotel/:id',
+            name: 'Add Hotel',
+            component: HandleForm,
+            roles: ['admin', 'hotel_partner'],
             route: PrivateRoute,
         },
     ],
@@ -164,7 +214,6 @@ const tourRoutes = {
 const calendarAppRoutes = {
     path: '/apps/calendar',
     name: 'Calendar',
-    header: 'Apps',
     icon: FeatherIcon.Calendar,
     component: CalendarApp,
     route: PrivateRoute,
@@ -244,7 +293,15 @@ const taskAppRoutes = {
     ],
 };
 
-const appRoutes = [destinationRoutes, tourRoutes, emailAppRoutes, projectAppRoutes, taskAppRoutes];
+const appRoutes = [
+    destinationRoutes,
+    tourRoutes,
+    hotelRoutes,
+    calendarAppRoutes,
+    emailAppRoutes,
+    projectAppRoutes,
+    taskAppRoutes,
+];
 
 // pages
 const pagesRoutes = {

@@ -12,6 +12,7 @@ import {
     FORGET_PASSWORD_FAILED,
     RECEIVER_AUTH,
     RECEIVER_AUTH_SUCCESS,
+    LOGIN_WITH_GOOGLE,
 } from './constants';
 
 export const loginUser = (email, password) => ({
@@ -27,6 +28,10 @@ export const loginUserSuccess = (user) => ({
 export const loginUserFailed = (error) => ({
     type: LOGIN_USER_FAILED,
     payload: error,
+});
+
+export const loginWithGoogle = () => ({
+    type: LOGIN_WITH_GOOGLE,
 });
 
 export const registerUser = (fullname, email, password) => ({

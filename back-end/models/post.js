@@ -8,6 +8,7 @@ const BlogSchema = new mongoose.Schema({
     trim: true,
     required: true,
   },
+  slug: String,
   content: {
     type: String,
     required: true,
@@ -27,6 +28,14 @@ const BlogSchema = new mongoose.Schema({
   updated_by: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
+  },
+  isFeatured: {
+    type: Boolean,
+    default: false,
+  },
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "category",
   },
   destination: {
     type: mongoose.Schema.Types.ObjectId,
@@ -49,7 +58,7 @@ const BlogSchema = new mongoose.Schema({
 });
 
 // Create slug from the title
-HotelSchema.pre("save", function (next) {
+BlogSchema.pre("save", function (next) {
   this.slug = slugify(this.title, { lower: true });
   next();
 });

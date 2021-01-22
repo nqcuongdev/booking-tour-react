@@ -3,7 +3,7 @@ import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-au
 import { Label } from 'reactstrap';
 import Map from '../components/Map';
 
-const GoogleMapAutoComplete = ({ onUpdateLocation, data }) => {
+const GoogleMapAutoComplete = ({ onUpdateLocation, data, props }) => {
     const [lat, setLat] = useState(15.9750106);
     const [lng, setLng] = useState(108.2510487);
     const [address, setAddress] = useState('');
@@ -15,6 +15,14 @@ const GoogleMapAutoComplete = ({ onUpdateLocation, data }) => {
             setLng(data.lng);
         }
     }, [data.address]);
+
+    useEffect(() => {
+        if (props.match.params.id === ':id') {
+            setAddress('');
+            setLat(15.9750106);
+            setLng(108.2510487);
+        }
+    }, [props.match.params]);
 
     const handleAddress = (address) => {
         setAddress(address);
@@ -80,7 +88,7 @@ const GoogleMapAutoComplete = ({ onUpdateLocation, data }) => {
             </PlacesAutocomplete>
             <div className="google-map" style={{ height: '372px', width: '100%' }}>
                 <Label>Maps</Label>
-                <Map lat={lat} lng={lng} />
+                <Map lat={parseFloat(lat)} lng={parseFloat(lng)} />
             </div>
         </React.Fragment>
     );

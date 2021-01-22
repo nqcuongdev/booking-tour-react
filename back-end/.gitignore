@@ -1,6 +1,9 @@
 # dependencies
 /node_modules
 
+# develope
+.idea
+
 # misc
 .DS_Store
 .env
@@ -8,3 +11,5 @@
 # uploads file folder
 uploads/destinations/*
 uploads/hotels/*
+uploads/tours/*
+uploads/users/*

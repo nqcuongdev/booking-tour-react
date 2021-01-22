@@ -60,7 +60,7 @@ const TourSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  attribute: [
+  attributes: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "attribute",
@@ -79,10 +79,19 @@ const TourSchema = new mongoose.Schema({
     },
   ],
   price: {
-    type: Number,
-    required: true,
+    child: {
+      type: Number,
+      required: true,
+    },
+    adult: {
+      type: Number,
+      required: true,
+    },
   },
-  sale_price: Number,
+  sale_price: {
+    child: Number,
+    adult: Number,
+  },
   duration: {
     type: String,
     required: true,
@@ -92,6 +101,14 @@ const TourSchema = new mongoose.Schema({
   destination: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "destination",
+  },
+  created_by: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+  },
+  updated_by: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
   },
   created_at: {
     type: Date,
@@ -104,15 +121,20 @@ const TourSchema = new mongoose.Schema({
 });
 
 const TourAvailabilitySchema = new mongoose.Schema({
-  code: {
+  title: {
     type: String,
     required: true,
+    unique: true,
   },
-  start_date: {
+  tour: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "tour",
+  },
+  start: {
     type: Date,
     required: true,
   },
-  end_date: {
+  end: {
     type: Date,
     required: true,
   },
@@ -174,7 +196,7 @@ TourSchema.index({ location: "2dsphere" });
 
 const Tour = mongoose.model("tour", TourSchema);
 const TourAvailability = mongoose.model(
-  "TourAvailability",
+  "tour_availability",
   TourAvailabilitySchema
 );
 

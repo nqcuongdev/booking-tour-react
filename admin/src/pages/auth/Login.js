@@ -18,9 +18,10 @@ import {
 import { AvForm, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
 import { Mail, Lock } from 'react-feather';
 
-import { loginUser } from '../../redux/actions';
+import { loginUser, loginWithGoogle } from '../../redux/actions';
 import Loader from '../../components/Loader';
 import logo from '../../assets/images/logo.svg';
+import { GoogleLogin } from 'react-google-login';
 
 class Login extends Component {
     _isMounted = false;
@@ -57,9 +58,14 @@ class Login extends Component {
      * Redirect to root
      */
     renderRedirectToRoot = () => {
-        if (this.props.user) {
+        let roles = ['admin', 'hotel_partner', 'tour_partner'];
+        if (this.props.user && roles.includes(this.props.user.role)) {
             return <Redirect to="/dashboard" />;
         }
+    };
+
+    responseGoogle = (response) => {
+        console.log(response);
     };
 
     render() {
@@ -150,6 +156,47 @@ class Login extends Component {
                                                                 Log In
                                                             </Button>
                                                         </FormGroup>
+                                                        <div className="advanced">
+                                                            <p className="text-center mt-3">or continue with</p>
+                                                            <Row>
+                                                                <Col sm={4} xs={12}>
+                                                                    <Button color="primary" className="btn-block">
+                                                                        Facebook
+                                                                    </Button>
+                                                                </Col>
+                                                                <Col sm={4} xs={12}>
+                                                                    {/* <GoogleLogin
+                                                                        clientId={process.env.REACT_APP_GG_CLIENT}
+                                                                        render={(renderProps) => (
+                                                                            <Button
+                                                                                color="danger"
+                                                                                className="btn-block"
+                                                                                onClick={renderProps.onClick}>
+                                                                                Google
+                                                                            </Button>
+                                                                        )}
+                                                                        onSuccess={this.responseGoogle}
+                                                                        onFailure={this.responseGoogle}
+                                                                        cookiePolicy={'single_host_origin'}
+                                                                    /> */}
+                                                                    <Button
+                                                                        color="danger"
+                                                                        className="btn-block"
+                                                                        onClick={() =>
+                                                                            window.open(
+                                                                                'http://localhost:6969/api/v1/google'
+                                                                            )
+                                                                        }>
+                                                                        Google
+                                                                    </Button>
+                                                                </Col>
+                                                                <Col sm={4} xs={12}>
+                                                                    <Button color="info" className="btn-block">
+                                                                        Twitter
+                                                                    </Button>
+                                                                </Col>
+                                                            </Row>
+                                                        </div>
                                                     </AvForm>
                                                 </Col>
 
@@ -173,12 +220,6 @@ class Login extends Component {
                                     </Card>
                                 </Col>
                             </Row>
-
-                            <Row className="mt-3">
-                                <Col className="col-12 text-center">
-                                    <p className="text-muted">Don't have an account?</p>
-                                </Col>
-                            </Row>
                         </Container>
                     </div>
                 )}
@@ -192,4 +233,4 @@ const mapStateToProps = (state) => {
     return { user, loading, error };
 };
 
-export default connect(mapStateToProps, { loginUser })(Login);
+export default connect(mapStateToProps, { loginUser, loginWithGoogle })(Login);

@@ -1,5 +1,11 @@
-import React, { useEffect, useState} from "react";
-import { Container, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
+import React, { useEffect, useState } from "react";
+import {
+  Container,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from "reactstrap";
 import "./TopHeader.scss";
 import { Link } from "react-router-dom";
 import SignInForm from "../SignInForm/SignInForm";
@@ -15,12 +21,12 @@ const TopHeader = (props) => {
   const [signIn, setSignIn] = useState(false)
   const [signUp, setSignUp] = useState(false)
 
-  const toggleSignIn = () => setSignIn(!signIn)
-  const toggleSignUp = () => setSignUp(!signUp)
+  const toggleSignIn = () => setSignIn(!signIn);
+  const toggleSignUp = () => setSignUp(!signUp);
 
   // dropdown menu after login
-  const [dropdownOpen, setDropdownOpen] = useState(false)
-  const toggleDropdown = () => setDropdownOpen(prevState => !prevState)
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const toggleDropdown = () => setDropdownOpen((prevState) => !prevState);
 
   const logout = async () => {
     localStorage.removeItem('jwtKey')

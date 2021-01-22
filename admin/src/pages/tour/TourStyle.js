@@ -26,6 +26,7 @@ import * as FeatherIcon from 'react-feather';
 import PageTitle from '../../components/PageTitle';
 import { connect, useDispatch } from 'react-redux';
 import { getAllTourAttribute, createTourAttribute } from '../../redux/tour/actions';
+import moment from 'moment';
 
 const sizePerPageRenderer = ({ options, currSizePerPage, onSizePerPageChange }) => (
     <React.Fragment>
@@ -66,6 +67,10 @@ const TableWithSearch = ({ properties }) => {
         return <Badge color="success">{row.status}</Badge>;
     };
 
+    const dateFormatter = (cell, row, rowIndex) => {
+        return moment(cell).format('YYYY-MM-DD');
+    };
+
     const columns = [
         {
             dataField: 'title',
@@ -81,6 +86,7 @@ const TableWithSearch = ({ properties }) => {
             dataField: 'created_at',
             text: 'Create Date',
             sort: false,
+            formatter: dateFormatter,
         },
         {
             dataField: 'status',
@@ -107,6 +113,10 @@ const TableWithSearch = ({ properties }) => {
     useEffect(() => {
         if (data) setAttributes(data);
     }, [data]);
+
+    useEffect(() => {
+        properties.getAllTourAttribute();
+    }, [properties.attribute]);
 
     /**
      * Show/hide the modal
@@ -136,7 +146,6 @@ const TableWithSearch = ({ properties }) => {
             setAttribute();
             setModalInput();
         }
-        properties.getAllTourAttribute();
     };
 
     return (

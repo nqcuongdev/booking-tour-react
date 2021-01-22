@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col, Card, CardBody, Input, Button, Badge } from 'reactstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
-import ToolkitProvider, { Search, CSVExport } from 'react-bootstrap-table2-toolkit';
+import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import * as FeatherIcon from 'react-feather';
@@ -9,6 +9,7 @@ import * as FeatherIcon from 'react-feather';
 import PageTitle from '../../components/PageTitle';
 import { connect, useDispatch } from 'react-redux';
 import { getAllTour } from '../../redux/tour/actions';
+import moment from 'moment';
 
 const sizePerPageRenderer = ({ options, currSizePerPage, onSizePerPageChange }) => (
     <React.Fragment>
@@ -31,12 +32,11 @@ const sizePerPageRenderer = ({ options, currSizePerPage, onSizePerPageChange }) 
 const TableWithSearch = ({ properties }) => {
     const [tours, setTours] = useState([]);
     const { SearchBar } = Search;
-    const { ExportCSVButton } = CSVExport;
 
     const rankFormatter = (cell, row, rowIndex) => {
         return (
             <div>
-                <Button color="primary" size="sm">
+                <Button color="primary" size="sm" onClick={() => properties.history.push(row._id)}>
                     <FeatherIcon.Edit size="18" />
                 </Button>
             </div>
@@ -47,12 +47,11 @@ const TableWithSearch = ({ properties }) => {
         return <Badge color="success">{row.status}</Badge>;
     };
 
+    const dateFormatter = (cell, row, rowIndex) => {
+        return moment(cell).format('YYYY-MM-DD');
+    };
+
     const columns = [
-        {
-            dataField: 'code',
-            text: 'Code',
-            sort: false,
-        },
         {
             dataField: 'title',
             text: 'Title',
@@ -62,6 +61,22 @@ const TableWithSearch = ({ properties }) => {
             dataField: 'destination.title',
             text: 'Destination',
             sort: false,
+        },
+        {
+            dataField: 'category.title',
+            text: 'Category',
+            sort: false,
+        },
+        {
+            dataField: 'created_by.full_name',
+            text: 'Author',
+            sort: false,
+        },
+        {
+            dataField: 'created_at',
+            text: 'Date',
+            sort: false,
+            formatter: dateFormatter,
         },
         {
             dataField: 'status',
@@ -94,7 +109,7 @@ const TableWithSearch = ({ properties }) => {
             <CardBody>
                 <ToolkitProvider
                     bootstrap4
-                    keyField="id"
+                    keyField="_id"
                     data={tours}
                     columns={columns}
                     search
@@ -106,7 +121,10 @@ const TableWithSearch = ({ properties }) => {
                                     <SearchBar {...props.searchProps} />
                                 </Col>
                                 <Col className="text-right">
-                                    <Button color="primary" className="mr-3">
+                                    <Button
+                                        color="primary"
+                                        className="mr-3"
+                                        onClick={() => properties.history.push('/tour/add-tour')}>
                                         Add Tour
                                     </Button>
                                 </Col>

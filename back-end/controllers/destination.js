@@ -4,9 +4,27 @@ const Destination = require("../models/destination");
 
 //Load validate
 const destinationValidate = require("../validators/destination/create");
+const { Tour } = require("../models/tours");
 
 exports.all = async (req, res) => {
-  const destination = await Destination.find({});
+  const destination = await Destination.aggregate([
+    {
+      $lookup: {
+        localField: "_id",
+        from: "tours",
+        foreignField: "destination",
+        as: "tour_count",
+      },
+    },
+    {
+      $lookup: {
+        localField: "_id",
+        from: "hotels",
+        foreignField: "destination",
+        as: "hotel_count",
+      },
+    },
+  ]);
 
   return res.status(200).json({
     success: !!destination,
@@ -82,6 +100,13 @@ exports.create = async (req, res) => {
       image,
       isFeatured,
       country,
+    });
+
+    // Create notification
+    await Notification.create({
+      type: "destination",
+      content: `${req.user.full_name} has create destination: ${title}.`,
+      package: destination._id,
     });
 
     return res.status(200).json({

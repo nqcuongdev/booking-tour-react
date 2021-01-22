@@ -5,9 +5,13 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const passport = require("passport");
 const connectDB = require("./config/database");
+const paypalConfig = require("./config/paypal");
 
 // Connect to database
 connectDB();
+
+// Load config paypal
+paypalConfig();
 
 // Route files
 const auth = require("./routes/auth");
@@ -16,6 +20,15 @@ const user = require("./routes/user");
 const category = require("./routes/category");
 const attribute = require("./routes/attribute");
 const tour = require("./routes/tour");
+const paypal = require("./routes/paypal");
+const stripe = require("./routes/stripe");
+const booking = require("./routes/booking");
+const hotel = require("./routes/hotel");
+const tag = require("./routes/tag");
+const post = require("./routes/post");
+const rating = require("./routes/rating");
+const notification = require("./routes/notification");
+const facility = require("./routes/facility");
 
 const app = express();
 
@@ -35,10 +48,19 @@ app.use(cors());
 //Router
 app.use("/api/v1/", auth);
 app.use("/api/v1/user", user);
-app.use("/api/v1/destination/", destination);
-app.use("/api/v1/category/", category);
+app.use("/api/v1/destination", destination);
+app.use("/api/v1/category", category);
 app.use("/api/v1/attribute", attribute);
 app.use("/api/v1/tour", tour);
+app.use("/api/v1/paypal", paypal);
+app.use("/api/v1/stripe", stripe);
+app.use("/api/v1/booking", booking);
+app.use("/api/v1/hotel", hotel);
+app.use("/api/v1/tag", tag);
+app.use("/api/v1/post", post);
+app.use("/api/v1/rating", rating);
+app.use("/api/v1/notification", notification);
+app.use("/api/v1/facility", facility);
 
 //Enable Passport
 app.use(passport.initialize());

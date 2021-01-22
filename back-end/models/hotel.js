@@ -42,6 +42,12 @@ const HotelSchema = new mongoose.Schema({
       required: true,
     },
   ],
+  attribute: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "attribute",
+    },
+  ],
   status: {
     type: String,
     required: true,
@@ -61,24 +67,49 @@ const HotelSchema = new mongoose.Schema({
     default: 0,
   },
   price: {
-    type: Number,
-    required: true,
+    child: {
+      type: Number,
+      required: true,
+    },
+    adult: {
+      type: Number,
+      required: true,
+    },
   },
-  sale_price: Number,
+  sale_price: {
+    child: Number,
+    adult: Number,
+  },
   destination: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "destination",
   },
-  isFacility: {
-    type: Boolean,
-    require: true,
-    default: true,
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
   },
+  facility: [
+    {
+      type: String,
+      facility_id: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "facility",
+        },
+      ],
+    },
+  ],
   status: {
     type: String,
     required: true,
     enum: ["active", "hide"],
     default: "active",
+  },
+  star: {
+    type: Number,
+    enum: [1, 2, 3, 4, 5],
+    require: true,
+    default: 1,
   },
   created_at: {
     type: Date,

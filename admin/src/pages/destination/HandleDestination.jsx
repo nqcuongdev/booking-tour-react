@@ -22,11 +22,17 @@ const BasicInputElements = ({ props }) => {
         lng: '',
     });
 
-    // Reload page when click add new :))
     useEffect(() => {
         if (props.match.params.id === ':id') {
             props.history.push('/destination/add-destination');
-            window.location.reload();
+            setFormInput({
+                title: '',
+                description: '',
+                address: '',
+                isFeatured: '',
+                lat: '',
+                lng: '',
+            });
         }
     }, [props.match.params]);
 
@@ -145,7 +151,11 @@ const BasicInputElements = ({ props }) => {
 
                             <FormGroup className="mb-5">
                                 <Label>Real tour address</Label>
-                                <GoogleMapAutoComplete onUpdateLocation={onUpdateLocation} data={formInput} />
+                                <GoogleMapAutoComplete
+                                    onUpdateLocation={onUpdateLocation}
+                                    data={formInput}
+                                    props={props}
+                                />
                             </FormGroup>
 
                             <FormGroup>
@@ -212,7 +222,7 @@ const BasicInputElements = ({ props }) => {
                                         name="isFeatured"
                                         label="Enable featured"
                                         onChange={inputChangeHandler}
-                                        defaultChecked={formInput.isFeatured}
+                                        defaultChecked={formInput.isFeatured ? true : false}
                                     />
                                 ) : (
                                     <CustomInput

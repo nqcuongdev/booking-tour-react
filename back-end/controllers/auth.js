@@ -72,7 +72,7 @@ exports.login = async (req, res) => {
   if (!user) {
     return res.status(401).json({
       success: false,
-      message: "User not found please try with another email",
+      message: { email: "User not found please try with another email" },
     });
   }
 
@@ -82,7 +82,9 @@ exports.login = async (req, res) => {
   if (!isMatch) {
     return res.status(401).json({
       success: false,
-      message: "Password wrong please try again with another password",
+      message: {
+        password: "Password wrong please try again with another password",
+      },
     });
   }
 

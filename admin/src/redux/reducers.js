@@ -4,6 +4,8 @@ import Auth from './auth/reducers';
 import AppMenu from './appMenu/reducers';
 import Tour from './tour/reducers';
 import Destination from './destination/reducers';
+import Notification from './notification/reducers';
+import Hotel from './hotel/reducers';
 
 export default combineReducers({
     Auth,
@@ -11,4 +13,6 @@ export default combineReducers({
     Layout,
     Tour,
     Destination,
+    Notification,
+    Hotel,
 });
