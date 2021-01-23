@@ -70,7 +70,8 @@ const BookTour = (props) => {
   const onBooking = async () => {
     let data = {
       code: bookForm.code,
-      package: bookForm.price.tour._id,
+      checkin: bookForm.price.start,
+      checkout: bookForm.price.end,
       user: user._id,
       option: {
         child: bookForm.child,

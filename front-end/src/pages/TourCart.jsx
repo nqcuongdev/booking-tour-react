@@ -2,59 +2,12 @@ import React, { useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 import { Link } from "react-router-dom";
 import Subscribe from "../components/Subscribe/Subscribe";
-import Korea from "../assets/images/populars/1.jpg";
-import NY from "../assets/images/populars/newyork.jpg";
-import {
-  Button,
-  Col,
-  Container,
-  CustomInput,
-  Form,
-  FormGroup,
-  Input,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  Row,
-  TabContent,
-  TabPane,
-} from "reactstrap";
+import { Button, Col, Container, Form, Input, Row } from "reactstrap";
 import { MdClose } from "react-icons/md";
 import { FaGift } from "react-icons/fa";
 import BookingApi from "../api/bookingApi";
-
-const cartData = [
-  {
-    image: Korea,
-    title: "Alaska Adventure Tour",
-    checkInDate: "09/09/2020",
-    checkOutDate: "11/09/2020",
-    adult: 2,
-    priceOfAdult: 299,
-    children: 1,
-    priceOfChildren: 199,
-  },
-  {
-    image: NY,
-    title: "New York Adventure Tour",
-    checkInDate: "20/11/2020",
-    checkOutDate: "23/11/2020",
-    adult: 4,
-    priceOfAdult: 299,
-    children: 2,
-    priceOfChildren: 199,
-  },
-];
-
-const calculationTotalItem = (
-  adult,
-  children,
-  priceOfAdult,
-  priceOfChildren
-) => {
-  const total = adult * priceOfAdult + children * priceOfChildren;
-  return total;
-};
+import moment from "moment";
+import { useHistory } from "react-router-dom";
 
 const TourCart = (props) => {
   const [carts, setCarts] = useState();
@@ -63,7 +16,6 @@ const TourCart = (props) => {
       try {
         const response = await BookingApi.getCarts();
         if (response.success) {
-          console.log(response);
           setCarts(response.data);
         }
       } catch (error) {
@@ -73,9 +25,34 @@ const TourCart = (props) => {
 
     fetchCart();
   }, []);
+  const history = useHistory();
+
+  const calculationTotalItem = (
+    adult,
+    children,
+    priceOfAdult,
+    priceOfChildren
+  ) => {
+    const total = adult * priceOfAdult + children * priceOfChildren;
+
+    return total;
+  };
+
+  const removeItemInCart = async (item, index) => {
+    let newCart = carts.splice(0, index);
+
+    try {
+      const response = await BookingApi.deleteItemInCart(item._id);
+      if (response.success) {
+        setCarts(newCart);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <MainLayout>
-      {console.log(carts)}
       <div className="tour-cart">
         <div className="cart-link">
           <Container>
@@ -108,59 +85,75 @@ const TourCart = (props) => {
             </div>
 
             <div className="cart-list">
-              {cartData.map((item) => {
-                return (
-                  <div className="cart-item">
-                    <Row xl={12} lg={12} md={12} xs={12} className="cart-title">
-                      {item.title}
-                    </Row>
-                    <Row className="cart-content">
-                      <Col xl={3} lg={3} md={6} xs={12} className="image">
-                        <img src={item.image} alt="" />
-                      </Col>
-                      <Col xl={3} lg={3} md={6} xs={12} className="info">
-                        <div>
-                          <p>Check in date: {item.checkInDate}</p>
-                          <p>Check out date: {item.checkOutDate}</p>
-                        </div>
-                      </Col>
-                      <Col xl={2} lg={2} md={4} xs={4} className="adult">
-                        <div>
-                          <span className="show-hide-scale">Adult</span>
-                          <Input type="number" value={item.adult} />
-                          <p>x ${item.priceOfAdult}</p>
-                        </div>
-                      </Col>
-                      <Col xl={2} lg={2} md={4} xs={4} className="children">
-                        <div>
-                          <span className="show-hide-scale">Children</span>
-                          <Input type="number" value={item.children} />
-                          <p>x ${item.priceOfChildren}</p>
-                        </div>
-                      </Col>
-                      <Col xl={2} lg={2} md={4} xs={4} className="total">
-                        <div className="price">
-                          <span className="show-hide-scale">Total</span>
-                          <span classnames="scale-total">
-                            ${" "}
-                            {calculationTotalItem(
-                              item.adult,
-                              item.children,
-                              item.priceOfAdult,
-                              item.priceOfChildren
-                            )}
-                          </span>
-                        </div>
-                        <div className="btn-delete">
-                          <Link>
-                            <MdClose className="icon" />
-                          </Link>
-                        </div>
-                      </Col>
-                    </Row>
-                  </div>
-                );
-              })}
+              {carts &&
+                carts.map((item, index) => {
+                  return (
+                    <div className="cart-item">
+                      <Row
+                        xl={12}
+                        lg={12}
+                        md={12}
+                        xs={12}
+                        className="cart-title"
+                      >
+                        {item.title}
+                      </Row>
+                      <Row className="cart-content">
+                        <Col xl={3} lg={3} md={6} xs={12} className="image">
+                          <img
+                            src={`${process.env.REACT_APP_API_URL}/${item.code.tour.image}`}
+                            alt={item.code.title}
+                          />
+                        </Col>
+                        <Col xl={3} lg={3} md={6} xs={12} className="info">
+                          <div>
+                            <p>
+                              Checkin:{" "}
+                              {moment(item.checkin).format("YYYY-MM-DD")}
+                            </p>
+                            <p>
+                              Checkout:{" "}
+                              {moment(item.checkout).format("YYYY-MM-DD")}
+                            </p>
+                          </div>
+                        </Col>
+                        <Col xl={2} lg={2} md={4} xs={4} className="adult">
+                          <div>
+                            <span className="show-hide-scale">Adult</span>
+                            <Input type="number" value={item.option.adult} />
+                            <p>x ${item.code.tour.price.adult}</p>
+                          </div>
+                        </Col>
+                        <Col xl={2} lg={2} md={4} xs={4} className="children">
+                          <div>
+                            <span className="show-hide-scale">Children</span>
+                            <Input type="number" value={item.option.child} />
+                            <p>x ${item.code.tour.price.child}</p>
+                          </div>
+                        </Col>
+                        <Col xl={2} lg={2} md={4} xs={4} className="total">
+                          <div className="price">
+                            <span className="show-hide-scale">Total</span>
+                            <span classnames="scale-total">
+                              ${" "}
+                              {calculationTotalItem(
+                                item.option.adult,
+                                item.option.child,
+                                item.code.tour.price.adult,
+                                item.code.tour.price.child
+                              )}
+                            </span>
+                          </div>
+                          <div className="btn-delete">
+                            <Link onClick={() => removeItemInCart(item, index)}>
+                              <MdClose className="icon" />
+                            </Link>
+                          </div>
+                        </Col>
+                      </Row>
+                    </div>
+                  );
+                })}
             </div>
 
             <Row className="total-pay">
@@ -169,14 +162,30 @@ const TourCart = (props) => {
                             </Col> */}
               <Col xl={6} lg={6} md={6} xs={12} className="total-to-pay">
                 <p>
-                  Total: <span>$ 2391</span>
+                  Total:{" "}
+                  {carts && (
+                    <span>
+                      ${" "}
+                      {carts.map((item) => {
+                        let total = 0;
+                        return (total +=
+                          item.option.adult * item.code.tour.price.adult +
+                          item.option.child * item.code.tour.price.child);
+                      })}
+                    </span>
+                  )}
                 </p>
               </Col>
             </Row>
             <hr className="mt-50 mb-50" />
             <div className="btn-update-checkout mb-50">
-              <Button className="btn-update-cart">Update cart</Button>
-              <Button className="btn-checkout">Proceed to checkout</Button>
+              {/* <Button className="btn-update-cart">Update cart</Button> */}
+              <Button
+                className="btn-checkout"
+                onClick={() => history.push("/checkout")}
+              >
+                Proceed to checkout
+              </Button>
             </div>
           </Form>
         </Container>

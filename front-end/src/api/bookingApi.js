@@ -19,6 +19,24 @@ const BookingApi = {
       },
     });
   },
+
+  deleteItemInCart: (id) => {
+    const url = `api/v1/booking/${id}`;
+    return axiosClient.delete(url, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+  },
+
+  paymentSuccess: (data, id) => {
+    const url = `api/v1/booking/${id}/payment-success`;
+    return axiosClient.put(url, data, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+  },
 };
 
 export default BookingApi;

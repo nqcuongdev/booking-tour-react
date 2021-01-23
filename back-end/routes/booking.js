@@ -8,6 +8,7 @@ const {
   show,
   doBooking,
   getCarts,
+  deleteCart,
 } = require("../controllers/booking");
 const { update } = require("../models/hotel");
 
@@ -15,10 +16,11 @@ const router = express.Router();
 
 router.get("/", isAuth, checkRole, all);
 router.get("/list-tour-booked", isAuth, getListBookByUser);
+router.get("/cart", isAuth, getCarts);
 router.get("/:id", isAuth, show);
 router.put("/:id/payment-success", paymentSuccess);
 router.put("/:id", isAuth, checkRole, update);
 router.post("/", isAuth, doBooking);
-router.get("/cart", isAuth, getCarts);
+router.delete("/:id", isAuth, deleteCart);
 
 module.exports = router;
