@@ -43,7 +43,7 @@ const Header = () => {
               <NavLink href="/hotels">Hotels</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/events">Blogs</NavLink>
+              <NavLink href="/blogs">Blogs</NavLink>
               {/* <ul className="children-menu menu-dropdown">
                 <li className="sub-item">
                   <Link>Detail</Link>

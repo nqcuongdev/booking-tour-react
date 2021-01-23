@@ -7,6 +7,12 @@ import classnames from 'classnames';
 import { server_url } from "../helpers/url";
 import AuthContext from "../contexts/auth";
 import { dateToYMD } from "../helpers/format";
+import {
+    FaMapMarkerAlt,
+    FaStarHalfAlt, 
+    FaStar, 
+    FaRegStar
+} from "react-icons/fa";
 
 const Profile = (props) => {
     const context = useContext(AuthContext)
@@ -25,19 +31,20 @@ const Profile = (props) => {
             <div className="profile">
                 <BreadcrumbBanner pageName="Your Profile" backgroundImage={bannerBackground} />
                 <Container className="mt-20">
-                    <p className="mt-50 title text-uppercase">Your Information</p>
-
-                    <Row className="user-info pt-20 pb-50">
-                        <Col lg={3} md={3} xs={6} className="avatar">
+                    <Row>
+                        <p className="mt-50 title text-uppercase">Your Information</p>
+                    </Row>
+                    <Row className="user-info pt-30 pb-30">
+                        <Col lg={3} md={3} xs={12} className="avatar">
                             <img src={server_url + user.image} />
                         </Col>
 
-                        <Col lg={9} md={9} xs={6} className="information">
+                        <Col lg={9} md={9} xs={12} className="information">
                             <p className="name">{user.full_name}</p>
                             <p className="member">Member since {date}</p>
 
                             <div className="row">
-                                <Col lg={6} md={6} xs={12}>
+                                <Col xl={6} lg={12} md={12} xs={12}>
                                     <ul>
                                         <li>
                                             <ul>
@@ -62,7 +69,7 @@ const Profile = (props) => {
                                     </ul>
                                 </Col>
 
-                                <Col lg={6} md={6} xs={12}>
+                                <Col xl={6} lg={12} md={12} xs={12}>
                                     <ul>
                                         <li>
                                             <ul>
@@ -90,10 +97,12 @@ const Profile = (props) => {
                 </Container>
 
                 <Container className="mt-20">
-                    <p className="mt-50 title text-uppercase">Booking History</p>
+                    <Row>
+                        <p className="mt-50 title text-uppercase">Booking History</p>
+                    </Row>
 
                     <Row className="user-booking pt-20 pb-50">
-                        <Col lg={9} md={9} xs={6} className="avatar">
+                        <Col lg={9} md={12} xs={12} className="avatar">
                             <div>
                                 <Nav tabs>
                                     <NavItem>
@@ -113,26 +122,53 @@ const Profile = (props) => {
                                         </NavLink>
                                     </NavItem>
                                 </Nav>
-                                <TabContent activeTab={activeTab}>
+
+                                <TabContent activeTab={activeTab} className="booking-list">
                                     <TabPane tabId="1">
-                                        <Row>
-                                            <Col sm="12"><br/>
-                                                <Card body>
-                                                    <CardTitle>Tours</CardTitle>
-                                                    <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                                                    <Button>Go somewhere</Button>
-                                                </Card>
+                                        <Row className="booking-item mt-30">
+                                            <Col lg={4} md={4} xs={12}>
+                                                <img src={server_url + user.image} />
+                                            </Col>
+                                            <Col lg={8} md={8} xs={12}>
+                                                <ul>
+                                                    <li className="li-bold">A Paris walk to Remember</li>
+                                                    <li>124 E Huron St, New york</li>
+                                                    <li>
+                                                        Tour star <FaStar /> 
+                                                        <FaStar /> 
+                                                        <FaStar /> 
+                                                        <FaStar /> 
+                                                        <FaStar /> 5 of 5 (3 comments)
+                                                    </li>
+                                                    <li>Travellers: 30 people</li>
+                                                    <li>Date: 12 Jun 2020</li>
+                                                    <li>Booking details: 29 user booker</li>
+                                                    <li>Price: $299</li>
+                                                </ul>
                                             </Col>
                                         </Row>
                                     </TabPane>
                                     <TabPane tabId="2">
-                                        <Row>
-                                            <Col sm="12"><br/>
-                                                <Card body>
-                                                    <CardTitle>Hotels</CardTitle>
-                                                    <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                                                    <Button>Go somewhere</Button>
-                                                </Card>
+                                        <Row className="booking-item mt-30">
+                                            <Col lg={4} md={4} xs={12}>
+                                                <img src={server_url + user.image} />
+                                            </Col>
+                                            <Col lg={8} md={8} xs={12}>
+                                                <ul>
+                                                    <li className="li-bold">A Paris walk to Remember</li>
+                                                    <li>124 E Huron St, New york</li>
+                                                    <li>
+                                                        Tour star <FaStar /> 
+                                                        <FaStar /> 
+                                                        <FaStar /> 
+                                                        <FaStar /> 
+                                                        <FaStar /> 5 of 5 (3 comments)
+                                                    </li>
+                                                    <li>Travellers: 30 people</li>
+                                                    <li>Date: 12 Jun 2020</li>
+                                                    <li>Booking details: 29 user booker</li>
+                                                    <li>Price: $299</li>
+                                                </ul>
                                             </Col>
                                         </Row>
                                     </TabPane>
@@ -140,7 +176,7 @@ const Profile = (props) => {
                             </div>
                         </Col>
 
-                        <Col lg={3} md={3} xs={6} className="form-contact">
+                        <Col lg={3} md={12} xs={12} className="form-contact">
                             <Card body>
                                 <CardTitle><h5>Contact</h5></CardTitle> <hr/>
                                 <Form>

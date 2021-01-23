@@ -55,6 +55,23 @@ const SignInForm = (props) => {
       if (error.response?.data) { 
         let err = error.response.data
         setError(err.message)
+
+        let errMess = '';
+        if (err.message.email) {
+          errMess = err.message.email
+        } else if (err.message.password) {
+          errMess = err.message.password
+        }
+
+        toast.error(`${errMess}`, {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     }
   }
@@ -103,7 +120,7 @@ const SignInForm = (props) => {
               </div>
             </FormGroup>
             <FormGroup>
-              <Button color="orange" className="mt-2" type="submit">
+              <Button color="orange" className="mt-2 btn-login" type="submit">
                 Login
               </Button>
             </FormGroup>
@@ -138,18 +155,6 @@ const SignInForm = (props) => {
           </Form>
         </ModalBody>
       </Modal>
-
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </>
   );
 };

@@ -55,7 +55,20 @@ const SignUpForm = (props) => {
         let err = errors.response.data
         setError(err.message)
 
-        toast.error(`Error ${err.message}`, {
+        let errMess = '';
+        if (err.message.first_name) {
+          errMess = err.message.first_name
+        } else if (err.message.last_name) {
+          errMess = err.message.last_name
+        } else if (err.message.email) {
+          errMess = err.message.email
+        } else if (err.message.password) {
+          errMess = err.message.password
+        } else if (err.message.confirm_password) {
+          errMess = err.message.confirm_password
+        }
+
+        toast.error(`${errMess}`, {
           position: 'top-right',
           autoClose: 3000,
           hideProgressBar: false,
@@ -153,7 +166,7 @@ const SignUpForm = (props) => {
             {error && error.term && <FormFeedback>{error.term}</FormFeedback>}
           </FormGroup>
           <FormGroup>
-            <Button color="orange">Sign Up</Button>
+            <Button color="orange" className="btn-register">Sign Up</Button>
           </FormGroup>
 
           {error && error.message && (

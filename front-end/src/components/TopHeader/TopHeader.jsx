@@ -62,7 +62,7 @@ const TopHeader = (props) => {
                     </DropdownToggle>
                     <DropdownMenu>
                       <DropdownItem>
-                        <Link className="nav-link"><BsFillPersonFill/> Profile</Link>
+                        <Link className="nav-link" to="Profile"><BsFillPersonFill/> Profile</Link>
                       </DropdownItem>
                       <DropdownItem>
                         <Link className="nav-link"><MdSettings/> Settings</Link>

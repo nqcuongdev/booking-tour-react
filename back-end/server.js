@@ -29,6 +29,7 @@ const post = require("./routes/post");
 const rating = require("./routes/rating");
 const notification = require("./routes/notification");
 const facility = require("./routes/facility");
+const contact = require("./routes/contact");
 
 const app = express();
 
@@ -61,6 +62,7 @@ app.use("/api/v1/post", post);
 app.use("/api/v1/rating", rating);
 app.use("/api/v1/notification", notification);
 app.use("/api/v1/facility", facility);
+app.use("/api/v1/contact", contact);
 
 //Enable Passport
 app.use(passport.initialize());

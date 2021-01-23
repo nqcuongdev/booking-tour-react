@@ -20,6 +20,8 @@ import AuthContext from "./contexts/auth";
 import Profile from "./pages/Profile";
 import authApi from "./api/authApi";
 
+import { ToastContainer, toast } from 'react-toastify';
+
 // Get jwt token form local storage
 let token = localStorage.getItem("jwtKey"); 
 
@@ -73,6 +75,18 @@ function App() {
           </Switch>
         </AuthContext.Provider>
       </Router>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </>
   );
 }
