@@ -33,7 +33,7 @@ exports.show = async (req, res) => {
   let tour = await Tour.findOne({ _id })
     .populate("destination")
     .populate("category")
-    .populate("attribute");
+    .populate("attributes");
 
   if (!tour) {
     return res.status(404).json({
@@ -58,7 +58,7 @@ exports.getScheduleTour = async (req, res) => {
     });
   }
 
-  const tours = await TourAvailability.find({ tour: _id });
+  const tours = await TourAvailability.find({ tour: _id }).populate("tour");
 
   return res.status(200).json({
     success: !!tours,

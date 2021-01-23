@@ -1,22 +1,32 @@
 const stripe = require("stripe")(process.env.STRIPE_CLIENT_SECRET);
+const e = require("express");
+const { uuid } = require("uuidv4");
 
 exports.charge = async (req, res) => {
-  const { price } = req.body;
+  const { product, token } = req.body;
 
-  // Create payment intent
-  const intent = await stripe.paymentIntents.create({
-    amount: parseInt(price) * 100,
-    currency: "usd",
+  let customer = await stripe.customers.create({
+    email: token.email,
+    source: token.id,
   });
 
-  // Return response to client
-  return res.json({
-    success: true,
-    data: {
-      client_secret: intent.client_secret,
-      intent_id: intent.id,
-    },
-  });
+  if (customer) {
+    let result = await stripe.charges.create({
+      amount: product.price * 100,
+      currency: "usd",
+      customer: customer.id,
+      receipt_email: token.email,
+      description: "purchase of product",
+    });
+
+    return res.json({
+      success: !!result,
+      data: result,
+    });
+  } else {
+    return res.json({
+      success: false,
+      message: "An error occur",
+    });
+  }
 };
-
-exports.confirmPayment = async (req, res) => {};

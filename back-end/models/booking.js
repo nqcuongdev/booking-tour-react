@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 
 const BookingSchema = new mongoose.Schema({
   code: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "tour_availability",
     required: true,
   },
-  package: mongoose.Schema.Types.ObjectId,
   email: String,
   first_name: String,
   last_name: String,
@@ -21,7 +21,7 @@ const BookingSchema = new mongoose.Schema({
   payment: {
     type: {
       type: String,
-      enum: ["paypal", "credit card", "offline"],
+      enum: ["paypal", "credit_card", "offline"],
     },
     transaction_id: String,
   },

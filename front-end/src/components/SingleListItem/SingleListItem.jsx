@@ -3,7 +3,7 @@ import { FaClock, FaMapMarkerAlt } from "react-icons/fa";
 import { Button, Col, Row } from "reactstrap";
 import "./SingleListItem.scss";
 import moment from "moment";
-import parse from "html-react-parser";
+import { Link } from "react-router-dom";
 
 const SingleListItem = (props) => {
   const showNewBadge = (date) => {
@@ -19,7 +19,6 @@ const SingleListItem = (props) => {
 
     return newText.substring(0, 50);
   };
-
   return (
     <div className="list__item mt-3 mb-30">
       <Row>
@@ -30,7 +29,11 @@ const SingleListItem = (props) => {
         <Col md={7} lg={5} className="item__content">
           <Row>
             <div className="item__info">
-              <h4 className="title">{props.title}</h4>
+              <Link to={`tours/${props._id}`}>
+                <h4 className="title" style={{ color: "black" }}>
+                  {props.title}
+                </h4>
+              </Link>
               <div className="item__options">
                 <span className="location">
                   <FaMapMarkerAlt size={14} />
