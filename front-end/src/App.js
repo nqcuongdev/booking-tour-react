@@ -17,6 +17,7 @@ import HotelCart from "./pages/HotelCart";
 import HotelCheckout from "./pages/HotelCheckout";
 import TourCheckout from "./pages/TourCheckout";
 import AuthContext from "./contexts/auth";
+import Profile from "./pages/Profile";
 import authApi from "./api/authApi";
 
 // Get jwt token form local storage
@@ -33,7 +34,6 @@ function App() {
           const response = await authApi.me(headers); 
           if (response.success) { 
             setUser(response.data);
-
           } 
         } 
       } catch (error) { 
@@ -69,6 +69,7 @@ function App() {
             <Route exact path="/hotel-cart" component={HotelCart} />
             <Route exact path="/hotel-checkout" component={HotelCheckout} />
             <Route exact path="/tour-checkout" component={TourCheckout} />
+            <Route exact path="/profile" component={Profile} />
           </Switch>
         </AuthContext.Provider>
       </Router>

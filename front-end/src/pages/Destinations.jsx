@@ -15,6 +15,7 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 import PopularDestinations from "../components/PopularDestinations/PopularDestinations";
 import Faq from "../components/Faq/Faq";
 import DestinationApi from "../api/destinationsApi";
+import { server_url } from "../helpers/url";
 
 const popularDestinations = [
     'Rome', 'Indonesia', 'London', 'venice', 'paris', 'florence', 'tokyo', 'vietnam', 'thailand'
@@ -55,8 +56,6 @@ const Destinations = props => {
         window.open(`https://www.google.com/maps/@${lat},${lng},${map_zoom}z`);
     };
 
-    const imageUrl = 'http://localhost:6969/';
-    // const imageUrl = 'http://192.168.1.63:6969';
     // lấy đường dẫn hiện tại
     const { url } = useRouteMatch();
 
@@ -96,7 +95,7 @@ const Destinations = props => {
                                         return (
                                             <Row className="item">
                                                 <Col xl={5} lg={5} md={5} xs={12} className="image">
-                                                    <img src={imageUrl + item.image[0]} alt=""/>
+                                                    <img src={server_url + item.image[0]} alt=""/>
                                                 </Col>
                                                 <Col xl={7} lg={7} md={7} xs={12} className="content">
                                                     <p className="title">{item.title}</p>

@@ -41,7 +41,7 @@ const SignInForm = (props) => {
         setUser(response.data)
         // console.log({response})
 
-        toast.success(`Login successfully, welcome ${response.data.full_name}!`, {
+        toast.success(`Welcome ${response.data.full_name}!`, {
           position: 'top-right',
           autoClose: 3000,
           hideProgressBar: false,

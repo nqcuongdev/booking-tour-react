@@ -55,7 +55,7 @@ const SignUpForm = (props) => {
         let err = errors.response.data
         setError(err.message)
 
-        toast.error(`Error ${err.message}!`, {
+        toast.error(`Error ${err.message}`, {
           position: 'top-right',
           autoClose: 3000,
           hideProgressBar: false,

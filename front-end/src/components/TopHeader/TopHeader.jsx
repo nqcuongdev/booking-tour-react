@@ -32,7 +32,7 @@ const TopHeader = (props) => {
     localStorage.removeItem('jwtKey')
     setUser({})
 
-    toast.warning(`Logged out!`, {
+    toast.info(`Logged out!`, {
       position: 'top-right',
       autoClose: 3000,
       hideProgressBar: false,

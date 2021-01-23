@@ -37,21 +37,27 @@ const Header = () => {
               <NavLink href="/tours">Tours</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/events">Events</NavLink>
-              <ul className="children-menu menu-dropdown">
-                <li className="sub-item">
-                  <Link>Detail</Link>
-                </li>
-                <li className="sub-item">
-                  <Link>Detail</Link>
-                </li>
-              </ul>
+              <NavLink href="/destinations">Destinations</NavLink>
             </NavItem>
             <NavItem>
+              <NavLink href="/hotels">Hotels</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="/events">Blogs</NavLink>
+              {/* <ul className="children-menu menu-dropdown">
+                <li className="sub-item">
+                  <Link>Detail</Link>
+                </li>
+                <li className="sub-item">
+                  <Link>Detail</Link>
+                </li>
+              </ul> */}
+            </NavItem>
+            {/* <NavItem>
               <NavLink href="https://github.com/reactstrap/reactstrap">
                 News
               </NavLink>
-            </NavItem>
+            </NavItem> */}
             <NavItem>
               <NavLink href="/contact-us">Contact</NavLink>
             </NavItem>
