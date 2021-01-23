@@ -7,7 +7,7 @@ import {
   DropdownItem,
 } from "reactstrap";
 import "./TopHeader.scss";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import SignInForm from "../SignInForm/SignInForm";
 import SignUpForm from "../SignUpForm/SignUpForm";
 import AuthContext from "../../contexts/auth";
@@ -28,6 +28,12 @@ const TopHeader = (props) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggleDropdown = () => setDropdownOpen((prevState) => !prevState);
 
+  const [redirect, setRedirect] = useState(false)
+  if (redirect) {
+    // chuyển về trang chủ
+    return <Redirect to='/'/>;
+  }
+
   const logout = async () => {
     localStorage.removeItem('jwtKey')
     setUser({})
@@ -41,6 +47,8 @@ const TopHeader = (props) => {
       draggable: true,
       progress: undefined,
     });
+
+    setRedirect(true)
   }
 
   // console.log({user})

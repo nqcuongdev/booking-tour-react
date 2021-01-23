@@ -77,7 +77,7 @@ const HotelCheckout = props => {
 
                                         <FormGroup className="mt-30">
                                             <Label for="specialRequest">Special request</Label>
-                                            <Input type="textarea" name="specialRequest" id="specialRequest" />
+                                            <Input type="textarea" rows={5} name="specialRequest" id="specialRequest" />
                                         </FormGroup>
                                     </div>
                                 </Col>

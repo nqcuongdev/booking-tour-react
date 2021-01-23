@@ -41,7 +41,7 @@ const FooterInfo = (props) => {
                     </Col>
                     <Col lg='4' md='4' xs='6' className='footer-info-right'>
                         <div className="text-box make">
-                            <span className="text">Chào mừng đến <span className="text-orange">Booking Tours</span>, chuyên cung cấp dịch vụ khách sạn và du lịch</span>
+                            <span className="text">Welcome to <span className="text-orange">Booking Tours</span>, we specialize in providing hospitality and tourism services</span>
                         </div>
                         <Row className="twitter-icon">
                             <FaTwitter size={20} color={'#005aff'} className="icon" />

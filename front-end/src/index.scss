@@ -1925,6 +1925,15 @@ h1 {
         }
 
         .content {
+          input {
+            height: 50px;
+            box-shadow: none;
+            border: 1px solid #D9D8D8;
+            border-radius: 2px;
+            font-size: 14px;
+            color: #D9D8D8;
+          }
+
           color: $text;
 
           .required {
