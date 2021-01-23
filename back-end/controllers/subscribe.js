@@ -15,8 +15,6 @@ exports.add = async (req, res) => {
 
     //check email subscribed
     const email_subscribed = await Subscribe.findOne({ email });
-
-    console.log({email_subscribed})
     
     if (email_subscribed) {
         return res.status(401).json({
