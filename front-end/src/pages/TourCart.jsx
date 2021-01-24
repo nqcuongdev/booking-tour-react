@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import Subscribe from "../components/Subscribe/Subscribe";
 import { Button, Col, Container, Form, Input, Row } from "reactstrap";
 import { MdClose } from "react-icons/md";
-import { FaGift } from "react-icons/fa";
 import BookingApi from "../api/bookingApi";
 import moment from "moment";
 import { useHistory } from "react-router-dom";

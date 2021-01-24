@@ -1,5 +1,6 @@
 const Facility = require("../models/facility");
 const Notification = require("../models/notification");
+const Validator = require("validator");
 
 //Load validate
 const facilityValidate = require("../validators/facility/facility");
@@ -54,6 +55,7 @@ exports.create = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
+  console.log(req.body);
   let _id = req.params.id;
   let checkIDValid = Validator.isMongoId(_id);
   if (!checkIDValid) {
@@ -72,7 +74,7 @@ exports.update = async (req, res) => {
     });
   }
 
-  const { title, facility_type, status } = req.body;
+  const { title, facility_type } = req.body;
 
   let checkExistedFacility = await Facility.findOne({ _id });
 
@@ -86,7 +88,6 @@ exports.update = async (req, res) => {
   let data = {
     title: title,
     facility_type: facility_type,
-    status: status,
     updated_at: Date.now(),
   };
 

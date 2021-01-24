@@ -33,7 +33,7 @@ const BookTour = (props) => {
 
   const [schedules, setSchedules] = useState([]);
   const [bookForm, setBookForm] = useState({});
-  const user = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const history = useHistory();
 
   useEffect(() => {

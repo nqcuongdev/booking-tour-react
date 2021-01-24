@@ -31,6 +31,7 @@ const notification = require("./routes/notification");
 const facility = require("./routes/facility");
 const contact = require("./routes/contact");
 const subscribe = require("./routes/subscribe");
+const room = require("./routes/room");
 
 const app = express();
 
@@ -65,6 +66,7 @@ app.use("/api/v1/notification", notification);
 app.use("/api/v1/facility", facility);
 app.use("/api/v1/contact", contact);
 app.use("/api/v1/subscribe", subscribe);
+app.use("/api/v1/room", room);
 
 //Enable Passport
 app.use(passport.initialize());

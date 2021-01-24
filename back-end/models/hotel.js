@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const slugify = require("slugify");
 const geocoder = require("../utils/geocoder");
+const mongoosePaginate = require("mongoose-paginate-v2");
 
 const HotelSchema = new mongoose.Schema({
   title: {
@@ -42,10 +43,10 @@ const HotelSchema = new mongoose.Schema({
       required: true,
     },
   ],
-  attribute: [
+  attributes: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "attribute",
+      ref: "category",
     },
   ],
   status: {
@@ -90,7 +91,7 @@ const HotelSchema = new mongoose.Schema({
   },
   facility: [
     {
-      type: String,
+      type_fac: String,
       facility_id: [
         {
           type: mongoose.Schema.Types.ObjectId,
@@ -110,6 +111,14 @@ const HotelSchema = new mongoose.Schema({
     enum: [1, 2, 3, 4, 5],
     require: true,
     default: 1,
+  },
+  created_by: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+  },
+  updated_by: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
   },
   created_at: {
     type: Date,
@@ -154,5 +163,7 @@ HotelSchema.pre("findByIdAndUpdate", async function (next) {
 
 // Add index for location and text for full text search
 HotelSchema.index({ location: "2dsphere" });
+
+HotelSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model("hotel", HotelSchema);

@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.get("/", getAll);
 router.post("/create", isAuth, checkRole, create);
-router.put("/update/:id", isAuth, checkRole, update);
+router.put("/:id", isAuth, checkRole, update);
 
 module.exports = router;

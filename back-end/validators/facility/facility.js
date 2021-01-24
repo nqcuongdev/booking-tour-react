@@ -3,7 +3,6 @@ const isEmpty = require("../isEmpty");
 
 module.exports = function validateFacilityInput(data) {
   let errors = {};
-
   data.title = !isEmpty(data.title) ? data.title : "";
   data.facility_type = !isEmpty(data.facility_type) ? data.facility_type : "";
 

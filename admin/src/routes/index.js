@@ -24,6 +24,9 @@ const ListHotel = React.lazy(() => import('../pages/hotel/ListHotel'));
 const HotelType = React.lazy(() => import('../pages/hotel/Type'));
 const HandleForm = React.lazy(() => import('../pages/hotel/HandleForm'));
 const Facility = React.lazy(() => import('../pages/hotel/Facility'));
+const ListRoom = React.lazy(() => import('../pages/hotel/ListRoom'));
+// Order
+const ListOrder = React.lazy(() => import('../pages/order/ListOrder'));
 // apps
 const CalendarApp = React.lazy(() => import('../pages/apps/Calendar'));
 const EmailInbox = React.lazy(() => import('../pages/apps/Email/Inbox'));
@@ -207,17 +210,24 @@ const hotelRoutes = {
             roles: ['admin', 'hotel_partner'],
             route: PrivateRoute,
         },
+        {
+            path: '/room/:id/list-room',
+            name: 'List Room',
+            component: ListRoom,
+            roles: ['admin', 'hotel_partner'],
+            route: PrivateRoute,
+        },
     ],
 };
 
-// apps
-const calendarAppRoutes = {
-    path: '/apps/calendar',
-    name: 'Calendar',
+// order
+const orderRoutes = {
+    path: '/order/list-order',
+    name: 'Order',
     icon: FeatherIcon.Calendar,
-    component: CalendarApp,
+    component: ListOrder,
     route: PrivateRoute,
-    roles: ['admin'],
+    roles: ['admin', 'hotel_partner', 'tour_partner'],
 };
 
 const emailAppRoutes = {
@@ -297,7 +307,7 @@ const appRoutes = [
     destinationRoutes,
     tourRoutes,
     hotelRoutes,
-    calendarAppRoutes,
+    orderRoutes,
     emailAppRoutes,
     projectAppRoutes,
     taskAppRoutes,

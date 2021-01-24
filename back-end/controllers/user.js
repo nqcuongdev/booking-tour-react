@@ -37,4 +37,4 @@ exports.updateProfile = async (req, res) => {
       message: "Your ID is not valid",
     });
   }
-}
+};

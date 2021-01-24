@@ -11,82 +11,11 @@ import WhyChooseUs from "../components/WhyChooseUs/WhyChooseUs";
 import HomeContact from "../components/HomeContact/HomeContact";
 import SearchPopularDestination from "../components/SearchPopularDestination/SearchPopularDestination";
 import { Container, Row, Col } from "reactstrap";
-import dataImage from "../assets/images/posts/post-1.jpg";
 import TourItem from "../components/TourItem/TourItem";
 
 import testimonialBackground from "../assets/images/backgrounds/cloud-background.png";
 import DestinationApi from "../api/destinationsApi";
 import ToursApi from "../api/toursApi";
-
-const popularToursData = [
-  {
-    title: "American Parks Trail end Rapid City",
-    image: dataImage,
-    isFeature: 1,
-    options: {
-      time: 1,
-      place: "Paris",
-    },
-    salePrice: 40,
-    onSale: 200,
-    price: 900,
-  },
-  {
-    title: "New York: Museum of Modern Art",
-    image: dataImage,
-    isFeature: 1,
-    options: {
-      time: 1,
-      place: "Paris",
-    },
-    onSale: 200,
-    price: 900,
-  },
-  {
-    title: "Los Angeles to San Francisco Express",
-    image: dataImage,
-    isFeature: 1,
-    options: {
-      time: 1,
-      place: "Paris",
-    },
-    onSale: 200,
-    price: 900,
-  },
-  {
-    title: "Southwest States (Ex Los Angeles)",
-    image: dataImage,
-    isFeature: 1,
-    options: {
-      time: 1,
-      place: "Paris",
-    },
-    onSale: 200,
-    price: 900,
-  },
-  {
-    title: "Paris Vacation Travel",
-    image: dataImage,
-    isFeature: 1,
-    options: {
-      time: 4,
-      place: "Paris",
-    },
-    onSale: 200,
-    price: 900,
-  },
-  {
-    title: "Eastern Discovery (Start New Orleans)",
-    image: dataImage,
-    isFeature: 1,
-    options: {
-      time: 2,
-      place: "Paris",
-    },
-    onSale: 200,
-    price: 900,
-  },
-];
 
 const Home = (props) => {
   const [destinations, setDestinations] = useState([]);
@@ -135,7 +64,7 @@ const Home = (props) => {
             </div>
             <div className="promotion__tours-list-item">
               <Row>
-                {tours.map((item) => {
+                {tours.slice(0, 6).map((item) => {
                   return (
                     <Col lg={4} md={6} className="mb-30" key={item._id}>
                       <TourItem {...item} />

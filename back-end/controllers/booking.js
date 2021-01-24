@@ -71,16 +71,6 @@ exports.show = async (req, res) => {
 };
 
 exports.paymentSuccess = async (req, res) => {
-  // const { errors, isValid } = paymentValidate(req.body);
-
-  // //Check value request
-  // if (!isValid) {
-  //   return res.status(400).json({
-  //     success: false,
-  //     message: errors,
-  //   });
-  // }
-
   const { booking_id, transaction_id } = req.body;
 
   let transactionBookTour = await Book.findOne({
@@ -148,13 +138,21 @@ exports.update = async (req, res) => {
 exports.getCarts = async (req, res) => {
   const card = await Book.find({
     $and: [{ status: "process" }, { user: req.user.id }],
-  }).populate({
-    path: "code",
-    populate: {
-      path: "tour",
-      model: "tour",
-    },
-  });
+  })
+    .populate({
+      path: "code",
+      populate: {
+        path: "tour",
+        model: "tour",
+      },
+    })
+    .populate({
+      path: "room",
+      populate: {
+        path: "hotel",
+        model: "hotel",
+      },
+    });
 
   if (!card) {
     return res.status(404).json({

@@ -1,6 +1,4 @@
 const stripe = require("stripe")(process.env.STRIPE_CLIENT_SECRET);
-const e = require("express");
-const { uuid } = require("uuidv4");
 
 exports.charge = async (req, res) => {
   const { product, token } = req.body;

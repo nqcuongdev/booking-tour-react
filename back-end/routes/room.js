@@ -1,15 +1,15 @@
 const express = require("express");
-const multer = require("multer");
-const path = require("path");
 const isAuth = require("../middleware/isAuth");
 const checkRole = require("../middleware/checkRole");
-const { all, create, show, update, paginate } = require("../controllers/hotel");
+const { create, all, update } = require("../controllers/room");
+const path = require("path");
+const multer = require("multer");
 
 const router = express.Router();
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/hotels");
+    cb(null, "uploads/hotels/rooms");
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
@@ -29,10 +29,8 @@ const upload = multer({ storage: storage, fileFilter: fileFilter }).array(
   10
 );
 
-router.get("/", all);
-router.get("/paginate", paginate);
-router.get("/:id", show);
+router.get("/hotel/:id", all);
 router.post("/create", upload, isAuth, checkRole, create);
-router.put("/:id", upload, isAuth, checkRole, update);
+router.put("/:id", isAuth, checkRole, update);
 
 module.exports = router;
