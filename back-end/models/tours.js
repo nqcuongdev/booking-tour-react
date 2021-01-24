@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const slugify = require("slugify");
 const geocoder = require("../utils/geocoder");
+const mongoosePaginate = require("mongoose-paginate-v2");
 
 const TourSchema = new mongoose.Schema({
   title: {
@@ -199,5 +200,7 @@ const TourAvailability = mongoose.model(
   "tour_availability",
   TourAvailabilitySchema
 );
+
+TourSchema.plugin(mongoosePaginate);
 
 module.exports = { Tour, TourAvailability };

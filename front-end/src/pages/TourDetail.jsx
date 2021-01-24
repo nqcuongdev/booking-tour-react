@@ -12,9 +12,6 @@ import MainLayout from "../layouts/MainLayout";
 import { Link } from "react-router-dom";
 import CarouselSlide from "../components/CarouselSlide/CarouselSlide";
 import Maps from "../components/Maps/Maps";
-import avatar_1 from "../assets/images/avatar-testimonial/avatar-1.jpg";
-import avatar_2 from "../assets/images/avatar-testimonial/avatar-2.jpg";
-import avatar_3 from "../assets/images/avatar-testimonial/avatar-3.jpg";
 import Comment from "../components/Comment/Comment";
 import RateTable from "../components/RateTable/RateTable";
 import CommentForm from "../components/CommentForm/CommentForm";
@@ -45,39 +42,17 @@ const starsCounter = (stars) => {
   }
 };
 
-const commentData = [
-  {
-    avatar: avatar_1,
-    name: "Quoc Cuong",
-    content: "Bài viết hay quá nà, lần sau đừng viết nữa nha. Hihi",
-    rateStars: 4,
-    national: "Vietnamese",
-  },
-  {
-    avatar: avatar_2,
-    name: "Chou Chou",
-    content: "Bạn trên comment kỳ quá à, ai lại nói thẳng ra thế bao giờ :v",
-    rateStars: 5,
-    national: "Japan",
-  },
-  {
-    avatar: avatar_3,
-    name: "Hun Hun",
-    content: "Hai thằng trên im đê, ý kiến lên phường...",
-    rateStars: 3,
-    national: "Laos",
-  },
-];
-
 const TourDetail = (props) => {
   const [book, setBook] = useState(false);
   const [tour, setTour] = useState();
+  const [reviews, setReviews] = useState([]);
   useEffect(() => {
     const fetchTourDetail = async (id) => {
       try {
         const tourDetail = await ToursApi.get(id);
         if (tourDetail.success) {
           setTour(tourDetail.data);
+          setReviews(tourDetail.reviews);
         }
       } catch (error) {
         console.log(error);
@@ -255,34 +230,33 @@ const TourDetail = (props) => {
 
         <Container className="comments mb-50">
           <p className="comments-title">
-            Tour reviews<span> (69)</span>
+            Tour reviews<span> ({reviews.length})</span>
           </p>
           <Row>
             <Col xl={9} className="comments-list mt-30">
               <div>
-                {commentData.map((comment) => {
+                {reviews.map((comment) => {
                   return (
                     <Comment
-                      avatar={comment.avatar}
+                      avatar={comment.user.avatar}
                       name={comment.name}
                       content={comment.content}
-                      rateStars={comment.rateStars}
-                      national={comment.national}
+                      rating={comment.rating}
                     />
                   );
                 })}
               </div>
-              <div className="view-more-comment mt-30 mb-30">
-                <Link>
-                  <p>
-                    <span>View more</span> (69)
-                  </p>
-                </Link>
-              </div>
+              {reviews.length > 10 && (
+                <div className="view-more-comment mt-30 mb-30">
+                  <Link>
+                    <p>
+                      <span>View more</span> ({reviews.length})
+                    </p>
+                  </Link>
+                </div>
+              )}
             </Col>
-            <Col xl={3}>
-              <RateTable />
-            </Col>
+            <Col xl={3}>{reviews.length > 0 && <RateTable data={tour} />}</Col>
           </Row>
         </Container>
 

@@ -12,38 +12,11 @@ import { IoMdFlower } from "react-icons/io";
 import { FaHamburger } from "react-icons/fa";
 import { GiBroom } from "react-icons/gi";
 import { RiHomeHeartFill } from "react-icons/ri";
-import avatar_1 from "../assets/images/avatar-testimonial/avatar-1.jpg";
-import avatar_2 from "../assets/images/avatar-testimonial/avatar-2.jpg";
-import avatar_3 from "../assets/images/avatar-testimonial/avatar-3.jpg";
 import Comment from "../components/Comment/Comment";
 import RateTable from "../components/RateTable/RateTable";
 import CommentForm from "../components/CommentForm/CommentForm";
 import ThumbnailHotelItem from "../components/ThumbnailHotelItem/ThumbnailHotelItem";
 import HotelApi from "../api/hotelApi";
-
-const commentData = [
-  {
-    avatar: avatar_1,
-    name: "Quoc Cuong",
-    content: "Bài viết hay quá nà, lần sau đừng viết nữa nha. Hihi",
-    rateStars: 4,
-    national: "Vietnamese",
-  },
-  {
-    avatar: avatar_2,
-    name: "Chou Chou",
-    content: "Bạn trên comment kỳ quá à, ai lại nói thẳng ra thế bao giờ :v",
-    rateStars: 5,
-    national: "Japan",
-  },
-  {
-    avatar: avatar_3,
-    name: "Hun Hun",
-    content: "Hai thằng trên im đê, ý kiến lên phường...",
-    rateStars: 3,
-    national: "Laos",
-  },
-];
 
 const similarHotelData = [
   {
@@ -94,12 +67,15 @@ const starsCounter = (stars) => {
 const HotelDetail = (props) => {
   const [hotel, setHotel] = useState();
   const [rooms, setRooms] = useState([]);
+  const [reviews, setReviews] = useState([]);
+
   useEffect(() => {
     const fetchHotelDetail = async (id) => {
       const response = await HotelApi.show(id);
       if (response.success) {
         setHotel(response.data);
         setRooms(response.rooms);
+        setReviews(response.reviews);
       }
     };
 
@@ -168,11 +144,17 @@ const HotelDetail = (props) => {
                       {starsCounter(hotel.star)}
                     </span>
                     <span className="stars-number">
-                      <span>{hotel.star}</span>
+                      <span>
+                        {reviews.map((review) => {
+                          let total = 0;
+                          total += review.rating;
+                          return total / reviews.length;
+                        })}
+                      </span>
                       <span className="below"> /5</span>
                     </span>
                   </div>
-                  <p className="view">Based on {hotel.view} views</p>
+                  <p className="view">Based on {reviews.length} views</p>
                 </div>
               </Col>
             </Row>
@@ -341,34 +323,36 @@ const HotelDetail = (props) => {
             <Row>
               <Col xl={9} className="comments-list mt-30">
                 <div>
-                  {commentData.map((comment) => {
+                  {reviews.map((comment) => {
                     return (
                       <Comment
-                        avatar={comment.avatar}
+                        key={comment._id}
+                        avatar={comment.user.image}
                         name={comment.name}
                         content={comment.content}
-                        rateStars={comment.rateStars}
-                        national={comment.national}
+                        rating={comment.rating}
                       />
                     );
                   })}
                 </div>
-                <div className="view-more-comment mt-30 mb-30">
-                  <Link>
-                    <p>
-                      <span>View more</span> (69)
-                    </p>
-                  </Link>
-                </div>
+                {reviews.length > 10 && (
+                  <div className="view-more-comment mt-30 mb-30">
+                    <Link>
+                      <p>
+                        <span>View more</span> ({reviews.length})
+                      </p>
+                    </Link>
+                  </div>
+                )}
               </Col>
               <Col xl={3}>
-                <RateTable />
+                <RateTable data={reviews} />
               </Col>
             </Row>
           </Container>
 
           <Container className="mb-50">
-            <CommentForm />
+            <CommentForm hotel={hotel} />
           </Container>
 
           <Container className="similar-hotels mb-50">

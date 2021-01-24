@@ -23,8 +23,9 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "react-slick": "^0.27.12",
-    "react-toastify": "^6.2.0",
+    "react-stars": "^2.2.5",
     "react-stripe-checkout": "^2.6.3",
+    "react-toastify": "^6.2.0",
     "reactstrap": "^8.6.0",
     "slick-carousel": "^1.8.1"
   },

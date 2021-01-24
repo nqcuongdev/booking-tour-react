@@ -2,6 +2,7 @@ const Validator = require("validator");
 const fs = require("fs");
 const { Tour, TourAvailability } = require("../models/tours");
 const Booking = require("../models/booking");
+const Rating = require("../models/rating");
 // Load validate
 const tourValidate = require("../validators/tour/create");
 const bookingValidate = require("../validators/book/create");
@@ -33,6 +34,7 @@ exports.show = async (req, res) => {
     .populate("destination")
     .populate("category")
     .populate("attributes");
+  let reviews = await Rating.find({ target_id: _id }).populate("user");
 
   if (!tour) {
     return res.status(404).json({
@@ -44,6 +46,7 @@ exports.show = async (req, res) => {
   return res.status(200).json({
     success: !!tour,
     data: tour,
+    reviews: reviews,
   });
 };
 

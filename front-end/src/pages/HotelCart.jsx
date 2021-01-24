@@ -2,37 +2,10 @@ import React, { useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 import { Link } from "react-router-dom";
 import Subscribe from "../components/Subscribe/Subscribe";
-import hotelRoom1 from "../assets/images/hotels/hotel-1/hotel-room-1.jpg";
-import hotelRoom2 from "../assets/images/hotels/hotel-1/hotel-room-2.jpg";
 import { Button, Col, Container, Form, Input, Row } from "reactstrap";
 import { MdClose } from "react-icons/md";
 import BookingApi from "../api/bookingApi";
 import moment from "moment";
-
-const cartData = [
-  {
-    image: hotelRoom1,
-    title: "Normal room - 28m2 - Suarsena House",
-    checkInDate: "09/09/2020",
-    checkOutDate: "11/09/2020",
-    price: 99,
-    adult: 2,
-    children: 0,
-    buffet: 2,
-    priceOfBuffet: 32,
-  },
-  {
-    image: hotelRoom2,
-    title: "Family room - 48m2 - Suarsena House",
-    checkInDate: "20/11/2020",
-    checkOutDate: "23/11/2020",
-    price: 299,
-    adult: 2,
-    children: 2,
-    buffet: 6,
-    priceOfBuffet: 32,
-  },
-];
 
 const calculationTotalItem = (price, buffet, priceOfBuffet) => {
   const total = price + buffet * priceOfBuffet;

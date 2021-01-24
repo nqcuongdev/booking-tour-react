@@ -3,6 +3,7 @@ const hotelValidate = require("../validators/hotel/create");
 const fs = require("fs");
 const Validator = require("validator");
 const Room = require("../models/room");
+const Rating = require("../models/rating");
 
 exports.paginate = async (req, res) => {
   let options = {
@@ -48,6 +49,7 @@ exports.show = async (req, res) => {
     .populate("attributes");
 
   let rooms = await Room.find({ hotel: _id }).populate("attributes");
+  let reviews = await Rating.find({ target_id: _id }).populate("user");
 
   if (!hotel) {
     return res.status(404).json({
@@ -60,6 +62,7 @@ exports.show = async (req, res) => {
     success: !!hotel,
     data: hotel,
     rooms: rooms,
+    reviews: reviews,
   });
 };
 
