@@ -2481,3 +2481,85 @@ h1 {
     }
   }
 }
+
+// 404 - NOT FOUND
+.not-found {
+  padding: 150px 0;
+  text-align: center;
+
+  .title {
+    color: $orange;
+    font-size: 150px;
+    margin: -20px;
+  }
+
+  .sub-title {
+    font-size: 25px;
+  }
+
+  .description {
+    margin: 0;
+
+    .link {
+      color: $orange !important;
+      font-size: 18px !important;
+      text-decoration: underline;
+    }
+  }
+
+  .social {
+    margin-top: 30px;
+
+    ul {
+      list-style: none;
+
+      li {
+        display: inline-block;
+        margin-right: 26px;
+        border : 1px solid $gray88;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+
+        a {
+          color: $orange !important;
+          font-size: 18px;
+
+          &:hover {
+            color: #212529 !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+// PAYMENT SUCCESS
+.payment-success {
+  padding: 150px 0;
+  text-align: center;
+
+  .success-icon {
+    color: $orange;
+    width: 170px;
+    height: 170px;
+  }
+
+  .title {
+    color: $orange;
+    font-size: 25px;
+  }
+
+  .sub-title {
+    font-size: 25px;
+  }
+
+  .link {
+    color: $orange !important;
+    font-size: 18px !important;
+  }
+
+  .go-home {
+    color: $orange !important;
+  }
+}

@@ -20,6 +20,8 @@ import Event from "./pages/Event";
 import AuthContext from "./contexts/auth";
 import Profile from "./pages/Profile";
 import authApi from "./api/authApi";
+import NotFound from "./pages/NotFound";
+import PaymentSuccess from "./pages/PaymentSuccess";
 
 import { ToastContainer, toast } from "react-toastify";
 
@@ -80,6 +82,8 @@ function App() {
             <Route exact path="/checkout" component={TourCheckout} />
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/events" component={Event} />
+            <Route exact path="/page-not-found" component={NotFound} />
+            <Route exact path="/payment-success" component={PaymentSuccess} />
           </Switch>
         </AuthContext.Provider>
       </Router>
