@@ -10,6 +10,8 @@ import {
     GET_ATTRIBUTE_HOTEL,
     GET_ATTRIBUTE_HOTEL_SUCCESS,
     HOTEL_ERROR,
+    UPDATE_FACILITY,
+    UPDATE_FACILITY_SUCCESS,
 } from './constants';
 
 export const getAllHotel = () => ({
@@ -49,6 +51,15 @@ export const getAllHotelFacility = () => ({
 export const getAllHotelFacilitySuccess = (facilities) => ({
     type: GET_ALL_FACILITY_SUCCESS,
     payload: facilities,
+});
+
+export const updateFacility = (_id, title, facility_type) => ({
+    type: UPDATE_FACILITY,
+    payload: { _id, title, facility_type },
+});
+
+export const updateFacilitySuccess = (facility) => ({
+    type: UPDATE_FACILITY_SUCCESS,
 });
 
 export const hotelFailed = (errors) => ({

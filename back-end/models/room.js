@@ -38,6 +38,12 @@ const RoomSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  status: {
+    type: String,
+    enum: ["free", "booked"],
+    required: true,
+    default: "free",
+  },
   created_at: {
     type: Date,
     default: Date.now,

@@ -10,7 +10,7 @@ import default_image from '../../assets/images/default_upload_image.png';
 import { getAllDestination } from '../../redux/destination/actions';
 import { getAllTourAttribute, getAllTourCategory, getTour, createTour, updateTour } from '../../redux/tour/actions';
 import { url } from '../../helpers/url';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const BasicInputElements = ({
     categories,
@@ -772,17 +772,6 @@ const AddTour = (props) => {
                     </Card>
                 </Col>
             </Row>
-            <ToastContainer
-                position="top-right"
-                autoClose={3000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-            />
         </React.Fragment>
     );
 };

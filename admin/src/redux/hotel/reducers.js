@@ -8,6 +8,8 @@ import {
     GET_ALL_TYPE,
     GET_ALL_TYPE_SUCCESS,
     HOTEL_ERROR,
+    UPDATE_FACILITY,
+    UPDATE_FACILITY_SUCCESS,
 } from './constants';
 
 const INIT_STATE = {
@@ -21,7 +23,7 @@ const INIT_STATE = {
 
 const Hotel = (state = INIT_STATE, action) => {
     switch (action.type) {
-        case GET_ALL_HOTEL || GET_ALL_TYPE || GET_ALL_FACILITY:
+        case GET_ALL_HOTEL || GET_ALL_TYPE || GET_ALL_FACILITY || CREATE_FACILITY || UPDATE_FACILITY:
             return { ...state, loading: true };
         case GET_ALL_HOTEL_SUCCESS:
             return { ...state, hotels: action.payload, hotel: null };
@@ -31,6 +33,8 @@ const Hotel = (state = INIT_STATE, action) => {
             return { ...state, facility: action.payload, loading: false, error: null };
         case GET_ALL_FACILITY_SUCCESS:
             return { ...state, facilities: action.payload, loading: false, error: null };
+        case UPDATE_FACILITY_SUCCESS:
+            return { ...state, loading: false };
         case HOTEL_ERROR:
             return { ...state, error: action.payload, loading: false };
         default:

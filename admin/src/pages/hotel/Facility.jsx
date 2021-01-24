@@ -26,7 +26,7 @@ import * as FeatherIcon from 'react-feather';
 import PageTitle from '../../components/PageTitle';
 import { connect, useDispatch } from 'react-redux';
 import moment from 'moment';
-import { createFacility, getAllHotelFacility } from '../../redux/actions';
+import { createFacility, getAllHotelFacility, updateFacility } from '../../redux/actions';
 
 const sizePerPageRenderer = ({ options, currSizePerPage, onSizePerPageChange }) => (
     <React.Fragment>
@@ -48,7 +48,7 @@ const sizePerPageRenderer = ({ options, currSizePerPage, onSizePerPageChange }) 
 
 const TableWithSearch = ({ properties }) => {
     const [modal, setModal] = useState(false);
-    const [modalInput, setModalInput] = useState({ title: '', status: '', facility_type: '' });
+    const [modalInput, setModalInput] = useState({ title: '', facility_type: '' });
     const [attributes, setAttributes] = useState([]);
     const [attribute, setAttribute] = useState();
     const { SearchBar } = Search;
@@ -63,10 +63,6 @@ const TableWithSearch = ({ properties }) => {
         );
     };
 
-    const badgeStatusCategory = (cell, row, rowIndex) => {
-        return <Badge color="success">{row.status}</Badge>;
-    };
-
     const dateFormatter = (cell, row, rowIndex) => {
         return moment(cell).format('YYYY-MM-DD');
     };
@@ -78,8 +74,8 @@ const TableWithSearch = ({ properties }) => {
             sort: false,
         },
         {
-            dataField: 'slug',
-            text: 'Slug',
+            dataField: 'facility_type',
+            text: 'Type',
             sort: false,
         },
         {
@@ -87,12 +83,6 @@ const TableWithSearch = ({ properties }) => {
             text: 'Create Date',
             sort: false,
             formatter: dateFormatter,
-        },
-        {
-            dataField: 'status',
-            text: 'Status',
-            sort: false,
-            formatter: badgeStatusCategory,
         },
         {
             dataField: '',
@@ -109,15 +99,15 @@ const TableWithSearch = ({ properties }) => {
         },
     ];
     const dispatch = useDispatch();
-    let data = properties.facilities;
-    useEffect(() => {
-        console.log(data);
-        if (data) setAttributes(data);
-    }, [data]);
 
     useEffect(() => {
         dispatch(getAllHotelFacility());
     }, [dispatch]);
+
+    let data = properties.facilities;
+    useEffect(() => {
+        if (data) setAttributes(data);
+    }, [data]);
 
     /**
      * Show/hide the modal
@@ -135,15 +125,13 @@ const TableWithSearch = ({ properties }) => {
 
     const handleSubmit = (_id) => {
         if (_id) {
-            //Default input is 'on' so we must convert into right format for save in db
-            modalInput.status = modalInput.status === 'on' && attribute.status === 'active' ? 'hide' : 'active';
-            // dispatch(updateTourAttribute(modalInput._id, modalInput.title, 'hotel', modalInput.status));
+            dispatch(updateFacility(modalInput._id, modalInput.title, modalInput.facility_type));
         } else {
             dispatch(createFacility(modalInput));
         }
         setModal(!modal);
         setAttribute();
-        setModalInput({ title: '', status: '' });
+        setModalInput({ title: '', facility_type: '' });
         dispatch(getAllHotelFacility());
     };
 
@@ -215,28 +203,13 @@ const TableWithSearch = ({ properties }) => {
                                     name="facility_type"
                                     className="custom-select"
                                     onChange={inputChangeHandler}
-                                    value={attribute && attribute.facility_type}>
+                                    defaultValue={attribute && attribute.facility_type}>
                                     <option>-- Please Select --</option>
                                     <option value="Wellness Facilities">Wellness Facilities</option>
                                     <option value="Food & Drink">Food & Drink</option>
                                     <option value="Cleaning services">Cleaning services</option>
                                     <option value="Popular Facilities">Popular Facilities</option>
                                 </Input>
-                            </FormGroup>
-                            <FormGroup>
-                                {attribute && attribute.title && (
-                                    <CustomInput
-                                        type="switch"
-                                        id="statusSwitch"
-                                        name="status"
-                                        label="Status"
-                                        defaultChecked={
-                                            attribute && attribute.status === 'active' ? attribute.status : ''
-                                        }
-                                        required
-                                        onChange={inputChangeHandler}
-                                    />
-                                )}
                             </FormGroup>
                         </Form>
                     </ModalBody>

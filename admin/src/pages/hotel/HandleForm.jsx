@@ -8,7 +8,7 @@ import * as FeatherIcon from 'react-feather';
 import { url } from '../../helpers/url';
 import { toast } from 'react-toastify';
 import default_image from '../../assets/images/default_upload_image.png';
-import { getAllType } from '../../redux/hotel/actions';
+import { getAllHotelFacility, getAllType } from '../../redux/hotel/actions';
 import { getAllDestination } from '../../redux/destination/actions';
 
 const HandleForm = (props) => {
@@ -39,6 +39,11 @@ const HandleForm = (props) => {
     useEffect(() => {
         dispatch(getAllDestination());
         dispatch(getAllType());
+        dispatch(getAllHotelFacility());
+
+        if (props.match.params.id !== 'add-hotel') {
+            // dispatch(getTour(props.match.params.id));
+        }
     }, [dispatch]);
 
     useEffect(() => {
@@ -48,7 +53,19 @@ const HandleForm = (props) => {
         if (props.destinations) {
             setDestinations(props.destinations);
         }
-    }, [props.types, props.destinations]);
+        if (props.facilities) {
+            setFacilities(props.facilities);
+        }
+    }, [props.types, props.destinations, props.facilities]);
+
+    useEffect(() => {
+        if (props.hotel) {
+            props.history.push(`/hotel/${props.hotel._id}`);
+            setFormInput(props.hotel);
+        } else {
+            props.history.push('/hotel/add-hotel');
+        }
+    }, [props.hotel]);
 
     const onUpdateLocation = (lat, lng, address) => {
         setFormInput({ ...formInput, lat: lat, lng: lng, address: address });
@@ -82,6 +99,24 @@ const HandleForm = (props) => {
         setFormInput({ ...formInput, attributes: attributes });
     };
 
+    const onSelectFacility = (e) => {
+        const { name, value, checked } = e.target;
+        let facility = [...formInput.facility];
+        if (checked) facility.push({ type: name, facility_id: value });
+        else facility.splice(facility.indexOf(value), 1);
+        console.log(facility);
+        setFormInput({ ...formInput, facility: facility });
+    };
+
+    const onInputDescription = (description) => {
+        setFormInput({ ...formInput, description: description });
+    };
+
+    const onSubmitForm = (e) => {
+        e.preventDefault();
+        console.log(formInput);
+    };
+
     return (
         <>
             <Row className="page-title">
@@ -104,11 +139,32 @@ const HandleForm = (props) => {
                                     <CardBody>
                                         <FormGroup>
                                             <Label for="title">Title</Label>
-                                            <Input type="text" name="title" id="title" placeholder="Enter title" />
+                                            <Input
+                                                type="text"
+                                                name="title"
+                                                id="title"
+                                                placeholder="Enter title"
+                                                onChange={inputChangeHandler}
+                                                defaultValue={formInput.title}
+                                            />
                                         </FormGroup>
                                         <FormGroup>
                                             <Label for="description">Description</Label>
-                                            <RichTextEditor name="description" id="description" />
+                                            {formInput.description && (
+                                                <RichTextEditor
+                                                    name="description"
+                                                    id="description"
+                                                    onEditorContentChange={onInputDescription}
+                                                    initialContent={formInput.description}
+                                                />
+                                            )}
+                                            {formInput.description === '' && (
+                                                <RichTextEditor
+                                                    name="description"
+                                                    id="description"
+                                                    onEditorContentChange={onInputDescription}
+                                                />
+                                            )}
                                         </FormGroup>
                                         <FormGroup>
                                             <Row>
@@ -188,7 +244,9 @@ const HandleForm = (props) => {
                                                 type="select"
                                                 id="destination"
                                                 name="destination"
-                                                className="custom-select">
+                                                className="custom-select"
+                                                onChange={inputChangeHandler}
+                                                value={formInput.destination && formInput.destination._id}>
                                                 <option>-- Please Select --</option>
                                                 {destinations &&
                                                     destinations.map((destination) => {
@@ -331,22 +389,24 @@ const HandleForm = (props) => {
                                             <div>
                                                 {facilities &&
                                                     facilities.map((facility) => {
-                                                        return (
-                                                            <CustomInput
-                                                                key={facility._id}
-                                                                type="checkbox"
-                                                                className="mb-3 mt-3"
-                                                                id={facility.slug}
-                                                                name="wellness"
-                                                                value={facility._id}
-                                                                label={facility.title}
-                                                                onChange={onSelectAttribute}
-                                                                defaultChecked={
-                                                                    formInput.facility &&
-                                                                    formInput.facility.includes(facility._id)
-                                                                }
-                                                            />
-                                                        );
+                                                        if (facility.facility_type === 'Wellness Facilities') {
+                                                            return (
+                                                                <CustomInput
+                                                                    key={facility._id}
+                                                                    type="checkbox"
+                                                                    className="mb-3 mt-3"
+                                                                    id={facility._id}
+                                                                    name="wellness"
+                                                                    value={facility._id}
+                                                                    label={facility.title}
+                                                                    onChange={onSelectFacility}
+                                                                    defaultChecked={
+                                                                        formInput.facility &&
+                                                                        formInput.facility.includes(facility._id)
+                                                                    }
+                                                                />
+                                                            );
+                                                        }
                                                     })}
                                             </div>
                                         </FormGroup>
@@ -355,22 +415,24 @@ const HandleForm = (props) => {
                                             <div>
                                                 {facilities &&
                                                     facilities.map((facility) => {
-                                                        return (
-                                                            <CustomInput
-                                                                key={facility._id}
-                                                                type="checkbox"
-                                                                className="mb-3 mt-3"
-                                                                id={facility.slug}
-                                                                name="food"
-                                                                value={facility._id}
-                                                                label={facility.title}
-                                                                onChange={onSelectAttribute}
-                                                                defaultChecked={
-                                                                    formInput.facility &&
-                                                                    formInput.facility.includes(facility._id)
-                                                                }
-                                                            />
-                                                        );
+                                                        if (facility.facility_type === 'Food & Drink') {
+                                                            return (
+                                                                <CustomInput
+                                                                    key={facility._id}
+                                                                    type="checkbox"
+                                                                    className="mb-3 mt-3"
+                                                                    id={facility._id}
+                                                                    name="food"
+                                                                    value={facility._id}
+                                                                    label={facility.title}
+                                                                    onChange={onSelectFacility}
+                                                                    defaultChecked={
+                                                                        formInput.facility &&
+                                                                        formInput.facility.includes(facility._id)
+                                                                    }
+                                                                />
+                                                            );
+                                                        }
                                                     })}
                                             </div>
                                         </FormGroup>
@@ -379,22 +441,24 @@ const HandleForm = (props) => {
                                             <div>
                                                 {facilities &&
                                                     facilities.map((facility) => {
-                                                        return (
-                                                            <CustomInput
-                                                                key={facility._id}
-                                                                type="checkbox"
-                                                                className="mb-3 mt-3"
-                                                                id={facility.slug}
-                                                                name="cleaning"
-                                                                value={facility._id}
-                                                                label={facility.title}
-                                                                onChange={onSelectAttribute}
-                                                                defaultChecked={
-                                                                    formInput.facility &&
-                                                                    formInput.facility.includes(facility._id)
-                                                                }
-                                                            />
-                                                        );
+                                                        if (facility.facility_type === 'Cleaning services') {
+                                                            return (
+                                                                <CustomInput
+                                                                    key={facility._id}
+                                                                    type="checkbox"
+                                                                    className="mb-3 mt-3"
+                                                                    id={facility._id}
+                                                                    name="cleaning"
+                                                                    value={facility._id}
+                                                                    label={facility.title}
+                                                                    onChange={onSelectFacility}
+                                                                    defaultChecked={
+                                                                        formInput.facility &&
+                                                                        formInput.facility.includes(facility._id)
+                                                                    }
+                                                                />
+                                                            );
+                                                        }
                                                     })}
                                             </div>
                                         </FormGroup>
@@ -403,27 +467,31 @@ const HandleForm = (props) => {
                                             <div>
                                                 {facilities &&
                                                     facilities.map((facility) => {
-                                                        return (
-                                                            <CustomInput
-                                                                key={facility._id}
-                                                                type="checkbox"
-                                                                className="mb-3 mt-3"
-                                                                id={facility.slug}
-                                                                name="popular"
-                                                                value={facility._id}
-                                                                label={facility.title}
-                                                                onChange={onSelectAttribute}
-                                                                defaultChecked={
-                                                                    formInput.facility &&
-                                                                    formInput.facility.includes(facility._id)
-                                                                }
-                                                            />
-                                                        );
+                                                        if (facility.facility_type === 'Popular Facilities') {
+                                                            return (
+                                                                <CustomInput
+                                                                    key={facility._id}
+                                                                    type="checkbox"
+                                                                    className="mb-3 mt-3"
+                                                                    id={facility._id}
+                                                                    name="popular"
+                                                                    value={facility._id}
+                                                                    label={facility.title}
+                                                                    onChange={onSelectFacility}
+                                                                    defaultChecked={
+                                                                        formInput.facility &&
+                                                                        formInput.facility.includes(facility._id)
+                                                                    }
+                                                                />
+                                                            );
+                                                        }
                                                     })}
                                             </div>
                                         </FormGroup>
                                         <FormGroup className="float-right">
-                                            <Button color="primary">Save</Button>
+                                            <Button color="primary" onClick={onSubmitForm}>
+                                                Save
+                                            </Button>
                                         </FormGroup>
                                     </CardBody>
                                 </Card>
@@ -437,9 +505,9 @@ const HandleForm = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    const { types, loading, error } = state.Hotel;
+    const { types, loading, error, facilities } = state.Hotel;
     const { destinations } = state.Destination;
-    return { types, destinations, loading, error };
+    return { types, destinations, loading, error, facilities };
 };
 
 export default connect(mapStateToProps)(HandleForm);

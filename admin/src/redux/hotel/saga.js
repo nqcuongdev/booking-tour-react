@@ -6,8 +6,9 @@ import {
     getAllHotelSuccess,
     getAllTypeSuccess,
     hotelFailed,
+    updateFacilitySuccess,
 } from './actions';
-import { CREATE_FACILITY, GET_ALL_HOTEL, GET_ALL_TYPE } from './constants';
+import { CREATE_FACILITY, GET_ALL_FACILITY, GET_ALL_HOTEL, GET_ALL_TYPE, UPDATE_FACILITY } from './constants';
 
 const token = localStorage.getItem('jwtKey');
 
@@ -127,6 +128,39 @@ function* getAllFacility() {
     }
 }
 
+function* updateFacility({ payload: { _id, title, facility_type } }) {
+    const options = {
+        body: JSON.stringify({ title, facility_type }),
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+        },
+    };
+
+    try {
+        const response = yield call(fetchJSON, `facility/${_id}`, options);
+        if (response && response.success) {
+            yield put(updateFacilitySuccess(response.data));
+        } else {
+            yield put(hotelFailed(response.message));
+        }
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500:
+                message = 'Internal Server Error';
+                break;
+            case 401:
+                message = 'Invalid credentials';
+                break;
+            default:
+                message = error;
+        }
+        yield put(hotelFailed(message));
+    }
+}
+
 export function* watchGetAllHotel() {
     yield takeEvery(GET_ALL_HOTEL, getAllHotel);
 }
@@ -140,7 +174,11 @@ export function* watchCreateFacility() {
 }
 
 export function* watchGetAllFacility() {
-    yield takeEvery(CREATE_FACILITY, getAllFacility);
+    yield takeEvery(GET_ALL_FACILITY, getAllFacility);
+}
+
+export function* watchUpdateFacility() {
+    yield takeEvery(UPDATE_FACILITY, updateFacility);
 }
 
 function* hotelSaga() {
@@ -149,6 +187,7 @@ function* hotelSaga() {
         fork(watchGetAllHotelType),
         fork(watchCreateFacility),
         fork(watchGetAllFacility),
+        fork(watchUpdateFacility),
     ]);
 }
 
