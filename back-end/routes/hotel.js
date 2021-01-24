@@ -3,7 +3,7 @@ const multer = require("multer");
 const path = require("path");
 const isAuth = require("../middleware/isAuth");
 const checkRole = require("../middleware/checkRole");
-const { all, create, show, update } = require("../controllers/hotel");
+const { all, create, show, update, paginate } = require("../controllers/hotel");
 
 const router = express.Router();
 
@@ -30,6 +30,7 @@ const upload = multer({ storage: storage, fileFilter: fileFilter }).array(
 );
 
 router.get("/", all);
+router.get("/paginate", paginate);
 router.get("/:id", show);
 router.post("/create", upload, isAuth, checkRole, create);
 router.put("/:id", upload, isAuth, checkRole, update);

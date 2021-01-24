@@ -66,7 +66,7 @@ function App() {
             <Route exact path="/blogs" component={Blogs} />
             <Route exact path="/blogs/:slug" component={BlogDetail} />
             <Route exact path="/hotels" component={Hotels} />
-            <Route exact path="/hotels/:slug" component={HotelDetail} />
+            <Route exact path="/hotels/:id" component={HotelDetail} />
             <Route exact path="/destinations" component={Destinations} />
             <Route
               exact
@@ -75,8 +75,8 @@ function App() {
             />
             <Route exact path="/tour-cart" component={TourCart} />
             <Route exact path="/hotel-cart" component={HotelCart} />
-            <Route exact path="/hotel-checkout" component={HotelCheckout} />
-            <Route exact path="/tour-checkout" component={TourCheckout} />
+            {/* <Route exact path="/hotel-checkout" component={HotelCheckout} /> */}
+            <Route exact path="/checkout" component={TourCheckout} />
             <Route exact path="/profile" component={Profile} />
           </Switch>
         </AuthContext.Provider>

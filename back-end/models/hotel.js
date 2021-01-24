@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const slugify = require("slugify");
 const geocoder = require("../utils/geocoder");
+const mongoosePaginate = require("mongoose-paginate-v2");
 
 const HotelSchema = new mongoose.Schema({
   title: {
@@ -162,5 +163,7 @@ HotelSchema.pre("findByIdAndUpdate", async function (next) {
 
 // Add index for location and text for full text search
 HotelSchema.index({ location: "2dsphere" });
+
+HotelSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model("hotel", HotelSchema);

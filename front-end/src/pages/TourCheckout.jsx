@@ -20,7 +20,7 @@ import StripeCheckout from "react-stripe-checkout";
 import StripeApi from "../api/stripeApi";
 
 const TourCheckout = (props) => {
-  const user = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const history = useHistory();
   const [carts, setCarts] = useState();
   const [checkoutForm, setCheckoutForm] = useState({ payment: "" });
@@ -52,11 +52,18 @@ const TourCheckout = (props) => {
   const makePayment = async (token) => {
     let product = {
       price: carts.map((item) => {
-        if (item.code.tour) {
+        if (item.code && item.code.tour) {
           let total = 0;
           return (total +=
             item.option.adult * item.code.tour.price.adult +
             item.option.child * item.code.tour.price.child);
+        } else if (item.room && item.room.hotel) {
+          let total = 0;
+          return (
+            (total +=
+              item.room.price + item.number * item.room.options.buffer_price) *
+            100
+          );
         }
       }),
     };
@@ -267,15 +274,21 @@ const TourCheckout = (props) => {
                         </thead>
                         <tbody>
                           <tr>
-                            <td className="gray-text">Tour:</td>
+                            <td className="gray-text">Detail:</td>
                             <td>
                               {carts &&
                                 carts.map((cart, index) => {
-                                  if (cart.code.tour) {
+                                  if (cart.code && cart.code.tour) {
                                     if (index === 0) {
                                       return cart.code.tour.title;
                                     } else {
                                       return `${cart.code.tour.title} /`;
+                                    }
+                                  } else if (cart.room && cart.room.hotel) {
+                                    if (index === 0) {
+                                      return cart.room.hotel.title;
+                                    } else {
+                                      return `${cart.room.hotel.title} /`;
                                     }
                                   }
                                 })}
@@ -286,16 +299,14 @@ const TourCheckout = (props) => {
                             <td>
                               {carts &&
                                 carts.map((cart, index) => {
-                                  if (cart.code.tour) {
-                                    if (index === 0) {
-                                      return moment(cart.checkin).format(
-                                        "YYYY-MM-DD"
-                                      );
-                                    } else {
-                                      return `${moment(cart.checkin).format(
-                                        "YYYY-MM-DD"
-                                      )} /`;
-                                    }
+                                  if (index === 0) {
+                                    return moment(cart.checkin).format(
+                                      "YYYY-MM-DD"
+                                    );
+                                  } else {
+                                    return `${moment(cart.checkin).format(
+                                      "YYYY-MM-DD"
+                                    )} /`;
                                   }
                                 })}
                             </td>
@@ -305,16 +316,14 @@ const TourCheckout = (props) => {
                             <td>
                               {carts &&
                                 carts.map((cart, index) => {
-                                  if (cart.code.tour) {
-                                    if (index === 0) {
-                                      return moment(cart.checkout).format(
-                                        "YYYY-MM-DD"
-                                      );
-                                    } else {
-                                      return `${moment(cart.checkout).format(
-                                        "YYYY-MM-DD"
-                                      )} /`;
-                                    }
+                                  if (index === 0) {
+                                    return moment(cart.checkout).format(
+                                      "YYYY-MM-DD"
+                                    );
+                                  } else {
+                                    return `${moment(cart.checkout).format(
+                                      "YYYY-MM-DD"
+                                    )} /`;
                                   }
                                 })}
                             </td>
@@ -326,12 +335,10 @@ const TourCheckout = (props) => {
                                 <li>
                                   {carts &&
                                     carts.map((cart, index) => {
-                                      if (cart.code.tour) {
-                                        if (index === 0) {
-                                          return cart.option.adult;
-                                        } else {
-                                          return `${cart.option.adult} /`;
-                                        }
+                                      if (index === 0) {
+                                        return cart.option.adult;
+                                      } else {
+                                        return `${cart.option.adult} /`;
                                       }
                                     })}{" "}
                                   Adults
@@ -339,12 +346,10 @@ const TourCheckout = (props) => {
                                 <li>
                                   {carts &&
                                     carts.map((cart, index) => {
-                                      if (cart.code.tour) {
-                                        if (index === 0) {
-                                          return cart.option.child;
-                                        } else {
-                                          return `${cart.option.child} /`;
-                                        }
+                                      if (index === 0) {
+                                        return cart.option.child;
+                                      } else {
+                                        return `${cart.option.child} /`;
                                       }
                                     })}{" "}
                                   Children
@@ -360,11 +365,17 @@ const TourCheckout = (props) => {
                                   $
                                   {carts &&
                                     carts.map((cart, index) => {
-                                      if (cart.code.tour) {
+                                      if (cart.code && cart.code.tour) {
                                         if (index === 0) {
                                           return cart.code.tour.price.adult;
                                         } else {
                                           return `${cart.code.tour.price.adult} /`;
+                                        }
+                                      } else if (cart.room && cart.room.hotel) {
+                                        if (index === 0) {
+                                          return cart.room.hotel.price.adult;
+                                        } else {
+                                          return `${cart.room.hotel.price.adult} /`;
                                         }
                                       }
                                     })}{" "}
@@ -374,12 +385,14 @@ const TourCheckout = (props) => {
                                   $
                                   {carts &&
                                     carts.map((cart, index) => {
-                                      if (cart.code.tour) {
+                                      if (cart.code && cart.code.tour) {
                                         if (index === 0) {
                                           return cart.code.tour.price.child;
                                         } else {
                                           return `${cart.code.tour.price.child} /`;
                                         }
+                                      } else if (cart.room && cart.room.hotel) {
+                                        return 0;
                                       }
                                     })}{" "}
                                   /Children
@@ -394,13 +407,19 @@ const TourCheckout = (props) => {
                               ${" "}
                               {carts &&
                                 carts.map((item) => {
-                                  if (item.code.tour) {
+                                  if (item.code && item.code.tour) {
                                     let total = 0;
                                     return (total +=
                                       item.option.adult *
                                         item.code.tour.price.adult +
                                       item.option.child *
                                         item.code.tour.price.child);
+                                  } else if (item.room && item.room.hotel) {
+                                    let total = 0;
+                                    return (total +=
+                                      item.room.price +
+                                      item.number *
+                                        item.room.options.buffer_price);
                                   }
                                 })}
                             </td>
@@ -459,7 +478,7 @@ const TourCheckout = (props) => {
                               amount={
                                 carts &&
                                 carts.map((item) => {
-                                  if (item.code.tour) {
+                                  if (item.code && item.code.tour) {
                                     let total = 0;
                                     return (
                                       (total +=
@@ -467,6 +486,14 @@ const TourCheckout = (props) => {
                                           item.code.tour.price.adult +
                                         item.option.child *
                                           item.code.tour.price.child) * 100
+                                    );
+                                  } else if (item.room && item.room.hotel) {
+                                    let total = 0;
+                                    return (
+                                      (total +=
+                                        item.room.price +
+                                        item.number *
+                                          item.room.options.buffer_price) * 100
                                     );
                                   }
                                 })

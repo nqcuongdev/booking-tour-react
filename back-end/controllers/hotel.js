@@ -2,6 +2,20 @@ const Hotel = require("../models/hotel");
 const hotelValidate = require("../validators/hotel/create");
 const fs = require("fs");
 const Validator = require("validator");
+const Room = require("../models/room");
+
+exports.paginate = async (req, res) => {
+  let options = {
+    sort: { created_at: -1 },
+    populate: "attributes",
+    limit: 10,
+  };
+  const hotels = await Hotel.paginate({}, options);
+  return res.status(200).json({
+    success: !!hotels,
+    data: hotels,
+  });
+};
 
 exports.all = async (req, res) => {
   const hotels = await Hotel.find({}).sort({ created_at: 1 });
@@ -24,8 +38,16 @@ exports.show = async (req, res) => {
 
   let hotel = await Hotel.findOne({ _id })
     .populate("destination")
-    .populate("facility")
+    .populate({
+      path: "facility",
+      populate: {
+        path: "facility_id",
+        model: "facility",
+      },
+    })
     .populate("attributes");
+
+  let rooms = await Room.find({ hotel: _id }).populate("attributes");
 
   if (!hotel) {
     return res.status(404).json({
@@ -37,6 +59,7 @@ exports.show = async (req, res) => {
   return res.status(200).json({
     success: !!hotel,
     data: hotel,
+    rooms: rooms,
   });
 };
 

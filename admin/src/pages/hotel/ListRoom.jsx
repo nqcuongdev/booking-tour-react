@@ -23,6 +23,7 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import moment from 'moment';
 import { connect, useDispatch } from 'react-redux';
 import { createRoom, getAllRoom, updateRoom } from '../../redux/actions';
+import Select from 'react-select';
 
 const ListRoom = (props) => {
     const dispatch = useDispatch();
@@ -148,6 +149,7 @@ const ListRoom = (props) => {
         formData.append('hotel', props.match.params.id);
         formData.append('price', modalInput.price);
         formData.append('number_room', modalInput.number_room);
+        formData.append('attributes', modalInput.attributes);
         if (_id) {
             formData.append('_id', _id);
             dispatch(updateRoom(formData));
@@ -312,6 +314,19 @@ const ListRoom = (props) => {
                                             />
                                         </Col>
                                     </Row>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="attributes">Attributes</Label>
+                                    <Select
+                                        isMulti={true}
+                                        className="react-select"
+                                        classNamePrefix="react-select"
+                                        name="attributes"
+                                        options={[
+                                            { value: 'chocolate', label: 'Chocolate' },
+                                            { value: 'strawberry', label: 'Strawberry' },
+                                            { value: 'vanilla', label: 'Vanilla' },
+                                        ]}></Select>
                                 </FormGroup>
                                 <Col lg={6}>
                                     <Label for="image">Image</Label>
