@@ -3,22 +3,26 @@ import { Col, Input, Label, Row, Form, FormGroup, Button } from 'reactstrap';
 import './CommentForm.scss';
 import { FaStar } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import ReactStars from 'react-stars'
 
-const stars = [1,2,3,4,5];
 const CommentForm = (props) => {
+    const ratingChanged = (ratingNumber) => {
+        console.log(ratingNumber)
+    }
+
     return (
         <div className="comment-form">
             <p className="comment-form-title">Leave a reviews</p>
-            <p className="comment-form-subtitle">
+            <div className="comment-form-subtitle">
                 <span>Your rating:</span>
-                <span className="stars">
-                    {stars.map((rating) => {
-                        return (
-                            <Link><FaStar className="stars-hover" /></Link>
-                        )
-                    })}
-                </span>
-            </p>
+                <ReactStars className="rating"
+                    count={5}
+                    onChange={ratingChanged}
+                    size={24}
+                    color2={'#ffd700'}
+                    half={false}
+                />
+            </div>
             <Form>
                 <Row className="comment-info">
                     <Col xl={4} lg={4} md={12} xs={12}>

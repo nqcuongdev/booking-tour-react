@@ -9,18 +9,11 @@
     .comment-form-subtitle {
         font-size: 14px;
         font-weight: bold;
+        display: flex;
 
-        .stars {
-            color: $text;
-            margin-left: 30px;
-            
-            .stars-hover {
-                margin-right: 10px;
-
-                &:hover {
-                    color: $yellow;
-                }
-            }
+        .rating {
+            margin-top: -8px;
+            margin-left: 5px;
         }
     }
 
