@@ -126,48 +126,79 @@ const Profile = (props) => {
                                 <TabContent activeTab={activeTab} className="booking-list">
                                     <TabPane tabId="1">
                                         <Row className="booking-item mt-30">
-                                            <Col lg={4} md={4} xs={12}>
-                                                <img src={server_url + user.image} />
+                                            <Col lg={4} md={4} xs={12} 
+                                                style={{ 
+                                                    backgroundImage: `url(${server_url + 'uploads/destinations/1606788178646.jpg'})`, 
+                                                    backgroundSize: `cover`,
+                                                    height: `230px`}}
+                                                className="booking-item-image"
+                                            >
+                                                {/* <img src={server_url + `uploads/destinations/1606788178646.jpg`} /> */}
                                             </Col>
-                                            <Col lg={8} md={8} xs={12}>
+                                            <Col lg={8} md={8} xs={12} className="booking-item-content">
                                                 <ul>
                                                     <li className="li-bold">A Paris walk to Remember</li>
                                                     <li>124 E Huron St, New york</li>
                                                     <li>
-                                                        Tour star <FaStar /> 
-                                                        <FaStar /> 
-                                                        <FaStar /> 
-                                                        <FaStar /> 
-                                                        <FaStar /> 5 of 5 (3 comments)
+                                                        <span>Tour star </span>
+                                                        <span className="stars-icon">
+                                                            <FaStar className="icon" /> 
+                                                            <FaStar className="icon" /> 
+                                                            <FaStar className="icon" /> 
+                                                            <FaStar className="icon" /> 
+                                                            <FaStar className="icon" />
+                                                        </span>
+                                                        <span> 5 of 5 (3 comments)</span>
                                                     </li>
                                                     <li>Travellers: 30 people</li>
                                                     <li>Date: 12 Jun 2020</li>
                                                     <li>Booking details: 29 user booker</li>
-                                                    <li>Price: $299</li>
+                                                    <li>Price: <span className="price"> $299</span></li>
                                                 </ul>
                                             </Col>
                                         </Row>
                                     </TabPane>
                                     <TabPane tabId="2">
                                         <Row className="booking-item mt-30">
-                                            <Col lg={4} md={4} xs={12}>
-                                                <img src={server_url + user.image} />
+                                            <Col lg={4} md={4} xs={12} 
+                                                style={{ 
+                                                    backgroundImage: `url(${server_url + 'uploads/destinations/1606788178646.jpg'})`, 
+                                                    backgroundSize: `cover`,
+                                                    height: `230px`}}
+                                                className="booking-item-image"
+                                            >
+                                                {/* <img src={server_url + `uploads/destinations/1606788178646.jpg`} /> */}
                                             </Col>
-                                            <Col lg={8} md={8} xs={12}>
+                                            <Col lg={8} md={8} xs={12} className="booking-item-content">
                                                 <ul>
-                                                    <li className="li-bold">A Paris walk to Remember</li>
+                                                    <li className="li-bold">The Millennium Hilton New York</li>
                                                     <li>124 E Huron St, New york</li>
                                                     <li>
-                                                        Tour star <FaStar /> 
-                                                        <FaStar /> 
-                                                        <FaStar /> 
-                                                        <FaStar /> 
-                                                        <FaStar /> 5 of 5 (3 comments)
+                                                        <span>Hotel star </span>
+                                                        <span className="stars-icon">
+                                                            <FaStar className="icon" /> 
+                                                            <FaStar className="icon" /> 
+                                                            <FaStar className="icon" /> 
+                                                            <FaStar className="icon" /> 
+                                                            <FaStar className="icon" />
+                                                        </span>
+                                                        <span> 5 of 5 (3 comments)</span>
                                                     </li>
-                                                    <li>Travellers: 30 people</li>
-                                                    <li>Date: 12 Jun 2020</li>
-                                                    <li>Booking details: 29 user booker</li>
-                                                    <li>Price: $299</li>
+                                                    <li className="li-group">
+                                                        <ul>
+                                                            <li>Room type: Family room</li>
+                                                            <li>Adults: 02</li>
+                                                            <li>Childrents: 01</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li className="li-group">
+                                                        <ul>
+                                                            <li>Check-in: 12 Jun 2020</li>
+                                                            <li>Check-out: 14 Jun 2020</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>Buffets: $128</li>
+                                                    <li>Price: <span className="price"> $365</span></li>
                                                 </ul>
                                             </Col>
                                         </Row>

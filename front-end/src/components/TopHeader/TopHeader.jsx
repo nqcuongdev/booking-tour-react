@@ -57,7 +57,7 @@ const TopHeader = (props) => {
       <Container>
         <div className="d-flex justify-content-between align-items-center">
           <div className="d-flex align-items-center">
-            <Link>Welcome to Booking core</Link>
+            <Link className="top-title">Welcome to Booking core</Link>
           </div>
           <div className="d-flex align-items-center">
             <ul className="nav">
@@ -70,13 +70,13 @@ const TopHeader = (props) => {
                     </DropdownToggle>
                     <DropdownMenu>
                       <DropdownItem>
-                        <Link className="nav-link" to="Profile"><BsFillPersonFill/> Profile</Link>
+                        <Link className="nav-link" to="Profile"><BsFillPersonFill className="icon"/> Profile</Link>
                       </DropdownItem>
                       <DropdownItem>
-                        <Link className="nav-link"><MdSettings/> Settings</Link>
+                        <Link className="nav-link"><MdSettings className="icon"/> Settings</Link>
                       </DropdownItem>
                       <DropdownItem>
-                        <Link className="nav-link" onClick={logout}><RiLogoutBoxLine/> Logout</Link>
+                        <Link className="nav-link" onClick={logout}><RiLogoutBoxLine className="icon"/> Logout</Link>
                       </DropdownItem>
                     </DropdownMenu>
                   </Dropdown>
