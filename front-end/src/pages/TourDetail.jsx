@@ -83,8 +83,11 @@ const TourDetail = (props) => {
         console.log(error);
       }
     };
+    console.log(props.match.params.id);
     if (props.match.params.id) {
       fetchTourDetail(props.match.params.id);
+    } else {
+      props.history.push("/tours");
     }
   }, []);
 

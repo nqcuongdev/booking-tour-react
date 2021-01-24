@@ -1,7 +1,7 @@
 const express = require("express");
 const isAuth = require("../middleware/isAuth");
 const checkRole = require("../middleware/checkRole");
-const { create, all, show } = require("../controllers/room");
+const { create, all, update } = require("../controllers/room");
 const path = require("path");
 const multer = require("multer");
 
@@ -31,6 +31,6 @@ const upload = multer({ storage: storage, fileFilter: fileFilter }).array(
 
 router.get("/hotel/:id", all);
 router.post("/create", upload, isAuth, checkRole, create);
-// router.get("/:id", isAuth, checkRole, show);
+router.put("/:id", isAuth, checkRole, update);
 
 module.exports = router;

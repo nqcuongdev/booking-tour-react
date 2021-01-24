@@ -13,6 +13,7 @@ import {
     RECEIVER_AUTH,
     RECEIVER_AUTH_SUCCESS,
     LOGIN_WITH_GOOGLE,
+    LOGIN_WITH_GOOGLE_SUCCESS,
 } from './constants';
 
 export const loginUser = (email, password) => ({
@@ -30,8 +31,14 @@ export const loginUserFailed = (error) => ({
     payload: error,
 });
 
-export const loginWithGoogle = () => ({
+export const loginWithGoogle = (tokenId, googleId) => ({
     type: LOGIN_WITH_GOOGLE,
+    payload: { tokenId, googleId },
+});
+
+export const loginWithGoogleSuccess = (user) => ({
+    type: LOGIN_WITH_GOOGLE_SUCCESS,
+    payload: user,
 });
 
 export const registerUser = (fullname, email, password) => ({

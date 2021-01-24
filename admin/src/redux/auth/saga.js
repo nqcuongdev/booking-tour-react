@@ -56,15 +56,39 @@ function* login({ payload: { email, password } }) {
     }
 }
 
-function* loginWithGoogle() {
+function* loginWithGoogle({ payload: { tokenId, googleId } }) {
     const options = {
-        method: 'GET',
+        body: JSON.stringify({ tokenId, googleId }),
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
     };
 
     try {
+        let roles = ['admin', 'hotel_partner', 'tour_partner'];
         const response = yield call(fetchJSON, 'google', options);
-        console.log(response);
-    } catch (error) {}
+        if (response.success) {
+            if (roles.includes(response.data.role)) {
+                localStorage.setItem('jwtKey', response.token);
+                yield put(loginUserSuccess(response.data));
+            } else {
+                let message = 'You not have permission';
+                yield put(loginUserFailed(message));
+            }
+        }
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500:
+                message = 'Internal Server Error';
+                break;
+            case 401:
+                message = 'Invalid credentials';
+                break;
+            default:
+                message = error;
+        }
+        yield put(loginUserFailed(message));
+    }
 }
 
 /**

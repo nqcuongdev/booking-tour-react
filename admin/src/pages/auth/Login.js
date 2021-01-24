@@ -65,7 +65,7 @@ class Login extends Component {
     };
 
     responseGoogle = (response) => {
-        console.log(response);
+        this.props.loginWithGoogle(response.tokenId, response.googleId);
     };
 
     render() {
@@ -165,7 +165,7 @@ class Login extends Component {
                                                                     </Button>
                                                                 </Col>
                                                                 <Col sm={4} xs={12}>
-                                                                    {/* <GoogleLogin
+                                                                    <GoogleLogin
                                                                         clientId={process.env.REACT_APP_GG_CLIENT}
                                                                         render={(renderProps) => (
                                                                             <Button
@@ -178,17 +178,7 @@ class Login extends Component {
                                                                         onSuccess={this.responseGoogle}
                                                                         onFailure={this.responseGoogle}
                                                                         cookiePolicy={'single_host_origin'}
-                                                                    /> */}
-                                                                    <Button
-                                                                        color="danger"
-                                                                        className="btn-block"
-                                                                        onClick={() =>
-                                                                            window.open(
-                                                                                'http://localhost:6969/api/v1/google'
-                                                                            )
-                                                                        }>
-                                                                        Google
-                                                                    </Button>
+                                                                    />
                                                                 </Col>
                                                                 <Col sm={4} xs={12}>
                                                                     <Button color="info" className="btn-block">

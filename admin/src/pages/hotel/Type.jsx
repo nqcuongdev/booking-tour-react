@@ -49,7 +49,7 @@ const sizePerPageRenderer = ({ options, currSizePerPage, onSizePerPageChange }) 
 
 const TableWithSearch = ({ properties }) => {
     const [modal, setModal] = useState(false);
-    const [modalInput, setModalInput] = useState({ title: '', status: '' });
+    const [modalInput, setModalInput] = useState({});
     const [types, setTypes] = useState([]);
     const [type, setType] = useState();
     const { SearchBar } = Search;

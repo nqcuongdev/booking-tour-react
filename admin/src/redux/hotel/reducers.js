@@ -19,6 +19,8 @@ import {
     UPDATE_FACILITY,
     UPDATE_FACILITY_SUCCESS,
     UPDATE_HOTEL_SUCCESS,
+    UPDATE_ROOM,
+    UPDATE_ROOM_SUCCESS,
 } from './constants';
 
 const INIT_STATE = {
@@ -42,7 +44,8 @@ const Hotel = (state = INIT_STATE, action) => {
             CREATE_HOTEL ||
             GET_HOTEL ||
             GET_ALL_ROOM ||
-            CREATE_ROOM:
+            CREATE_ROOM ||
+            UPDATE_ROOM:
             return { ...state, loading: true };
         case GET_ALL_HOTEL_SUCCESS:
             return { ...state, hotels: action.payload, hotel: null };
@@ -63,6 +66,8 @@ const Hotel = (state = INIT_STATE, action) => {
         case GET_ALL_ROOM_SUCCESS:
             return { ...state, rooms: action.payload, loading: false, error: null };
         case CREATE_ROOM_SUCCESS:
+            return { ...state, loading: false, error: null };
+        case UPDATE_ROOM_SUCCESS:
             return { ...state, loading: false, error: null };
         case HOTEL_ERROR:
             return { ...state, error: action.payload, loading: false };

@@ -20,6 +20,8 @@ import {
     GET_ALL_ROOM_SUCCESS,
     CREATE_ROOM,
     CREATE_ROOM_SUCCESS,
+    UPDATE_ROOM,
+    UPDATE_ROOM_SUCCESS,
 } from './constants';
 
 export const getAllHotel = () => ({
@@ -122,5 +124,15 @@ export const createRoom = (room) => ({
 
 export const createRoomSuccess = (room) => ({
     type: CREATE_ROOM_SUCCESS,
+    payload: room,
+});
+
+export const updateRoom = (room) => ({
+    type: UPDATE_ROOM,
+    payload: room,
+});
+
+export const updateRoomSuccess = (room) => ({
+    type: UPDATE_ROOM_SUCCESS,
     payload: room,
 });

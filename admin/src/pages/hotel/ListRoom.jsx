@@ -22,7 +22,7 @@ import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import moment from 'moment';
 import { connect, useDispatch } from 'react-redux';
-import { createRoom, getAllRoom } from '../../redux/actions';
+import { createRoom, getAllRoom, updateRoom } from '../../redux/actions';
 
 const ListRoom = (props) => {
     const dispatch = useDispatch();
@@ -35,6 +35,8 @@ const ListRoom = (props) => {
     useEffect(() => {
         if (props.match.params.id !== ':id') {
             dispatch(getAllRoom(props.match.params.id));
+        } else {
+            props.history.push('/hotel/list-hotel');
         }
     }, [dispatch]);
 
@@ -42,7 +44,10 @@ const ListRoom = (props) => {
         if (props.rooms) {
             setRooms(props.rooms);
         }
-    }, [props.rooms]);
+        if (props.match.params.id === ':id') {
+            props.history.push('/hotel/list-hotel');
+        }
+    }, [props.rooms, props.match.params.id]);
 
     const dateFormatter = (cell, row, rowIndex) => {
         return moment(cell).format('YYYY-MM-DD');
@@ -51,7 +56,7 @@ const ListRoom = (props) => {
     const rankFormatter = (cell, row, rowIndex) => {
         return (
             <div>
-                <Button color="primary" size="sm" onClick={() => props.history.push(row._id)}>
+                <Button color="primary" size="sm" onClick={() => toggle(row)}>
                     <FeatherIcon.Edit size="18" />
                 </Button>
             </div>
@@ -133,21 +138,26 @@ const ListRoom = (props) => {
     };
 
     const handleSubmit = (_id) => {
+        const formData = new FormData();
+        formData.append('title', modalInput.title);
+        formData.append('people', modalInput.people);
+        formData.append('buffer_price', modalInput.buffer_price);
+        formData.append('bed', modalInput.bed);
+        formData.append('image', modalInput.image);
+        formData.append('width', modalInput.width);
+        formData.append('hotel', props.match.params.id);
+        formData.append('price', modalInput.price);
+        formData.append('number_room', modalInput.number_room);
         if (_id) {
+            formData.append('_id', _id);
+            dispatch(updateRoom(formData));
         } else {
-            const formData = new FormData();
-            formData.append('title', modalInput.title);
-            formData.append('people', modalInput.people);
-            formData.append('buffer_price', modalInput.buffer_price);
-            formData.append('bed', modalInput.bed);
-            formData.append('image', modalInput.image);
-            formData.append('width', modalInput.width);
-            formData.append('hotel', props.match.params.id);
-            formData.append('price', modalInput.price);
-            formData.append('number_room', modalInput.number_room);
-
             dispatch(createRoom(formData));
         }
+
+        setModal(!modal);
+        setModalInput({});
+        dispatch(getAllRoom(props.match.params.id));
     };
 
     return (

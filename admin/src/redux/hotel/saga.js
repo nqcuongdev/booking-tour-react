@@ -12,6 +12,7 @@ import {
     hotelFailed,
     updateFacilitySuccess,
     updateHotelSuccess,
+    updateRoomSuccess,
 } from './actions';
 import {
     CREATE_FACILITY,
@@ -24,6 +25,7 @@ import {
     GET_HOTEL,
     UPDATE_FACILITY,
     UPDATE_HOTEL,
+    UPDATE_ROOM,
 } from './constants';
 
 const token = localStorage.getItem('jwtKey');
@@ -269,6 +271,37 @@ function* createRoom({ payload: room }) {
     }
 }
 
+function* updateRoom({ payload: room }) {
+    const options = {
+        body: room,
+        method: 'PUT',
+        headers: {
+            Authorization: 'Bearer ' + token,
+        },
+    };
+    try {
+        const response = yield call(fetchJSON, `room/${room.get('_id')}`, options);
+        if (response && response.success) {
+            yield put(updateRoomSuccess(response.data));
+        } else {
+            yield put(hotelFailed(response.message));
+        }
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500:
+                message = 'Internal Server Error';
+                break;
+            case 401:
+                message = 'Invalid credentials';
+                break;
+            default:
+                message = error;
+        }
+        yield put(hotelFailed(message));
+    }
+}
+
 function* updateHotel({ payload: hotel }) {
     const options = {
         body: hotel,
@@ -368,6 +401,10 @@ export function* watchCreateRoom() {
     yield takeEvery(CREATE_ROOM, createRoom);
 }
 
+export function* watchUpdateRoom() {
+    yield takeEvery(UPDATE_ROOM, updateRoom);
+}
+
 function* hotelSaga() {
     yield all([
         fork(watchGetAllHotel),
@@ -380,6 +417,7 @@ function* hotelSaga() {
         fork(watchGetHotel),
         fork(watchGetAllRoom),
         fork(watchCreateRoom),
+        fork(watchUpdateRoom),
     ]);
 }
 
