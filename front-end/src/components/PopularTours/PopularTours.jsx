@@ -13,7 +13,7 @@ const PopularTours = (props) => {
       </div>
       <div className="popular__list-item">
         <Row>
-          {props.data.map((item) => {
+          {props.data.slice(0, 6).map((item) => {
             if (item.isFeatured) {
               return (
                 <Col lg={4} md={6} key={item._id}>
