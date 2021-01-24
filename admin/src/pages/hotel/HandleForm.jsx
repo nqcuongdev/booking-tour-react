@@ -8,7 +8,7 @@ import * as FeatherIcon from 'react-feather';
 import { url } from '../../helpers/url';
 import { toast } from 'react-toastify';
 import default_image from '../../assets/images/default_upload_image.png';
-import { getAllHotelFacility, getAllType } from '../../redux/hotel/actions';
+import { createHotel, getAllHotelFacility, getAllType, getHotel, updateHotel } from '../../redux/hotel/actions';
 import { getAllDestination } from '../../redux/destination/actions';
 
 const HandleForm = (props) => {
@@ -21,16 +21,13 @@ const HandleForm = (props) => {
         lat: '',
         lng: '',
         attributes: [],
-        category: '',
         adult_price: '',
         child_price: '',
         adult_sale_price: '',
         child_sale_price: '',
-        duration: '',
-        min_people: '',
-        max_people: '',
         destination: '',
         facility: [],
+        star: '',
     });
     const [destinations, setDestinations] = useState([]);
     const [attributes, setAttributes] = useState([]);
@@ -42,7 +39,7 @@ const HandleForm = (props) => {
         dispatch(getAllHotelFacility());
 
         if (props.match.params.id !== 'add-hotel') {
-            // dispatch(getTour(props.match.params.id));
+            dispatch(getHotel(props.match.params.id));
         }
     }, [dispatch]);
 
@@ -102,9 +99,8 @@ const HandleForm = (props) => {
     const onSelectFacility = (e) => {
         const { name, value, checked } = e.target;
         let facility = [...formInput.facility];
-        if (checked) facility.push({ type: name, facility_id: value });
+        if (checked) facility.push({ type_fac: name, facility_id: value });
         else facility.splice(facility.indexOf(value), 1);
-        console.log(facility);
         setFormInput({ ...formInput, facility: facility });
     };
 
@@ -114,7 +110,49 @@ const HandleForm = (props) => {
 
     const onSubmitForm = (e) => {
         e.preventDefault();
-        console.log(formInput);
+
+        const formData = new FormData();
+        formData.append('title', formInput.title);
+        formData.append('description', formInput.description);
+        formData.append('address', formInput.address);
+        formData.append('attributes', formInput.attributes);
+        formData.append('facility', JSON.stringify(formInput.facility));
+        formData.append('star', formInput.star);
+        formData.append('adult_price', formInput.price ? formInput.price.adult : formInput.adult_price);
+        formData.append('child_price', formInput.price ? formInput.price.child : formInput.child_price);
+        formData.append(
+            'adult_sale_price',
+            formInput.sale_price ? formInput.sale_price.adult : formInput.adult_sale_price
+        );
+        formData.append(
+            'child_sale_price',
+            formInput.sale_price ? formInput.sale_price.child : formInput.child_sale_price
+        );
+        formData.append('destination', formInput.destination._id ? formInput.destination._id : formInput.destination);
+        formData.append('isFeatured', formInput.isFeatured === 'on' ? true : false);
+        formData.append('status', formInput.status === 'publish' || formInput.status === 'active' ? 'active' : 'hide');
+
+        const files = formInput.image;
+        for (let i = 0; i < files.length; i++) {
+            formData.append('image', files[i]);
+        }
+
+        if (formInput._id) {
+            formData.append('_id', formInput._id);
+            dispatch(updateHotel(formData));
+        } else {
+            dispatch(createHotel(formData));
+        }
+
+        toast.success(`${formInput._id ? 'Edit' : 'Add'} Hotel success`, {
+            position: 'top-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
     };
 
     return (
@@ -165,6 +203,19 @@ const HandleForm = (props) => {
                                                     onEditorContentChange={onInputDescription}
                                                 />
                                             )}
+                                        </FormGroup>
+                                        <FormGroup>
+                                            <Label for="star">Star</Label>
+                                            <Input
+                                                type="number"
+                                                name="star"
+                                                id="star"
+                                                max="5"
+                                                min="1"
+                                                placeholder="Enter star"
+                                                onChange={inputChangeHandler}
+                                                defaultValue={formInput.star}
+                                            />
                                         </FormGroup>
                                         <FormGroup>
                                             <Row>
@@ -329,36 +380,71 @@ const HandleForm = (props) => {
                                         <FormGroup>
                                             <Label for="status">Publish</Label>
                                             <div>
-                                                <CustomInput
-                                                    type="radio"
-                                                    id="publish"
-                                                    name="status"
-                                                    label="Publish"
-                                                    value="publish"
-                                                    onChange={inputChangeHandler}
-                                                    defaultChecked={formInput.status === 'active' ? true : false}
-                                                />
-                                                <CustomInput
-                                                    type="radio"
-                                                    id="draft"
-                                                    name="status"
-                                                    label="Draft"
-                                                    value="draft"
-                                                    onChange={inputChangeHandler}
-                                                    defaultChecked={formInput.status === 'hide' ? true : false}
-                                                />
+                                                {formInput.status ? (
+                                                    <React.Fragment>
+                                                        <CustomInput
+                                                            type="radio"
+                                                            id="publish"
+                                                            name="status"
+                                                            label="Publish"
+                                                            value="publish"
+                                                            onChange={inputChangeHandler}
+                                                            defaultChecked={
+                                                                formInput.status === 'active' ? true : false
+                                                            }
+                                                        />
+                                                        <CustomInput
+                                                            type="radio"
+                                                            id="draft"
+                                                            name="status"
+                                                            label="Draft"
+                                                            value="draft"
+                                                            onChange={inputChangeHandler}
+                                                            defaultChecked={formInput.status === 'hide' ? true : false}
+                                                        />
+                                                    </React.Fragment>
+                                                ) : (
+                                                    <React.Fragment>
+                                                        <CustomInput
+                                                            type="radio"
+                                                            id="publish"
+                                                            name="status"
+                                                            label="Publish"
+                                                            value="publish"
+                                                            onChange={inputChangeHandler}
+                                                        />
+                                                        <CustomInput
+                                                            type="radio"
+                                                            id="draft"
+                                                            name="status"
+                                                            label="Draft"
+                                                            value="draft"
+                                                            onChange={inputChangeHandler}
+                                                        />
+                                                    </React.Fragment>
+                                                )}
                                             </div>
                                         </FormGroup>
                                         <FormGroup>
                                             <Label for="isFeatured">Tour Featured</Label>
-                                            <CustomInput
-                                                type="switch"
-                                                id="isFeatured"
-                                                name="isFeatured"
-                                                label="Enable featured"
-                                                onChange={inputChangeHandler}
-                                                defaultChecked={formInput.isFeatured ? true : false}
-                                            />
+                                            {formInput.isFeatured ? (
+                                                <CustomInput
+                                                    type="switch"
+                                                    id="isFeatured"
+                                                    name="isFeatured"
+                                                    label="Enable featured"
+                                                    onChange={inputChangeHandler}
+                                                    defaultChecked={formInput.isFeatured ? true : false}
+                                                />
+                                            ) : (
+                                                <CustomInput
+                                                    type="switch"
+                                                    id="isFeatured"
+                                                    name="isFeatured"
+                                                    label="Enable featured"
+                                                    onChange={inputChangeHandler}
+                                                />
+                                            )}
                                         </FormGroup>
                                         <FormGroup className="mb-3">
                                             <Label for="attribute">Attribute: Property type</Label>
@@ -369,7 +455,7 @@ const HandleForm = (props) => {
                                                             <CustomInput
                                                                 key={attribute._id}
                                                                 type="checkbox"
-                                                                className="mb-2"
+                                                                className="mb-3 mt-3"
                                                                 id={attribute.slug}
                                                                 name="attributes"
                                                                 value={attribute._id}
@@ -390,6 +476,10 @@ const HandleForm = (props) => {
                                                 {facilities &&
                                                     facilities.map((facility) => {
                                                         if (facility.facility_type === 'Wellness Facilities') {
+                                                            let wellness = formInput.facility.filter(
+                                                                (item) => item.type_fac === 'wellness'
+                                                            );
+
                                                             return (
                                                                 <CustomInput
                                                                     key={facility._id}
@@ -401,8 +491,9 @@ const HandleForm = (props) => {
                                                                     label={facility.title}
                                                                     onChange={onSelectFacility}
                                                                     defaultChecked={
-                                                                        formInput.facility &&
-                                                                        formInput.facility.includes(facility._id)
+                                                                        wellness &&
+                                                                        wellness[0] &&
+                                                                        wellness[0].facility_id.includes(facility._id)
                                                                     }
                                                                 />
                                                             );
@@ -416,6 +507,10 @@ const HandleForm = (props) => {
                                                 {facilities &&
                                                     facilities.map((facility) => {
                                                         if (facility.facility_type === 'Food & Drink') {
+                                                            let food = formInput.facility.filter(
+                                                                (item) => item.type_fac === 'food'
+                                                            );
+
                                                             return (
                                                                 <CustomInput
                                                                     key={facility._id}
@@ -427,8 +522,9 @@ const HandleForm = (props) => {
                                                                     label={facility.title}
                                                                     onChange={onSelectFacility}
                                                                     defaultChecked={
-                                                                        formInput.facility &&
-                                                                        formInput.facility.includes(facility._id)
+                                                                        food &&
+                                                                        food[0] &&
+                                                                        food[0].facility_id.includes(facility._id)
                                                                     }
                                                                 />
                                                             );
@@ -442,6 +538,10 @@ const HandleForm = (props) => {
                                                 {facilities &&
                                                     facilities.map((facility) => {
                                                         if (facility.facility_type === 'Cleaning services') {
+                                                            let cleaning = formInput.facility.filter(
+                                                                (item) => item.type_fac === 'cleaning'
+                                                            );
+
                                                             return (
                                                                 <CustomInput
                                                                     key={facility._id}
@@ -453,8 +553,9 @@ const HandleForm = (props) => {
                                                                     label={facility.title}
                                                                     onChange={onSelectFacility}
                                                                     defaultChecked={
-                                                                        formInput.facility &&
-                                                                        formInput.facility.includes(facility._id)
+                                                                        cleaning &&
+                                                                        cleaning[0] &&
+                                                                        cleaning[0].facility_id.includes(facility._id)
                                                                     }
                                                                 />
                                                             );
@@ -468,6 +569,10 @@ const HandleForm = (props) => {
                                                 {facilities &&
                                                     facilities.map((facility) => {
                                                         if (facility.facility_type === 'Popular Facilities') {
+                                                            let popular = formInput.facility.filter(
+                                                                (item) => item.type_fac === 'popular'
+                                                            );
+
                                                             return (
                                                                 <CustomInput
                                                                     key={facility._id}
@@ -479,8 +584,9 @@ const HandleForm = (props) => {
                                                                     label={facility.title}
                                                                     onChange={onSelectFacility}
                                                                     defaultChecked={
-                                                                        formInput.facility &&
-                                                                        formInput.facility.includes(facility._id)
+                                                                        popular &&
+                                                                        popular[0] &&
+                                                                        popular[0].facility_id.includes(facility._id)
                                                                     }
                                                                 />
                                                             );
@@ -505,9 +611,9 @@ const HandleForm = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    const { types, loading, error, facilities } = state.Hotel;
+    const { types, loading, error, facilities, hotel } = state.Hotel;
     const { destinations } = state.Destination;
-    return { types, destinations, loading, error, facilities };
+    return { types, destinations, loading, error, facilities, hotel };
 };
 
 export default connect(mapStateToProps)(HandleForm);

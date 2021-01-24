@@ -42,7 +42,6 @@ const BasicInputElements = ({
         const { name, value, files } = e.target;
         values[index][name] = value;
         if (files) {
-            console.log(files);
             values[index][name] = files[0];
         }
         setItineraryList(values);

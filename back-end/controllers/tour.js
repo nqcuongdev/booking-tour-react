@@ -5,7 +5,6 @@ const Booking = require("../models/booking");
 // Load validate
 const tourValidate = require("../validators/tour/create");
 const bookingValidate = require("../validators/book/create");
-const { findOne } = require("../models/booking");
 
 exports.all = async (req, res) => {
   const tours = await Tour.find({})

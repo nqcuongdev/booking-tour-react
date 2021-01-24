@@ -1,17 +1,25 @@
 import {
     CREATE_FACILITY,
     CREATE_FACILITY_SUCCESS,
+    CREATE_HOTEL,
+    CREATE_HOTEL_SUCCESS,
     GET_ALL_FACILITY,
     GET_ALL_FACILITY_SUCCESS,
     GET_ALL_HOTEL,
     GET_ALL_HOTEL_SUCCESS,
     GET_ALL_TYPE,
     GET_ALL_TYPE_SUCCESS,
-    GET_ATTRIBUTE_HOTEL,
-    GET_ATTRIBUTE_HOTEL_SUCCESS,
+    GET_HOTEL,
     HOTEL_ERROR,
     UPDATE_FACILITY,
     UPDATE_FACILITY_SUCCESS,
+    UPDATE_HOTEL,
+    UPDATE_HOTEL_SUCCESS,
+    GET_HOTEL_SUCCESS,
+    GET_ALL_ROOM,
+    GET_ALL_ROOM_SUCCESS,
+    CREATE_ROOM,
+    CREATE_ROOM_SUCCESS,
 } from './constants';
 
 export const getAllHotel = () => ({
@@ -21,6 +29,36 @@ export const getAllHotel = () => ({
 export const getAllHotelSuccess = (hotels) => ({
     type: GET_ALL_HOTEL_SUCCESS,
     payload: hotels,
+});
+
+export const createHotel = (hotel) => ({
+    type: CREATE_HOTEL,
+    payload: hotel,
+});
+
+export const createHotelSuccess = (hotel) => ({
+    type: CREATE_HOTEL_SUCCESS,
+    payload: hotel,
+});
+
+export const updateHotel = (hotel) => ({
+    type: UPDATE_HOTEL,
+    payload: hotel,
+});
+
+export const updateHotelSuccess = (hotel) => ({
+    type: UPDATE_HOTEL_SUCCESS,
+    payload: hotel,
+});
+
+export const getHotel = (id) => ({
+    type: GET_HOTEL,
+    payload: id,
+});
+
+export const getHotelSuccess = (hotel) => ({
+    type: GET_HOTEL_SUCCESS,
+    payload: hotel,
 });
 
 export const getAllType = () => ({
@@ -65,4 +103,24 @@ export const updateFacilitySuccess = (facility) => ({
 export const hotelFailed = (errors) => ({
     type: HOTEL_ERROR,
     payload: errors,
+});
+
+export const getAllRoom = (id) => ({
+    type: GET_ALL_ROOM,
+    payload: id,
+});
+
+export const getAllRoomSuccess = (rooms) => ({
+    type: GET_ALL_ROOM_SUCCESS,
+    payload: rooms,
+});
+
+export const createRoom = (room) => ({
+    type: CREATE_ROOM,
+    payload: room,
+});
+
+export const createRoomSuccess = (room) => ({
+    type: CREATE_ROOM_SUCCESS,
+    payload: room,
 });

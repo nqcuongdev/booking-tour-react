@@ -42,10 +42,10 @@ const HotelSchema = new mongoose.Schema({
       required: true,
     },
   ],
-  attribute: [
+  attributes: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "attribute",
+      ref: "category",
     },
   ],
   status: {
@@ -90,7 +90,7 @@ const HotelSchema = new mongoose.Schema({
   },
   facility: [
     {
-      type: String,
+      type_fac: String,
       facility_id: [
         {
           type: mongoose.Schema.Types.ObjectId,
@@ -110,6 +110,14 @@ const HotelSchema = new mongoose.Schema({
     enum: [1, 2, 3, 4, 5],
     require: true,
     default: 1,
+  },
+  created_by: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+  },
+  updated_by: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
   },
   created_at: {
     type: Date,

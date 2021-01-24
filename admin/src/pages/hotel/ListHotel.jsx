@@ -31,6 +31,7 @@ const sizePerPageRenderer = ({ options, currSizePerPage, onSizePerPageChange }) 
 
 const TableWithSearch = ({ properties }) => {
     const [hotels, setHotel] = useState([]);
+
     const { SearchBar } = Search;
 
     const rankFormatter = (cell, row, rowIndex) => {
@@ -38,6 +39,13 @@ const TableWithSearch = ({ properties }) => {
             <div>
                 <Button color="primary" size="sm" onClick={() => properties.history.push(row._id)}>
                     <FeatherIcon.Edit size="18" />
+                </Button>
+                <Button
+                    color="success"
+                    className="ml-2"
+                    size="sm"
+                    onClick={() => properties.history.push(`/room/${row._id}/list-room`)}>
+                    <FeatherIcon.Home size="18" />
                 </Button>
             </div>
         );

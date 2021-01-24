@@ -28,21 +28,14 @@ const RoomSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "hotels",
   },
-  attribute: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "attribute",
-    },
-  ],
   price: {
     type: Number,
     required: true,
   },
-  status: {
-    type: String,
-    enum: ["free", "booked"],
+  number_room: {
+    type: Number,
     required: true,
-    default: "free",
+    default: 1,
   },
   created_at: {
     type: Date,
