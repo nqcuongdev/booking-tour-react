@@ -40,6 +40,7 @@ const ThumbnailHotelItem = (props) => {
                 )}
 
                 <img src={props.image} className="img-fluid" alt={props.title} />
+                <div className="bottom-opacity"></div>
                 <ul className="hotel-item-button">
                     <Link className="btn btn-orange mr-2" style={{ width: "auto" }}>
                         Book now

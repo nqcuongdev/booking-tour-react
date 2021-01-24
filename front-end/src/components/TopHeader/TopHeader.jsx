@@ -12,7 +12,6 @@ import SignInForm from "../SignInForm/SignInForm";
 import SignUpForm from "../SignUpForm/SignUpForm";
 import AuthContext from "../../contexts/auth";
 import { BsFillPersonFill } from 'react-icons/bs';
-import { MdSettings } from 'react-icons/md';
 import { RiLogoutBoxLine } from 'react-icons/ri';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -71,9 +70,6 @@ const TopHeader = (props) => {
                     <DropdownMenu>
                       <DropdownItem>
                         <Link className="nav-link" to="Profile"><BsFillPersonFill className="icon"/> Profile</Link>
-                      </DropdownItem>
-                      <DropdownItem>
-                        <Link className="nav-link"><MdSettings className="icon"/> Settings</Link>
                       </DropdownItem>
                       <DropdownItem>
                         <Link className="nav-link" onClick={logout}><RiLogoutBoxLine className="icon"/> Logout</Link>

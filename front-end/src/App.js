@@ -16,6 +16,7 @@ import TourCart from "./pages/TourCart";
 import HotelCart from "./pages/HotelCart";
 import HotelCheckout from "./pages/HotelCheckout";
 import TourCheckout from "./pages/TourCheckout";
+import Event from "./pages/Event";
 import AuthContext from "./contexts/auth";
 import Profile from "./pages/Profile";
 import authApi from "./api/authApi";
@@ -72,6 +73,7 @@ function App() {
             <Route exact path="/hotel-checkout" component={HotelCheckout} />
             <Route exact path="/tour-checkout" component={TourCheckout} />
             <Route exact path="/profile" component={Profile} />
+            <Route exact path="/events" component={Event} />
           </Switch>
         </AuthContext.Provider>
       </Router>

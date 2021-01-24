@@ -3,7 +3,7 @@ import { Col, Input, Label, Row, Form, FormGroup, Button } from 'reactstrap';
 import './CommentForm.scss';
 import { FaStar } from "react-icons/fa";
 import { Link } from 'react-router-dom';
-import ReactStars from 'react-stars'
+import ReactStars from 'react-stars';
 
 const CommentForm = (props) => {
     const ratingChanged = (ratingNumber) => {

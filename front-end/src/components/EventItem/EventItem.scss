@@ -1,0 +1,96 @@
+@import "../../assets/scss/_variables.scss";
+
+.event {
+    .card {
+        border-color: $grayF8;
+
+        .card-img-top {
+            min-height: 240px;
+        }
+
+        .card-img-overlay {
+            background-size: cover;
+            height: 240px;
+            display: flex;
+            flex-direction: column;
+            padding: 5px 20px !important;
+            
+            .overlay-item {
+                margin-top: auto;
+                z-index: 9;
+
+                .top-left {
+                    font-size: 16px;
+                    font-weight: 600;
+                    background-color: $orange;
+                    color: $white;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    padding: 5px 15px;
+                    margin-top: 10px;
+                }
+
+                .bottom-right {
+                    font-size: 16px;
+                    font-weight: 600;
+                    background-color: $orange;
+                    color: $white;
+                    position: absolute;
+                    bottom: 0;
+                    right: 0;
+                    padding: 5px 15px;
+                    margin-bottom: 10px;
+                    margin-right: 10px;
+                }
+            }
+        }
+
+        .card-body {
+            padding: 10px !important;
+            border: 1px solid #E9E9EA;
+
+            p {
+                margin: 0 0 5px 0;
+            }
+
+            .location {
+                color: $orange;
+                font-size: 16px;
+                font-weight: 500;
+            }
+
+            .title {
+                .link {
+                    font-size: 20px !important;
+                    font-weight: 500 !important;
+                    color: $black !important;
+                    transition: 0.2s;
+
+                    &:hover {
+                        color: $orange !important;
+                    }
+                }
+            }
+
+            .excellent {
+                color: $orange;
+                font-size: 16px;
+                font-weight: 500;
+            }
+
+            .normal {
+                color: $text;
+            }
+
+            .card-bottom {
+                color: $text;
+
+                .card-bottom-right {
+                    display: flex;
+                    justify-content: flex-end;
+                }
+            }
+        }
+    }
+}

@@ -53,11 +53,11 @@ const Header = () => {
                 </li>
               </ul> */}
             </NavItem>
-            {/* <NavItem>
-              <NavLink href="https://github.com/reactstrap/reactstrap">
-                News
+            <NavItem>
+              <NavLink href="/events">
+                Events
               </NavLink>
-            </NavItem> */}
+            </NavItem>
             <NavItem>
               <NavLink href="/contact-us">Contact</NavLink>
             </NavItem>

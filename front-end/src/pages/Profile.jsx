@@ -40,8 +40,8 @@ const Profile = (props) => {
                         </Col>
 
                         <Col lg={9} md={9} xs={12} className="information">
-                            <p className="name">{user.full_name}</p>
-                            <p className="member">Member since {date}</p>
+                            <p className="name">{user.full_name}</p> <br/>
+                            {/* <p className="member">Member since {date}</p> */}
 
                             <div className="row">
                                 <Col xl={6} lg={12} md={12} xs={12}>
@@ -102,7 +102,7 @@ const Profile = (props) => {
                     </Row>
 
                     <Row className="user-booking pt-20 pb-50">
-                        <Col lg={9} md={12} xs={12} className="avatar">
+                        <Col lg={12} md={12} xs={12} className="avatar">
                             <div>
                                 <Nav tabs>
                                     <NavItem>
@@ -207,7 +207,7 @@ const Profile = (props) => {
                             </div>
                         </Col>
 
-                        <Col lg={3} md={12} xs={12} className="form-contact">
+                        {/* <Col lg={3} md={12} xs={12} className="form-contact">
                             <Card body>
                                 <CardTitle><h5>Contact</h5></CardTitle> <hr/>
                                 <Form>
@@ -228,7 +228,7 @@ const Profile = (props) => {
                                     </FormGroup>
                                 </Form>
                             </Card>
-                        </Col>
+                        </Col> */}
                     </Row>
                 </Container>
             </div>
