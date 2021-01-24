@@ -2286,10 +2286,51 @@ h1 {
       -moz-box-shadow: 5px 5px 10px 0px #F8F8F8;
       box-shadow: 5px 5px 10px 0px #F8F8F8;
       border: 1px solid #F8F8F8;
-      padding: 15px 0;
+      padding: 0;
 
       img {
         width: 100%;
+      }
+
+      .booking-item-content {
+        padding: 15px 15px;
+
+        li.li-bold {
+          font-size: 18px;
+          margin-top: 0;
+          margin-bottom: 15px;
+          color: $text-black;
+        }
+
+        li {
+          color: $text;
+          margin-top: 5px;
+        }
+
+        .stars-icon {
+          margin-left: 2px;
+
+          .icon {
+            margin-top: -5px;
+            color: $orange;
+            margin-right: 2px;
+          }
+        }
+
+        .li-group {
+          ul {
+            li {
+              display: inline-block;
+              margin-top: 0 !important;
+              margin-right: 25px !important;
+            }
+          }
+        }
+
+        .price {
+          color: $orange;
+          font-size: 18px;
+        }
       }
     }
   }
