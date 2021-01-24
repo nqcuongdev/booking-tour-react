@@ -7,17 +7,19 @@ import {
   DropdownItem,
 } from "reactstrap";
 import "./TopHeader.scss";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import SignInForm from "../SignInForm/SignInForm";
 import SignUpForm from "../SignUpForm/SignUpForm";
 import AuthContext from "../../contexts/auth";
-import { BsFillPersonFill } from "react-icons/bs";
-import { MdSettings } from "react-icons/md";
-import { RiLogoutBoxLine } from "react-icons/ri";
+import { BsFillPersonFill } from 'react-icons/bs';
+import { MdSettings } from 'react-icons/md';
+import { RiLogoutBoxLine } from 'react-icons/ri';
+import { ToastContainer, toast } from 'react-toastify';
 
 const TopHeader = (props) => {
-  const [signIn, setSignIn] = useState(false);
-  const [signUp, setSignUp] = useState(false);
+  const { user, setUser } = props
+  const [signIn, setSignIn] = useState(false)
+  const [signUp, setSignUp] = useState(false)
 
   const toggleSignIn = () => setSignIn(!signIn);
   const toggleSignUp = () => setSignUp(!signUp);
@@ -26,11 +28,30 @@ const TopHeader = (props) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggleDropdown = () => setDropdownOpen((prevState) => !prevState);
 
-  const logout = async () => {
-    localStorage.removeItem("jwtKey");
-    window.location.reload();
-  };
+  const [redirect, setRedirect] = useState(false)
+  if (redirect) {
+    // chuyển về trang chủ
+    return <Redirect to='/'/>;
+  }
 
+  const logout = async () => {
+    localStorage.removeItem('jwtKey')
+    setUser({})
+
+    toast.info(`Logged out!`, {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+
+    setRedirect(true)
+  }
+
+  // console.log({user})
   return (
     <div className="navbar__top d-none d-lg-block">
       <Container>
@@ -40,32 +61,25 @@ const TopHeader = (props) => {
           </div>
           <div className="d-flex align-items-center">
             <ul className="nav">
-              {props.user.full_name ? (
+              {user.full_name ? (
                 <React.Fragment>
                   <li className="nav-item">
-                    <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
-                      <DropdownToggle caret>
-                        {props.user.full_name}
-                        <i className="arrow"></i>
-                      </DropdownToggle>
-                      <DropdownMenu>
-                        <DropdownItem>
-                          <Link className="nav-link">
-                            <BsFillPersonFill /> Profile
-                          </Link>
-                        </DropdownItem>
-                        <DropdownItem>
-                          <Link className="nav-link">
-                            <MdSettings /> Settings
-                          </Link>
-                        </DropdownItem>
-                        <DropdownItem>
-                          <Link className="nav-link" onClick={logout}>
-                            <RiLogoutBoxLine /> Logout
-                          </Link>
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
+                  <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
+                    <DropdownToggle caret>
+                      {user.full_name}<i class="arrow"></i>
+                    </DropdownToggle>
+                    <DropdownMenu>
+                      <DropdownItem>
+                        <Link className="nav-link" to="Profile"><BsFillPersonFill/> Profile</Link>
+                      </DropdownItem>
+                      <DropdownItem>
+                        <Link className="nav-link"><MdSettings/> Settings</Link>
+                      </DropdownItem>
+                      <DropdownItem>
+                        <Link className="nav-link" onClick={logout}><RiLogoutBoxLine/> Logout</Link>
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
                   </li>
                 </React.Fragment>
               ) : (
@@ -96,8 +110,8 @@ const TopHeader = (props) => {
           </div>
         </div>
       </Container>
-      <SignInForm isOpen={signIn} toggle={toggleSignIn} />
-      <SignUpForm isOpen={signUp} toggle={toggleSignUp} />
+      <SignInForm isOpen={signIn} toggle={toggleSignIn} setUser={setUser} />
+      <SignUpForm isOpen={signUp} toggle={toggleSignUp} setUser={setUser} />
     </div>
   );
 };

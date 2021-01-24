@@ -1,4 +1,5 @@
 @import "./assets/scss/_variables.scss";
+@import '~react-toastify/dist/ReactToastify.min.css';
 
 body {
   color: $text;
@@ -96,6 +97,39 @@ h1 {
   padding-bottom: 60px;
 }
 
+.pl-15 {
+  padding-left: 15px;
+}
+
+.pr-15 {
+  padding-right: 15px;
+}
+
+.mf-15 {
+  margin-left: 15px;
+}
+
+.mr-15 {
+  margin-right: 15px;
+}
+
+.pd-0 {
+  padding: 0px;
+}
+
+.mg-0 {
+  margin: 0px;
+}
+
+.ml-15- {
+  margin-left: -15px;
+}
+
+.mr-15- {
+  margin-right: -15px;
+}
+
+
 .btn {
   border-radius: 2px !important;
   font-size: 14px !important;
@@ -115,10 +149,13 @@ h1 {
 }
 
 .btn-orange {
-  width: 100%;
+  // width: 100%;
   background-color: $orange !important;
   border-color: $orange !important;
   color: $white !important;
+  text-transform: uppercase;
+  min-height: 35px;
+  font-weight: $font-weight-semi-bold;
 }
 
 .contact__section {
@@ -1888,6 +1925,15 @@ h1 {
         }
 
         .content {
+          input {
+            height: 50px;
+            box-shadow: none;
+            border: 1px solid #D9D8D8;
+            border-radius: 2px;
+            font-size: 14px;
+            color: #D9D8D8;
+          }
+
           color: $text;
 
           .required {
@@ -2117,6 +2163,133 @@ h1 {
             }
           }
         }
+      }
+    }
+  }
+}
+
+.form-control {
+  font-size: 14px !important; 
+}
+
+// PROFILE
+.profile {
+  .title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  li.li-bold {
+    color: #2f2f2f;
+    font-weight: bold;
+    // text-transform: uppercase;
+  }
+
+  .user-info {
+    // -webkit-box-shadow: 5px 5px 10px 0px rgba(243, 86, 24, 0.75);
+    // -moz-box-shadow: 5px 5px 10px 0px rgba(243, 86, 24, 0.75);
+    // box-shadow: 5px 5px 10px 0px rgba(243, 86, 24, 0.75);
+    -webkit-box-shadow: 5px 5px 10px 0px #F8F8F8;
+    -moz-box-shadow: 5px 5px 10px 0px #F8F8F8;
+    box-shadow: 5px 5px 10px 0px #F8F8F8;
+    border: 1px solid #F8F8F8;
+    border-radius: 5px;
+    // background-color: #F8F8F8;
+
+    .avatar {
+      img {
+        width: 100%;
+      }
+    }
+
+    .information {
+
+      .name {
+        font-size: 25px;
+        font-weight: bold;
+        margin-bottom: 5px !important;
+      }
+
+      .member {
+      }
+
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        li {
+          display: inline-block;
+          margin-right: 20px;
+          
+          ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            text-align: left;
+            
+            li {
+                color: #A8A7A7;
+                display: block;
+                list-style: none;
+                margin-bottom: 10px;
+                white-space: nowrap;
+            }
+
+            li.li-bold {
+                color: #2f2f2f;
+                font-weight: bold;
+                // text-transform: uppercase;
+            }
+          }
+        }
+
+        li.verified {
+          color: #287DFA;
+        }
+
+        li.not-verified {
+          color: #DC3545;
+        }
+      }
+    }
+  }
+
+  .user-booking {
+    .nav-tabs {
+      border-bottom: 1px solid $orange;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+      color: #fff !important;
+      background-color: $orange;
+      border-color: $orange $orange $orange;
+      font-weight: bold;
+    }
+
+    .nav-tabs .nav-link {
+      border: 1px solid $orange;
+      // border-top-left-radius: .25rem;
+      // border-top-right-radius: .25rem;
+      border-top-left-radius: 0rem;
+      border-top-right-radius: 0rem;
+    }
+
+    a {
+      color: $orange !important;
+    }
+  }
+
+  .booking-list {
+    .booking-item {
+      -webkit-box-shadow: 5px 5px 10px 0px #F8F8F8;
+      -moz-box-shadow: 5px 5px 10px 0px #F8F8F8;
+      box-shadow: 5px 5px 10px 0px #F8F8F8;
+      border: 1px solid #F8F8F8;
+      padding: 15px 0;
+
+      img {
+        width: 100%;
       }
     }
   }

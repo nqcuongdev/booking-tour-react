@@ -17,8 +17,11 @@ import {
 } from "reactstrap";
 import "./SignUpForm.scss";
 import authApi from "../../api/authApi";
+import { ToastContainer, toast } from 'react-toastify';
 
 const SignUpForm = (props) => {
+  const { setUser } = props
+
   const [formData, setFormData] = useState({ first_name: "", last_name: "", phone: "", email: "", password: "", c_password: "" });
   const [error, setError] = useState({ first_name: "", last_name: "", phone: "", email: "", password: "", c_password: "", message: "" })
 
@@ -35,12 +38,45 @@ const SignUpForm = (props) => {
       if (response.success) {
         localStorage.setItem("jwtKey", response.token)
         props.toggle()
-        window.location.reload()
+        setUser(response.data)
+
+        toast.success(`Register successfully, welcome ${response.data.full_name}!`, {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     } catch (errors) { 
       if (errors.response.data) { 
         let err = errors.response.data
         setError(err.message)
+
+        let errMess = '';
+        if (err.message.first_name) {
+          errMess = err.message.first_name
+        } else if (err.message.last_name) {
+          errMess = err.message.last_name
+        } else if (err.message.email) {
+          errMess = err.message.email
+        } else if (err.message.password) {
+          errMess = err.message.password
+        } else if (err.message.confirm_password) {
+          errMess = err.message.confirm_password
+        }
+
+        toast.error(`${errMess}`, {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     }
   }
@@ -130,7 +166,7 @@ const SignUpForm = (props) => {
             {error && error.term && <FormFeedback>{error.term}</FormFeedback>}
           </FormGroup>
           <FormGroup>
-            <Button color="orange">Sign Up</Button>
+            <Button color="orange" className="btn-register">Sign Up</Button>
           </FormGroup>
 
           {error && error.message && (

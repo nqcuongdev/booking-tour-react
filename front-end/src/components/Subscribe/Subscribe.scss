@@ -23,6 +23,7 @@
         
         .subscribe-input {
             color: $white;
+            height: 38px !important;
             background-color: #2E2D2D;
             border: none;
             border-top-left-radius: 0.25rem;
@@ -32,7 +33,7 @@
 
             &::placeholder {
                 color: #FFFFFF;
-                opacity: 0.5;
+                opacity: 0.7;
                 font-size: 13px;
             }
 
