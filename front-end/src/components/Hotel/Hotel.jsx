@@ -28,6 +28,7 @@ const Hotel = (props) => {
         <CardImg top width="100%" src="{props.image}" alt="Card image cap" />
 
         <CardImgOverlay style={{ backgroundImage: `url(${props.image})` }}>
+          <div className="bottom-opacity"></div>
           <div className="overlay-item">
             <p>START FROM</p>
             <span>$ {props.price}</span>
@@ -36,7 +37,12 @@ const Hotel = (props) => {
 
         <CardBody>
           <div className="hotel-name-rate">
-            <Link to={`/hotels/${props._id}`}>
+            <Link //to={`/hotels/${props._id}`}
+              to={{
+                pathname: `${props.url}/${props.slug}`,
+                state: {id: `${props._id}`}
+              }}
+            >
               <p className="hotel-name">{props.name}</p>
             </Link>
 
@@ -64,20 +70,28 @@ const Hotel = (props) => {
           </div>
           <Row className="button-group">
             <Col lg={6} md={6} xs={6}>
-              <Button
-                className="btn-book-now"
-                onClick={() => history.push(`/hotels/${props._id}`)}
+              <Link
+                to={{
+                  pathname: `${props.url}/${props.slug}`,
+                  state: {id: `${props._id}`}
+                }}
               >
-                Book now
-              </Button>
+                <Button className="btn-book-now">
+                  Book now
+                </Button>
+              </Link>
             </Col>
             <Col lg={6} md={6} xs={6}>
-              <Button
-                className="btn-view-detail"
-                onClick={() => history.push(`/hotels/${props._id}`)}
+            <Link
+                to={{
+                  pathname: `${props.url}/${props.slug}`,
+                  state: {id: `${props._id}`}
+                }}
               >
-                View detail
-              </Button>
+                <Button className="btn-view-detail">
+                  View detail
+                </Button>
+              </Link>
             </Col>
           </Row>
         </CardBody>

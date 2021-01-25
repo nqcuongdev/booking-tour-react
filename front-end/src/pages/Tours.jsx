@@ -20,6 +20,7 @@ import adImage from "../assets/images/ad.png";
 import AdItem from "../components/AdItem/AdItem";
 import SingleListItem from "../components/SingleListItem/SingleListItem";
 import ToursApi from "../api/toursApi";
+import { useRouteMatch } from "react-router-dom";
 
 const popularItem = {
   text1: "Summer Stay",
@@ -42,6 +43,9 @@ const Tours = (props) => {
 
     fetchToursList();
   }, []);
+
+  // lấy đường dẫn hiện tại
+  const { url } = useRouteMatch();
 
   return (
     <MainLayout>
@@ -139,7 +143,7 @@ const Tours = (props) => {
               </div>
 
               {toursList.map((item) => {
-                return <SingleListItem {...item} />;
+                return <SingleListItem {...item} url={url} />;
               })}
             </Col>
           </Row>

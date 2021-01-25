@@ -19,6 +19,7 @@ const SingleListItem = (props) => {
 
     return newText.substring(0, 50);
   };
+
   return (
     <div className="list__item mt-3 mb-30">
       <Row>
@@ -29,7 +30,12 @@ const SingleListItem = (props) => {
         <Col md={7} lg={5} className="item__content">
           <Row>
             <div className="item__info">
-              <Link to={`tours/${props._id}`}>
+              <Link  //to={`tours/${props._id}`}
+                to={{
+                  pathname: `${props.url}/${props.slug}`,
+                  state: {id: `${props._id}`}
+                }}
+              >
                 <h4 className="title" style={{ color: "black" }}>
                   {props.title}
                 </h4>
@@ -52,9 +58,16 @@ const SingleListItem = (props) => {
                 {getSubStringContent(props.description)}...
               </div>
               <div className="item__button mt-3">
-                <Button color="orange" size="sm" className="mr-3">
-                  Book now
-                </Button>
+                <Link  //to={`tours/${props._id}`}
+                  to={{
+                    pathname: `${props.url}/${props.slug}`,
+                    state: {id: `${props._id}`}
+                  }}
+                >
+                  <Button color="orange" size="sm" className="mr-3">
+                    Book now
+                  </Button>
+                </Link>
               </div>
             </div>
             <div className="price"></div>

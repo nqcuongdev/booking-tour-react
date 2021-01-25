@@ -79,8 +79,8 @@ const HotelDetail = (props) => {
       }
     };
 
-    if (props.match.params.id) {
-      fetchHotelDetail(props.match.params.id);
+    if (props.location.state.id) {
+      fetchHotelDetail(props.location.state.id);
     } else {
       props.history.push("/hotels");
     }

@@ -163,7 +163,10 @@ const BookTour = (props) => {
                   {schedules &&
                     schedules.map((schedule) => {
                       return (
-                        <option key={schedule._id} value={schedule._id}>
+                        <option
+                          key={schedule._id} 
+                          value={schedule._id}
+                        >
                           {schedule.title}
                         </option>
                       );

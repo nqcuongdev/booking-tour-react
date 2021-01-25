@@ -98,7 +98,16 @@ const Destinations = props => {
                                                     <img src={server_url + item.image[0]} alt=""/>
                                                 </Col>
                                                 <Col xl={7} lg={7} md={7} xs={12} className="content">
-                                                    <p className="title">{item.title}</p>
+                                                    <p>
+                                                        <Link className="title"
+                                                            to={{
+                                                                pathname: `${url}/${item.slug}`,
+                                                                state: {id: `${item._id}`}
+                                                            }}
+                                                        >
+                                                            {item.title}
+                                                        </Link>
+                                                    </p>
                                                     <p className="address">{item.address}</p>
                                                     <div 
                                                         className="description" 

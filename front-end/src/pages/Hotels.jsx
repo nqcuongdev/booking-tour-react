@@ -10,6 +10,7 @@ import Paginate from "../components/Paginate/Paginate";
 import post_1 from "../assets/images/posts/post-2.jpg";
 import post_2 from "../assets/images/posts/post-4.jpg";
 import HotelApi from "../api/hotelApi";
+import { useRouteMatch } from "react-router-dom";
 
 const hotelListData = [
   {
@@ -91,6 +92,10 @@ const Hotels = (props) => {
 
     fetchHotel();
   }, []);
+
+  // lấy đường dẫn hiện tại
+  const { url } = useRouteMatch();
+
   return (
     <MainLayout>
       <div className="hotels">
@@ -154,6 +159,8 @@ const Hotels = (props) => {
                       tags={hotel.attributes}
                       description={hotel.description}
                       price={hotel.price.adult}
+                      slug={hotel.slug}
+                      url={url}
                     />
                   </Col>
                 );

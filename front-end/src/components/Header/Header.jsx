@@ -19,7 +19,7 @@ const Header = (props) => {
 
   // lấy đường dẫn hiện tại
   const { url } = useRouteMatch();
-  console.log("url: "+url);
+  //console.log("url: "+url);
 
   return (
     <nav className="navbar navbar-expand-lg">
