@@ -152,6 +152,7 @@ const BookTour = (props) => {
               <div className="single__field">
                 <label htmlFor="code">Code</label>
                 <Input
+                  className="code-select"
                   type="select"
                   name="code"
                   id="code"
