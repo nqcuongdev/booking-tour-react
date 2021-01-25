@@ -12,7 +12,7 @@ const CommentForm = (props) => {
     setCommentForm({
       ...commentForm,
       rating: ratingNumber,
-      target_id: props.data,
+      target_id: props.data._id,
       name: user.full_name,
       email: user.email,
       user: user._id,

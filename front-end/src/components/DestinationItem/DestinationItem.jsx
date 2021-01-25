@@ -13,7 +13,9 @@ const DestinationItem = (props) => {
       >
         <div className="destination__overlay"></div>
         <div className="destination__content">
-          <h4 className="title">{props.title}</h4>
+          <Link to={`/destinations/${props._id}`} style={{ color: "black" }}>
+            <h4 className="title">{props.title}</h4>
+          </Link>
           <div className="desc">
             <Link to="/">0 Spaces</Link>
             <Link to="/">{props.hotel_count.length} Hotels</Link>

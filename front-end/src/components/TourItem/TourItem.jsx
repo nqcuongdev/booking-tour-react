@@ -23,7 +23,7 @@ const TourItem = (props) => {
       <div className="tour__item-caption">
         <div className="tour__item-title">
           <h3 className="title">
-            <Link>{props.title}</Link>
+            <Link to={`/tours/${props._id}`}>{props.title}</Link>
           </h3>
           <p className="duration">
             <span>

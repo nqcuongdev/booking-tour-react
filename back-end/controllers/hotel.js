@@ -333,3 +333,13 @@ exports.update = async (req, res) => {
     data: hotel,
   });
 };
+
+exports.searchHotel = async (req, res) => {
+  let destination = req.query.destination;
+  const results = await Hotel.find({ destination: destination }).limit(10);
+
+  return res.status(200).json({
+    success: !!results,
+    data: results,
+  });
+};

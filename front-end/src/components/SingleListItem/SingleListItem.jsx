@@ -19,6 +19,7 @@ const SingleListItem = (props) => {
 
     return newText.substring(0, 50);
   };
+
   return (
     <div className="list__item mt-3 mb-30">
       <Row>

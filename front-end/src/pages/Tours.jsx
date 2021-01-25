@@ -29,12 +29,14 @@ const popularItem = {
 
 const Tours = (props) => {
   const [toursList, setToursList] = useState([]);
+  const [oldTours, setOldTours] = useState([]);
 
   useEffect(() => {
     const fetchToursList = async () => {
       try {
         const response = await ToursApi.getAll();
         setToursList(response.data);
+        setOldTours(response.data);
       } catch (error) {
         console.log("Failed to fetch Tours list: ", error);
       }
@@ -43,10 +45,33 @@ const Tours = (props) => {
     fetchToursList();
   }, []);
 
+  const onSearchForm = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+
+    if (name === "title") {
+      let searchTour = toursList.filter((tour) => {
+        return tour.title.includes(value);
+      });
+      setToursList(searchTour);
+    } else if (name === "destination") {
+      let searchTour = toursList.filter((tour) => {
+        return tour.destination.title.includes(value);
+      });
+      setToursList(searchTour);
+    } else {
+      setToursList(oldTours);
+    }
+
+    if (value === "") {
+      setToursList(oldTours);
+    }
+  };
+
   return (
     <MainLayout>
       <BreadcrumbBanner pageName="Tours" backgroundImage={background} />
-      <SearchForm />
+      {/* <SearchForm /> */}
       <div className="list__tours mt-50">
         <Container>
           {/* <div className="filter__section pt-20 pb-30">
@@ -97,7 +122,12 @@ const Tours = (props) => {
                 <Form>
                   <FormGroup>
                     <InputGroup>
-                      <Input type="text" placeholder="Search keyword" />
+                      <Input
+                        type="text"
+                        placeholder="Search keyword"
+                        name="title"
+                        onChange={onSearchForm}
+                      />
                       <InputGroupText addonType="append">
                         <FaSearch className="mr-1" />
                       </InputGroupText>
@@ -106,7 +136,12 @@ const Tours = (props) => {
                   <FormGroup>
                     <label>Where?</label>
                     <InputGroup>
-                      <Input type="text" placeholder="Location" />
+                      <Input
+                        type="text"
+                        placeholder="Location"
+                        name="destination"
+                        onChange={onSearchForm}
+                      />
                       <InputGroupText addonType="append">
                         <FaMapMarkerAlt className="mr-1" />
                       </InputGroupText>
@@ -114,16 +149,7 @@ const Tours = (props) => {
                   </FormGroup>
                   <FormGroup>
                     <label>Start date</label>
-                    <Input type="date" />
-                  </FormGroup>
-                  <FormGroup className="text-center">
-                    <Button
-                      color="orange"
-                      className="mt-3"
-                      style={{ width: "auto" }}
-                    >
-                      Search
-                    </Button>
+                    <Input type="date" name="checkin" onChange={onSearchForm} />
                   </FormGroup>
                 </Form>
               </div>

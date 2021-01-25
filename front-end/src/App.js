@@ -73,7 +73,7 @@ function App() {
             <Route exact path="/destinations" component={Destinations} />
             <Route
               exact
-              path="/destinations/:slug"
+              path="/destinations/:id"
               component={DestinationDetail}
             />
             <Route exact path="/tour-cart" component={TourCart} />

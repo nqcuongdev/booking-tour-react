@@ -256,7 +256,11 @@ const TourDetail = (props) => {
                 </div>
               )}
             </Col>
-            <Col xl={3}>{reviews.length > 0 && <RateTable data={tour} />}</Col>
+            <Col xl={3}>
+              {reviews.length > 0 && (
+                <RateTable data={tour} reviews={reviews} />
+              )}
+            </Col>
           </Row>
         </Container>
 

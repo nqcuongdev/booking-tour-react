@@ -12,7 +12,7 @@ const {
   update,
   createScheduleTour,
   editScheduleTour,
-  getScheduleByTitle,
+  search,
 } = require("../controllers/tour");
 
 const router = express.Router();
@@ -40,6 +40,7 @@ const upload = multer({
 }).any();
 
 router.get("/", all);
+router.post("/search", search);
 router.get("/:id", show);
 router.get("/:id/schedule", getScheduleTour);
 router.post("/:id/schedule", isAuth, checkRole, createScheduleTour);

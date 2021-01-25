@@ -37,7 +37,9 @@ const Hotel = (props) => {
         <CardBody>
           <div className="hotel-name-rate">
             <Link to={`/hotels/${props._id}`}>
-              <p className="hotel-name">{props.name}</p>
+              <p className="hotel-name" style={{ color: "black" }}>
+                {props.name}
+              </p>
             </Link>
 
             <p className="hotel-rate">

@@ -541,3 +541,36 @@ exports.update = async (req, res) => {
     data: tour,
   });
 };
+
+exports.search = async (req, res) => {
+  let kw = req.query.keyword;
+  const { destination, checkin } = req.body;
+
+  if (kw !== "" && kw !== undefined) {
+    const tours = await Tour.aggregate(
+      {
+        $lookup: {
+          from: "tour_availabilities",
+          localField: "_id",
+          foreignField: "tour",
+          as: "tour_availabilities",
+        },
+      },
+      { $unwind: "$tour_availabilities" },
+      {
+        $match: {
+          $and: [
+            { title: { $regex: kw, $options: "i" } },
+            { destination: destination },
+            { checkin: { $gte: checkin } },
+          ],
+        },
+      }
+    );
+
+    return res.status(200).json({
+      success: !!tours,
+      data: tours,
+    });
+  }
+};

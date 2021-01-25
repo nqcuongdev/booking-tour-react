@@ -10,6 +10,11 @@ const HotelApi = {
     const url = `api/v1/hotel/${id}`;
     return axiosClient.get(url);
   },
+
+  search: (query) => {
+    const url = `api/v1/hotel/search-hotel?destination=${query}`;
+    return axiosClient.get(url);
+  },
 };
 
 export default HotelApi;

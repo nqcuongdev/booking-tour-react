@@ -318,7 +318,7 @@ const HotelDetail = (props) => {
 
           <Container className="comments mb-50">
             <p className="comments-title">
-              Guests loved their stay<span> (69)</span>
+              Guests loved their stay<span> ({reviews.length})</span>
             </p>
             <Row>
               <Col xl={9} className="comments-list mt-30">
@@ -346,13 +346,15 @@ const HotelDetail = (props) => {
                 )}
               </Col>
               <Col xl={3}>
-                <RateTable data={reviews} />
+                {reviews.length > 0 && (
+                  <RateTable data={hotel} reviews={reviews} />
+                )}
               </Col>
             </Row>
           </Container>
 
           <Container className="mb-50">
-            <CommentForm hotel={hotel} />
+            {hotel && <CommentForm data={hotel} />}
           </Container>
 
           <Container className="similar-hotels mb-50">
