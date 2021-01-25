@@ -7,13 +7,15 @@ const ThumbnailImage = (props) => {
     <div className="thumbnail">
       {!props.title && (
         <div className="thumbnail__overlay">
-          <Link to="/">+ 73 Places</Link>
+          <Link to="/">+ 15 Places</Link>
         </div>
       )}
-      <div className="thumbnail__image">
-        <img src={props.image} className="img-fluid" alt="Image thumbnail" />
+      <div className="thumbnail__image" style={{backgroundImage: `url(${props.image})`}}>
+        {/* <img src={props.image} className="img-fluid" alt="Image thumbnail" /> */}
       </div>
-      <span className="ml-1">{props.title}</span>
+      <div className="text-center">
+        <span className="ml-1">{props.title}</span>
+      </div>
     </div>
   );
 };
