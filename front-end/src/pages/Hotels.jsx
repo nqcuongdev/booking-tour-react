@@ -11,6 +11,7 @@ import post_1 from "../assets/images/posts/post-2.jpg";
 import post_2 from "../assets/images/posts/post-4.jpg";
 import HotelApi from "../api/hotelApi";
 import { useRouteMatch } from "react-router-dom";
+import Pagination from "react-js-pagination";
 
 const hotelListData = [
   {
@@ -76,12 +77,18 @@ const hotelListData = [
 ];
 
 const Hotels = (props) => {
+  //phân trang
+  const [pagination, setPagination] = useState(1)
+  //console.log(pagination)
+
   const [hotels, setHotels] = useState([]);
+
   useEffect(() => {
     const fetchHotel = async () => {
       try {
-        const response = await HotelApi.getAll();
+        const response = await HotelApi.getAll(pagination);
 
+        //console.log(response)
         if (response.success) {
           setHotels(response.data.docs);
         }
@@ -91,7 +98,7 @@ const Hotels = (props) => {
     };
 
     fetchHotel();
-  }, []);
+  }, [pagination]);
 
   // lấy đường dẫn hiện tại
   const { url } = useRouteMatch();
@@ -166,7 +173,18 @@ const Hotels = (props) => {
                 );
               })}
             </Row>
-            <Paginate />
+            {/* <Paginate /> */}
+            <div className="pagination-bar text-center">
+              <Pagination
+                itemClass="page-item"
+                linkClass="page-link"
+                activePage={pagination}
+                itemsCountPerPage={10}
+                totalItemsCount={100}
+                pageRangeDisplayed={5}
+                onChange={(page) => setPagination(page)}
+              />
+            </div>
           </Container>
         </div>
         <HomeContact />

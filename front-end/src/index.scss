@@ -588,6 +588,7 @@ h1 {
   }
 }
 
+// HOTELS PAGE
 .hotels {
   .hotels-list {
     background-color: $grayF8 !important;
@@ -2567,5 +2568,47 @@ h1 {
 
   .go-home {
     color: $orange !important;
+  }
+}
+
+// PAGINATION -PHÂN TRANG
+.pagination-bar {
+  display: flex;
+  justify-content: center;
+  padding: 25px 0;
+
+  ul {
+    li {
+      padding: 5px;
+
+      a {
+        border-radius: 3px;
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+        transition: 0.5s;
+
+        &:focus {
+          border: none !important;
+        }
+
+        &:hover {
+          border: none !important;
+        }
+      }
+    }
+
+    li.active {
+      a {
+        background: $orange !important;
+        color: $white !important;
+        border: none !important;
+      }
+    }
   }
 }
