@@ -14,12 +14,6 @@
     }
 }
 
-.btn-orange {
-    text-transform: uppercase;
-    height: 45px;
-    font-weight: $font-weight-semi-bold;
-}
-
 .modal-body {
     input {
         height: 50px;
@@ -29,4 +23,16 @@
         font-size: 14px;
         color: $gainsboro;
     }
+}  
+
+.notification {
+    text-align: center;
+
+    .failed {
+        color: red;
+    }
+}
+
+.btn-login {
+    width: 100%;
 }

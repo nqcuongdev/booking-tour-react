@@ -13,6 +13,7 @@ exports.show = async (req, res) => {
   }
 
   let user = await User.findOne({ _id: id });
+  let books = await Booking.find({ user: id });
 
   if (!user) {
     return res.status(404).json({
@@ -24,6 +25,7 @@ exports.show = async (req, res) => {
   return res.status(200).json({
     success: !!user,
     data: user,
+    books: books,
   });
 };
 
@@ -37,4 +39,4 @@ exports.updateProfile = async (req, res) => {
       message: "Your ID is not valid",
     });
   }
-}
+};

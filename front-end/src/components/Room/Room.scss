@@ -1,0 +1,109 @@
+@import "../../assets/scss/_variables.scss";
+
+.room {
+    margin-bottom: 20px;
+    
+    .room-image {
+        height: 100%;
+        
+        img {
+            width: 100%;
+            border-radius: 3px;
+            height: 100%;
+        }
+    }
+
+    .room-info {
+        .room-info-header {
+            border-bottom: 1px solid #F7F5F5;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+
+            .room-info-header-title {
+                display: flex;
+                align-items: center;
+
+                .title {
+                    font-size: 18px;
+                    font-weight: bold;
+                }
+            }
+            
+            .room-info-header-price {
+                display: flex;
+                flex-direction: column;
+
+                .price {
+                    color: $orange;
+                    display: flex;
+                    margin-left: auto;
+    
+                    .price-dollar {
+                        padding-top: 6px;
+                    }
+                    .price-number {
+                        font-size: 26px;
+                        margin-left: 5px;
+                    }
+                }
+
+                .per-night {
+                    margin-left: auto;
+                    font-size: 11px;
+                    color: $text;
+                    margin-top: -5px;
+                }
+            }
+        }
+
+        .room-info-body {
+            .people-acreage {
+                color: $text;
+                margin-bottom: 15px;
+
+                .people {
+                    padding: 0 0 0 15px;
+                    display: flex;
+                    align-items: center;
+                }
+
+                .acreage {
+                    padding: 0 0 0 15px;
+                    display: flex;
+                    align-items: center;
+                }
+
+                .icon {
+                    margin-right: 5px;
+                }
+            }
+
+            .options {
+                color: $text;
+            }
+
+            .btn-book-now {
+                display: flex;
+
+                Button {
+                    margin-left: auto;
+                    background-color: $orange;
+                    border-radius: 3px;
+                    border: 1px solid $orange;
+                    min-width: 125px;
+
+                    &:hover {
+                        background-color: $primary;
+                        border: 1px solid $primary;
+                    }
+                }
+
+                @media all and (min-width: 992px) {
+                    Button {
+                        height: 32px;
+                    }
+                }
+            }
+        }
+    }
+}

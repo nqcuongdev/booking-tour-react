@@ -11,6 +11,9 @@ import {
     FORGET_PASSWORD_SUCCESS,
     FORGET_PASSWORD_FAILED,
     RECEIVER_AUTH_SUCCESS,
+    LOGIN_WITH_GOOGLE_FAILURE,
+    LOGIN_WITH_GOOGLE,
+    LOGIN_WITH_GOOGLE_SUCCESS,
 } from './constants';
 
 const INIT_STATE = {
@@ -20,11 +23,13 @@ const INIT_STATE = {
 
 const Auth = (state = INIT_STATE, action) => {
     switch (action.type) {
-        case LOGIN_USER:
+        case LOGIN_USER || LOGIN_WITH_GOOGLE:
             return { ...state, loading: true };
         case LOGIN_USER_SUCCESS:
             return { ...state, user: action.payload, loading: false, error: null };
-        case LOGIN_USER_FAILED:
+        case LOGIN_WITH_GOOGLE_SUCCESS:
+            return { ...state, user: action.payload, loading: false, error: null };
+        case LOGIN_USER_FAILED || LOGIN_WITH_GOOGLE_FAILURE:
             return { ...state, error: action.payload, loading: false };
         case REGISTER_USER:
             return { ...state, loading: true };

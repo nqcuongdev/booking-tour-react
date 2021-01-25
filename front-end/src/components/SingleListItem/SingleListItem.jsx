@@ -2,35 +2,60 @@ import React from "react";
 import { FaClock, FaMapMarkerAlt } from "react-icons/fa";
 import { Button, Col, Row } from "reactstrap";
 import "./SingleListItem.scss";
+import moment from "moment";
+import { Link } from "react-router-dom";
 
 const SingleListItem = (props) => {
+  const showNewBadge = (date) => {
+    let currentDate = moment().diff(new Date(), "minutes");
+    let itemDate = moment().diff(date + 3, "minutes");
+    if (itemDate > currentDate) {
+      return <div className="item__tag">New</div>;
+    }
+  };
+
+  const getSubStringContent = (text) => {
+    const newText = text.replace(/<[^>]+>/g, "");
+
+    return newText.substring(0, 50);
+  };
+
   return (
     <div className="list__item mt-3 mb-30">
       <Row>
         <Col md={5} lg={5} className="item__image">
-          <div className="item__tag">New</div>
+          {showNewBadge(props.created_date)}
           <img src={props.image} className="img-fluid" alt={props.title} />
         </Col>
         <Col md={7} lg={5} className="item__content">
           <Row>
             <div className="item__info">
-              <h4 className="title">{props.title}</h4>
+              <Link to={`tours/${props._id}`}>
+                <h4 className="title" style={{ color: "black" }}>
+                  {props.title}
+                </h4>
+              </Link>
               <div className="item__options">
                 <span className="location">
                   <FaMapMarkerAlt size={14} />
-                  {props.option.place}
+                  {
+                    props.address.split(",")[
+                      props.address.split(",").length - 1
+                    ]
+                  }
                 </span>
                 <span className="during float-right">
                   <FaClock size={14} />
-                  {props.option.day} days {props.option.night} nights
+                  {props.duration}
                 </span>
               </div>
-              <div className="item__description mt-3">{props.description}</div>
+              <div className="item__description mt-3">
+                {getSubStringContent(props.description)}...
+              </div>
               <div className="item__button mt-3">
-                <Button color="orange" className="mr-3">
+                <Button color="orange" size="sm" className="mr-3">
                   Book now
                 </Button>
-                <Button color="detail">Book now</Button>
               </div>
             </div>
             <div className="price"></div>

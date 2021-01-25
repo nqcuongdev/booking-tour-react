@@ -9,6 +9,7 @@ import post_1 from '../../assets/images/posts/post-1.jpg';
 import post_2 from '../../assets/images/posts/post-2.jpg';
 import post_3 from '../../assets/images/posts/post-3.jpg';
 import post_4 from '../../assets/images/posts/post-4.jpg';
+import { Link } from 'react-router-dom';
 
 const carouselData = [
     {
@@ -79,7 +80,7 @@ const TopDestination = (props) => {
                     <p><b>Book hotel in top destinations</b></p>
                 </div>
                 <Row>
-                    <Col lg={7} md={7} xs={12} className="top-destination-content">
+                    <Col lg={7} md={12} xs={12} className="top-destination-content">
                         <Carousel>
                             {carouselData.map(carousel => {
                                 return (
@@ -103,22 +104,22 @@ const TopDestination = (props) => {
                             })}
                         </Carousel>
                     </Col>
-                    <Col lg={5} md={5} xs={12} className="top-destination-list">
+                    <Col lg={5} md={12} xs={12} className="top-destination-list">
                         {destinationList.map(destination => {
                             return (
                                 <div  className="top-destination-item">
                                     <Row>
                                         <Col lg={4} md={4} xs={4} >
                                             <div className="image">
-                                                <a href="#"><img src={destination.image} /></a>
+                                                <Link to="#"><img src={destination.image} /></Link>
                                             </div>
                                         </Col>
                                         <Col lg={5} md={5} xs={5} className="destination-content">
-                                            <a href="#"><h5 className="name"><b>{destination.name}</b></h5></a>
+                                            <Link to="#"><h5 className="name"><b>{destination.name}</b></h5></Link>
                                             <p className="address">{destination.address}</p>
                                             <span className="view-on-map">
                                                 <MdLocationOn size={20} className="location-icon"/>
-                                                <a href="{destination.location}">View on map</a>
+                                                <Link to={destination.location}>View on map</Link>
                                             </span>
                                         </Col>
                                         <Col lg={3} md={3} xs={3} >

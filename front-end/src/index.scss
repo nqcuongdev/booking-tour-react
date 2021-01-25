@@ -1,4 +1,6 @@
 @import "./assets/scss/_variables.scss";
+@import '~react-toastify/dist/ReactToastify.min.css';
+@import "~react-input-range/lib/css/index.css";
 
 body {
   color: $text;
@@ -36,8 +38,20 @@ h1 {
   color: $orange;
 }
 
+.mt-10 {
+  margin-top: 10px;
+}
+
 .mt-20 {
   margin-top: 20px;
+}
+
+.mt-30 {
+  margin-top: 30px;
+}
+
+.mb-10 {
+  margin-bottom: 10px;
 }
 
 .mb-20 {
@@ -46,6 +60,10 @@ h1 {
 
 .pt-20 {
   padding-top: 20px;
+}
+
+.pt-30 {
+  padding-top: 30px;
 }
 
 .mb-30 {
@@ -80,6 +98,39 @@ h1 {
   padding-bottom: 60px;
 }
 
+.pl-15 {
+  padding-left: 15px;
+}
+
+.pr-15 {
+  padding-right: 15px;
+}
+
+.mf-15 {
+  margin-left: 15px;
+}
+
+.mr-15 {
+  margin-right: 15px;
+}
+
+.pd-0 {
+  padding: 0px;
+}
+
+.mg-0 {
+  margin: 0px;
+}
+
+.ml-15- {
+  margin-left: -15px;
+}
+
+.mr-15- {
+  margin-right: -15px;
+}
+
+
 .btn {
   border-radius: 2px !important;
   font-size: 14px !important;
@@ -99,10 +150,13 @@ h1 {
 }
 
 .btn-orange {
-  width: 100%;
+  // width: 100%;
   background-color: $orange !important;
   border-color: $orange !important;
   color: $white !important;
+  text-transform: uppercase;
+  min-height: 35px;
+  font-weight: $font-weight-semi-bold;
 }
 
 .contact__section {
@@ -259,8 +313,685 @@ h1 {
   }
 }
 
-.post-list-of-blogs {
-  padding: 32px 8px;
+
+.blogs {
+  .post-list-of-blogs {
+    padding: 32px 8px;
+
+    .popular-tour {
+      font-size: 27px;
+      font-weight: bold;
+    }
+  }
+}
+
+.blog-detail {
+  .blog-detail-link {
+    background-color: $gray95;
+    height: 113px;
+    display: flex;
+    align-items: center;
+  
+    span {
+      text-transform: uppercase;
+      span {
+        color: $text;
+      }
+    }
+  }
+  
+  .blog-detail-main {
+    .blog-detail-sidebar {
+      .search {
+        display: flex;
+        flex-direction: row;
+  
+        Input {
+          font-size: 14px;
+          background-color: $gray95;
+          border: none !important;
+          border-top-left-radius: 0.25rem !important;
+          border-top-right-radius: 0 !important;
+          border-bottom-right-radius: 0 !important;
+          border-bottom-left-radius: 0.25rem !important;
+        }
+    
+        Button {
+          background-color: $gray95;
+          border: none !important;
+          border-top-left-radius: 0 !important;
+          border-top-right-radius: 0.25rem !important;
+          border-bottom-right-radius: 0.25rem !important;
+          border-bottom-left-radius: 0 !important;
+  
+          .search-icon {
+            color: $gray46;
+          }
+        }
+      }
+
+      .categories {
+        margin-top: 25px;
+
+        .title {
+          font-size: 22px;
+        }
+        
+        .category-item {
+          color: $text;
+          margin-bottom: 10px !important;
+        }
+      }
+
+      .popular-post-list {
+        margin-top: 25px;
+
+        .popular-post-list-title {
+          font-size: 22px;
+        }
+      }
+    }
+  
+    .blog-detail-content {
+      .post-image {
+        width: 100%;
+        border-radius: 2px;
+      }
+  
+      .post-title {
+        font-size: 27px;
+        font-weight: bold;
+        font-family: 'Poppins', sans-serif;
+        margin: 15px 0 0 0;
+      }
+
+      .post-info {
+        color: $text;
+
+        ul {
+          li {
+            display: inline-block;
+            margin-right: 30px;
+          }
+        }
+      }
+
+      .post-description {
+      }
+
+      .post-quotes {
+        display: flex;
+        justify-content: center;
+
+        .quotes {
+          width: 80%;
+          border-left: 5px solid $orange;
+          padding-left: 15px;
+          
+          span {
+            font-size: 20px;
+            color: $primary;
+          }
+        }
+      }
+
+      .post-tag {
+        .orange-text {
+          color: $orange !important;
+        }
+      }
+
+      .author-info {
+        display: flex;
+
+        .author-avatar {
+          img {
+            width: 70px;
+            height: auto;
+            border-radius: 50%;
+          }
+
+          .author-social {
+            color: $text;
+
+            ul {
+              display: flex;
+              justify-content: center;
+
+              li {
+                margin: 0 2px;
+
+                .icon {
+                  width: 12px;
+                  height: 12px;
+                }
+              }
+            }
+          }
+        }
+        .author-name-description {
+          margin-left: 20px;
+
+          .author-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0 0 5px 0 !important;
+          }
+
+          .author-description {
+          }
+        }
+      }
+
+      .blog-detail-content-paginate {
+        background-color: $grayF8;
+        height: 80px;
+        border: 1px solid $gray95;
+        border-radius: 3px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 10px;
+
+        .previous-post {
+          display: flex;
+          margin-right: auto;
+
+          .link {
+            font-size: 14px !important;
+            font-weight: 600 !important;
+
+            &:hover {
+              color: $orange !important;
+            }
+          }
+        }
+        
+        .grid-circle {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          .border-circle {
+            width: 40px;
+            height: 40px;
+            background-color: $white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .grid-icon {
+              color: $orange;
+              width: 20px;
+              height: 20px;
+            }
+          }
+        }
+
+        .next-post {
+          display: flex;
+          margin-left: auto;
+
+          .link {
+            font-size: 14px !important;
+            font-weight: 600 !important;
+
+            &:hover {
+              color: $orange !important;
+            }
+          }
+        }
+      }
+
+      .post-comment {
+        .post-comment-title {
+          font-size: 27px;
+          font-weight: bold;
+
+          .post-comment-count {
+            color: $orange !important;
+          }
+        }
+
+        .view-more-comment {
+          text-align: center;
+
+          p {
+            text-transform: uppercase;
+            font-weight: bold;
+            color: $text;
+            font-size: 15px;
+
+            span {
+              color: $primary;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .related-posts {
+    background-color: $grayF8;
+    padding: 50px 0 20px 0;
+
+    .related-posts-title {
+      font-size: 27px;
+      font-weight: bold;
+      margin-bottom: 25px;
+    }
+
+    .card {
+      background-color: $grayF8 !important;
+    }
+  }
+}
+
+.hotels {
+  .hotels-list {
+    background-color: $grayF8 !important;
+
+    .hotels-list-top {
+      .hotels-list-top-left {
+        display: flex;
+        align-items: center;
+
+        p {
+          color: $text;
+          font-size: 14px;
+  
+          span {
+            color: $orange;
+          }
+        }
+      }
+
+      .hotels-list-top-right {
+        display: flex;
+        margin-left: auto;
+
+        .select-sort-by {
+          font-size: 14px;
+          width: 270px;
+          height: 40px;
+        }
+      }
+    }
+  }
+}
+
+.hotel-detail {
+  .hotel-detail-link {
+    background-color: $gray95;
+    height: 113px;
+    display: flex;
+    align-items: center;
+  
+    span {
+      text-transform: uppercase;
+
+      span {
+        color: $text;
+      }
+    }
+  }
+
+  .hotel-detail-main {
+    .hotel-detail-main-header {
+
+      .hotel-detail-main-header-left {
+        .title {
+          text-transform: uppercase;
+          font-size: 36px;
+          font-weight: bold;
+        }
+
+        .location-tags {
+          display: flex;
+          flex-direction: row;
+
+          .location {
+            color: $orange;
+            margin-right: 20px;
+          }
+
+          .tags {
+            color: $text;
+          }
+        }
+      }
+
+      .hotel-detail-main-header-right {
+        display: flex;
+
+        .rate-stars {
+          display: flex;
+          margin-left: auto;
+          flex-direction: column;
+
+          .stars-counter {
+            display: flex;
+            flex-direction: row;
+            margin-left: auto;
+
+            .stars-number-calculation {
+              margin-top: 10px;
+              margin-right: 10px;
+            }
+
+            .stars {
+              color: $yellow;
+              margin-right: 5px;
+              font-size: 17px;
+            }
+            
+            .stars-number {
+              font-size: 25px;
+              margin-top: auto;
+
+              .below {
+                color: $text;
+                font-size: 14px;
+              }
+            }
+          }
+        }
+
+        .view {
+          margin-left: auto;
+          color: $text;
+        }
+      }
+    }
+  }
+
+  .hotel-detail-option-tag {
+    ul {
+      li {
+        display: inline;
+        text-transform: uppercase;
+        color: $text;
+        font-size: 15px;
+        font-weight: $font-weight-semi-bold;
+        margin: 20px 20px 20px 0;
+        text-align: center;
+
+        span {
+          margin-right: 16px;
+        }
+      }
+    }
+  }
+
+  .room-type {
+    .room-type-title {
+      font-weight: bold;
+      font-size: 27px;
+    }
+  }
+
+  .facilities {
+    .facilities-title {
+      font-size: 27px;
+      font-weight: bold;
+    }
+
+    .facilities-body {
+      .facilities-body-item {
+        display: flex;
+      }
+
+      p {
+        margin-bottom: 7px;
+      }
+
+      .facilities-icon {
+        color: $orange;
+        font-size: 18px;
+        margin-right: 5px;
+      }
+
+      .facilities-list {
+        .facilities-list-item {
+          color: $text;
+        }
+      }
+    }
+  }
+
+  .comments {
+    .comments-title {
+      font-size: 27px;
+      font-weight: bold;
+
+      span {
+        color: $orange;
+      }
+    }
+
+    .view-more-comment {
+      text-align: center;
+
+      p {
+        text-transform: uppercase;
+        font-weight: bold;
+        color: $text;
+        font-size: 15px;
+
+        span {
+          color: $primary;
+        }
+      }
+    }
+  }
+
+  .similar-hotels {
+    .similar-hotels-title {
+      font-size: 27px;
+      font-weight: bold;
+    }
+  }
+}
+
+.tours-detail {
+  .tour-detail-link {
+    background-color: $gray95;
+    height: 113px;
+    display: flex;
+    align-items: center;
+  
+    span {
+      text-transform: uppercase;
+
+      span {
+        color: $text;
+      }
+    }
+  }
+  
+  .tour-detail-main {
+    .header {
+      .header-left {
+        .title {
+          text-transform: uppercase;
+          font-size: 36px;
+          font-weight: bold;
+        }
+
+        .title-list {
+          display: inline-block;
+
+          li {
+            display: inline;
+            margin-right: 25px;
+            color: $text;
+          }
+
+          li.location {
+            color: $orange;
+          }
+        }
+      }
+
+      .header-right {
+        display: flex;
+        flex-direction: column;
+
+        .price {
+          display: flex;
+          margin-left: auto;
+          
+          span {
+            color: $orange;
+            font-size: 36px;
+          }
+        }
+
+        .rate-stars {
+          display: flex;
+          margin-left: auto;
+          flex-direction: column;
+
+          .stars-counter {
+            display: flex;
+            flex-direction: row;
+            margin-left: auto;
+
+            .stars-number-calculation {
+              margin-top: 10px;
+              margin-right: 10px;
+            }
+
+            .stars {
+              color: $yellow;
+              margin-right: 5px;
+              font-size: 17px;
+            }
+            
+            .stars-number {
+              font-size: 25px;
+              margin-top: auto;
+
+              .below {
+                color: $text;
+                font-size: 14px;
+              }
+            }
+          }
+        }
+
+        .view {
+          margin-left: auto;
+          color: $text;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+
+  .tours-detail-option-tag {
+    ul {
+      li {
+        display: inline;
+        text-transform: uppercase;
+        color: $text;
+        font-size: 15px;
+        font-weight: $font-weight-semi-bold;
+        margin: 20px 20px 20px 0;
+        text-align: center;
+
+        span {
+          margin-right: 16px;
+        }
+      }
+    }
+  }
+
+  .tour-overview {
+    .title {
+      font-size: 27px;
+      font-weight: bold;
+    }
+
+    .day-item {
+      .image {
+        img {
+          width: 100%;
+        }
+      }
+
+      .content {
+        .day {
+          font-size: 24px;
+          font-weight: bold;
+        }
+
+        .description {
+          color: $text;
+        }
+      }
+    }
+
+    .button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 70px 0;
+
+      .book-now {
+        background-color: $orange;
+        border: 1px solid $orange;
+        width: 170px;
+        margin-right: 15px;
+
+        &:hover {
+          background-color: $primary;
+        border: 1px solid $white;
+        }
+      }
+
+      .download-schedule {
+        background-color: $white;
+        border: 1px solid $orange;
+        width: 170px;
+        margin-left: 15px;
+        color: $orange;
+      }
+    }
+  }
+
+  .maps {
+    height: "372px";
+    width: "100%";
+    margin-bottom: 200px;
+  }
+
+  .comments {
+    .comments-title {
+      font-size: 27px;
+      font-weight: bold;
+
+      span {
+        color: $orange;
+      }
+    }
+
+    .view-more-comment {
+      text-align: center;
+
+      p {
+        text-transform: uppercase;
+        font-weight: bold;
+        color: $text;
+        font-size: 15px;
+
+        span {
+          color: $primary;
+        }
+      }
+    }
+  }
 }
 
 .modal-dialog {
@@ -361,25 +1092,1474 @@ h1 {
   }
 }
 
-.tours__detail-tag {
-  ul {
-    li {
-      text-transform: uppercase;
-      color: $text;
-      font-size: 15px;
-      font-weight: $font-weight-semi-bold;
-      padding: 20px 10px;
-      text-align: center;
-    }
-  }
+.destinations {
+  .destinations-main {
+    .destinations-main-sidebar {
+      .search {
+        display: flex;
+        flex-direction: row;
   
-  ul li {
-    display: inline;
+        Input {
+          font-size: 14px;
+          background-color: $gray95;
+          border: none !important;
+          border-top-left-radius: 0.25rem !important;
+          border-top-right-radius: 0 !important;
+          border-bottom-right-radius: 0 !important;
+          border-bottom-left-radius: 0.25rem !important;
+        }
+    
+        Button {
+          background-color: $gray95;
+          border: none !important;
+          border-top-left-radius: 0 !important;
+          border-top-right-radius: 0.25rem !important;
+          border-bottom-right-radius: 0.25rem !important;
+          border-bottom-left-radius: 0 !important;
+  
+          .search-icon {
+            color: $gray46;
+          }
+        }
+      }
+    }
 
-    &:before {
-       content: "•";
-       padding-right: 20px;
+    .destinations-main-content {
+      .destination-item {
+        margin-top: 50px;
+
+        .item {
+          margin-bottom: 40px;
+
+          .image {
+            img {
+              width: 100%;
+              border-radius: 3px;
+            }
+          }
+
+          .content {
+            .title {
+              font-size: 28px;
+              font-weight: bold;
+              margin-bottom: 5px;
+            }
+
+            .address {
+              text-transform: uppercase;
+              color: $text;
+              margin-bottom: 5px;
+            }
+
+            .description {
+              color: $text;
+            }
+
+            .button {
+              .view-detail {
+                background-color: $orange;
+                border: none;
+                margin-right: 5px;
+
+                &:hover {
+                  background-color: $primary;
+                }
+              }
+
+              .view-map {
+                margin-left: 5px;
+                
+                .icon {
+                  color: $orange;
+                }
+
+                span {
+                  border-bottom: 1px solid;
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
 
+.destination-detail {
+  .destination-detail-link {
+    background-color: $gray95;
+    height: 113px;
+    display: flex;
+    align-items: center;
+    
+    span {
+      text-transform: uppercase;
+    
+      span {
+        color: $text;
+      }
+    }
+  }
+
+  .destination-detail-main {
+    .destination-detail-main-sidebar {
+      .search {
+        display: flex;
+        flex-direction: row;
+  
+        Input {
+          font-size: 14px;
+          background-color: $gray95;
+          border: none !important;
+          border-top-left-radius: 0.25rem !important;
+          border-top-right-radius: 0 !important;
+          border-bottom-right-radius: 0 !important;
+          border-bottom-left-radius: 0.25rem !important;
+        }
+    
+        Button {
+          background-color: $gray95;
+          border: none !important;
+          border-top-left-radius: 0 !important;
+          border-top-right-radius: 0.25rem !important;
+          border-bottom-right-radius: 0.25rem !important;
+          border-bottom-left-radius: 0 !important;
+  
+          .search-icon {
+            color: $gray46;
+          }
+        }
+      }
+  
+      .title {
+        font-size: 22px;
+      }
+  
+      .popular-hotel-in-here {
+        .popular-hotel-item {
+          margin: 0 -15px 25px -15px;
+
+          .popular-hotel-image {
+            padding-right: 0 !important;
+          }
+
+          .item-image {
+            width: 100%;
+            height: 100%;
+            min-width: 100px;
+            min-height: 100px;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            border-radius: 3px;
+            
+            // img {
+            //   height: 100%;
+            // }
+
+            // @media all and (max-width: 768px) {
+            //   img {
+            //     width: 100%;
+            //   } 
+            // }
+
+            // @media all and (max-width: 350px) {
+            //   img {
+            //     width: auto;
+            //   } 
+            // }
+          }
+
+          .item-title {
+            margin-bottom: 3px;
+
+            .link {
+              font-size: 16px;
+              color: $light-black1 !important;
+            }
+
+            .item-right {
+              display: flex;
+              align-items: center;
+
+              .icon {
+                color: $yellow;
+                margin-right: 5px;
+                font-size: 12px;
+                margin-top: -3px;
+              }
+  
+              span {
+                color: $text;
+                font-size: 10px;
+  
+                .stars {
+                  color: $light-black1;
+                  font-size: 14px;
+                }
+              }
+            }
+          }
+
+          .item-location {
+            color: $text;
+            margin-bottom: 10px;
+          }
+
+          .view-map {
+            .icon {
+              color: $orange;
+            }
+
+            span {
+              border-bottom: 1px solid;
+            }
+          }
+        }
+      }
+    }
+
+    .destination-detail-main-content {
+      .header {
+        .header-left {
+          .title {
+            text-transform: uppercase;
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 0px;
+          }
+
+          .location {
+            font-size: 16;
+            text-transform: uppercase;
+            color: $text;
+          }
+        }
+
+        .header-right {
+          display: flex;
+          flex-direction: column;
+
+          .rate-stars {
+            display: flex;
+            margin-left: auto;
+            flex-direction: column;
+
+            .stars-counter {
+              display: flex;
+              flex-direction: row;
+              margin-left: auto;
+
+              .stars-number-calculation {
+                margin-top: 10px;
+                margin-right: 10px;
+              }
+
+              .stars {
+                color: $yellow;
+                margin-right: 5px;
+                font-size: 17px;
+              }
+              
+              .stars-number {
+                font-size: 25px;
+                margin-top: auto;
+
+                .below {
+                  color: $text;
+                  font-size: 14px;
+                }
+              }
+            }
+          }
+
+          .view {
+            margin-left: auto;
+            color: $text;
+            font-size: 12px;
+          }
+        }
+      }
+
+      .description {
+        color: $text;
+      }
+
+      .tour-packages {
+        .title {
+          font-size: 25px;
+        }
+      }
+
+      .comments {
+        .comments-title {
+          font-size: 27px;
+          font-weight: bold;
+    
+          span {
+            color: $orange;
+          }
+        }
+    
+        .view-more-comment {
+          text-align: center;
+    
+          p {
+            text-transform: uppercase;
+            font-weight: bold;
+            color: $text;
+            font-size: 15px;
+    
+            span {
+              color: $primary;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+// TOUR - CART
+.tour-cart {
+  .cart-link {
+    background-color: $gray95;
+    height: 113px;
+    display: flex;
+    align-items: center;
+    
+    span {
+      text-transform: uppercase;
+    
+      span {
+        color: $text;
+      }
+    }
+  }
+
+  .cart-content {
+    .cart-col {
+      text-transform: uppercase;
+      font-weight: bold;
+      padding: 10px 30px;
+    }
+
+    @media all and (max-width: 991px) {
+      .cart-col {
+        display: none !important;
+      }
+    }
+
+    .cart-list {
+      .cart-item {
+        background-color: $grayF8;
+        padding: 15px;
+        margin-bottom: 30px;
+
+        .cart-title {
+          font-size: 16px;
+          font-weight: bold;
+          margin-bottom: 10px;
+          padding: 0 30px;
+        }
+
+        .cart-content {
+          margin-right: 0;
+          margin-left: 0;
+          display: flex;
+          
+          .image {
+            // width: 230px;
+            // height: 150px;
+            // min-width: 230px;
+            // min-height: 150px;
+            // overflow: hidden;
+            // background-size: cover;
+            // background-position: center;
+            // border-radius: 3px;
+
+            img {
+              width: 100%;
+              height: 100%;
+              border-radius: 3px;
+            }
+          }
+
+          .info {
+            display: flex;
+            align-items: center;
+            padding: 5px 20px;
+            color: $text;
+          }
+
+          .adult {
+            display: flex;
+            align-items: center;
+
+            p {
+              color: $text;
+            }
+          }
+
+          .children {
+            display: flex;
+            align-items: center;
+
+            p {
+              color: $text;
+            }
+          }
+
+          .total {
+            display: flex;
+            align-items: center;
+            padding-bottom: 40px;
+
+            .btn-delete {
+              margin-left: auto;
+              
+              .icon {
+                font-size: 25px;
+              }
+            }
+          }
+        }
+
+        .show-hide-scale {
+          display: none;
+          margin-top: 20px;
+          margin-bottom: 5px;
+          text-transform: uppercase;
+          font-size: 12px;
+        }
+      }
+
+      @media all and (max-width: 991px) {
+        .cart-item {
+          display: flex;
+          flex-direction: column;
+
+          .cart-content {
+            .info {
+              padding-right: 50px;
+            }
+
+            .total {
+              .price {
+                .show-hide-scale {
+                  margin-top: 10px;
+                }
+              }
+            }
+
+            .btn-delete {
+              margin-top: -207px;
+            }
+  
+            .show-hide-scale {
+              display: block;
+            }
+          }
+        }
+      }
+
+      @media all and (max-width: 768px) {
+        .cart-item {
+          .cart-content {
+            .info {
+              margin-top: 10px;
+            }
+
+            .btn-delete {
+              margin-top: 0;
+            }
+          }
+        }
+      }
+    }
+
+    .total-pay {
+      .input-gift {
+        display: flex;
+        align-items: center;
+
+        Input {
+          width: 80%;
+          font-size: 14px;
+          padding-right: 30px;
+        }
+
+        @media all and (max-width: 768px) {
+          Input {
+            width: 100%;
+          }
+        }
+
+        .icon {
+          color: $orange;
+          font-size: 16px;
+          margin-left: -25px;
+        }
+      }
+
+      .total-to-pay {
+        margin-left: auto;
+        color: $text;
+        font-weight: bold;
+        display: flex;
+
+        p {
+          margin-top: 15px;
+          margin-left: auto;
+
+          span {
+            color: $orange;
+            margin-left: 50px;
+          }
+        }
+      }
+    }
+
+    .btn-update-checkout {
+      display: flex;
+      justify-content: center;
+
+      .btn-update-cart {
+        background-color: $white;
+        border: 1px solid $orange;
+        color: $orange;
+        margin-right: 15px;
+        width: 200px;
+      }
+
+      .btn-checkout {
+        background-color: $orange;
+        border: 1px solid $orange;
+        margin-left: 15px;
+        width: 200px;
+      }
+    }
+  }
+}
+
+// HOTEL - CART
+.hotel-cart {
+  .cart-link {
+    background-color: $gray95;
+    height: 113px;
+    display: flex;
+    align-items: center;
+    
+    span {
+      text-transform: uppercase;
+    
+      span {
+        color: $text;
+      }
+    }
+  }
+
+  .cart-content {
+    .cart-col {
+      text-transform: uppercase;
+      font-weight: bold;
+      padding: 10px 30px;
+    }
+
+    @media all and (max-width: 991px) {
+      .cart-col {
+        display: none !important;
+      }
+    }
+
+    .cart-list {
+      .cart-item {
+        background-color: $grayF8;
+        padding: 15px;
+        margin-bottom: 30px;
+
+        .cart-title {
+          font-size: 16px;
+          font-weight: bold;
+          margin-bottom: 10px;
+          padding: 0 30px;
+        }
+
+        .cart-content {
+          margin-right: 0;
+          margin-left: 0;
+          display: flex;
+          
+          .image {
+            // width: 230px;
+            // height: 150px;
+            // min-width: 230px;
+            // min-height: 150px;
+            // overflow: hidden;
+            // background-size: cover;
+            // background-position: center;
+            // border-radius: 3px;
+
+            img {
+              width: 100%;
+              height: 100%;
+              border-radius: 3px;
+            }
+          }
+
+          .info {
+            display: flex;
+            align-items: center;
+            padding: 5px 20px;
+            color: $text;
+          }
+
+          .row-full-height {
+            height: 100%;
+          }
+
+          .price {
+            display: flex;
+            align-items: center;
+            padding-bottom: 37px;
+          }
+
+          .quantity {
+            display: flex;
+            align-items: center;
+            padding-bottom: 37px;
+
+            p {
+              color: $text;
+            }
+          }
+
+          .buffet {
+            display: flex;
+            align-items: center;
+
+            p {
+              color: $text;
+            }
+          }
+
+          .total {
+            display: flex;
+            align-items: center;
+            padding-bottom: 40px;
+
+            .btn-delete {
+              margin-left: auto;
+              
+              .icon {
+                font-size: 25px;
+              }
+            }
+          }
+        }
+
+        .show-hide-scale {
+          display: none;
+          margin-top: 20px;
+          margin-bottom: 5px;
+          text-transform: uppercase;
+          font-size: 12px;
+        }
+      }
+
+      @media all and (max-width: 991px) {
+        .cart-item {
+          display: flex;
+          flex-direction: column;
+
+          .cart-content {
+            .info {
+              padding-right: 50px;
+            }
+
+            .price {
+              // padding-bottom: none;
+              display: block;
+            }
+
+            .total {
+              .price-pay {
+                .show-hide-scale {
+                  margin-top: 10px;
+                }
+              }
+            }
+
+            .btn-delete {
+              margin-top: -207px;
+            }
+  
+            .show-hide-scale {
+              display: block;
+            }
+          }
+        }
+      }
+
+      @media all and (max-width: 768px) {
+        .cart-item {
+          .cart-content {
+            .info {
+              margin-top: 10px;
+            }
+
+            .btn-delete {
+              margin-top: 0;
+            }
+          }
+        }
+      }
+    }
+
+    .total-pay {
+      .input-gift {
+        display: flex;
+        align-items: center;
+
+        Input {
+          width: 80%;
+          font-size: 14px;
+          padding-right: 30px;
+        }
+
+        @media all and (max-width: 768px) {
+          Input {
+            width: 100%;
+          }
+        }
+
+        .icon {
+          color: $orange;
+          font-size: 16px;
+          margin-left: -25px;
+        }
+      }
+
+      .total-to-pay {
+        margin-left: auto;
+        color: $text;
+        font-weight: bold;
+        display: flex;
+
+        p {
+          margin-top: 15px;
+          margin-left: auto;
+
+          span {
+            color: $orange;
+            margin-left: 50px;
+          }
+        }
+      }
+    }
+
+    .btn-update-checkout {
+      display: flex;
+      justify-content: center;
+
+      .btn-update-cart {
+        background-color: $white;
+        border: 1px solid $orange;
+        color: $orange;
+        margin-right: 15px;
+        width: 200px;
+      }
+
+      .btn-checkout {
+        background-color: $orange;
+        border: 1px solid $orange;
+        margin-left: 15px;
+        width: 200px;
+      }
+    }
+  }
+}
+
+// HOTEL - CHECKOUT
+.hotel-checkout {
+  .checkout-link {
+    background-color: $gray95;
+    height: 113px;
+    display: flex;
+    align-items: center;
+    
+    span {
+      text-transform: uppercase;
+    
+      span {
+        color: $text;
+      }
+    }
+  }
+
+  .checkout-content {
+    .content-top {
+      color: $text;
+
+      p {
+        margin: 0;
+
+        .link {
+          color: $orange !important;
+          font-size: 14px !important;
+          border-bottom: 1px solid $gray88;
+
+          &:hover {
+            color: $primary !important;
+          }
+        }
+      }
+    }
+    
+    .content-main {
+      .content-form {
+
+        .title {
+          font-size: 36px;
+          font-weight: bold;
+        }
+
+        .content {
+          input {
+            height: 50px;
+            box-shadow: none;
+            border: 1px solid #D9D8D8;
+            border-radius: 2px;
+            font-size: 14px;
+            color: #D9D8D8;
+          }
+
+          color: $text;
+
+          .required {
+            color: red;
+          }
+
+          .form-check {
+            padding-left: 0;
+          }
+
+          // custom checkbox
+          .checkbox-custom {
+            display: block;
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+          }
+
+          // Hide the browser's default checkbox
+          .checkbox-custom input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+          }
+
+          // Create a custom checkbox
+          .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 17px;
+            width: 17px;
+            background-color: $white;
+            border-radius: .25rem;
+            border: 1px solid;
+            margin-top: 1px;
+          }
+
+          // On mouse-over, add a grey background color
+          .checkbox-custom:hover input ~ .checkmark {
+            transition: 0.3s;
+            background-color: $orange;
+            border: 1px solid $orange;
+          }
+
+          // When the checkbox is checked, add a blue background
+          .checkbox-custom input:checked ~ .checkmark {
+            background-color: $orange;
+            border: 1px solid $orange;
+          }
+
+          // Create the checkmark/indicator (hidden when not checked)
+          .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+          }
+
+          // Show the checkmark when checked
+          .checkbox-custom input:checked ~ .checkmark:after {
+            display: block;
+          }
+
+          // Style the checkmark/indicator
+          .checkbox-custom .checkmark:after {
+            left: 5px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+          }
+        }
+      }
+
+      .content-bill {
+        .bill {
+          background-color: $grayF8;
+          border-radius: 3px;
+          padding: 20px;
+
+          .title {
+            font-size: 20px;
+            font-weight: bold;
+            color: $orange;
+            padding: 0 12px;
+          }
+  
+          .content {
+            .table {
+              margin: 0;
+  
+              tr {
+                td {
+                  padding: 10px 12px;
+                }
+  
+                td.gray-text {
+                  color: $text;
+                }
+  
+                td.orange-text {
+                  color: $orange;
+                }
+              }
+  
+              tr.total {
+                border-top: 1px solid $gray88;
+                
+                td {
+                  padding: 15px 12px;
+                }
+              }
+            }
+  
+            .pay {
+              border-top: 1px solid $gray88;
+              border-bottom: 1px solid $gray88;
+              padding: 15px 12px;
+  
+              .form-check {
+                padding-left: 0;
+              }
+  
+              // custom radio
+              .radio-custom {
+                display: block;
+                position: relative;
+                padding-left: 24px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                cursor: pointer;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+              }
+    
+              // Hide the browser's default checkbox
+              .radio-custom input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+                height: 0;
+                width: 0;
+              }
+    
+              // Create a custom checkbox
+              .checkmark {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 18px;
+                width: 18px;
+                background-color: $white;
+                border-radius: 50%;
+                border: 1px solid $orange;
+                margin-top: 1px;
+              }
+    
+              // On mouse-over, add a grey background color
+              .radio-custom:hover input ~ .checkmark {
+                transition: 0.3s;
+                background-color: $orange;
+                border: 1px solid $orange;
+              }
+    
+              // When the checkbox is checked, add a blue background
+              .radio-custom input:checked ~ .checkmark {
+                background-color: $orange;
+                border: 1px solid $orange;
+              }
+    
+              // Create the checkmark/indicator (hidden when not checked)
+              .checkmark:after {
+                content: "";
+                position: absolute;
+                display: none;
+              }
+    
+              // Show the checkmark when checked
+              .radio-custom input:checked ~ .checkmark:after {
+                display: block;
+              }
+    
+              // Style the checkmark/indicator
+              .radio-custom .checkmark:after {
+                // left: 5px;
+                // top: 2px;
+                // width: 5px;
+                // height: 10px;
+                // border: solid white;
+                // border-width: 0 3px 3px 0;
+                // -webkit-transform: rotate(45deg);
+                // -ms-transform: rotate(45deg);
+                // transform: rotate(45deg);
+                left: 5px;
+                top: 5px;
+                width: 6px;
+                height: 6px;
+                border: solid white;
+                border-radius: 50%;
+              }
+            }
+  
+            .order {
+              display: flex;
+              justify-content: center;
+              padding: 30px 0 10px 0;
+  
+              .btn-order {
+                width: 180px;
+                height: 45px;
+                background-color: $orange;
+                border: 1px solid $orange;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.form-control {
+  font-size: 14px !important; 
+}
+
+// PROFILE
+.profile {
+  .title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  li.li-bold {
+    color: #2f2f2f;
+    font-weight: bold;
+    // text-transform: uppercase;
+  }
+
+  .user-info {
+    // -webkit-box-shadow: 5px 5px 10px 0px rgba(243, 86, 24, 0.75);
+    // -moz-box-shadow: 5px 5px 10px 0px rgba(243, 86, 24, 0.75);
+    // box-shadow: 5px 5px 10px 0px rgba(243, 86, 24, 0.75);
+    -webkit-box-shadow: 5px 5px 10px 0px #F8F8F8;
+    -moz-box-shadow: 5px 5px 10px 0px #F8F8F8;
+    box-shadow: 5px 5px 10px 0px #F8F8F8;
+    border: 1px solid #F8F8F8;
+    border-radius: 5px;
+    // background-color: #F8F8F8;
+
+    .avatar {
+      img {
+        width: 100%;
+      }
+    }
+
+    .information {
+
+      .name {
+        font-size: 25px;
+        font-weight: bold;
+        margin-bottom: 5px !important;
+      }
+
+      .member {
+      }
+
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        li {
+          display: inline-block;
+          margin-right: 20px;
+          
+          ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            text-align: left;
+            
+            li {
+                color: #A8A7A7;
+                display: block;
+                list-style: none;
+                margin-bottom: 10px;
+                white-space: nowrap;
+            }
+
+            li.li-bold {
+                color: #2f2f2f;
+                font-weight: bold;
+                // text-transform: uppercase;
+            }
+          }
+        }
+
+        li.verified {
+          color: #287DFA;
+        }
+
+        li.not-verified {
+          color: #DC3545;
+        }
+      }
+    }
+  }
+
+  .user-booking {
+    .nav-tabs {
+      border-bottom: 1px solid $orange;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+      color: #fff !important;
+      background-color: $orange;
+      border-color: $orange $orange $orange;
+      font-weight: bold;
+    }
+
+    .nav-tabs .nav-link {
+      border: 1px solid $orange;
+      // border-top-left-radius: .25rem;
+      // border-top-right-radius: .25rem;
+      border-top-left-radius: 0rem;
+      border-top-right-radius: 0rem;
+    }
+
+    a {
+      color: $orange !important;
+    }
+  }
+
+  .booking-list {
+    .booking-item {
+      -webkit-box-shadow: 5px 5px 10px 0px #F8F8F8;
+      -moz-box-shadow: 5px 5px 10px 0px #F8F8F8;
+      box-shadow: 5px 5px 10px 0px #F8F8F8;
+      border: 1px solid #F8F8F8;
+      padding: 0;
+
+      img {
+        width: 100%;
+      }
+
+      .booking-item-content {
+        padding: 15px 15px;
+
+        li.li-bold {
+          font-size: 18px;
+          margin-top: 0;
+          margin-bottom: 15px;
+          color: $text-black;
+        }
+
+        li {
+          color: $text;
+          margin-top: 5px;
+        }
+
+        .stars-icon {
+          margin-left: 2px;
+
+          .icon {
+            margin-top: -5px;
+            color: $orange;
+            margin-right: 2px;
+          }
+        }
+
+        .li-group {
+          ul {
+            li {
+              display: inline-block;
+              margin-top: 0 !important;
+              margin-right: 25px !important;
+            }
+          }
+        }
+
+        .price {
+          color: $orange;
+          font-size: 18px;
+        }
+      }
+    }
+  }
+}
+
+// EVENTS
+.events {
+  .bottom-opacity {
+    position: absolute; 
+    top:0px; 
+    left:0px; 
+    width:100%; 
+    height:100%;
+    background: transparent;
+    background: linear-gradient(to top, rgb(0, 0, 0) 0%,rgba(0,0,0,0) 30%);
+    opacity: 0.8;
+  }
+
+  .filter-bar {
+    .filter-form {
+      border: 1px solid #E9E9EA;
+      padding: 10px;
+  
+      .title {
+        font-size: 16px;
+        font-weight: 600;
+        border-left: 2px solid $orange;
+        padding-left: 5px;
+      }
+  
+      .sub-title {
+        font-weight: 500;
+        color: #4F4F4F;
+      }
+  
+      .input-range__label--max .input-range__label-container {
+        left: 0%;
+      }
+  
+      .input-range__label-container {
+        left: 0%;
+        position: relative;
+      }
+  
+      .form-check {
+        padding-left: 0 !important;
+      }
+  
+      // custom checkbox
+      .checkbox-custom {
+        display: block;
+        position: relative;
+        padding-left: 24px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+  
+      // Hide the browser's default checkbox
+      .checkbox-custom input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+      }
+  
+      // Create a custom checkbox
+      .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 17px;
+        width: 17px;
+        background-color: $white;
+        border-radius: .25rem;
+        border: 1px solid #E9E9EA;
+        margin-top: 1px;
+      }
+  
+      // On mouse-over, add a grey background color
+      .checkbox-custom:hover input ~ .checkmark {
+        transition: 0.3s;
+        background-color: $orange;
+        border: 1px solid $orange;
+      }
+  
+      // When the checkbox is checked, add a blue background
+      .checkbox-custom input:checked ~ .checkmark {
+        background-color: $orange;
+        border: 1px solid $orange;
+      }
+  
+      // Create the checkmark/indicator (hidden when not checked)
+      .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+      }
+  
+      // Show the checkmark when checked
+      .checkbox-custom input:checked ~ .checkmark:after {
+        display: block;
+      }
+  
+      // Style the checkmark/indicator
+      .checkbox-custom .checkmark:after {
+        left: 5px;
+        top: 2px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+      }
+  
+      .icon {
+        color: $orange;
+        margin-top: -5px;
+        margin-right: 5px;
+        font-size: 18px;
+      }
+    }
+  }
+  
+  .vents-content {
+    .dropdown-filter {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+    }
+
+    .dropdown {
+      margin-left: 10px;
+      margin-top: -7px;
+
+      .btn-secondary {
+        color: $black !important;
+        background-color: $white !important;
+        border-color: #E9E9EA;
+      }
+    }
+  }
+}
+
+// 404 - NOT FOUND
+.not-found {
+  padding: 150px 0;
+  text-align: center;
+
+  .title {
+    color: $orange;
+    font-size: 150px;
+    margin: -20px;
+  }
+
+  .sub-title {
+    font-size: 25px;
+  }
+
+  .description {
+    margin: 0;
+
+    .link {
+      color: $orange !important;
+      font-size: 18px !important;
+      text-decoration: underline;
+    }
+  }
+
+  .social {
+    margin-top: 30px;
+
+    ul {
+      list-style: none;
+
+      li {
+        display: inline-block;
+        margin-right: 26px;
+        border : 1px solid $gray88;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+
+        a {
+          color: $orange !important;
+          font-size: 18px;
+
+          &:hover {
+            color: #212529 !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+// PAYMENT SUCCESS
+.payment-success {
+  padding: 150px 0;
+  text-align: center;
+
+  .success-icon {
+    color: $orange;
+    width: 170px;
+    height: 170px;
+  }
+
+  .title {
+    color: $orange;
+    font-size: 25px;
+  }
+
+  .sub-title {
+    font-size: 25px;
+  }
+
+  .link {
+    color: $orange !important;
+    font-size: 18px !important;
+  }
+
+  .go-home {
+    color: $orange !important;
+  }
+}

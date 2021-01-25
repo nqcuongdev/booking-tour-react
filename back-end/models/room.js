@@ -24,15 +24,24 @@ const RoomSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  attribute: [
+  attributes: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "attribute",
     },
   ],
+  hotel: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "hotel",
+  },
   price: {
     type: Number,
     required: true,
+  },
+  number_room: {
+    type: Number,
+    required: true,
+    default: 1,
   },
   created_at: {
     type: Date,

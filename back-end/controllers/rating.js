@@ -50,46 +50,28 @@ exports.show = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
-  const { errors, isValid } = ratingValidate(req.body);
+  // const { errors, isValid } = ratingValidate(req.body);
 
-  //Check value request
-  if (!isValid) {
-    return res.status(400).json({
-      success: false,
-      message: errors,
-    });
-  }
+  // //Check value request
+  // if (!isValid) {
+  //   return res.status(400).json({
+  //     success: false,
+  //     message: errors,
+  //   });
+  // }
 
-  let user = req.user;
-  if (user) {
-    const { content, rating, package } = req.body;
-    const ratingWithUser = await Rating.create({
-      name: user.name,
-      email: user.email,
-      user: user.id,
-      content,
-      rating,
-      package,
-    });
-
-    return res.status(200).json({
-      success: !!ratingWithUser,
-      data: ratingWithUser,
-    });
-  }
-
-  const { name, email, website, content, rating, package } = req.body;
-  const ratingWithoutUser = await Rating.create({
+  const { name, email, user, content, rating, target_id } = req.body;
+  const ratingWithUser = await Rating.create({
     name,
     email,
-    website,
+    user,
     content,
     rating,
-    package,
+    target_id,
   });
 
   return res.status(200).json({
-    success: !!ratingWithoutUser,
-    data: ratingWithoutUser,
+    success: !!ratingWithUser,
+    data: ratingWithUser,
   });
 };

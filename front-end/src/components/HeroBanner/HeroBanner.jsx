@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Col,
   Container,
@@ -10,23 +10,47 @@ import {
   Row,
   TabContent,
   TabPane,
-  Form,
 } from "reactstrap";
 import "./HeroBanner.scss";
 import banner from "../../assets/images/background-1.jpg";
 import Button from "reactstrap/lib/Button";
 import { FaCalendarCheck, FaHotel, FaTicketAlt } from "react-icons/fa";
+import DestinationApi from "../../api/destinationsApi";
+import HotelApi from "../../api/hotelApi";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-const HeroBanner = () => {
+const HeroBanner = (props) => {
+  const [destinations, setDestinations] = useState([]);
+  const history = useHistory();
   //Get current date and next date to fill in label
   const today = new Date();
   const tomorrow = new Date(today + 1);
   tomorrow.setDate(today.getDate() + 1);
 
   const [activateTab, setActiveTab] = useState("hotels");
+  const [destination, setDestination] = useState();
 
   const toggle = (tab) => {
     if (activateTab !== tab) setActiveTab(tab);
+  };
+
+  useEffect(() => {
+    const fetchDestinations = async () => {
+      try {
+        const response = await DestinationApi.getAll();
+        if (response.success) {
+          setDestinations(response.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchDestinations();
+  }, []);
+
+  const onSearchHotel = async (url) => {
+    history.push(url);
   };
 
   return (
@@ -83,9 +107,25 @@ const HeroBanner = () => {
                           <label htmlFor="selectForm" className="ml-3">
                             Where
                           </label>
-                          <Input type="select" name="hotels" id="selectForm">
-                            <option>Hawaii</option>
-                            <option value="1">Vietnam</option>
+                          <Input
+                            type="select"
+                            name="hotels"
+                            id="selectForm"
+                            onChange={(e) =>
+                              setDestination({ destination: e.target.value })
+                            }
+                          >
+                            <option>Select place</option>
+                            {destinations.map((destination) => {
+                              return (
+                                <option
+                                  key={destination._id}
+                                  value={destination._id}
+                                >
+                                  {destination.title}
+                                </option>
+                              );
+                            })}
                           </Input>
                         </div>
                       </FormGroup>
@@ -132,7 +172,7 @@ const HeroBanner = () => {
                       </FormGroup>
                     </Col>
                     <Col sm={6} md={2} className="mt-2">
-                      <FormGroup>
+                      <FormGroup onClick={() => onSearchHotel("hotels")}>
                         <Button color="orange">SEARCH</Button>
                       </FormGroup>
                     </Col>
@@ -147,8 +187,17 @@ const HeroBanner = () => {
                             Where
                           </label>
                           <Input type="select" name="hotels" id="selectForm">
-                            <option>Hawaii</option>
-                            <option value="1">Vietnam</option>
+                            <option>Select place</option>
+                            {destinations.map((destination) => {
+                              return (
+                                <option
+                                  key={destination._id}
+                                  value={destination._id}
+                                >
+                                  {destination.title}
+                                </option>
+                              );
+                            })}
                           </Input>
                         </div>
                       </FormGroup>
@@ -176,7 +225,7 @@ const HeroBanner = () => {
                       </FormGroup>
                     </Col>
                     <Col sm={6} md={2} className="mt-2">
-                      <FormGroup>
+                      <FormGroup onClick={() => onSearchHotel("tours")}>
                         <Button color="orange">SEARCH</Button>
                       </FormGroup>
                     </Col>
@@ -191,8 +240,17 @@ const HeroBanner = () => {
                             Where
                           </label>
                           <Input type="select" name="hotels" id="selectForm">
-                            <option>Hawaii</option>
-                            <option value="1">Vietnam</option>
+                            <option>Select place</option>
+                            {destinations.map((destination) => {
+                              return (
+                                <option
+                                  key={destination._id}
+                                  value={destination._id}
+                                >
+                                  {destination.title}
+                                </option>
+                              );
+                            })}
                           </Input>
                         </div>
                       </FormGroup>
@@ -220,7 +278,7 @@ const HeroBanner = () => {
                       </FormGroup>
                     </Col>
                     <Col sm={6} md={2} className="mt-2">
-                      <FormGroup>
+                      <FormGroup onClick={() => onSearchHotel("events")}>
                         <Button color="orange">SEARCH</Button>
                       </FormGroup>
                     </Col>

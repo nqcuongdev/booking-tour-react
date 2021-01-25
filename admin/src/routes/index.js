@@ -3,22 +3,30 @@ import { Redirect } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import * as FeatherIcon from 'react-feather';
 
-// auth
+// Auth
 const Login = React.lazy(() => import('../pages/auth/Login'));
 const Logout = React.lazy(() => import('../pages/auth/Logout'));
 const ForgetPassword = React.lazy(() => import('../pages/auth/ForgetPassword'));
 const Confirm = React.lazy(() => import('../pages/auth/Confirm'));
-// dashboard
+// Dashboard
 const Dashboard = React.lazy(() => import('../pages/dashboard'));
-//Destination
+// Destination
 const ListDestination = React.lazy(() => import('../pages/destination/ListDestination'));
 const HandleDestination = React.lazy(() => import('../pages/destination/HandleDestination'));
-//Tour
+// Tour
 const AllTour = React.lazy(() => import('../pages/tour/Tour'));
 const HandleTour = React.lazy(() => import('../pages/tour/HandleTour'));
 const TourCategory = React.lazy(() => import('../pages/tour/TourCategory'));
 const TourStyle = React.lazy(() => import('../pages/tour/TourStyle'));
 const TourAvailability = React.lazy(() => import('../pages/tour/Availability'));
+// Hotel
+const ListHotel = React.lazy(() => import('../pages/hotel/ListHotel'));
+const HotelType = React.lazy(() => import('../pages/hotel/Type'));
+const HandleForm = React.lazy(() => import('../pages/hotel/HandleForm'));
+const Facility = React.lazy(() => import('../pages/hotel/Facility'));
+const ListRoom = React.lazy(() => import('../pages/hotel/ListRoom'));
+// Order
+const ListOrder = React.lazy(() => import('../pages/order/ListOrder'));
 // apps
 const CalendarApp = React.lazy(() => import('../pages/apps/Calendar'));
 const EmailInbox = React.lazy(() => import('../pages/apps/Email/Inbox'));
@@ -168,15 +176,58 @@ const tourRoutes = {
     ],
 };
 
-// apps
-const calendarAppRoutes = {
-    path: '/apps/calendar',
-    name: 'Calendar',
-    header: 'Apps',
+// Hotel
+const hotelRoutes = {
+    path: '/hotel',
+    name: 'Hotel',
+    icon: FeatherIcon.Briefcase,
+    children: [
+        {
+            path: '/hotel/list-hotel',
+            name: 'List Hotel',
+            component: ListHotel,
+            roles: ['admin', 'hotel_partner'],
+            route: PrivateRoute,
+        },
+        {
+            path: '/hotel/hotel-type',
+            name: 'Hotel Type',
+            component: HotelType,
+            roles: ['admin', 'hotel_partner'],
+            route: PrivateRoute,
+        },
+        {
+            path: '/hotel/hotel-facility',
+            name: 'Hotel Facility',
+            component: Facility,
+            roles: ['admin', 'hotel_partner'],
+            route: PrivateRoute,
+        },
+        {
+            path: '/hotel/:id',
+            name: 'Add Hotel',
+            component: HandleForm,
+            roles: ['admin', 'hotel_partner'],
+            route: PrivateRoute,
+        },
+        {
+            path: '/room/:id/list-room',
+            name: 'List Room',
+            component: ListRoom,
+            roles: ['admin', 'hotel_partner'],
+            route: PrivateRoute,
+        },
+    ],
+};
+
+// order
+const orderRoutes = {
+    path: '/order/list-order',
+    name: 'Order',
     icon: FeatherIcon.Calendar,
-    component: CalendarApp,
+    component: ListOrder,
     route: PrivateRoute,
-    roles: ['admin'],
+    roles: ['admin', 'hotel_partner', 'tour_partner'],
 };
 
 const emailAppRoutes = {
@@ -252,7 +303,15 @@ const taskAppRoutes = {
     ],
 };
 
-const appRoutes = [destinationRoutes, tourRoutes, calendarAppRoutes, emailAppRoutes, projectAppRoutes, taskAppRoutes];
+const appRoutes = [
+    destinationRoutes,
+    tourRoutes,
+    hotelRoutes,
+    orderRoutes,
+    emailAppRoutes,
+    projectAppRoutes,
+    taskAppRoutes,
+];
 
 // pages
 const pagesRoutes = {

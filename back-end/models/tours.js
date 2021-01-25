@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const slugify = require("slugify");
 const geocoder = require("../utils/geocoder");
+const mongoosePaginate = require("mongoose-paginate-v2");
 
 const TourSchema = new mongoose.Schema({
   title: {
@@ -121,7 +122,7 @@ const TourSchema = new mongoose.Schema({
 });
 
 const TourAvailabilitySchema = new mongoose.Schema({
-  code: {
+  title: {
     type: String,
     required: true,
     unique: true,
@@ -130,16 +131,18 @@ const TourAvailabilitySchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "tour",
   },
-  start_date: Date,
-  end_date: Date,
+  start: {
+    type: Date,
+    required: true,
+  },
+  end: {
+    type: Date,
+    required: true,
+  },
   available: {
     type: Number,
     required: true,
     default: 1,
-  },
-  remainder: {
-    type: Number,
-    default: 0,
   },
   created_at: {
     type: Date,
@@ -194,8 +197,10 @@ TourSchema.index({ location: "2dsphere" });
 
 const Tour = mongoose.model("tour", TourSchema);
 const TourAvailability = mongoose.model(
-  "TourAvailability",
+  "tour_availability",
   TourAvailabilitySchema
 );
+
+TourSchema.plugin(mongoosePaginate);
 
 module.exports = { Tour, TourAvailability };

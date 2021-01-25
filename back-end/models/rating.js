@@ -7,6 +7,7 @@ const RatingSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
+    required: true,
   },
   content: {
     type: String,
@@ -14,13 +15,10 @@ const RatingSchema = new mongoose.Schema({
   },
   rating: {
     type: Number,
-    enum: [0, 1, 2, 3, 4, 5],
-    default: 0,
+    enum: [1, 2, 3, 4, 5],
+    default: 1,
   },
-  package: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-  },
+  target_id: mongoose.Schema.Types.ObjectId,
   status: {
     type: String,
     required: true,

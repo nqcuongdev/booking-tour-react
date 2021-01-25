@@ -29,7 +29,7 @@ const Header = () => {
         <Collapse isOpen={isOpen} navbar>
           <Nav navbar className="ml-auto">
             <NavItem>
-              <NavLink href="/" className="active">
+              <NavLink href="/"> {/* className="active" */}
                 Home
               </NavLink>
             </NavItem>
@@ -37,19 +37,25 @@ const Header = () => {
               <NavLink href="/tours">Tours</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/events">Events</NavLink>
-              <ul className="children-menu menu-dropdown">
-                <li className="sub-item">
-                  <Link>Detail</Link>
-                </li>
-                <li className="sub-item">
-                  <Link>Detail</Link>
-                </li>
-              </ul>
+              <NavLink href="/destinations">Destinations</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="https://github.com/reactstrap/reactstrap">
-                News
+              <NavLink href="/hotels">Hotels</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="/blogs">Blogs</NavLink>
+              {/* <ul className="children-menu menu-dropdown">
+                <li className="sub-item">
+                  <Link>Detail</Link>
+                </li>
+                <li className="sub-item">
+                  <Link>Detail</Link>
+                </li>
+              </ul> */}
+            </NavItem>
+            <NavItem>
+              <NavLink href="/events">
+                Events
               </NavLink>
             </NavItem>
             <NavItem>

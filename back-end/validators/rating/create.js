@@ -5,7 +5,7 @@ module.exports = function validateRatingInput(data) {
   let errors = {};
 
   data.content = !isEmpty(data.content) ? data.content : "";
-  data.package = !isEmpty(data.package) ? data.package : "";
+  data.target_id = !isEmpty(data.target_id) ? data.target_id : "";
 
   if (Validator.isEmpty(data.content)) {
     errors.content = "Content field is required";
@@ -15,12 +15,8 @@ module.exports = function validateRatingInput(data) {
     errors.content = "Title must be between 2 and 200 characters";
   }
 
-  if (Validator.isEmpty(data.package)) {
-    errors.package = "Package field is required";
-  }
-
-  if (!Validator.isMongoId(data.package)) {
-    errors.package = "Package invalid";
+  if (Validator.isEmpty(data.target_id)) {
+    errors.target_id = "Package field is required";
   }
 
   return {

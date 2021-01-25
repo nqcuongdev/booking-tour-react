@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import MainLayout from "../layouts/MainLayout";
 import background from "../assets/images/background-1.jpg";
 import BreadcrumbBanner from "../components/BreadcrumbBanner/BreadcrumbBanner";
@@ -7,172 +7,19 @@ import {
   Button,
   Col,
   Container,
-  CustomInput,
   Form,
   FormGroup,
   Input,
   InputGroup,
-  InputGroupAddon,
   InputGroupText,
-  Label,
   Row,
 } from "reactstrap";
-import { FaList, FaMapMarkerAlt, FaSearch, FaTh } from "react-icons/fa";
-import image from "../assets/images/hawaii-secret-beach.jpg";
-import ThumbnailTourItem from "../components/ThumbnailTourItem/ThumbnailTourItem";
+import { FaMapMarkerAlt, FaSearch } from "react-icons/fa";
 import Paginate from "../components/Paginate/Paginate";
 import adImage from "../assets/images/ad.png";
 import AdItem from "../components/AdItem/AdItem";
 import SingleListItem from "../components/SingleListItem/SingleListItem";
-
-const data = [
-  {
-    title: "The Bahamas",
-    price: 299,
-    image: image,
-    option: {
-      during: 2,
-      place: "Port Canaveral",
-    },
-    sale: 25,
-  },
-  {
-    title: "The Bahamas",
-    price: 299,
-    image: image,
-    option: {
-      during: 2,
-      place: "Port Canaveral",
-    },
-    saleToday: 25,
-  },
-  {
-    title: "The Bahamas",
-    price: 299,
-    image: image,
-    option: {
-      during: 2,
-      place: "Port Canaveral",
-    },
-  },
-  {
-    title: "The Bahamas",
-    price: 299,
-    image: image,
-    option: {
-      during: 2,
-      place: "Port Canaveral",
-    },
-  },
-  {
-    title: "The Bahamas",
-    price: 299,
-    image: image,
-    option: {
-      during: 2,
-      place: "Port Canaveral",
-    },
-  },
-  {
-    title: "The Bahamas",
-    price: 299,
-    image: image,
-    option: {
-      during: 2,
-      place: "Port Canaveral",
-    },
-  },
-  {
-    title: "The Bahamas",
-    price: 299,
-    image: image,
-    option: {
-      during: 2,
-      place: "Port Canaveral",
-    },
-  },
-  {
-    title: "The Bahamas",
-    price: 299,
-    image: image,
-    option: {
-      during: 2,
-      place: "Port Canaveral",
-    },
-  },
-  {
-    title: "The Bahamas",
-    price: 299,
-    image: image,
-    option: {
-      during: 2,
-      place: "Port Canaveral",
-    },
-  },
-];
-
-const dummyData = [
-  {
-    title: "The Bahamas",
-    price: 299,
-    description:
-      "Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively inutes...",
-    image: image,
-    option: {
-      day: 4,
-      night: 5,
-      place: "Port Canaveral",
-    },
-  },
-  {
-    title: "The Bahamas",
-    price: 299,
-    description:
-      "Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively inutes...",
-    image: image,
-    option: {
-      day: 4,
-      night: 5,
-      place: "Port Canaveral",
-    },
-  },
-  {
-    title: "The Bahamas",
-    price: 299,
-    description:
-      "Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively inutes...",
-    image: image,
-    option: {
-      day: 4,
-      night: 5,
-      place: "Port Canaveral",
-    },
-  },
-  {
-    title: "The Bahamas",
-    price: 299,
-    description:
-      "Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively inutes...",
-    image: image,
-    option: {
-      day: 4,
-      night: 5,
-      place: "Port Canaveral",
-    },
-  },
-  {
-    title: "The Bahamas",
-    price: 299,
-    description:
-      "Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively inutes...",
-    image: image,
-    option: {
-      day: 4,
-      night: 5,
-      place: "Port Canaveral",
-    },
-  },
-];
+import ToursApi from "../api/toursApi";
 
 const popularItem = {
   text1: "Summer Stay",
@@ -181,10 +28,50 @@ const popularItem = {
 };
 
 const Tours = (props) => {
+  const [toursList, setToursList] = useState([]);
+  const [oldTours, setOldTours] = useState([]);
+
+  useEffect(() => {
+    const fetchToursList = async () => {
+      try {
+        const response = await ToursApi.getAll();
+        setToursList(response.data);
+        setOldTours(response.data);
+      } catch (error) {
+        console.log("Failed to fetch Tours list: ", error);
+      }
+    };
+
+    fetchToursList();
+  }, []);
+
+  const onSearchForm = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+
+    if (name === "title") {
+      let searchTour = toursList.filter((tour) => {
+        return tour.title.includes(value);
+      });
+      setToursList(searchTour);
+    } else if (name === "destination") {
+      let searchTour = toursList.filter((tour) => {
+        return tour.destination.title.includes(value);
+      });
+      setToursList(searchTour);
+    } else {
+      setToursList(oldTours);
+    }
+
+    if (value === "") {
+      setToursList(oldTours);
+    }
+  };
+
   return (
     <MainLayout>
       <BreadcrumbBanner pageName="Tours" backgroundImage={background} />
-      <SearchForm />
+      {/* <SearchForm /> */}
       <div className="list__tours mt-50">
         <Container>
           {/* <div className="filter__section pt-20 pb-30">
@@ -235,7 +122,12 @@ const Tours = (props) => {
                 <Form>
                   <FormGroup>
                     <InputGroup>
-                      <Input type="text" placeholder="Search keyword" />
+                      <Input
+                        type="text"
+                        placeholder="Search keyword"
+                        name="title"
+                        onChange={onSearchForm}
+                      />
                       <InputGroupText addonType="append">
                         <FaSearch className="mr-1" />
                       </InputGroupText>
@@ -244,7 +136,12 @@ const Tours = (props) => {
                   <FormGroup>
                     <label>Where?</label>
                     <InputGroup>
-                      <Input type="text" placeholder="Location" />
+                      <Input
+                        type="text"
+                        placeholder="Location"
+                        name="destination"
+                        onChange={onSearchForm}
+                      />
                       <InputGroupText addonType="append">
                         <FaMapMarkerAlt className="mr-1" />
                       </InputGroupText>
@@ -252,83 +149,29 @@ const Tours = (props) => {
                   </FormGroup>
                   <FormGroup>
                     <label>Start date</label>
-                    <Input type="date" />
-                  </FormGroup>
-                  <FormGroup className="text-center">
-                    <Button
-                      color="orange"
-                      className="mt-3"
-                      style={{ width: "auto" }}
-                    >
-                      Search
-                    </Button>
+                    <Input type="date" name="checkin" onChange={onSearchForm} />
                   </FormGroup>
                 </Form>
-              </div>
-              <div className="filter__section-category mt-50">
-                <h4 className="title">Popular destinations</h4>
-                <ul className="list-category mt-3">
-                  <li>
-                    <div className="cs-checkbox">
-                      <label>
-                        <input type="checkbox" id="cat_id" value="1" />
-                        Check this custom checkbox
-                        <span className="check__mark"></span>
-                      </label>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="cs-checkbox">
-                      <label>
-                        <input type="checkbox" id="cat_id" value="1" />
-                        Check this custom checkbox
-                        <span className="check__mark"></span>
-                      </label>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="cs-checkbox">
-                      <label>
-                        <input type="checkbox" id="cat_id" value="1" />
-                        Check this custom checkbox
-                        <span className="check__mark"></span>
-                      </label>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="cs-checkbox">
-                      <label>
-                        <input type="checkbox" id="cat_id" value="1" />
-                        Check this custom checkbox
-                        <span className="check__mark"></span>
-                      </label>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="cs-checkbox">
-                      <label>
-                        <input type="checkbox" id="cat_id" value="1" />
-                        Check this custom checkbox
-                        <span className="check__mark"></span>
-                      </label>
-                    </div>
-                  </li>
-                </ul>
               </div>
               <AdItem {...popularItem} />
             </Col>
             <Col md={6} lg={9}>
               <div className="list__tour-text">
-                We found <span style={{ color: "#ff7d3e" }}>54</span> tours
-                available for you
+                We found{" "}
+                <span style={{ color: "#ff7d3e" }}>
+                  {toursList ? toursList.length : 0}
+                </span>{" "}
+                tours available for you
               </div>
 
-              {dummyData.map((item) => {
+              {toursList.map((item) => {
                 return <SingleListItem {...item} />;
               })}
             </Col>
           </Row>
-          <Paginate />
+          <div className="mb-50">
+            <Paginate />
+          </div>
         </Container>
       </div>
     </MainLayout>

@@ -7,21 +7,7 @@ const router = express.Router();
 
 router.post("/register", register);
 router.post("/login", login);
-router.get(
-  "/google",
-  passport.authenticate("google", {
-    session: false,
-    scope: ["profile", "email"],
-  })
-);
-router.get(
-  "/google/callback",
-  passport.authenticate("google", {
-    session: false,
-    failureRedirect: "/auth/google",
-  }),
-  loginWithSocial
-);
+router.post("/google", loginWithSocial);
 router.get("/facebook", passport.authenticate("facebook", { session: false }));
 router.get(
   "/facebook/callback",

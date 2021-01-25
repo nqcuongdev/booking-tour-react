@@ -1,34 +1,31 @@
 import {
+    ADD_TOUR_SCHEDULE,
+    ADD_TOUR_SCHEDULE_SUCCESS,
     CREATE_TOUR,
     CREATE_TOUR_ATTRIBUTE,
-    CREATE_TOUR_ATTRIBUTE_FAILED,
     CREATE_TOUR_ATTRIBUTE_SUCCESS,
     CREATE_TOUR_CATEGORY,
-    CREATE_TOUR_CATEGORY_FAILED,
     CREATE_TOUR_CATEGORY_SUCCESS,
-    CREATE_TOUR_FAILED,
     CREATE_TOUR_SUCCESS,
     GET_ALL_TOUR,
     GET_ALL_TOUR_ATTRIBUTE,
-    GET_ALL_TOUR_ATTRIBUTE_FAILED,
     GET_ALL_TOUR_ATTRIBUTE_SUCCESS,
     GET_ALL_TOUR_CATEGORY,
-    GET_ALL_TOUR_CATEGORY_FAILED,
     GET_ALL_TOUR_CATEGORY_SUCCESS,
-    GET_ALL_TOUR_FAILED,
     GET_ALL_TOUR_SUCCESS,
     GET_TOUR,
-    GET_TOUR_FAILED,
     GET_TOUR_SUCCESS,
+    TOUR_HANDLE_FAILED,
+    TOUR_SCHEDULE,
+    TOUR_SCHEDULE_SUCCESS,
     UPDATE_TOUR,
     UPDATE_TOUR_ATTRIBUTE,
-    UPDATE_TOUR_ATTRIBUTE_FAILED,
     UPDATE_TOUR_ATTRIBUTE_SUCCESS,
     UPDATE_TOUR_CATEGORY,
-    UPDATE_TOUR_CATEGORY_FAILED,
     UPDATE_TOUR_CATEGORY_SUCCESS,
-    UPDATE_TOUR_FAILED,
     UPDATE_TOUR_SUCCESS,
+    UPDATE_TOUR_SCHEDULE,
+    UPDATE_TOUR_SCHEDULE_SUCCESS,
 } from './constants';
 
 export const getAllTour = () => ({
@@ -38,11 +35,6 @@ export const getAllTour = () => ({
 export const getAllTourSuccess = (tours) => ({
     type: GET_ALL_TOUR_SUCCESS,
     payload: tours,
-});
-
-export const getAllTourFailed = (error) => ({
-    type: GET_ALL_TOUR_FAILED,
-    payload: error,
 });
 
 export const getTour = (_id) => ({
@@ -55,11 +47,6 @@ export const getTourSuccess = (tour) => ({
     payload: tour,
 });
 
-export const getTourFailed = (error) => ({
-    type: GET_TOUR_FAILED,
-    payload: error,
-});
-
 export const createTour = (data) => ({
     type: CREATE_TOUR,
     payload: data,
@@ -68,11 +55,6 @@ export const createTour = (data) => ({
 export const createTourSuccess = (tour) => ({
     type: CREATE_TOUR_SUCCESS,
     payload: tour,
-});
-
-export const createTourFailed = (error) => ({
-    type: CREATE_TOUR_FAILED,
-    payload: error,
 });
 
 export const updateTour = (inputData) => ({
@@ -85,9 +67,14 @@ export const updateTourSuccess = (tour) => ({
     payload: tour,
 });
 
-export const updateTourFailed = (error) => ({
-    type: UPDATE_TOUR_FAILED,
-    payload: error,
+export const getSchedule = (_id) => ({
+    type: TOUR_SCHEDULE,
+    payload: _id,
+});
+
+export const getScheduleSuccess = (schedules) => ({
+    type: TOUR_SCHEDULE_SUCCESS,
+    payload: schedules,
 });
 
 export const getAllTourCategory = () => ({
@@ -100,11 +87,6 @@ export const getAllTourCategorySuccess = (categories) => ({
     payload: categories,
 });
 
-export const getAllTourCategoryFailed = (error) => ({
-    type: GET_ALL_TOUR_CATEGORY_FAILED,
-    payload: error,
-});
-
 export const createTourCategory = (title, type) => ({
     type: CREATE_TOUR_CATEGORY,
     payload: { title, type },
@@ -113,11 +95,6 @@ export const createTourCategory = (title, type) => ({
 export const createTourCategorySuccess = (category) => ({
     type: CREATE_TOUR_CATEGORY_SUCCESS,
     payload: category,
-});
-
-export const createTourCategoryFailed = (error) => ({
-    type: CREATE_TOUR_CATEGORY_FAILED,
-    payload: error,
 });
 
 export const updateTourCategory = (_id, title, type, status) => ({
@@ -130,11 +107,6 @@ export const updateTourCategorySuccess = (category) => ({
     payload: category,
 });
 
-export const updateTourCategoryFailed = (error) => ({
-    type: UPDATE_TOUR_CATEGORY_FAILED,
-    payload: error,
-});
-
 export const getAllTourAttribute = () => ({
     type: GET_ALL_TOUR_ATTRIBUTE,
     payload: 'tour',
@@ -143,11 +115,6 @@ export const getAllTourAttribute = () => ({
 export const getAllTourAttributeSuccess = (attributes) => ({
     type: GET_ALL_TOUR_ATTRIBUTE_SUCCESS,
     payload: attributes,
-});
-
-export const getAllTourAttributeFailed = (error) => ({
-    type: GET_ALL_TOUR_ATTRIBUTE_FAILED,
-    payload: error,
 });
 
 export const createTourAttribute = (title, type) => ({
@@ -160,11 +127,6 @@ export const createTourAttributeSuccess = (attribute) => ({
     payload: attribute,
 });
 
-export const createTourAttributeFailed = (error) => ({
-    type: CREATE_TOUR_ATTRIBUTE_FAILED,
-    payload: error,
-});
-
 export const updateTourAttribute = (_id, title, type, status) => ({
     type: UPDATE_TOUR_ATTRIBUTE,
     payload: { _id, title, type, status },
@@ -175,7 +137,27 @@ export const updateTourAttributeSuccess = (attribute) => ({
     payload: attribute,
 });
 
-export const updateTourAttributeFailed = (error) => ({
-    type: UPDATE_TOUR_ATTRIBUTE_FAILED,
+export const addTourSchedule = (formInput) => ({
+    type: ADD_TOUR_SCHEDULE,
+    payload: formInput,
+});
+
+export const addTourScheduleSuccess = (schedule) => ({
+    type: ADD_TOUR_SCHEDULE_SUCCESS,
+    payload: schedule,
+});
+
+export const updateTourSchedule = (formInput) => ({
+    type: UPDATE_TOUR_SCHEDULE,
+    payload: formInput,
+});
+
+export const updateTourScheduleSuccess = (schedule) => ({
+    type: UPDATE_TOUR_SCHEDULE_SUCCESS,
+    payload: schedule,
+});
+
+export const tourHandleFailed = (error) => ({
+    type: TOUR_HANDLE_FAILED,
     payload: error,
 });

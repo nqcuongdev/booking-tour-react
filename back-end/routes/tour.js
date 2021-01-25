@@ -10,6 +10,9 @@ const {
   getScheduleTour,
   bookTour,
   update,
+  createScheduleTour,
+  editScheduleTour,
+  search,
 } = require("../controllers/tour");
 
 const router = express.Router();
@@ -37,8 +40,11 @@ const upload = multer({
 }).any();
 
 router.get("/", all);
+router.post("/search", search);
 router.get("/:id", show);
-router.get("/:id/schedule", isAuth, checkRole, getScheduleTour);
+router.get("/:id/schedule", getScheduleTour);
+router.post("/:id/schedule", isAuth, checkRole, createScheduleTour);
+router.put("/schedule/:id", isAuth, checkRole, editScheduleTour);
 router.post("/:id/booking", bookTour);
 router.post("/create", upload, isAuth, checkRole, create);
 router.put("/:id", upload, isAuth, checkRole, update);

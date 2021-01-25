@@ -2,6 +2,7 @@ const Validator = require("validator");
 const fs = require("fs");
 const { Tour, TourAvailability } = require("../models/tours");
 const Booking = require("../models/booking");
+const Rating = require("../models/rating");
 // Load validate
 const tourValidate = require("../validators/tour/create");
 const bookingValidate = require("../validators/book/create");
@@ -32,7 +33,8 @@ exports.show = async (req, res) => {
   let tour = await Tour.findOne({ _id })
     .populate("destination")
     .populate("category")
-    .populate("attribute");
+    .populate("attributes");
+  let reviews = await Rating.find({ target_id: _id }).populate("user");
 
   if (!tour) {
     return res.status(404).json({
@@ -44,6 +46,7 @@ exports.show = async (req, res) => {
   return res.status(200).json({
     success: !!tour,
     data: tour,
+    reviews: reviews,
   });
 };
 
@@ -57,11 +60,91 @@ exports.getScheduleTour = async (req, res) => {
     });
   }
 
-  const tours = await TourAvailability.findOne({ _id });
+  const tours = await TourAvailability.find({ tour: _id }).populate("tour");
 
   return res.status(200).json({
     success: !!tours,
     data: tours,
+  });
+};
+
+exports.createScheduleTour = async (req, res) => {
+  let _id = req.params.id;
+  let checkIDValid = Validator.isMongoId(_id);
+  if (!checkIDValid) {
+    return res.status(400).json({
+      success: false,
+      message: "Your ID is not valid",
+    });
+  }
+
+  const checkExistedTour = await Tour.findOne({ _id });
+
+  if (!checkExistedTour) {
+    return res.status(404).json({
+      success: !!tour,
+      message: "Can not found this tour",
+    });
+  }
+
+  const { start, end, available } = req.body;
+
+  let d = new Date();
+  let code = "";
+  checkExistedTour.title.split(" ").forEach((item) => {
+    code += item.charAt(0).toUpperCase();
+  });
+
+  code += d.getTime();
+
+  let schedule = await TourAvailability.create({
+    title: code,
+    tour: _id,
+    start,
+    end,
+    available,
+  });
+
+  return res.status(200).json({
+    success: !!schedule,
+    message: "Create schedule success",
+    data: schedule,
+  });
+};
+
+exports.editScheduleTour = async (req, res) => {
+  let _id = req.params.id;
+  let checkIDValid = Validator.isMongoId(_id);
+  if (!checkIDValid) {
+    return res.status(400).json({
+      success: false,
+      message: "Your ID is not valid",
+    });
+  }
+
+  const checkExistedSchedule = await TourAvailability.findOne({ _id });
+
+  if (!checkExistedSchedule) {
+    return res.status(404).json({
+      success: !!tour,
+      message: "Can not found this schedule",
+    });
+  }
+
+  const { start, end, available } = req.body;
+
+  const schedule = await TourAvailability.findByIdAndUpdate(
+    { _id },
+    { start, end, available },
+    {
+      new: true,
+    }
+  );
+
+  return res.status(200).json({
+    success: !!schedule,
+    message: "Update schedule success",
+    data: schedule,
   });
 };
 
@@ -275,22 +358,6 @@ exports.create = async (req, res) => {
       destination,
       created_by,
     });
-    // let d = new Date();
-    // if (tour) {
-    //   let code = "";
-    //   title.split(" ").forEach((item) => {
-    //     code += item.charAt(0).toUpperCase();
-    //   });
-
-    //   code += `${d.getDate()}${d.getMonth()}${d.getFullYear()}`;
-
-    //   await TourAvailability.create({
-    //     code,
-    //     tour: tour._id,
-    //     start_date: tour.created_at,
-    //     available,
-    //   });
-    // }
 
     return res.status(200).json({
       success: !!tour,
@@ -473,4 +540,37 @@ exports.update = async (req, res) => {
     message: "Update tour success",
     data: tour,
   });
+};
+
+exports.search = async (req, res) => {
+  let kw = req.query.keyword;
+  const { destination, checkin } = req.body;
+
+  if (kw !== "" && kw !== undefined) {
+    const tours = await Tour.aggregate(
+      {
+        $lookup: {
+          from: "tour_availabilities",
+          localField: "_id",
+          foreignField: "tour",
+          as: "tour_availabilities",
+        },
+      },
+      { $unwind: "$tour_availabilities" },
+      {
+        $match: {
+          $and: [
+            { title: { $regex: kw, $options: "i" } },
+            { destination: destination },
+            { checkin: { $gte: checkin } },
+          ],
+        },
+      }
+    );
+
+    return res.status(200).json({
+      success: !!tours,
+      data: tours,
+    });
+  }
 };

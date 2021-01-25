@@ -1,0 +1,11 @@
+@import "../../assets/scss/variables";
+
+.popular-destinations {
+    margin-top: 25px;
+
+    .item {
+      color: $text;
+      margin-bottom: 10px !important;
+      text-transform: uppercase;
+    }
+}

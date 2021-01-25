@@ -1,0 +1,10 @@
+@import "../../assets/scss/variables";
+
+.faqs {
+    margin-top: 25px;
+
+    .item {
+      color: $text;
+      margin-bottom: 10px !important;
+    }
+}

@@ -3,6 +3,8 @@ const User = require("../models/user");
 //Load validate
 const registerValidate = require("../validators/auth/register");
 const loginValidate = require("../validators/auth/login");
+const { OAuth2Client } = require("google-auth-library");
+const client = new OAuth2Client(process.env.GG_CLIENT_ID);
 
 exports.register = async (req, res) => {
   const { errors, isValid } = registerValidate(req.body);
@@ -98,17 +100,71 @@ exports.login = async (req, res) => {
 };
 
 exports.loginWithSocial = async (req, res) => {
-  user = req.user;
+  const { tokenId, googleId } = req.body;
 
-  let token = sendTokenResponse(user, 200, res);
+  client
+    .verifyIdToken({ idToken: tokenId, audience: process.env.GG_CLIENT_ID })
+    .then(async (response) => {
+      let { email, name, picture, given_name, family_name } = response.payload;
+      let user = await User.findOne({
+        $or: [
+          {
+            $and: [
+              { auth_type: "social" },
+              { "social_login.social_type": "google" },
+              { "social_login.social_id": googleId },
+            ],
+          },
+          { email },
+        ],
+      });
+      if (user) {
+        if (user.auth_type === "email") {
+          user = await User.findOneAndUpdate(
+            {
+              _id: user._id,
+            },
+            {
+              $set: [
+                { "social_login.social_type": "google" },
+                { "social_login.social_id": googleId },
+              ],
+            },
+            {
+              new: true,
+            }
+          );
+        }
+      } else {
+        user = await User.create({
+          name,
+          email,
+          avatar: picture,
+          first_name: given_name,
+          last_name: family_name,
+          auth_type: "social",
+          "social_login.social_type": "google",
+          "social_login.social_id": googleId,
+        });
+      }
 
-  return res.status(200).json({
-    success: !!user,
-    token: token,
-    data: user,
-  });
+      let token = sendTokenResponse(user, 200, res);
+
+      return res.status(200).json({
+        success: !!user,
+        token: token,
+        data: user,
+      });
+    })
+    .catch((err) => {
+      if (err) {
+        return res.status(400).json({
+          success: false,
+          message: err,
+        });
+      }
+    });
 };
-
 // Get token from model, create cookie and send response
 const sendTokenResponse = (user) => {
   // Create token
