@@ -7,7 +7,6 @@ const destinationValidate = require("../validators/destination/create");
 const { Tour } = require("../models/tours");
 
 exports.paginate = async (req, res) => {
-  console.log(req)
   let options = {
     sort: { created_at: -1 },
     limit: 10,
