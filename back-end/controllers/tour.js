@@ -7,6 +7,23 @@ const Rating = require("../models/rating");
 const tourValidate = require("../validators/tour/create");
 const bookingValidate = require("../validators/book/create");
 
+exports.paginate = async (req, res) => {
+  let options = {
+    sort: { created_at: -1 },
+    limit: 10,
+  };
+  const tours = await Tour.paginate({}, options)
+                          .populate("destination")
+                          .populate("category")
+                          .populate("attribute")
+                          .populate("created_by", "full_name");
+                          
+  return res.status(200).json({
+    success: !!tours,
+    data: tours,
+  });
+};
+
 exports.all = async (req, res) => {
   const tours = await Tour.find({})
     .populate("destination")

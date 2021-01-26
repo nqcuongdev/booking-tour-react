@@ -8,7 +8,9 @@ import RatingApi from "../../api/ratingApi";
 const CommentForm = (props) => {
   const [commentForm, setCommentForm] = useState({});
   const { user } = useContext(AuthContext);
+
   const ratingChanged = (ratingNumber) => {
+    // lối không hiển sao khi gọi hàm setCommentForm trong này
     setCommentForm({
       ...commentForm,
       rating: ratingNumber,

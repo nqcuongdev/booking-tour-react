@@ -152,6 +152,7 @@ const BookTour = (props) => {
               <div className="single__field">
                 <label htmlFor="code">Code</label>
                 <Input
+                  className="code-select"
                   type="select"
                   name="code"
                   id="code"
@@ -162,7 +163,10 @@ const BookTour = (props) => {
                   {schedules &&
                     schedules.map((schedule) => {
                       return (
-                        <option key={schedule._id} value={schedule._id}>
+                        <option
+                          key={schedule._id} 
+                          value={schedule._id}
+                        >
                           {schedule.title}
                         </option>
                       );

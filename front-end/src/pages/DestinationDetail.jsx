@@ -169,7 +169,7 @@ const DestinationDetail = (props) => {
         fetchDestinations()
     }, [])
 
-    const location = {
+    let location = {
         center: {
           lat: destination.lat,
           lng: destination.lng,

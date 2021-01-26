@@ -58,9 +58,9 @@ const TourDetail = (props) => {
         console.log(error);
       }
     };
-    console.log(props.match.params.id);
-    if (props.match.params.id) {
-      fetchTourDetail(props.match.params.id);
+    //console.log(props.location.state.id);
+    if (props.location.state.id) {
+      fetchTourDetail(props.location.state.id);
     } else {
       props.history.push("/tours");
     }

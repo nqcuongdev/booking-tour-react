@@ -20,6 +20,8 @@ import adImage from "../assets/images/ad.png";
 import AdItem from "../components/AdItem/AdItem";
 import SingleListItem from "../components/SingleListItem/SingleListItem";
 import ToursApi from "../api/toursApi";
+import { useRouteMatch } from "react-router-dom";
+import Pagination from "react-js-pagination";
 
 const popularItem = {
   text1: "Summer Stay",
@@ -28,22 +30,33 @@ const popularItem = {
 };
 
 const Tours = (props) => {
+  //phân trang
+  const [pagination, setPagination] = useState(1);
+  //console.log(pagination)
+
   const [toursList, setToursList] = useState([]);
   const [oldTours, setOldTours] = useState([]);
 
   useEffect(() => {
     const fetchToursList = async () => {
       try {
-        const response = await ToursApi.getAll();
-        setToursList(response.data);
-        setOldTours(response.data);
+        // const response = await ToursApi.getAll();
+        const response = await ToursApi.getPaginate(pagination);
+        console.log(response);
+        if (response.success) {
+          setToursList(response.data);
+          setOldTours(response.data);
+        }
       } catch (error) {
         console.log("Failed to fetch Tours list: ", error);
       }
     };
 
     fetchToursList();
-  }, []);
+  }, [pagination]);
+
+  // lấy đường dẫn hiện tại
+  const { url } = useRouteMatch();
 
   const onSearchForm = (e) => {
     e.preventDefault();
@@ -165,12 +178,23 @@ const Tours = (props) => {
               </div>
 
               {toursList.map((item) => {
-                return <SingleListItem {...item} />;
+                return <SingleListItem {...item} url={url} />;
               })}
             </Col>
           </Row>
           <div className="mb-50">
-            <Paginate />
+            {/* <Paginate /> */}
+            <div className="pagination-bar text-center">
+              <Pagination
+                itemClass="page-item"
+                linkClass="page-link"
+                activePage={pagination}
+                itemsCountPerPage={10}
+                totalItemsCount={100}
+                pageRangeDisplayed={5}
+                onChange={(page) => setPagination(page)}
+              />
+            </div>
           </div>
         </Container>
       </div>

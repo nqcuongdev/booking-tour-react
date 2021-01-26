@@ -2,7 +2,7 @@
 
 .search__popular {
   input {
-    padding: 20px !important;
+    padding: 5px !important;
     background-color: $white-smoke;
     font-size: 14px;
     color: $gray46;
@@ -14,12 +14,50 @@
       box-shadow: none;
     }
   }
+
+  .css-2b097c-container {
+    width: 80% !important;
+
+    .css-yk16xz-control {
+      background-color: $white-smoke !important;
+      font-size: 14px !important;
+      color: $gray46 !important;
+      border-radius: 2px !important;
+      border: none !important;
+    }
+
+    .css-1pahdxg-control {
+      border: none !important;
+      background-color: $white-smoke !important;
+      box-shadow: none !important;
+
+      &:hover {
+        border: none !important;
+        background-color: $white-smoke !important;
+        box-shadow: none !important;
+      }
+
+      &:focus {
+        border: none !important;
+        background-color: $white-smoke !important;
+        box-shadow: none !important;
+      }
+    }
+
+    .css-yk16xz-control {
+      border-color: none !important;
+    }
+  }
+
   .input-group-append {
+    margin-left: -35px;
+
     button {
       color: $gray46;
       background-color: $white-smoke;
       border: none;
       border-radius: 2px !important;
+      transition: 0.3s;
 
       &:hover {
         color: $white;

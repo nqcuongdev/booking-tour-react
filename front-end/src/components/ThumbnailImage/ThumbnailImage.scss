@@ -10,21 +10,23 @@
     top: 0;
     background: $white;
     z-index: 1;
-    width: 135px;
+    width: 155px;
     height: 100%;
-    opacity: 0;
+    opacity: 0.3;
     transition: all 0.4s;
 
     a {
       position: absolute;
-      top: 40%;
-      left: 20%;
+      top: 35%;
+      left: 15%;
       color: $primary !important;
       transition: all 0.4s;
+      font-size: 18px;
+      font-weight: bold;
     }
 
     &:hover {
-      opacity: 0.2;
+      opacity: 0.7;
     }
   }
 
@@ -34,6 +36,8 @@
     border-radius: 2px;
     background-size: cover;
     background-position: center;
+    width: 155px;
+    height: 135px;
 
     img {
       width: 135px;
