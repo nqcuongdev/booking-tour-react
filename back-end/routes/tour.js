@@ -42,6 +42,7 @@ const upload = multer({
 
 router.get("/", all);
 router.post("/search", search);
+router.get("/paginate", paginate);
 router.get("/:id", show);
 router.get("/:id/schedule", getScheduleTour);
 router.post("/:id/schedule", isAuth, checkRole, createScheduleTour);
@@ -49,6 +50,5 @@ router.put("/schedule/:id", isAuth, checkRole, editScheduleTour);
 router.post("/:id/booking", bookTour);
 router.post("/create", upload, isAuth, checkRole, create);
 router.put("/:id", upload, isAuth, checkRole, update);
-router.get("/paginate", paginate);
 
 module.exports = router;
