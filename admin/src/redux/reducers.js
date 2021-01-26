@@ -6,6 +6,7 @@ import Tour from './tour/reducers';
 import Destination from './destination/reducers';
 import Notification from './notification/reducers';
 import Hotel from './hotel/reducers';
+import Order from './order/saga';
 
 export default combineReducers({
     Auth,
@@ -15,4 +16,5 @@ export default combineReducers({
     Destination,
     Notification,
     Hotel,
+    Order,
 });

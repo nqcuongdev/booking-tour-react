@@ -14,6 +14,7 @@ const {
   editScheduleTour,
   getScheduleByTitle,
   paginate,
+  search,
 } = require("../controllers/tour");
 
 const router = express.Router();

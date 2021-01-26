@@ -28,6 +28,7 @@ import { connect, useDispatch } from 'react-redux';
 import { getAllType } from '../../redux/hotel/actions';
 import { createTourCategory, updateTourCategory } from '../../redux/tour/actions';
 import moment from 'moment';
+import { getListOrder } from '../../redux/order/actions';
 
 const ListOrder = (props) => {
     const sizePerPageRenderer = ({ options, currSizePerPage, onSizePerPageChange }) => (
@@ -49,7 +50,7 @@ const ListOrder = (props) => {
     );
     const [modal, setModal] = useState(false);
     const [modalInput, setModalInput] = useState({});
-    const [types, setTypes] = useState([]);
+    const [orders, setOrders] = useState([]);
     const [type, setType] = useState();
     const { SearchBar } = Search;
 
@@ -109,13 +110,13 @@ const ListOrder = (props) => {
         },
     ];
     const dispatch = useDispatch();
-    let data = props.types;
+    let data = props.orders;
     useEffect(() => {
-        if (data) setTypes(data);
+        if (data) setOrders(data);
     }, [data]);
 
     useEffect(() => {
-        dispatch(getAllType());
+        dispatch(getListOrder());
     }, [dispatch]);
 
     /**
@@ -132,19 +133,7 @@ const ListOrder = (props) => {
         setModalInput({ ...modalInput, [name]: value });
     };
 
-    const handleSubmit = (_id) => {
-        if (_id) {
-            //Default input is 'on' so we must convert into right format for save in db
-            modalInput.status = modalInput.status === 'on' && type.status === 'active' ? 'hide' : 'active';
-            dispatch(updateTourCategory(modalInput._id, modalInput.title, 'hotel', modalInput.status));
-        } else {
-            dispatch(createTourCategory(modalInput.title, 'hotel'));
-        }
-        setModal(!modal);
-        setType();
-        setModalInput({ title: '', status: '' });
-        dispatch(getAllType());
-    };
+    const handleSubmit = (_id) => {};
 
     return (
         <>
@@ -166,7 +155,7 @@ const ListOrder = (props) => {
                             <ToolkitProvider
                                 bootstrap4
                                 keyField="_id"
-                                data={types}
+                                data={orders}
                                 columns={columns}
                                 search
                                 exportCSV={{ onlyExportFiltered: true, exportAll: false }}>
@@ -178,7 +167,7 @@ const ListOrder = (props) => {
                                             </Col>
                                         </Row>
 
-                                        {types && (
+                                        {orders && (
                                             <BootstrapTable
                                                 {...propsDT.baseProps}
                                                 bordered={false}
@@ -190,7 +179,7 @@ const ListOrder = (props) => {
                                                         { text: '10', value: 10 },
                                                         { text: '20', value: 20 },
                                                         { text: '30', value: 30 },
-                                                        { text: 'All', value: types.length },
+                                                        { text: 'All', value: orders.length },
                                                     ],
                                                 })}
                                                 wrapperClasses="table-responsive"
@@ -199,48 +188,6 @@ const ListOrder = (props) => {
                                     </React.Fragment>
                                 )}
                             </ToolkitProvider>
-                            <Modal isOpen={modal} toggle={() => toggle()}>
-                                <ModalHeader toggle={() => toggle()}>
-                                    {type ? 'Edit Category' : 'Add Category'}
-                                </ModalHeader>
-                                <ModalBody>
-                                    <Form>
-                                        <FormGroup>
-                                            <Label for="title">Title</Label>
-                                            <Input
-                                                type="text"
-                                                name="title"
-                                                id="title"
-                                                placeholder="Title"
-                                                onChange={inputChangeHandler}
-                                                defaultValue={type ? type.title : ''}
-                                            />
-                                            {props.error && <FormText color="danger">{props.error}</FormText>}
-                                        </FormGroup>
-                                        <FormGroup>
-                                            {type && type.title && (
-                                                <CustomInput
-                                                    type="switch"
-                                                    id="statusSwitch"
-                                                    name="status"
-                                                    label="Status"
-                                                    defaultChecked={type && type.status === 'active' ? type.status : ''}
-                                                    required
-                                                    onChange={inputChangeHandler}
-                                                />
-                                            )}
-                                        </FormGroup>
-                                    </Form>
-                                </ModalBody>
-                                <ModalFooter>
-                                    <Button color="primary" onClick={() => handleSubmit(type ? type._id : '')}>
-                                        Save
-                                    </Button>
-                                    <Button color="secondary" className="ml-1" onClick={() => toggle()}>
-                                        Cancel
-                                    </Button>
-                                </ModalFooter>
-                            </Modal>
                         </CardBody>
                     </Card>
                 </Col>
@@ -250,8 +197,8 @@ const ListOrder = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    const { type, types, loading, error } = state.Hotel;
-    return { type, types, loading, error };
+    const { order, orders, loading, error } = state.Order;
+    return { order, orders, loading, error };
 };
 
 export default connect(mapStateToProps)(ListOrder);

@@ -3,7 +3,10 @@ const Validator = require("validator");
 const { TourAvailability } = require("../models/tours");
 
 exports.all = async (req, res) => {
-  const books = await Book.find({}).sort({ created_at: 1 });
+  const books = await Book.find({})
+    .sort({ created_at: 1 })
+    .populate("code")
+    .populate("room");
 
   return res.status(200).json({
     success: !!books,

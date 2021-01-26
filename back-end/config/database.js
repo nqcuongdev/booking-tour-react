@@ -2,9 +2,7 @@ const mongoose = require("mongoose");
 
 const connectDB = async () => {
   const conn = await mongoose.connect(
-    `mongodb://shapee:${encodeURIComponent("shapee@!23")}@${
-      process.env.DB_URL
-    }:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`,
+    `mongodb://${process.env.DB_URL}:${process.env.DB_PORT}/${process.env.DB_NAME}`,
     {
       useNewUrlParser: true,
       useCreateIndex: true,
