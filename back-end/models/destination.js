@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const slugify = require("slugify");
 const geocoder = require("../utils/geocoder");
+const mongoosePaginate = require("mongoose-paginate-v2");
 
 const DestinationSchema = new mongoose.Schema({
   title: {
@@ -114,5 +115,7 @@ DestinationSchema.pre("findOneAndUpdate", function (next) {
 
 // Add index for location and text for full text search
 DestinationSchema.index({ location: "2dsphere" });
+
+DestinationSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model("destination", DestinationSchema);

@@ -13,10 +13,13 @@ import Pagination from "react-js-pagination";
 
 const Hotels = (props) => {
   //phân trang
-  const [pagination, setPagination] = useState(1)
+  const [pagination, setPagination] = useState()
   //console.log(pagination)
 
   const [hotels, setHotels] = useState([]);
+
+  let [totalPages, setTotalPages] = useState();
+  let [totalDocs, setTotalDocs] = useState();
 
   useEffect(() => {
     const fetchHotel = async () => {
@@ -26,6 +29,9 @@ const Hotels = (props) => {
         //console.log(response)
         if (response.success) {
           setHotels(response.data.docs);
+
+          setTotalPages(response.data.totalPages)
+          setTotalDocs(response.data.totalDocs);
         }
       } catch (error) {
         console.log(error);
@@ -110,13 +116,13 @@ const Hotels = (props) => {
             </Row>
             {/* <Paginate /> */}
             <div className="pagination-bar text-center">
-              <Pagination
+            <Pagination
                 itemClass="page-item"
                 linkClass="page-link"
                 activePage={pagination}
                 itemsCountPerPage={10}
-                totalItemsCount={100}
-                pageRangeDisplayed={5}
+                totalItemsCount={totalDocs}
+                pageRangeDisplayed={totalPages}
                 onChange={(page) => setPagination(page)}
               />
             </div>
