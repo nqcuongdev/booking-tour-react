@@ -2,12 +2,14 @@ const mongoose = require("mongoose");
 
 const connectDB = async () => {
   const conn = await mongoose.connect(
-    `mongodb://shapee:shapee@!23&${process.env.DB_URL}:${process.env.DB_PORT}/${process.env.DB_NAME}?auththSource=admin`,
+    `mongodb://shapee:${encodeURIComponent("shapee@!23")}@${
+      process.env.DB_URL
+    }:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`,
     {
-      useCreateIndex: true,
       useNewUrlParser: true,
-      useUnifiedTopology: true,
+      useCreateIndex: true,
       useFindAndModify: false,
+      useUnifiedTopology: true,
     }
   );
 
