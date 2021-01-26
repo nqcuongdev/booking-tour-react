@@ -1,14 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Row, Col, Button } from "reactstrap";
 import "./Room.scss";
 import { TiGroup, TiTick } from "react-icons/ti";
 import { MdZoomOutMap } from "react-icons/md";
 import BookHotel from "../BookHotel/BookHotel";
+import AuthContext from "../../contexts/auth";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Room = (props) => {
   const [book, setBook] = useState(false);
 
-  const toggleBook = () => setBook(!book);
+  const context = useContext(AuthContext);
+  const user = context.user
+
+  const toggleBook = () => {
+    if (user._id !== undefined) {
+      setBook(!book)
+    } else {
+      toast.error(`You must login before booking!`, {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  }
 
   return (
     <>
@@ -65,7 +84,7 @@ const Room = (props) => {
                 <Col xl={3} lg={3} md={3} xs={12} className="btn-book-now">
                   <Button
                     onClick={() => {
-                      setBook(!book);
+                      toggleBook();
                     }}
                   >
                     Book now

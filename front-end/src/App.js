@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Redirect } from "react-router-dom";
 import { Route } from "react-router-dom/cjs/react-router-dom.min";
 import Contact from "./pages/Contact";
 import Home from "./pages/Home";
@@ -76,14 +76,14 @@ function App() {
               path="/destinations/:id"
               component={DestinationDetail}
             />
-            <Route exact path="/tour-cart" component={TourCart} />
-            <Route exact path="/hotel-cart" component={HotelCart} />
+            <Route exact path={user._id ? "/tour-cart" : "/"} component={TourCart} />
+            <Route exact path={user._id ? "/hotel-cart" : "/"} component={HotelCart} />
             {/* <Route exact path="/hotel-checkout" component={HotelCheckout} /> */}
-            <Route exact path="/checkout" component={TourCheckout} />
-            <Route exact path="/profile" component={Profile} />
+            <Route exact path={user._id ? "/checkout" : "/"} component={TourCheckout} />
+            <Route exact path={user._id ? "/profile" : "/"} component={Profile} />
             <Route exact path="/events" component={Event} />
             <Route exact path="/page-not-found" component={NotFound} />
-            <Route exact path="/payment-success" component={PaymentSuccess} />
+            <Route exact path={user._id ? "/payment-success" : "/"} component={PaymentSuccess} />
             <Route path='*' exact={true} component={NotFound} />
           </Switch>
         </AuthContext.Provider>

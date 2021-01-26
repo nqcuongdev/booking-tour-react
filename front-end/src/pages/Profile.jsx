@@ -28,7 +28,7 @@ const Profile = (props) => {
     }
 
     // chưa login thì chuyển về trang chủ
-    if (!user.full_name) {
+    if (user.full_name === undefined) {
         return <Redirect to='/'/>;
     }
 
