@@ -165,20 +165,9 @@ class Login extends Component {
                                                                     </Button>
                                                                 </Col>
                                                                 <Col sm={4} xs={12}>
-                                                                    <GoogleLogin
-                                                                        clientId={process.env.REACT_APP_GG_CLIENT}
-                                                                        render={(renderProps) => (
-                                                                            <Button
-                                                                                color="danger"
-                                                                                className="btn-block"
-                                                                                onClick={renderProps.onClick}>
-                                                                                Google
-                                                                            </Button>
-                                                                        )}
-                                                                        onSuccess={this.responseGoogle}
-                                                                        onFailure={this.responseGoogle}
-                                                                        cookiePolicy={'single_host_origin'}
-                                                                    />
+                                                                    <Button color="danger" className="btn-block">
+                                                                        Google
+                                                                    </Button>
                                                                 </Col>
                                                                 <Col sm={4} xs={12}>
                                                                     <Button color="info" className="btn-block">
