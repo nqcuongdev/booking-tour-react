@@ -1,22 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-    Row,
-    Col,
-    Card,
-    CardBody,
-    Input,
-    Button,
-    Badge,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    Form,
-    FormGroup,
-    Label,
-    FormText,
-    CustomInput,
-} from 'reactstrap';
+import { Row, Col, Card, CardBody, Input, Button, Badge } from 'reactstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import paginationFactory from 'react-bootstrap-table2-paginator';
@@ -25,8 +8,6 @@ import * as FeatherIcon from 'react-feather';
 
 import PageTitle from '../../components/PageTitle';
 import { connect, useDispatch } from 'react-redux';
-import { getAllType } from '../../redux/hotel/actions';
-import { createTourCategory, updateTourCategory } from '../../redux/tour/actions';
 import moment from 'moment';
 import { getListOrder } from '../../redux/order/actions';
 
@@ -72,22 +53,38 @@ const ListOrder = (props) => {
         return moment(cell).format('YYYY-MM-DD');
     };
 
+    const getPackage = (cell, row, rowIndex) => {
+        return row.code ? row.code.title : row.room.title;
+    };
+
     const columns = [
         {
-            dataField: 'title',
-            text: 'Title',
+            dataField: 'user.full_name',
+            text: 'Name',
             sort: false,
         },
         {
-            dataField: 'slug',
-            text: 'Slug',
+            dataField: 'package',
+            text: 'Package',
             sort: false,
+            formatter: getPackage,
         },
         {
-            dataField: 'created_at',
-            text: 'Create Date',
+            dataField: 'checkin',
+            text: 'Check In',
             sort: false,
             formatter: dateFormatter,
+        },
+        {
+            dataField: 'checkout',
+            text: 'Check Out',
+            sort: false,
+            formatter: dateFormatter,
+        },
+        {
+            dataField: 'payment.transaction_id',
+            text: 'Transaction Code',
+            sort: false,
         },
         {
             dataField: 'status',

@@ -6,7 +6,7 @@ import Tour from './tour/reducers';
 import Destination from './destination/reducers';
 import Notification from './notification/reducers';
 import Hotel from './hotel/reducers';
-import Order from './order/saga';
+import Order from './order/reducers';
 
 export default combineReducers({
     Auth,
