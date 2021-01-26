@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const connectDB = async () => {
   const conn = await mongoose.connect(
-    `mongodb://${process.env.DB_URL}:${process.env.DB_PORT}/${process.env.DB_NAME}`,
+    `mongodb://shapee:shapee@!23&${process.env.DB_URL}:${process.env.DB_PORT}/${process.env.DB_NAME}?auththSource=admin`,
     {
       useCreateIndex: true,
       useNewUrlParser: true,
