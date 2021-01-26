@@ -6,6 +6,21 @@ const Destination = require("../models/destination");
 const destinationValidate = require("../validators/destination/create");
 const { Tour } = require("../models/tours");
 
+exports.paginate = async (req, res) => {
+  console.log(req)
+  let options = {
+    sort: { created_at: -1 },
+    limit: 10,
+  };
+  
+  const destinations = await Destination.paginate({}, options);
+                          
+  return res.status(200).json({
+    success: !!destinations,
+    data: destinations,
+  });
+};
+
 exports.all = async (req, res) => {
   const destination = await Destination.aggregate([
     {
