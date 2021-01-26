@@ -1,5 +1,6 @@
 const Validator = require("validator");
 const User = require("../models/user");
+const Book = require("../models/booking");
 
 exports.show = async (req, res) => {
   const { id } = req.user;
@@ -13,7 +14,7 @@ exports.show = async (req, res) => {
   }
 
   let user = await User.findOne({ _id: id });
-  let books = await Booking.find({ user: id });
+  let books = await Book.find({ user: id });
 
   if (!user) {
     return res.status(404).json({
