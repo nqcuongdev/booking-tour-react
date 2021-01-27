@@ -3,7 +3,7 @@ import { Row, Col } from 'reactstrap';
 
 import StatisticsChartWidget from '../../components/StatisticsChartWidget';
 
-const Statistics = ({ user }) => {
+const Statistics = ({ user, orders, hotels }) => {
     return (
         <React.Fragment>
             <Row>
@@ -11,78 +11,86 @@ const Statistics = ({ user }) => {
                     <StatisticsChartWidget
                         description="Today Revenue"
                         title="$2100"
-                        data={[25, 66, 41, 85, 63, 25, 44, 12, 36, 9, 54]}
                         trend={{
                             textClass: 'text-success',
-                            icon: 'uil uil-arrow-up',
-                            value: '10.21%',
                         }}></StatisticsChartWidget>
                 </Col>
 
                 <Col md={6} xl={3}>
                     {user && user.role === 'admin' && (
                         <StatisticsChartWidget
-                            description="Product Sold"
-                            title="1065"
+                            description="Booking"
+                            title={orders && orders.length}
                             colors={['#f77e53']}
-                            data={[25, 66, 41, 85, 63, 25, 44, 12, 36, 9, 54]}
                             trend={{
                                 textClass: 'text-danger',
-                                icon: 'uil uil-arrow-down',
-                                value: '5.05%',
                             }}></StatisticsChartWidget>
                     )}
 
                     {user && user.role === 'hotel_partner' && (
                         <StatisticsChartWidget
                             description="Hotel Booking"
-                            title="1065"
+                            title={orders && orders.filter((order) => order.room).length}
                             colors={['#f77e53']}
-                            data={[25, 66, 41, 85, 63, 25, 44, 12, 36, 9, 54]}
                             trend={{
                                 textClass: 'text-danger',
-                                icon: 'uil uil-arrow-down',
-                                value: '5.05%',
                             }}></StatisticsChartWidget>
                     )}
 
                     {user && user.role === 'tour_partner' && (
                         <StatisticsChartWidget
                             description="Tour Booking"
-                            title="1065"
+                            title={orders && orders.filter((order) => order.code).length}
                             colors={['#f77e53']}
-                            data={[25, 66, 41, 85, 63, 25, 44, 12, 36, 9, 54]}
                             trend={{
                                 textClass: 'text-danger',
-                                icon: 'uil uil-arrow-down',
-                                value: '5.05%',
                             }}></StatisticsChartWidget>
                     )}
                 </Col>
 
-                <Col md={6} xl={3}>
-                    <StatisticsChartWidget
-                        description="New Customers"
-                        title="11"
-                        colors={['#43d39e']}
-                        data={[25, 66, 41, 85, 63, 25, 44, 12, 36, 9, 54]}
-                        trend={{
-                            textClass: 'text-success',
-                            icon: 'uil uil-arrow-up',
-                            value: '25.16%',
-                        }}></StatisticsChartWidget>
-                </Col>
+                {user && user.role === 'hotel_partner' && (
+                    <Col md={6} xl={3}>
+                        <StatisticsChartWidget
+                            description="Hotel"
+                            title={hotels && hotels.filter((hotel) => hotel.author === user._id).length}
+                            colors={['#43d39e']}
+                            trend={{
+                                textClass: 'text-success',
+                            }}></StatisticsChartWidget>
+                    </Col>
+                )}
+
+                {user && user.role === 'tour_partner' && (
+                    <Col md={6} xl={3}>
+                        <StatisticsChartWidget
+                            description="Tour Available"
+                            title="11"
+                            colors={['#43d39e']}
+                            trend={{
+                                textClass: 'text-success',
+                            }}></StatisticsChartWidget>
+                    </Col>
+                )}
+
+                {user && user.role === 'admin' && (
+                    <Col md={6} xl={3}>
+                        <StatisticsChartWidget
+                            description="Total Partner"
+                            title="11"
+                            colors={['#43d39e']}
+                            trend={{
+                                textClass: 'text-success',
+                            }}></StatisticsChartWidget>
+                    </Col>
+                )}
 
                 <Col md={6} xl={3}>
                     <StatisticsChartWidget
-                        description="New Visitors"
-                        title="750"
-                        colors={['#ffbe0b']}
-                        data={[25, 66, 41, 85, 63, 25, 44, 12, 36, 9, 54]}
+                        description="Users"
+                        title="11"
+                        colors={['#43d39e']}
                         trend={{
-                            textClass: 'text-danger',
-                            icon: 'uil uil-arrow-down',
-                            value: '5.05%',
+                            textClass: 'text-success',
                         }}></StatisticsChartWidget>
                 </Col>
             </Row>

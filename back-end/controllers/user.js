@@ -14,7 +14,24 @@ exports.show = async (req, res) => {
   }
 
   let user = await User.findOne({ _id: id });
-  let books = await Book.find({ user: id });
+  let books = await Book.find({ user: id })
+    .populate({
+      path: "code",
+      populate: {
+        path: "tour",
+        populate: [
+          {
+            path: "attributes",
+            model: "attribute",
+          },
+          {
+            path: "destination",
+            model: "destination",
+          },
+        ],
+      },
+    })
+    .populate("room");
 
   if (!user) {
     return res.status(404).json({

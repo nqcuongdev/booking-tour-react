@@ -4,7 +4,6 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import * as FeatherIcon from 'react-feather';
 
 import PageTitle from '../../components/PageTitle';
 import { connect, useDispatch } from 'react-redux';
@@ -29,17 +28,21 @@ const ListOrder = (props) => {
             <label className="d-inline ml-1">entries</label>
         </React.Fragment>
     );
-    const [modal, setModal] = useState(false);
-    const [modalInput, setModalInput] = useState({});
+
     const [orders, setOrders] = useState([]);
-    const [type, setType] = useState();
     const { SearchBar } = Search;
 
     const rankFormatter = (cell, row, rowIndex) => {
         return (
             <div>
-                <Button color="primary" size="sm" onClick={() => toggle(row)}>
-                    <FeatherIcon.Edit size="18" />
+                <Button
+                    color="primary"
+                    size="sm"
+                    onClick={() => {
+                        window.open(`/invoice/${row._id}`, '_blank');
+                        window.focus();
+                    }}>
+                    <i className="uil uil-bill"></i>
                 </Button>
             </div>
         );
@@ -115,22 +118,6 @@ const ListOrder = (props) => {
     useEffect(() => {
         dispatch(getListOrder());
     }, [dispatch]);
-
-    /**
-     * Show/hide the modal
-     */
-    const toggle = (type) => {
-        setType(type);
-        setModalInput(type);
-        setModal(!modal);
-    };
-
-    const inputChangeHandler = (e) => {
-        const { name, value } = e.target;
-        setModalInput({ ...modalInput, [name]: value });
-    };
-
-    const handleSubmit = (_id) => {};
 
     return (
         <>

@@ -25,15 +25,19 @@ const SingleListItem = (props) => {
       <Row>
         <Col md={5} lg={5} className="item__image">
           {showNewBadge(props.created_date)}
-          <img src={props.image} className="img-fluid" alt={props.title} />
+          <img
+            src={`${process.env.REACT_APP_API_URL}/${props.image}`}
+            className="img-fluid"
+            alt={props.title}
+          />
         </Col>
         <Col md={7} lg={5} className="item__content">
           <Row>
             <div className="item__info">
-              <Link  //to={`tours/${props._id}`}
+              <Link //to={`tours/${props._id}`}
                 to={{
                   pathname: `${props.url}/${props.slug}`,
-                  state: {id: `${props._id}`}
+                  state: { id: `${props._id}` },
                 }}
               >
                 <h4 className="title" style={{ color: "black" }}>
@@ -58,10 +62,10 @@ const SingleListItem = (props) => {
                 {getSubStringContent(props.description)}...
               </div>
               <div className="item__button mt-3">
-                <Link  //to={`tours/${props._id}`}
+                <Link //to={`tours/${props._id}`}
                   to={{
                     pathname: `${props.url}/${props.slug}`,
-                    state: {id: `${props._id}`}
+                    state: { id: `${props._id}` },
                   }}
                 >
                   <Button color="orange" size="sm" className="mr-3">

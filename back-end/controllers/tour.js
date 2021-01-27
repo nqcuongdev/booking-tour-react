@@ -36,6 +36,28 @@ exports.all = async (req, res) => {
   });
 };
 
+exports.getAllSchedules = async (req, res) => {
+  const schedules = await Tour.aggregate([
+    {
+      $lookup: {
+        from: "tour_availabilities",
+        localField: "_id",
+        foreignField: "tour",
+        as: "tour_availabilities",
+      },
+    },
+    {
+      $project: {
+        _id: null,
+        author: "$author",
+        tour_count: { $size: { $ifNull: ["$tour_availabilities", []] } },
+      },
+    },
+  ]);
+
+  console.log(schedules);
+};
+
 exports.show = async (req, res) => {
   let _id = req.params.id;
   let checkIDValid = Validator.isMongoId(_id);

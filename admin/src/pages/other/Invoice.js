@@ -22,50 +22,6 @@ const Invoice = (props) => {
         }
     }, [props.order]);
 
-    const invoiceDetail = {
-        customer: 'Greeva Navadiya',
-        notes:
-            'All accounts are to be paid within 7 days from receipt of invoice. To be paid by cheque or credit card or direct payment online. If account is not paid within 7 days the credits details supplied as confirmation of work undertaken will be charged the agreed quoted fee noted above',
-        invoice_date: 'Jul 17, 2019',
-        due_date: 'Jul 27, 2019',
-        invoice_id: '#sh1001',
-        address: {
-            line_1: '795 Folsom Ave, Suite 600',
-            city: 'San Francisco',
-            state: 'CA',
-            zip: 94107,
-            phone: '(123) 456-7890',
-        },
-        billing_address: {
-            line_1: '795 Folsom Ave, Suite 600',
-            city: 'San Francisco',
-            state: 'CA',
-            zip: 94107,
-            phone: '(123) 456-7890',
-        },
-        items: [
-            {
-                id: 1,
-                name: 'Web Design',
-                description: '2 Pages static website - my website',
-                qty: 22,
-                unit_cost: '$30.00',
-                total: '$660.00',
-            },
-            {
-                id: 2,
-                name: 'Software Development',
-                description: "Invoice editor software - AB'c Software",
-                qty: 112.5,
-                unit_cost: '$35.00',
-                total: '$3937.50',
-            },
-        ],
-        sub_total: '$4597.50',
-        discount: '$459.75',
-        total: '$4137.75',
-    };
-
     return (
         <React.Fragment>
             <Row className="mt-3">
