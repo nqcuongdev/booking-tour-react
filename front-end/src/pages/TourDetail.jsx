@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   FaMapMarkerAlt,
   FaRegCalendarAlt,
@@ -17,6 +17,8 @@ import RateTable from "../components/RateTable/RateTable";
 import CommentForm from "../components/CommentForm/CommentForm";
 import BookTour from "../components/BookTour/BookTour";
 import ToursApi from "../api/toursApi";
+import AuthContext from "../contexts/auth";
+import { ToastContainer, toast } from 'react-toastify';
 
 const starsCounter = (stars) => {
   const counter = [1, 2, 3, 4, 5];
@@ -66,7 +68,24 @@ const TourDetail = (props) => {
     }
   }, []);
 
-  const toggleBook = () => setBook(!book);
+  const context = useContext(AuthContext);
+  const user = context.user
+
+  const toggleBook = () => {
+    if (user._id !== undefined) {
+      setBook(!book)
+    } else {
+      toast.error(`You must login before booking!`, {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  }
 
   return (
     <MainLayout>
@@ -206,7 +225,7 @@ const TourDetail = (props) => {
               <Button
                 className="book-now"
                 onClick={() => {
-                  setBook(true);
+                  toggleBook();
                 }}
               >
                 Book now

@@ -116,15 +116,17 @@ const Hotels = (props) => {
             </Row>
             {/* <Paginate /> */}
             <div className="pagination-bar text-center">
-            <Pagination
-                itemClass="page-item"
-                linkClass="page-link"
-                activePage={pagination}
-                itemsCountPerPage={10}
-                totalItemsCount={totalDocs}
-                pageRangeDisplayed={totalPages}
-                onChange={(page) => setPagination(page)}
-              />
+              {totalDocs > 0 &&
+                <Pagination
+                  itemClass="page-item"
+                  linkClass="page-link"
+                  activePage={pagination}
+                  itemsCountPerPage={10}
+                  totalItemsCount={totalDocs}
+                  pageRangeDisplayed={totalPages}
+                  onChange={(page) => setPagination(page)}
+                />
+              }
             </div>
           </Container>
         </div>

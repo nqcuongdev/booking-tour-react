@@ -27,12 +27,6 @@ const TopHeader = (props) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggleDropdown = () => setDropdownOpen((prevState) => !prevState);
 
-  const [redirect, setRedirect] = useState(false)
-  if (redirect) {
-    // chuyển về trang chủ
-    return <Redirect to='/'/>;
-  }
-
   const logout = async () => {
     localStorage.removeItem('jwtKey')
     setUser({})
@@ -46,8 +40,6 @@ const TopHeader = (props) => {
       draggable: true,
       progress: undefined,
     });
-
-    setRedirect(true)
   }
 
   // console.log({user})
@@ -69,7 +61,7 @@ const TopHeader = (props) => {
                     </DropdownToggle>
                     <DropdownMenu>
                       <DropdownItem>
-                        <Link className="nav-link" to="Profile"><BsFillPersonFill className="icon"/> Profile</Link>
+                        <Link className="nav-link" to="/profile"><BsFillPersonFill className="icon"/> Profile</Link>
                       </DropdownItem>
                       <DropdownItem>
                         <Link className="nav-link" onClick={logout}><RiLogoutBoxLine className="icon"/> Logout</Link>
