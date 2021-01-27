@@ -6,10 +6,12 @@ const Room = require("../models/room");
 const Rating = require("../models/rating");
 
 exports.paginate = async (req, res) => {
+  let page = req.query.page;
   let options = {
     sort: { created_at: -1 },
     populate: "attributes",
     limit: 10,
+    page: page,
   };
   const hotels = await Hotel.paginate({}, options);
   return res.status(200).json({
