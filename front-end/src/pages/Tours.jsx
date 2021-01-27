@@ -31,11 +31,14 @@ const popularItem = {
 
 const Tours = (props) => {
   //phân trang
-  const [pagination, setPagination] = useState(1);
+  const [pagination, setPagination] = useState();
   //console.log(pagination)
 
   const [toursList, setToursList] = useState([]);
   const [oldTours, setOldTours] = useState([]);
+
+  let [totalPages, setTotalPages] = useState();
+  let [totalDocs, setTotalDocs] = useState();
 
   useEffect(() => {
     const fetchToursList = async () => {
@@ -44,8 +47,11 @@ const Tours = (props) => {
         const response = await ToursApi.getPaginate(pagination);
         console.log(response);
         if (response.success) {
-          setToursList(response.data);
-          setOldTours(response.data);
+          setToursList(response.data.docs);
+          setOldTours(response.data.docs);
+
+          setTotalPages(response.data.totalPages)
+          setTotalDocs(response.data.totalDocs);
         }
       } catch (error) {
         console.log("Failed to fetch Tours list: ", error);
@@ -172,7 +178,7 @@ const Tours = (props) => {
               <div className="list__tour-text">
                 We found{" "}
                 <span style={{ color: "#ff7d3e" }}>
-                  {toursList ? toursList.length : 0}
+                  {toursList ? totalDocs : 0}
                 </span>{" "}
                 tours available for you
               </div>
@@ -190,8 +196,8 @@ const Tours = (props) => {
                 linkClass="page-link"
                 activePage={pagination}
                 itemsCountPerPage={10}
-                totalItemsCount={100}
-                pageRangeDisplayed={5}
+                totalItemsCount={totalDocs}
+                pageRangeDisplayed={totalPages}
                 onChange={(page) => setPagination(page)}
               />
             </div>

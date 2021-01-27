@@ -11,14 +11,11 @@ exports.paginate = async (req, res) => {
   let offset = req.query.page;
   let options = {
     sort: { created_at: -1 },
+    populate: ["destination", "category", "attribute", "create_by"],
     limit: 10,
     offset: offset,
   };
-  const tours = await Tour.paginate({}, options)
-    .populate("destination")
-    .populate("category")
-    .populate("attribute")
-    .populate("created_by", "full_name");
+  const tours = await Tour.paginate({}, options);
 
   return res.status(200).json({
     success: !!tours,

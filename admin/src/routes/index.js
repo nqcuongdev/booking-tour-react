@@ -342,7 +342,7 @@ const pagesRoutes = {
             roles: ['admin'],
         },
         {
-            path: '/pages/invoice',
+            path: '/invoice/:id',
             name: 'Invoice',
             component: Invoice,
             route: PrivateRoute,

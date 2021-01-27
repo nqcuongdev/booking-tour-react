@@ -195,12 +195,12 @@ TourSchema.pre("findOneAndUpdate", function (next) {
 // Add index for location and text for full text search
 TourSchema.index({ location: "2dsphere" });
 
+TourSchema.plugin(mongoosePaginate);
+
 const Tour = mongoose.model("tour", TourSchema);
 const TourAvailability = mongoose.model(
   "tour_availability",
   TourAvailabilitySchema
 );
-
-TourSchema.plugin(mongoosePaginate);
 
 module.exports = { Tour, TourAvailability };

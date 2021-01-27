@@ -6,6 +6,7 @@ import tourSaga from './tour/saga';
 import destinationSaga from './destination/saga';
 import notificationSaga from './notification/saga';
 import hotelSaga from './hotel/saga';
+import orderSaga from './order/saga';
 
 export default function* rootSaga(getState) {
     yield all([
@@ -16,5 +17,6 @@ export default function* rootSaga(getState) {
         destinationSaga(),
         notificationSaga(),
         hotelSaga(),
+        orderSaga(),
     ]);
 }

@@ -3,7 +3,11 @@ const Validator = require("validator");
 const { TourAvailability } = require("../models/tours");
 
 exports.all = async (req, res) => {
-  const books = await Book.find({}).sort({ created_at: 1 });
+  const books = await Book.find({})
+    .sort({ created_at: 1 })
+    .populate("code")
+    .populate("room")
+    .populate("user");
 
   return res.status(200).json({
     success: !!books,
@@ -55,7 +59,16 @@ exports.show = async (req, res) => {
 
   const bookTransaction = await Book.findOne({
     $and: [{ _id }, { $or: [{ user: user.id }, { email: user.email }] }],
-  });
+  })
+    .populate({
+      path: "code",
+      populate: {
+        path: "tour",
+        model: "tour",
+      },
+    })
+    .populate("room")
+    .populate("user");
 
   if (!bookTransaction) {
     return res.status(404).json({

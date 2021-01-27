@@ -39,6 +39,7 @@ const BookingSchema = new mongoose.Schema({
     adult: Number,
   },
   number: Number,
+  total_price: Number,
   status: {
     type: String,
     required: true,

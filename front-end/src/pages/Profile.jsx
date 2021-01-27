@@ -13,6 +13,7 @@ import {
     FaStar, 
     FaRegStar
 } from "react-icons/fa";
+import { Link, Redirect } from "react-router-dom";
 
 const Profile = (props) => {
     const context = useContext(AuthContext)
@@ -24,6 +25,11 @@ const Profile = (props) => {
 
     const toggle = tab => {
         if(activeTab !== tab) setActiveTab(tab);
+    }
+
+    // chưa login thì chuyển về trang chủ
+    if (!user.full_name) {
+        return <Redirect to='/'/>;
     }
 
     return (

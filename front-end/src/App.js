@@ -84,7 +84,7 @@ function App() {
             <Route exact path="/events" component={Event} />
             <Route exact path="/page-not-found" component={NotFound} />
             <Route exact path="/payment-success" component={PaymentSuccess} />
-            <Route path='*' exact={true} component={NotFound} />
+            <Route path="*" exact={true} component={NotFound} />
           </Switch>
         </AuthContext.Provider>
       </Router>
