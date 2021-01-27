@@ -8,16 +8,18 @@ const tourValidate = require("../validators/tour/create");
 const bookingValidate = require("../validators/book/create");
 
 exports.paginate = async (req, res) => {
+  let offset = req.query.page;
   let options = {
     sort: { created_at: -1 },
     limit: 10,
+    offset: offset,
   };
   const tours = await Tour.paginate({}, options)
-                          .populate("destination")
-                          .populate("category")
-                          .populate("attribute")
-                          .populate("created_by", "full_name");
-                          
+    .populate("destination")
+    .populate("category")
+    .populate("attribute")
+    .populate("created_by", "full_name");
+
   return res.status(200).json({
     success: !!tours,
     data: tours,
