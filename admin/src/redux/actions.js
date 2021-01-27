@@ -6,3 +6,4 @@ export * from './hotel/actions';
 export * from './destination/actions';
 export * from './notification/actions';
 export * from './order/actions';
+export * from './post/actions';

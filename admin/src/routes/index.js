@@ -27,6 +27,9 @@ const Facility = React.lazy(() => import('../pages/hotel/Facility'));
 const ListRoom = React.lazy(() => import('../pages/hotel/ListRoom'));
 // Order
 const ListOrder = React.lazy(() => import('../pages/order/ListOrder'));
+// Post
+const ListPost = React.lazy(() => import('../pages/post/ListPost'));
+const HandlePost = React.lazy(() => import('../pages/post/HandlePost'));
 // apps
 const CalendarApp = React.lazy(() => import('../pages/apps/Calendar'));
 const EmailInbox = React.lazy(() => import('../pages/apps/Email/Inbox'));
@@ -126,6 +129,7 @@ const destinationRoutes = {
             path: '/destination/:id',
             name: 'Add Destination',
             component: HandleDestination,
+            isHidden: true,
             roles: ['admin', 'hotel_partner', 'tour_partner'],
             route: PrivateRoute,
         },
@@ -169,6 +173,7 @@ const tourRoutes = {
         {
             path: '/tour/:id',
             name: 'Add Tour',
+            isHidden: true,
             component: HandleTour,
             roles: ['admin', 'tour_partner'],
             route: PrivateRoute,
@@ -206,6 +211,7 @@ const hotelRoutes = {
         {
             path: '/hotel/:id',
             name: 'Add Hotel',
+            isHidden: true,
             component: HandleForm,
             roles: ['admin', 'hotel_partner'],
             route: PrivateRoute,
@@ -228,6 +234,28 @@ const orderRoutes = {
     component: ListOrder,
     route: PrivateRoute,
     roles: ['admin', 'hotel_partner', 'tour_partner'],
+};
+
+const postRoutes = {
+    path: '/post',
+    name: 'Post',
+    icon: FeatherIcon.Calendar,
+    children: [
+        {
+            path: '/post/list-post',
+            name: 'List Post',
+            component: ListPost,
+            route: PrivateRoute,
+            roles: ['admin', 'hotel_partner', 'tour_partner'],
+        },
+        {
+            path: '/post/:id',
+            name: 'Add Post',
+            component: HandlePost,
+            route: PrivateRoute,
+            roles: ['admin', 'hotel_partner', 'tour_partner'],
+        },
+    ],
 };
 
 const emailAppRoutes = {
@@ -308,6 +336,7 @@ const appRoutes = [
     tourRoutes,
     hotelRoutes,
     orderRoutes,
+    postRoutes,
     emailAppRoutes,
     projectAppRoutes,
     taskAppRoutes,

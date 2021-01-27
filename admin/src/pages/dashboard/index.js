@@ -19,7 +19,6 @@ class Dashboard extends Component {
 
     componentDidMount() {
         this.props.getListOrder();
-        this.props.getAllRoom();
         this.props.getAllHotel();
     }
 
