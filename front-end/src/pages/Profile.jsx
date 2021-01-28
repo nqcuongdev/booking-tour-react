@@ -177,7 +177,7 @@ const Profile = (props) => {
                                                     <Row className="booking-item mt-30">
                                                         <Col lg={4} md={4} xs={12} 
                                                             style={{ 
-                                                                backgroundImage: `url(${process.env.REACT_APP_API_URL + 'uploads/destinations/1606788178646.jpg'})`, 
+                                                                backgroundImage: `url(${process.env.REACT_APP_API_URL}/${book.room.hotel.image[0]})`, 
                                                                 backgroundSize: `cover`,
                                                                 height: `230px`}}
                                                             className="booking-item-image"
@@ -186,9 +186,9 @@ const Profile = (props) => {
                                                         </Col>
                                                         <Col lg={8} md={8} xs={12} className="booking-item-content">
                                                             <ul>
-                                                                <li className="li-bold">The Millennium Hilton New York</li>
-                                                                <li>124 E Huron St, New york</li>
-                                                                <li>
+                                                                <li className="li-bold">{book.room.hotel.title}</li>
+                                                                <li>{book.room.hotel.address}</li>
+                                                                {/* <li>
                                                                     <span>Hotel star </span>
                                                                     <span className="stars-icon">
                                                                         <FaStar className="icon" /> 
@@ -198,22 +198,18 @@ const Profile = (props) => {
                                                                         <FaStar className="icon" />
                                                                     </span>
                                                                     <span> 5 of 5 (3 comments)</span>
-                                                                </li>
+                                                                </li> */}
                                                                 <li className="li-group">
                                                                     <ul>
-                                                                        <li>Room type: Family room</li>
-                                                                        <li>Adults: 02</li>
-                                                                        <li>Childrents: 01</li>
+                                                                        <li>Room: {book.room.title}</li>
+                                                                        <li>Adults: {book.option.adult}</li>
+                                                                        <li>Childrents: {book.option.child}</li>
                                                                     </ul>
                                                                 </li>
-                                                                <li className="li-group">
-                                                                    <ul>
-                                                                        <li>Check-in: 12 Jun 2020</li>
-                                                                        <li>Check-out: 14 Jun 2020</li>
-                                                                    </ul>
-                                                                </li>
-                                                                <li>Buffets: $128</li>
-                                                                <li>Price: <span className="price"> $365</span></li>
+                                                                <li>Check-in: {dateToYMD(new Date(book.checkin))}</li>
+                                                                <li>Check-out: {dateToYMD(new Date(book.checkout))}</li>
+                                                                {/* <li>Buffets: $128</li> */}
+                                                                <li>Price: <span className="price"> ${book.total_price}</span></li>
                                                             </ul>
                                                         </Col>
                                                     </Row>
