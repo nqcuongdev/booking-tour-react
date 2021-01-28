@@ -30,6 +30,7 @@ let token = localStorage.getItem("jwtKey");
 
 function App() {
   const [user, setUser] = useState({});
+  const [books, setBooks] = useState([]);
 
   useEffect(() => {
     const fetchUserFromToken = async () => {
@@ -39,6 +40,7 @@ function App() {
           const response = await authApi.me(headers);
           if (response.success) {
             setUser(response.data);
+            setBooks(response.books);
           }
         }
       } catch (error) {
@@ -58,6 +60,7 @@ function App() {
           value={{
             user: user,
             setUser: setUser,
+            books: books
           }}
         >
           <Switch>

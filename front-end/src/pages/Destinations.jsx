@@ -12,7 +12,6 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 import PopularDestinations from "../components/PopularDestinations/PopularDestinations";
 import Faq from "../components/Faq/Faq";
 import DestinationApi from "../api/destinationsApi";
-import { server_url } from "../helpers/url";
 import Pagination from "react-js-pagination";
 
 const popularDestinations = [
@@ -157,7 +156,7 @@ const Destinations = (props) => {
                           className="image"
                         >
                           <img
-                            src={server_url + item.image[0]}
+                            src={process.env.REACT_APP_API_URL + item.image[0]}
                             alt=""
                           />
                         </Col>
