@@ -1,17 +1,14 @@
 import {
-    CREATE_POST_CATEGORY,
-    CREATE_POST_CATEGORY_SUCCESS,
     CREATE_POST_TAG,
     CREATE_POST_TAG_SUCCESS,
+    GET_LIST_CATEGORY,
     GET_LIST_POST,
-    GET_LIST_POST_CATEGORY,
-    GET_LIST_POST_CATEGORY_SUCCESS,
     GET_LIST_POST_SUCCESS,
     GET_LIST_POST_TAG,
     GET_LIST_POST_TAG_SUCCESS,
+    GET_POST,
+    GET_POST_SUCCESS,
     POST_FAILED,
-    UPDATE_POST_CATEGORY,
-    UPDATE_POST_CATEGORY_SUCCESS,
     UPDATE_POST_TAG,
     UPDATE_POST_TAG_SUCCESS,
 } from './constants';
@@ -25,31 +22,23 @@ export const getAllPostsSuccess = (posts) => ({
     payload: posts,
 });
 
+export const getPost = (id) => ({
+    type: GET_POST,
+    payload: id,
+});
+
+export const getPostSuccess = (post) => ({
+    type: GET_POST_SUCCESS,
+    payload: post,
+});
+
 export const getListOfTitleCategories = () => ({
-    type: GET_LIST_POST_CATEGORY,
+    type: GET_LIST_CATEGORY,
 });
 
 export const getListOfTitleCategoriesSuccess = (categories) => ({
-    type: GET_LIST_POST_CATEGORY_SUCCESS,
+    type: GET_LIST_CATEGORY,
     payload: categories,
-});
-
-export const createPostCategory = (title, type) => ({
-    type: CREATE_POST_CATEGORY,
-    payload: { title, type },
-});
-
-export const createPostCategorySuccess = (category) => ({
-    type: CREATE_POST_CATEGORY_SUCCESS,
-});
-
-export const updatePostCategory = (_id, title, type, status) => ({
-    type: UPDATE_POST_CATEGORY,
-    payload: { _id, title, type, status },
-});
-
-export const updatePostCategorySuccess = (category) => ({
-    type: UPDATE_POST_CATEGORY_SUCCESS,
 });
 
 export const getListOfPostTags = () => ({

@@ -31,7 +31,13 @@ exports.show = async (req, res) => {
         ],
       },
     })
-    .populate("room");
+    .populate({
+      path: "room",
+      populate: {
+        path: "hotel",
+        model: "hotel",
+      },
+    });
 
   if (!user) {
     return res.status(404).json({

@@ -8,28 +8,35 @@ const Login = React.lazy(() => import('../pages/auth/Login'));
 const Logout = React.lazy(() => import('../pages/auth/Logout'));
 const ForgetPassword = React.lazy(() => import('../pages/auth/ForgetPassword'));
 const Confirm = React.lazy(() => import('../pages/auth/Confirm'));
+
 // Dashboard
 const Dashboard = React.lazy(() => import('../pages/dashboard'));
 // Destination
 const ListDestination = React.lazy(() => import('../pages/destination/ListDestination'));
 const HandleDestination = React.lazy(() => import('../pages/destination/HandleDestination'));
+
 // Tour
 const AllTour = React.lazy(() => import('../pages/tour/Tour'));
 const HandleTour = React.lazy(() => import('../pages/tour/HandleTour'));
 const TourCategory = React.lazy(() => import('../pages/tour/TourCategory'));
 const TourStyle = React.lazy(() => import('../pages/tour/TourStyle'));
 const TourAvailability = React.lazy(() => import('../pages/tour/Availability'));
+
 // Hotel
 const ListHotel = React.lazy(() => import('../pages/hotel/ListHotel'));
 const HotelType = React.lazy(() => import('../pages/hotel/Type'));
 const HandleForm = React.lazy(() => import('../pages/hotel/HandleForm'));
 const Facility = React.lazy(() => import('../pages/hotel/Facility'));
 const ListRoom = React.lazy(() => import('../pages/hotel/ListRoom'));
+
 // Order
 const ListOrder = React.lazy(() => import('../pages/order/ListOrder'));
+
 // Post
 const ListPost = React.lazy(() => import('../pages/post/ListPost'));
 const HandlePost = React.lazy(() => import('../pages/post/HandlePost'));
+const ListTag = React.lazy(() => import('../pages/post/ListTag'));
+
 // apps
 const CalendarApp = React.lazy(() => import('../pages/apps/Calendar'));
 const EmailInbox = React.lazy(() => import('../pages/apps/Email/Inbox'));
@@ -249,9 +256,17 @@ const postRoutes = {
             roles: ['admin', 'hotel_partner', 'tour_partner'],
         },
         {
+            path: '/post/list-tag',
+            name: 'List Tag',
+            component: ListTag,
+            route: PrivateRoute,
+            roles: ['admin', 'hotel_partner', 'tour_partner'],
+        },
+        {
             path: '/post/:id',
             name: 'Add Post',
             component: HandlePost,
+            isHidden: true,
             route: PrivateRoute,
             roles: ['admin', 'hotel_partner', 'tour_partner'],
         },

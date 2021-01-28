@@ -9,11 +9,14 @@ import default_image from '../../assets/images/default_upload_image.png';
 import { url } from '../../helpers/url';
 import Select from 'react-select';
 import { getAllDestination } from '../../redux/destination/actions';
+import { getAllTourCategory } from '../../redux/tour/actions';
+import { getListOfPostTags, getPost } from '../../redux/post/actions';
 
 const HandlePost = (props) => {
     const dispatch = useDispatch();
     const [tags, setTags] = useState([]);
     const [destinations, setDestinations] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [formInput, setFormInput] = useState({
         title: '',
         content: '',
@@ -25,27 +28,31 @@ const HandlePost = (props) => {
     });
 
     useEffect(() => {
-        dispatch(getAllDestination());
-        if (props.match.params.id !== 'add-post' || props.match.params.id !== ':id') {
-            // dispatch(getPlace(props.match.params.id));
+        if (props.match.params.id !== 'add-post' && props.match.params.id !== ':id') {
+            dispatch(getPost(props.match.params.id));
         }
-    }, [dispatch]);
-
-    useEffect(() => {
         if (props.match.params.id === ':id') {
             props.history.push('/post/add-post');
         }
     }, [props.match.params.id]);
 
     useEffect(() => {
+        dispatch(getAllDestination());
+        dispatch(getAllTourCategory());
+        dispatch(getListOfPostTags());
+    }, [dispatch]);
+
+    useEffect(() => {
         if (props.destinations) {
             setDestinations(props.destinations);
         }
-    }, [props.destinations]);
-
-    const onInputDescriptionChange = (content) => {
-        setFormInput({ ...formInput, content: content });
-    };
+        if (props.categories) {
+            setCategories(props.categories);
+        }
+        if (props.tags) {
+            setTags(props.tags);
+        }
+    }, [props.destinations, props.categories, props.tags]);
 
     const handleDefaultValueTag = (tags) => {
         let tagData = [];
@@ -56,11 +63,20 @@ const HandlePost = (props) => {
         return tagData;
     };
 
+    const postFormSave = (values) => {
+        console.log(values);
+    };
+
     const schema = yup.object().shape({
         title: yup.string().required('Title is required'),
         content: yup.string().required('Content is required'),
-        category: yup.string().required('Category is required'),
-        destination: yup.string().required('Destination is required'),
+        banner: yup.string().required('Banner is required'),
+        category: yup.object().shape({
+            _id: yup.string().required('Category is required'),
+        }),
+        destination: yup.object().shape({
+            _id: yup.string().required('Destination is required'),
+        }),
         // closeTime: yup.string().required('Bạn phải chọn thời gian mở cửa'),
         // media: yup.array().of(
         //     yup.object().shape({
@@ -89,7 +105,11 @@ const HandlePost = (props) => {
                     <Formik
                         initialValues={formInput}
                         enableReinitialize={true}
-                        validationSchema={!formInput._id ? schema : ''}>
+                        validationSchema={!formInput._id ? schema : ''}
+                        onSubmit={(values, { setSubmitting }) => {
+                            postFormSave(values);
+                            setSubmitting(false);
+                        }}>
                         {({
                             values,
                             errors,
@@ -124,9 +144,10 @@ const HandlePost = (props) => {
                                                     <RichTextEditor
                                                         id="content"
                                                         name="content"
-                                                        onEditorContentChange={onInputDescriptionChange}
+                                                        onEditorContentChange={(e) => setFieldValue('content', e)}
                                                         initialContent={values.content}
                                                     />
+                                                    {errors.content && <FormFeedback>{errors.content}</FormFeedback>}
                                                 </FormGroup>
                                                 <FormGroup>
                                                     <Label for="tag">Thẻ</Label>
@@ -144,24 +165,24 @@ const HandlePost = (props) => {
                                                 <FormGroup className="mt-5">
                                                     <Label for="image">Gallery</Label>
                                                     <div className="attach-demo d-flex">
-                                                        {typeof values.image === 'string' ? (
+                                                        {values.banner && typeof values.banner === 'string' ? (
                                                             <img
-                                                                src={`${url}/${values.image}`}
-                                                                className="mb-5"
+                                                                src={`${url}/${values.banner}`}
+                                                                className="mb-5 img-fluid"
                                                                 alt={values.title}
                                                             />
-                                                        ) : typeof values.image === 'object' ? (
+                                                        ) : typeof values.banner === 'object' ? (
                                                             <React.Fragment>
                                                                 <img
-                                                                    src={URL.createObjectURL(values.image)}
-                                                                    className="mb-5"
+                                                                    src={URL.createObjectURL(values.banner)}
+                                                                    className="mb-5 img-fluid"
                                                                     alt={values.title}
                                                                 />
                                                             </React.Fragment>
                                                         ) : (
                                                             <img
                                                                 src={default_image}
-                                                                className="mb-5"
+                                                                className="mb-5 img-fluid"
                                                                 alt={values.title}
                                                             />
                                                         )}
@@ -172,7 +193,9 @@ const HandlePost = (props) => {
                                                             multiple
                                                             name="image"
                                                             id="image"
-                                                            onChange={handleChange}
+                                                            onChange={(e) =>
+                                                                setFieldValue('banner', e.currentTarget.files[0])
+                                                            }
                                                             required={values.image && values.image.length < 0}
                                                         />
                                                     </div>
@@ -199,6 +222,13 @@ const HandlePost = (props) => {
                                                             errors.category._id
                                                         }>
                                                         <option>-- Select One --</option>
+                                                        {categories.map((category) => {
+                                                            return (
+                                                                <option key={category._id} value={category._id}>
+                                                                    {category.title}
+                                                                </option>
+                                                            );
+                                                        })}
                                                     </Input>
                                                     {errors.category && errors.category._id && (
                                                         <FormFeedback>{errors.category._id}</FormFeedback>
@@ -263,7 +293,9 @@ const HandlePost = (props) => {
 
 const mapStateToProps = (state) => {
     const { destinations } = state.Destination;
-    return { destinations };
+    const { categories } = state.Tour;
+    const { post, loading, error, tags } = state.Post;
+    return { categories, destinations, post, loading, error, tags };
 };
 
 export default connect(mapStateToProps)(HandlePost);
