@@ -50,7 +50,11 @@ const HandlePost = (props) => {
             setCategories(props.categories);
         }
         if (props.tags) {
-            setTags(props.tags);
+            let tagData = [];
+            props.tags.map((tag) => {
+                return tagData.push({ value: tag._id, label: tag.title });
+            });
+            setTags(tagData);
         }
     }, [props.destinations, props.categories, props.tags]);
 
@@ -135,7 +139,7 @@ const HandlePost = (props) => {
                                                         onChange={handleChange}
                                                         onBlur={handleBlur}
                                                         value={values.title}
-                                                        invalid={touched.title && errors.title}
+                                                        invalid={touched.title && errors.title ? true : false}
                                                     />
                                                     {errors.title && <FormFeedback>{errors.title}</FormFeedback>}
                                                 </FormGroup>
@@ -150,14 +154,14 @@ const HandlePost = (props) => {
                                                     {errors.content && <FormFeedback>{errors.content}</FormFeedback>}
                                                 </FormGroup>
                                                 <FormGroup>
-                                                    <Label for="tag">Thẻ</Label>
+                                                    <Label for="tags">Tag</Label>
                                                     <Select
                                                         defaultValue={() => handleDefaultValueTag(values.tag)}
                                                         isMulti={true}
                                                         options={tags}
-                                                        onChange={(e) => setFieldValue('tag', e)}
-                                                        name="tag"
-                                                        id="tag"
+                                                        onChange={(e) => setFieldValue('tags', e)}
+                                                        name="tags"
+                                                        id="tags"
                                                         className="react-select"
                                                         placeholder="Select Tag"
                                                         classNamePrefix="react-select"></Select>
