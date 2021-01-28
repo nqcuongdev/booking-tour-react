@@ -1,4 +1,6 @@
 const Tag = require("../models/tag");
+const Notification = require("../models/notification");
+const Validator = require("validator");
 
 // Load validate
 const tagValidate = require("../validators/tag/create");
@@ -68,5 +70,60 @@ exports.create = async (req, res) => {
   return res.status(401).json({
     success: false,
     message: "This tag has existed!",
+  });
+};
+
+exports.update = async (req, res) => {
+  let _id = req.params.id;
+  let checkIDValid = Validator.isMongoId(_id);
+  if (!checkIDValid) {
+    return res.status(400).json({
+      success: false,
+      message: "Your ID is not valid",
+    });
+  }
+  const { errors, isValid } = tagValidate(req.body);
+
+  //Check value request
+  if (!isValid) {
+    return res.status(400).json({
+      success: false,
+      message: errors,
+    });
+  }
+
+  const { title, status } = req.body;
+
+  const checkExistedTag = await Tag.findOne({ _id });
+
+  if (!checkExistedTag) {
+    return res.status(404).json({
+      success: false,
+      message: "Can not found this tag",
+    });
+  }
+
+  let data = {
+    title: title,
+    status: status,
+    updated_at: Date.now(),
+    updated_by: req.user.id,
+  };
+
+  const tag = await Tag.findByIdAndUpdate({ _id }, data, {
+    new: true,
+  });
+
+  // Create notification
+  await Notification.create({
+    type: "tag",
+    content: `${req.user.full_name} has updated tag ${checkExistedTag.title} to ${title}.`,
+    package: tag._id,
+  });
+
+  return res.status(200).json({
+    success: !!tag,
+    message: "Update tag success",
+    data: tag,
   });
 };
