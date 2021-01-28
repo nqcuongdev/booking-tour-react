@@ -1,16 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./EventItem.scss";
-import { server_url } from "../../helpers/url";
 import { Card, CardImg,  CardBody, Row, CardImgOverlay, Col} from "reactstrap";
 
 const EventItem = (props) => {
     return (
         <div className="event">
             <Card className="mb-30">
-                <CardImg top width="100%" src={server_url + props.image} alt="Card image cap" />
+                <CardImg top width="100%" src={process.env.REACT_APP_API_URL + props.image} alt="Card image cap" />
                 
-                <CardImgOverlay style={{ backgroundImage: `url(${server_url + props.image})` }}>
+                <CardImgOverlay style={{ backgroundImage: `url(${process.env.REACT_APP_API_URL + props.image})` }}>
                     <div className="bottom-opacity"></div>
                     <div className="overlay-item">
                         <span className="top-left">Featured</span>

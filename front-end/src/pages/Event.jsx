@@ -7,7 +7,6 @@ import { Container, Card, CardImg, CardText, CardBody, Row, CardTitle,
 import { RiStarSFill } from 'react-icons/ri';
 import { MdLocationOn } from 'react-icons/md';
 import { AiFillTag } from 'react-icons/ai';
-import { server_url } from "../helpers/url";
 import { Link } from "react-router-dom";
 import { FaEvernote } from "react-icons/fa";
 import InputRange from 'react-input-range';
