@@ -9,6 +9,8 @@ import PageTitle from '../../components/PageTitle';
 import { connect, useDispatch } from 'react-redux';
 import moment from 'moment';
 import { getAllPosts } from '../../redux/actions';
+import { url } from '../../helpers/url';
+import * as FeatherIcon from 'react-feather';
 
 const ListPost = (props) => {
     const sizePerPageRenderer = ({ options, currSizePerPage, onSizePerPageChange }) => (
@@ -35,8 +37,8 @@ const ListPost = (props) => {
     const rankFormatter = (cell, row, rowIndex) => {
         return (
             <div>
-                <Button color="primary" size="sm">
-                    <i className="uil uil-bill"></i>
+                <Button color="primary" size="sm" onClick={() => props.history.push(`/post/${row._id}`)}>
+                    <FeatherIcon.Edit size="18" />
                 </Button>
             </div>
         );
@@ -50,8 +52,8 @@ const ListPost = (props) => {
         return moment(cell).format('YYYY-MM-DD');
     };
 
-    const getPackage = (cell, row, rowIndex) => {
-        return row.code ? row.code.title : row.room.title;
+    const showImage = (cell, row, rowIndex) => {
+        return <img className="img-fluid" src={`${url}/${cell}`} alt={row.title} />;
     };
 
     const columns = [
@@ -61,16 +63,15 @@ const ListPost = (props) => {
             sort: false,
         },
         {
-            dataField: 'image',
+            dataField: 'banner',
             text: 'Image',
             sort: false,
-            formatter: getPackage,
+            formatter: showImage,
         },
         {
-            dataField: 'created_by',
+            dataField: 'created_by.full_name',
             text: 'Created By',
             sort: false,
-            formatter: dateFormatter,
         },
         {
             dataField: 'created_at',
@@ -82,13 +83,11 @@ const ListPost = (props) => {
             dataField: 'destination.title',
             text: 'Destination',
             sort: false,
-            formatter: dateFormatter,
         },
         {
             dataField: 'category.title',
             text: 'Category',
             sort: false,
-            formatter: dateFormatter,
         },
         {
             dataField: 'status',

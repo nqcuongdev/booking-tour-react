@@ -1,10 +1,17 @@
 const Post = require("../models/post");
+const Validator = require("validator");
+const fs = require("fs");
 
 // Load validate
 const postValidate = require("../validators/post/create");
 
 exports.all = async (req, res) => {
-  const posts = await Post.find({});
+  const posts = await Post.find({})
+    .populate("created_by")
+    .populate("updated_by")
+    .populate("category")
+    .populate("destination")
+    .populate("tags");
 
   return res.status(200).json({
     success: !!posts,
@@ -22,7 +29,12 @@ exports.show = async (req, res) => {
     });
   }
 
-  const post = await Post.findOne({ _id });
+  const post = await Post.findOne({ _id })
+    .populate("created_by")
+    .populate("updated_by")
+    .populate("category")
+    .populate("destination")
+    .populate("tags");
 
   if (!post) {
     return res.status(404).json({
@@ -63,7 +75,7 @@ exports.create = async (req, res) => {
   //Check value request
   if (!isValid) {
     //Remove upload file
-    fs.unlink(req.files.path, (err) => {
+    fs.unlink(req.files[0].path, (err) => {
       if (err) console.log(err);
       return;
     });
@@ -85,8 +97,12 @@ exports.create = async (req, res) => {
 
   const checkExistedPost = await Post.findOne({ title: title });
   if (!checkExistedPost) {
-    let banner = req.files.path;
+    let banner = req.files[0].path;
     let created_by = req.user.id;
+    let arrTags = [];
+    JSON.parse(tags).map((tag) => {
+      arrTags.push(tag.value);
+    });
     const post = await Post.create({
       title,
       content,
@@ -94,7 +110,7 @@ exports.create = async (req, res) => {
       banner,
       isFeatured,
       destination,
-      tags,
+      tags: arrTags,
       created_by,
     });
 
@@ -106,7 +122,7 @@ exports.create = async (req, res) => {
   }
 
   //Remove upload file
-  fs.unlink(req.files.path, (err) => {
+  fs.unlink(req.files[0].path, (err) => {
     if (err) console.log(err);
     return;
   });

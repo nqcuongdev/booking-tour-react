@@ -10,7 +10,8 @@ import { url } from '../../helpers/url';
 import Select from 'react-select';
 import { getAllDestination } from '../../redux/destination/actions';
 import { getAllTourCategory } from '../../redux/tour/actions';
-import { getListOfPostTags, getPost } from '../../redux/post/actions';
+import { createPost, getListOfPostTags, getPost, updatePost } from '../../redux/post/actions';
+import { toast } from 'react-toastify';
 
 const HandlePost = (props) => {
     const dispatch = useDispatch();
@@ -56,31 +57,57 @@ const HandlePost = (props) => {
             });
             setTags(tagData);
         }
+        if (props.post) {
+            setFormInput(props.post);
+        }
     }, [props.destinations, props.categories, props.tags]);
 
     const handleDefaultValueTag = (tags) => {
         let tagData = [];
         tags.filter((tag) => {
-            return tagData.push({ value: tag._id, label: tag.name });
+            return tagData.push({ value: tag._id, label: tag.title });
         });
-
         return tagData;
     };
 
     const postFormSave = (values) => {
-        console.log(values);
+        const formData = new FormData();
+        formData.append('title', values.title);
+        formData.append('content', values.content);
+        formData.append('banner', values.banner);
+        formData.append('category', values.category);
+        formData.append('isFeatured', values.isFeatured[0] ? true : false);
+        formData.append('destination', values.destination);
+        formData.append('tags', JSON.stringify(values.tags));
+
+        if (values._id) {
+            formData.append('_id', values._id);
+            dispatch(updatePost(formData));
+        } else {
+            dispatch(createPost(formData));
+        }
+
+        toast.success(`${values._id ? 'Edit' : 'Add'} Post success`, {
+            position: 'top-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
     };
 
     const schema = yup.object().shape({
         title: yup.string().required('Title is required'),
         content: yup.string().required('Content is required'),
         banner: yup.string().required('Banner is required'),
-        category: yup.object().shape({
-            _id: yup.string().required('Category is required'),
-        }),
-        destination: yup.object().shape({
-            _id: yup.string().required('Destination is required'),
-        }),
+        // category: yup.object().shape({
+        //     _id: yup.string().required('Category is required'),
+        // }),
+        // destination: yup.object().shape({
+        //     _id: yup.string().required('Destination is required'),
+        // }),
         // closeTime: yup.string().required('Bạn phải chọn thời gian mở cửa'),
         // media: yup.array().of(
         //     yup.object().shape({
@@ -145,18 +172,28 @@ const HandlePost = (props) => {
                                                 </FormGroup>
                                                 <FormGroup>
                                                     <Label for="content">Content</Label>
-                                                    <RichTextEditor
-                                                        id="content"
-                                                        name="content"
-                                                        onEditorContentChange={(e) => setFieldValue('content', e)}
-                                                        initialContent={values.content}
-                                                    />
+                                                    {values.content && (
+                                                        <RichTextEditor
+                                                            id="content"
+                                                            name="content"
+                                                            onEditorContentChange={(e) => setFieldValue('content', e)}
+                                                            initialContent={values.content}
+                                                        />
+                                                    )}
+
+                                                    {values.content === '' && (
+                                                        <RichTextEditor
+                                                            id="content"
+                                                            name="content"
+                                                            onEditorContentChange={(e) => setFieldValue('content', e)}
+                                                        />
+                                                    )}
                                                     {errors.content && <FormFeedback>{errors.content}</FormFeedback>}
                                                 </FormGroup>
                                                 <FormGroup>
                                                     <Label for="tags">Tag</Label>
                                                     <Select
-                                                        defaultValue={() => handleDefaultValueTag(values.tag)}
+                                                        value={handleDefaultValueTag(values.tags)}
                                                         isMulti={true}
                                                         options={tags}
                                                         onChange={(e) => setFieldValue('tags', e)}
@@ -197,6 +234,7 @@ const HandlePost = (props) => {
                                                             multiple
                                                             name="image"
                                                             id="image"
+                                                            className="img-fluid"
                                                             onChange={(e) =>
                                                                 setFieldValue('banner', e.currentTarget.files[0])
                                                             }
@@ -268,14 +306,26 @@ const HandlePost = (props) => {
                                                 </FormGroup>
                                                 <FormGroup>
                                                     <Label for="isFeatured">Post Featured</Label>
-                                                    <CustomInput
-                                                        type="switch"
-                                                        id="isFeatured"
-                                                        name="isFeatured"
-                                                        label="Enable featured"
-                                                        onChange={handleChange}
-                                                        defaultChecked={values.isFeatured}
-                                                    />
+                                                    {values.isFeatured ? (
+                                                        <CustomInput
+                                                            type="switch"
+                                                            id="isFeatured"
+                                                            name="isFeatured"
+                                                            label="Enable featured"
+                                                            onChange={handleChange}
+                                                            defaultChecked={
+                                                                values.isFeatured !== '' && values.isFeatured
+                                                            }
+                                                        />
+                                                    ) : (
+                                                        <CustomInput
+                                                            type="switch"
+                                                            id="isFeatured"
+                                                            name="isFeatured"
+                                                            label="Enable featured"
+                                                            onChange={handleChange}
+                                                        />
+                                                    )}
                                                 </FormGroup>
                                                 <FormGroup>
                                                     <Button type="submit" color="primary">

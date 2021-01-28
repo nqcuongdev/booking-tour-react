@@ -47,6 +47,12 @@ const BlogSchema = new mongoose.Schema({
       ref: "tag",
     },
   ],
+  status: {
+    type: String,
+    required: true,
+    enum: ["active", "hide"],
+    default: "active",
+  },
   created_at: {
     type: Date,
     default: Date.now,

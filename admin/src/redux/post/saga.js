@@ -1,20 +1,24 @@
 import { call, put, takeEvery, all, fork } from 'redux-saga/effects';
 import { fetchJSON } from '../../helpers/api';
 import {
+    createPostSuccess,
     createPostTagSuccess,
     getAllPostsSuccess,
     getListOfPostTagsSuccess,
     getListOfTitleCategoriesSuccess,
     getPostSuccess,
     postFailed,
+    updatePostSuccess,
     updatePostTagSuccess,
 } from './actions';
 import {
+    CREATE_POST,
     CREATE_POST_TAG,
     GET_LIST_CATEGORY,
     GET_LIST_POST,
     GET_LIST_POST_TAG,
     GET_POST,
+    UPDATE_POST,
     UPDATE_POST_TAG,
 } from './constants';
 
@@ -48,7 +52,7 @@ function* getAllPost() {
     }
 }
 
-function* getPost({ payload: { id } }) {
+function* getPost({ payload: id }) {
     const options = {
         method: 'GET',
     };
@@ -113,6 +117,69 @@ function* getAllTag() {
         const response = yield call(fetchJSON, 'tag', options);
         if (response && response.success) {
             yield put(getListOfPostTagsSuccess(response.data));
+        } else {
+            yield put(postFailed(response.message));
+        }
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500:
+                message = 'Internal Server Error';
+                break;
+            case 401:
+                message = 'Invalid credentials';
+                break;
+            default:
+                message = error;
+        }
+        yield put(postFailed(message));
+    }
+}
+
+function* createPost({ payload: data }) {
+    const options = {
+        body: data,
+        method: 'POST',
+        headers: {
+            Authorization: 'Bearer ' + token,
+        },
+    };
+
+    try {
+        const response = yield call(fetchJSON, 'post/create', options);
+        if (response && response.success) {
+            yield put(createPostSuccess(response.data));
+        } else {
+            yield put(postFailed(response.message));
+        }
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500:
+                message = 'Internal Server Error';
+                break;
+            case 401:
+                message = 'Invalid credentials';
+                break;
+            default:
+                message = error;
+        }
+        yield put(postFailed(message));
+    }
+}
+
+function* updatePost({ payload: data }) {
+    const options = {
+        body: data,
+        method: 'PUT',
+        headers: {
+            Authorization: 'Bearer ' + token,
+        },
+    };
+    try {
+        const response = yield call(fetchJSON, `post/${data.get('_id')}`, options);
+        if (response && response.success) {
+            yield put(updatePostSuccess(response.data));
         } else {
             yield put(postFailed(response.message));
         }
@@ -222,6 +289,14 @@ export function* watchGetAllCategories() {
     yield takeEvery(GET_LIST_CATEGORY, getAllCategories);
 }
 
+export function* watchCreatePost() {
+    yield takeEvery(CREATE_POST, createPost);
+}
+
+export function* watchUpdatePost() {
+    yield takeEvery(UPDATE_POST, updatePost);
+}
+
 function* postSaga() {
     yield all([
         fork(watchGetListPost),
@@ -230,6 +305,8 @@ function* postSaga() {
         fork(watchGetAllTag),
         fork(watchGetPost),
         fork(watchGetAllCategories),
+        fork(watchCreatePost),
+        fork(watchUpdatePost),
     ]);
 }
 
