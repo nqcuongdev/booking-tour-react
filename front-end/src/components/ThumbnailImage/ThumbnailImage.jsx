@@ -7,7 +7,7 @@ const ThumbnailImage = (props) => {
     <div className="thumbnail">
       {!props.title && (
         <div className="thumbnail__overlay">
-          <Link to="/">+ 15 Places</Link>
+          <Link to="/destinations">+ 15 Places</Link>
         </div>
       )}
       <div className="thumbnail__image" style={{backgroundImage: `url(${props.image})`}}>

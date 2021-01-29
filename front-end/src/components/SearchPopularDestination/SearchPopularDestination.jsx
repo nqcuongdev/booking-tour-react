@@ -86,12 +86,14 @@ const SearchPopularDestination = (props) => {
               />
               <InputGroupAddon addonType="append">
                 <Button>
-                  <FaSearch size={13} />
+                  <Link to="/destinations">
+                    <FaSearch size={13} />
+                  </Link>
                 </Button>
               </InputGroupAddon>
             </InputGroup>
             <div className="mb-5">
-              <Link className="btn-read-more">
+              <Link className="btn-read-more" to="/destinations">
                 <span className="read-more-text">
                   View all places <BsArrowRightShort />
                 </span>
