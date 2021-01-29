@@ -18,7 +18,7 @@ import CommentForm from "../components/CommentForm/CommentForm";
 import BookTour from "../components/BookTour/BookTour";
 import ToursApi from "../api/toursApi";
 import AuthContext from "../contexts/auth";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 
 const starsCounter = (stars) => {
   const counter = [1, 2, 3, 4, 5];
@@ -69,14 +69,14 @@ const TourDetail = (props) => {
   }, []);
 
   const context = useContext(AuthContext);
-  const user = context.user
+  const user = context.user;
 
   const toggleBook = () => {
     if (user._id !== undefined) {
-      setBook(!book)
+      setBook(!book);
     } else {
       toast.error(`You must login before booking!`, {
-        position: 'top-right',
+        position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -85,7 +85,7 @@ const TourDetail = (props) => {
         progress: undefined,
       });
     }
-  }
+  };
 
   return (
     <MainLayout>
@@ -284,7 +284,7 @@ const TourDetail = (props) => {
         </Container>
 
         <Container className="mb-50">
-          <CommentForm />
+          {tour && <CommentForm data={tour} />}
         </Container>
 
         {tour && (

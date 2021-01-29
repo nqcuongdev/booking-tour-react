@@ -32,7 +32,7 @@ const CommentForm = (props) => {
     try {
       const response = await RatingApi.create(commentForm);
       if (response.success) {
-        console.log(response.data);
+        // Show toast in here then re fetch all comment of target_id (hotel/destination/tour)
       }
     } catch (error) {
       console.log(error);

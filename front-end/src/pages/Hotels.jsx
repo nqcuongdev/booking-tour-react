@@ -13,7 +13,7 @@ import Pagination from "react-js-pagination";
 
 const Hotels = (props) => {
   //phân trang
-  const [pagination, setPagination] = useState()
+  const [pagination, setPagination] = useState();
   //console.log(pagination)
 
   const [hotels, setHotels] = useState([]);
@@ -30,7 +30,7 @@ const Hotels = (props) => {
         if (response.success) {
           setHotels(response.data.docs);
 
-          setTotalPages(response.data.totalPages)
+          setTotalPages(response.data.totalPages);
           setTotalDocs(response.data.totalDocs);
         }
       } catch (error) {
@@ -116,7 +116,7 @@ const Hotels = (props) => {
             </Row>
             {/* <Paginate /> */}
             <div className="pagination-bar text-center">
-              {totalDocs > 0 &&
+              {totalDocs > 0 && (
                 <Pagination
                   itemClass="page-item"
                   linkClass="page-link"
@@ -126,7 +126,7 @@ const Hotels = (props) => {
                   pageRangeDisplayed={totalPages}
                   onChange={(page) => setPagination(page)}
                 />
-              }
+              )}
             </div>
           </Container>
         </div>
