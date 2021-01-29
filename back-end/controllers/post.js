@@ -1,6 +1,7 @@
 const Post = require("../models/post");
 const Validator = require("validator");
 const fs = require("fs");
+const { Tour } = require("../models/tours");
 
 // Load validate
 const postValidate = require("../validators/post/create");
@@ -13,9 +14,12 @@ exports.all = async (req, res) => {
     .populate("destination")
     .populate("tags");
 
+  const populateTour = await Tour.find({}).limit(3);
+
   return res.status(200).json({
     success: !!posts,
     data: posts,
+    populateTour: populateTour,
   });
 };
 
