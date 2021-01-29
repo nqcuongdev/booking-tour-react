@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import MainLayout from "../layouts/MainLayout";
 import Subscribe from "../components/Subscribe/Subscribe";
 import { Button, Col, Container, Input, Row } from "reactstrap";
@@ -24,6 +24,8 @@ import adImage from "../assets/images/ad.png";
 import AdItem from "../components/AdItem/AdItem";
 import BlogApi from "../api/blogApi";
 import { dateToYMD } from "../helpers/format";
+import AuthContext from "../contexts/auth";
+import blogApi from "../api/blogApi";
 
 const postData = {
     blogImage: post_1,
@@ -130,6 +132,8 @@ const BlogDetail = (props) => {
     const [blog, setBlog] = useState([])
     const [author, setAuthor] = useState([])
     const [tag, setTag] = useState([])
+    const [reviews, setReviews] = useState([])
+    const [popularBlogs, setPopularBlogs] = useState([]);
 
     useEffect(() => {
         const fetchBlog = async () => {
@@ -140,12 +144,31 @@ const BlogDetail = (props) => {
                 setBlog(response.data)
                 setAuthor(response.data.created_by)
                 setTag(response.data.tags)
+                setReviews(response.reviews)
             } catch (error) {
                 console.log('Fail to fetch Destination: ', error)
             }
         }
+
+        const fetchPopularBlogs = async () => {
+            try {
+                const response = await blogApi.getAll();
+
+                console.log(response)
+                if (response.success) {
+                    setPopularBlogs(response.data);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
         fetchBlog()
-    }, [])
+        fetchPopularBlogs()
+
+        // cuộn lên đầu trang
+        window.scrollTo(0, 0)
+    }, [props.location.state.id])
 
     let location = {
         center: {
@@ -156,7 +179,22 @@ const BlogDetail = (props) => {
         address: blog.address,
     };
 
-    console.log(blog)
+    const UserContext = useContext(AuthContext)
+    const user = UserContext.user
+
+    let ratingCalculation = (ratingList) => {
+        let totalRatingNumber = 0;
+        ratingList.map((rate) => {
+          totalRatingNumber += rate.rating
+        })
+        return totalRatingNumber / ratingList.length
+    }
+
+    const getSubStringContent = (text) => {
+        const newText = text.replace(/<[^>]+>/g, "");
+    
+        return newText.substring(0, 70);
+    };
 
     return (
         <MainLayout>
@@ -236,7 +274,7 @@ const BlogDetail = (props) => {
                             <hr/>
                             <div className="author-info mt-30">
                                 <div className="author-avatar">
-                                    <img src={postData.author.avatar} alt={postData.author.avatar} />
+                                    <img src={`${process.env.REACT_APP_API_URL}/${author.image}`} alt={author.image} />
                                     <div className="author-social mt-10">
                                         <ul>
                                             <li><Link to="#"><FaFacebookF className="icon" title="Facebook" /></Link></li>
@@ -247,8 +285,9 @@ const BlogDetail = (props) => {
                                     </div>
                                 </div>
                                 <div className="author-name-description">
-                                    <p className="author-name">{postData.author.name}</p>
-                                    <span className="author-description">{postData.author.description}</span>
+                                    <p className="author-name">{author.full_name}</p>
+                                    <span className="author-description text-uppercase" style={{ fontSize: '12px', color: 'gray'}}>{author.role}</span>
+                                    <p className="author-description">{author.email}</p>
                                 </div>
                             </div>
                             <div className="blog-detail-content-paginate mt-20">
@@ -264,46 +303,57 @@ const BlogDetail = (props) => {
                                     <Link to="#" className="link">Title of next post <BsChevronRight /></Link>
                                 </div>
                             </div>
-                            {/* <div className="post-comment mt-50 mb-30">
-                                <p className="post-comment-title">Comment <span className="post-comment-count">(69)</span></p>
+                            <div className="post-comment mt-50 mb-30">
+                                <p className="post-comment-title">Comment <span className="post-comment-count">({reviews.length})</span></p>
                                 <div className="post-comment-list mt-30">
-                                    {commentData.map(comment => {
+                                    {reviews.map((comment) => {
                                         return (
-                                            <Comment 
-                                                avatar={comment.avatar} 
+                                            <Comment
+                                                key={comment._id}
+                                                avatar={comment.user?.image}
                                                 name={comment.name}
-                                                content={comment.content} 
-                                                rateStars={comment.rateStars} 
-                                                national={comment.national}
+                                                content={comment.content}
+                                                rating={comment.rating}
                                             />
                                         );
                                     })}
                                 </div>
-                                <div className="view-more-comment mt-30 mb-30">
-                                    <Link><p><span>View more</span> (69)</p></Link>
-                                </div>
+                                {reviews.length > 10 && (
+                                    <div className="view-more-comment mt-30 mb-30">
+                                        <Link>
+                                        <p>
+                                            <span>View more</span> ({reviews.length})
+                                        </p>
+                                        </Link>
+                                    </div>
+                                )}
                                 <hr/>
                             </div>
                             <div className="post-comment-form mb-30">
-                                <CommentForm />
-                            </div> */}
+                                {user._id ? 
+                                    blog && <CommentForm data={blog} /> :
+                                    <span>(You need login to comment)</span>
+                                }
+                            </div>
                         </Col>
                     </Row>
                 </Container>
                 <div className="related-posts">
                     <Container>
-                        <p className="related-posts-title">Related posts</p>
+                        {/* <p className="related-posts-title">Related posts</p> */}
+                        <p className="related-posts-title">Popular posts</p>
                         <Row>
-                            {relatedPostsData.map(post => {
+                            {popularBlogs.slice(0, 3).map(post => {
                                 return (
                                     <Col lg={4} md={4}>
-                                        <Post 
-                                            id={post.id}
-                                            image={post.image}
-                                            dataTime={post.dataTime}
-                                            view={post.view}
+                                        <Post
+                                            _id={post._id}
+                                            image={`${process.env.REACT_APP_API_URL}/${post.banner}`}
+                                            dataTime={dateToYMD(new Date(post.created_at))}
+                                            view={post.views}
                                             title={post.title}
-                                            description={post.description}
+                                            content={`${getSubStringContent(post.content)}...`}
+                                            slug={post.slug}
                                         />
                                     </Col>
                                 );

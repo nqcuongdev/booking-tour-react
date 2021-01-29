@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import "./Comment.scss";
 import { Link } from "react-router-dom";
 import { FaStar, FaReplyAll } from "react-icons/fa";
@@ -11,8 +11,7 @@ const Comment = (props) => {
       <div className="comment">
         <div className="comment-author-avatar">
           <img
-            // src={`${process.env.REACT_APP_API_URL}${props.avatar}`}
-            src={`${props.avatar}`}
+            src={`${process.env.REACT_APP_API_URL}/${props.avatar}`}
             alt={props.name}
           />
         </div>

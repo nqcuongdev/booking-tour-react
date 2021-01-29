@@ -72,6 +72,7 @@ exports.show = async (req, res) => {
     .populate("destination")
     .populate("category")
     .populate("attributes");
+    
   let reviews = await Rating.find({ target_id: _id }).populate("user");
 
   if (!tour) {

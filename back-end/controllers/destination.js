@@ -1,6 +1,7 @@
 const Validator = require("validator");
 const fs = require("fs");
 const Destination = require("../models/destination");
+const Rating = require("../models/rating");
 
 //Load validate
 const destinationValidate = require("../validators/destination/create");
@@ -57,6 +58,7 @@ exports.show = async (req, res) => {
   }
 
   const destination = await Destination.findOne({ _id });
+  let reviews = await Rating.find({ target_id: _id }).populate("user");
 
   if (!destination) {
     return res.status(404).json({
@@ -68,6 +70,7 @@ exports.show = async (req, res) => {
   return res.status(200).json({
     success: !!destination,
     data: destination,
+    reviews: reviews,
   });
 };
 

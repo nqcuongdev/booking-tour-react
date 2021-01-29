@@ -17,6 +17,7 @@ import blogApi from "../api/blogApi";
 import { useRouteMatch } from "react-router-dom";
 import { dateToYMD } from "../helpers/format";
 import Pagination from "react-js-pagination";
+import ToursApi from "../api/toursApi";
 
 const postsData = [
     {
@@ -112,11 +113,13 @@ const Blogs = (props) => {
 
     const [blogs, setBLogs] = useState([]);
 
+    const [tours, setTours] = useState([]);
+
     let [totalPages, setTotalPages] = useState();
     let [totalDocs, setTotalDocs] = useState();
 
     useEffect(() => {
-        const fetchHotel = async () => {
+        const fetchBlogs = async () => {
             try {
                 const response = await blogApi.getPaginate(pagination);
 
@@ -132,7 +135,19 @@ const Blogs = (props) => {
             }
         };
 
-        fetchHotel();
+        const fetchTours = async () => {
+            try {
+                const response = await ToursApi.getAll();
+                if (response.success) {
+                    setTours(response.data);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchBlogs();
+        fetchTours();
     }, [pagination]);
 
     // lấy đường dẫn hiện tại
@@ -184,18 +199,21 @@ const Blogs = (props) => {
 
                     <p className="popular-tour mt-50">Popular Tour</p>
                     <Row className="pt-20 pb-50">
-                        {toursData.map(tour => {
+                        {tours.slice(0, 3).map(tour => {
                             return (
-                                <Col lg={4} md={6} sx={12} className="mb-30">
-                                    <ThumbnailTourItem
-                                        image={tour.image}
-                                        title={tour.title}
-                                        option={tour.option}
-                                        price={tour.price}
-                                        sale={tour.sale}
-                                        saleToday={tour.saleToday}
-                                    />
-                                </Col>
+                                tour.isFeatured &&
+                                    <Col xl={4} lg={4} md={6} sx={12} className="mb-30">
+                                        <ThumbnailTourItem
+                                            image={tour.image[0]}
+                                            title={tour.title}
+                                            duration={tour.duration}
+                                            price={tour.price.adult}
+                                            sale={tour.sale_price.adult}
+                                            saleToday={tour.sale_price.adult}
+                                            id={tour._id}
+                                            slug={tour.slug}
+                                        />
+                                    </Col>
                             );
                         })}
                     </Row>

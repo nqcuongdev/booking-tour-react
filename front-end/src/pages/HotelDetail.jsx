@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import MainLayout from "../layouts/MainLayout";
 import { Link } from "react-router-dom";
 import { Container, Row, Col } from "reactstrap";
@@ -17,6 +17,7 @@ import RateTable from "../components/RateTable/RateTable";
 import CommentForm from "../components/CommentForm/CommentForm";
 import ThumbnailHotelItem from "../components/ThumbnailHotelItem/ThumbnailHotelItem";
 import HotelApi from "../api/hotelApi";
+import AuthContext from "../contexts/auth";
 
 const similarHotelData = [
   {
@@ -68,6 +69,7 @@ const HotelDetail = (props) => {
   const [hotel, setHotel] = useState();
   const [rooms, setRooms] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [popularHotels, setPopularHotels] = useState([]);
 
   useEffect(() => {
     const fetchHotelDetail = async (id) => {
@@ -79,12 +81,39 @@ const HotelDetail = (props) => {
       }
     };
 
+    const fetchPopularHotel = async () => {
+      try {
+        const response = await HotelApi.getAll();
+
+        if (response.success) {
+          setPopularHotels(response.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     if (props.location.state.id) {
       fetchHotelDetail(props.location.state.id);
+      fetchPopularHotel();
     } else {
       props.history.push("/hotels");
     }
-  }, []);
+
+    // cuộn lên đầu trang
+    window.scrollTo(0, 0)
+  }, [props.location.state.id]);
+
+  let ratingCalculation = (ratingList) => {
+    let totalRatingNumber = 0;
+    ratingList.map((rate) => {
+      totalRatingNumber += rate.rating
+    })
+    return totalRatingNumber / ratingList.length
+  }
+
+  const UserContext = useContext(AuthContext)
+  const user = UserContext.user
 
   return (
     <MainLayout>
@@ -142,15 +171,11 @@ const HotelDetail = (props) => {
                 <div className="rate-stars">
                   <div className="stars-counter">
                     <span className="stars-number-calculation">
-                      {starsCounter(hotel.star)}
+                      {starsCounter(ratingCalculation(reviews))}
                     </span>
                     <span className="stars-number">
                       <span>
-                        {reviews.map((review) => {
-                          let total = 0;
-                          total += review.rating;
-                          return total / reviews.length;
-                        })}
+                        {reviews.length > 0 ? ratingCalculation(reviews) : 0}
                       </span>
                       <span className="below"> /5</span>
                     </span>
@@ -328,7 +353,7 @@ const HotelDetail = (props) => {
                     return (
                       <Comment
                         key={comment._id}
-                        avatar={comment.user.image}
+                        avatar={comment.user?.image}
                         name={comment.name}
                         content={comment.content}
                         rating={comment.rating}
@@ -355,23 +380,29 @@ const HotelDetail = (props) => {
           </Container>
 
           <Container className="mb-50">
-            {hotel && <CommentForm data={hotel} />}
+            {user._id ? 
+              hotel && <CommentForm data={hotel} /> :
+              <span>(You need login to comment)</span>
+            }
           </Container>
 
           <Container className="similar-hotels mb-50">
-            <p className="similar-hotels-title">Similar hotels</p>
+            <p className="similar-hotels-title">Popular hotels</p>
             <Row>
-              {similarHotelData.map((hotel) => {
+              {popularHotels.slice(0, 3).map((hotel) => {
                 return (
-                  <Col lg={4} md={6} sx={12} className="mb-30">
-                    <ThumbnailHotelItem
-                      image={hotel.image}
-                      title={hotel.title}
-                      sale={hotel.sale}
-                      location={hotel.location}
-                      rateStars={hotel.rateStars}
-                    />
-                  </Col>
+                  hotel.isFeatured &&
+                    <Col lg={4} md={6} sx={12} className="mb-30">
+                      <ThumbnailHotelItem
+                        image={hotel.image[0]}
+                        title={hotel.title}
+                        sale={hotel.sale_price.adult}
+                        rateStars={hotel.star}
+                        address={hotel.address}
+                        id={hotel._id}
+                        slug={hotel.slug}
+                      />
+                    </Col>
                 );
               })}
             </Row>

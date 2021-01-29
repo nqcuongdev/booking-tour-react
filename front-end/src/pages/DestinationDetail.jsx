@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import MainLayout from "../layouts/MainLayout";
 import { Link, useParams, useRouteMatch } from 'react-router-dom';
 import { Container, Row, Col, Input, Button } from 'reactstrap';
@@ -29,6 +29,7 @@ import Comment from '../components/Comment/Comment';
 import CommentForm from '../components/CommentForm/CommentForm';
 import DestinationApi from "../api/destinationsApi";
 import ToursApi from "../api/toursApi";
+import AuthContext from "../contexts/auth";
 
 const destinationData = {
     title: 'Hawaii',
@@ -164,18 +165,18 @@ const DestinationDetail = (props) => {
                 const response = await DestinationApi.show(id)
 
                 setDestination(response.data)
+                setReviews(response.reviews)
             } catch (error) {
                 console.log('Fail to fetch Destination: ', error)
             }
         }
+
         const fetchTours = async () => {
             try {
                 const response = await ToursApi.getAll();
                 if (response.success) {
                     setTours(response.data);
                 }
-
-                console.log(response)
             } catch (error) {
                 console.log(error);
             }
@@ -183,7 +184,11 @@ const DestinationDetail = (props) => {
 
         fetchDestinations()
         fetchTours();
+        // cuộn lên đầu trang
+        window.scrollTo(0, 0)
     }, [])
+
+    console.log(destination)
 
     let location = {
         center: {
@@ -202,6 +207,17 @@ const DestinationDetail = (props) => {
     //     zoom: 17,
     //     address: "VKU",
     // };
+
+    const UserContext = useContext(AuthContext)
+    const user = UserContext.user
+
+    let ratingCalculation = (ratingList) => {
+        let totalRatingNumber = 0;
+        ratingList.map((rate) => {
+          totalRatingNumber += rate.rating
+        })
+        return totalRatingNumber / ratingList.length
+    }
 
     return (
         <MainLayout>
@@ -273,13 +289,16 @@ const DestinationDetail = (props) => {
                                     <div className="rate-stars">
                                         <div className="stars-counter">
                                             <span className="stars-number-calculation">
-                                                {starsCounter(destination.rating)}
+                                                {starsCounter(ratingCalculation(reviews))}
                                             </span>
                                             <span className="stars-number">
-                                                <span>{destination.rating}</span><span className="below"> /5</span>
+                                                <span>
+                                                    {reviews.length > 0 ? ratingCalculation(reviews) : 0}
+                                                </span>
+                                                <span className="below"> /5</span>
                                             </span>
                                         </div>
-                                        <p className="view">Based on {destination.views} views</p>
+                                        <p className="view">Based on {reviews.length} views</p>
                                     </div>
                                 </Col>
                             </Row>
@@ -313,10 +332,6 @@ const DestinationDetail = (props) => {
                                 </Row>
                             </div>
 
-                            {/* <div className="description">
-                                <p dangerouslySetInnerHTML={{__html: destination.description}}></p>
-                            </div> */}
-
                             <div
                                 className="google-map mt-50 mb-50"
                                 style={{ height: "350px", width: "100%" }}
@@ -324,29 +339,38 @@ const DestinationDetail = (props) => {
                                 <Maps {...location} />
                             </div>
 
-                            {/* <div className="comments mb-50">
-                                <p className="comments-title">Tour reviews<span> (69)</span></p>
+                            <div className="comments mb-50">
+                                <p className="comments-title">Tour reviews<span> ({reviews.length})</span></p>
                                 <div className="comments-list mt-30">
-                                    {commentData.map(comment => {
+                                    {reviews.map((comment) => {
                                         return (
-                                            <Comment 
-                                                avatar={comment.avatar} 
+                                            <Comment
+                                                key={comment._id}
+                                                avatar={comment.user?.image}
                                                 name={comment.name}
-                                                content={comment.content} 
-                                                rateStars={comment.rateStars} 
-                                                national={comment.national}
+                                                content={comment.content}
+                                                rating={comment.rating}
                                             />
                                         );
                                     })}
                                 </div>
-                                <div className="view-more-comment mt-30 mb-30">
-                                    <Link><p><span>View more</span> (69)</p></Link>
-                                </div>
-                            </div> */}
+                                {reviews.length > 10 && (
+                                    <div className="view-more-comment mt-30 mb-30">
+                                        <Link>
+                                        <p>
+                                            <span>View more</span> ({reviews.length})
+                                        </p>
+                                        </Link>
+                                    </div>
+                                )}
+                            </div>
 
-                            {/* <div className="mb-50">
-                                <CommentForm />
-                            </div> */}
+                            <div className="mb-50">
+                                {user._id ? 
+                                    destination && <CommentForm data={destination} /> :
+                                    <span>(You need login to comment)</span>
+                                }
+                            </div>
                         </Col>
                     </Row>
                 </Container>
