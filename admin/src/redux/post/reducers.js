@@ -39,7 +39,7 @@ const Post = (state = INIT_STATE, action) => {
             UPDATE_POST:
             return { ...state, loading: true };
         case GET_LIST_POST_SUCCESS:
-            return { ...state, posts: action.payload, loading: false, error: null };
+            return { ...state, posts: action.payload, loading: false, error: null, post: null };
         case GET_LIST_CATEGORY_SUCCESS:
             return { ...state, categories: action.payload, loading: false, error: null };
         case GET_LIST_POST_TAG_SUCCESS:

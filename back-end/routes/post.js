@@ -8,7 +8,8 @@ const {
   create,
   show,
   getListPostByIdOption,
-  paginate
+  paginate,
+  update,
 } = require("../controllers/post");
 
 const storage = multer.diskStorage({
@@ -40,5 +41,6 @@ router.get("/paginate", paginate);
 router.get("/:id/list-posts", getListPostByIdOption);
 router.post("/create", upload, isAuth, checkRole, create);
 router.get("/:id", show);
+router.put("/:id", upload, isAuth, checkRole, update);
 
 module.exports = router;

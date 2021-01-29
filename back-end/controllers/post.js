@@ -147,3 +147,85 @@ exports.create = async (req, res) => {
     message: "This post has existed",
   });
 };
+
+exports.update = async (req, res) => {
+  let _id = req.params.id;
+  let checkIDValid = Validator.isMongoId(_id);
+  if (!checkIDValid) {
+    return res.status(400).json({
+      success: false,
+      message: "Your ID is not valid",
+    });
+  }
+  const { errors, isValid } = postValidate(req.body);
+
+  //Check value request
+  if (!isValid) {
+    return res.status(400).json({
+      success: false,
+      message: errors,
+    });
+  }
+
+  const { title, content, category, isFeatured, destination, tags } = req.body;
+
+  const checkExistedPost = await Post.findOne({ _id });
+  if (!checkExistedPost) {
+    if (req.files && req.files !== "") {
+      req.files.forEach((file) => {
+        fs.unlink(file.path, (err) => {
+          if (err) console.log(err);
+          return;
+        });
+      });
+    }
+
+    return res.status(404).json({
+      success: false,
+      message: "Can not found this post",
+    });
+  }
+
+  let banner = checkExistedPost.banner;
+  if (req.files && req.files.length > 0 && req.files !== "") {
+    fs.unlink(checkExistedPost.banner, (err) => {
+      if (err) console.log(err);
+      return;
+    });
+    banner = req.files[0].path;
+  }
+
+  let updated_by = req.user.id;
+  let arrTags = [];
+
+  JSON.parse(tags).map((tag) => {
+    if (tag && tag.value) {
+      arrTags.push(tag.value);
+    }
+    if (tag && tag._id) {
+      arrTags.push(tag._id);
+    }
+  });
+  const post = await Post.findByIdAndUpdate(
+    { _id },
+    {
+      banner,
+      updated_by,
+      title,
+      content,
+      category: category,
+      isFeatured,
+      destination: destination,
+      tags: arrTags,
+    },
+    {
+      new: true,
+    }
+  );
+
+  return res.status(200).json({
+    success: !!post,
+    message: "Update post success",
+    data: post,
+  });
+};

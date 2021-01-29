@@ -58,6 +58,7 @@ const HandlePost = (props) => {
             setTags(tagData);
         }
         if (props.post) {
+            props.history.push(`/post/${props.post._id}`);
             setFormInput(props.post);
         }
     }, [props.destinations, props.categories, props.tags]);
@@ -75,9 +76,12 @@ const HandlePost = (props) => {
         formData.append('title', values.title);
         formData.append('content', values.content);
         formData.append('banner', values.banner);
-        formData.append('category', values.category);
-        formData.append('isFeatured', values.isFeatured[0] ? true : false);
-        formData.append('destination', values.destination);
+        formData.append('category', typeof values.category === 'string' ? values.category : values.category._id);
+        formData.append('isFeatured', values.isFeatured[0] || values.isFeatured ? true : false);
+        formData.append(
+            'destination',
+            typeof values.destination === 'string' ? values.destination : values.destination._id
+        );
         formData.append('tags', JSON.stringify(values.tags));
 
         if (values._id) {
@@ -102,20 +106,9 @@ const HandlePost = (props) => {
         title: yup.string().required('Title is required'),
         content: yup.string().required('Content is required'),
         banner: yup.string().required('Banner is required'),
-        // category: yup.object().shape({
-        //     _id: yup.string().required('Category is required'),
-        // }),
-        // destination: yup.object().shape({
-        //     _id: yup.string().required('Destination is required'),
-        // }),
-        // closeTime: yup.string().required('Bạn phải chọn thời gian mở cửa'),
-        // media: yup.array().of(
-        //     yup.object().shape({
-        //         media: yup.string().required('Bạn phải upload hình ảnh món ăn'),
-        //         name: yup.string().required('Bạn phải nhập tên món ăn'),
-        //     })
-        // ),
-        // tag: yup.array().required('Bạn phải chọn thẻ'),
+        category: yup.string().required('Category is required'),
+        destination: yup.string().required('Destination is required'),
+        // tag: yup.array().required('Tag is required'),
     });
 
     return (
