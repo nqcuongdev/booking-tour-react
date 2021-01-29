@@ -77,6 +77,9 @@ const BookTour = (props) => {
         child: bookForm.child,
         adult: bookForm.adult,
       },
+      total_price:
+        bookForm.adult * bookForm.price.tour.price.adult +
+        bookForm.child * bookForm.price.tour.price.child,
     };
 
     try {
@@ -163,10 +166,7 @@ const BookTour = (props) => {
                   {schedules &&
                     schedules.map((schedule) => {
                       return (
-                        <option
-                          key={schedule._id} 
-                          value={schedule._id}
-                        >
+                        <option key={schedule._id} value={schedule._id}>
                           {schedule.title}
                         </option>
                       );

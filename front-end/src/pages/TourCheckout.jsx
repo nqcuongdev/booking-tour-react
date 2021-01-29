@@ -79,8 +79,15 @@ const TourCheckout = (props) => {
           let data = {
             booking_id: cart._id,
             transaction_id: response.data.id,
+            checkoutForm: checkoutForm,
           };
-          await BookingApi.paymentSuccess(data, cart._id);
+          let checkPaymentSuccess = await BookingApi.paymentSuccess(
+            data,
+            cart._id
+          );
+          if (checkPaymentSuccess) {
+            props.history.push("/payment-success");
+          }
         });
       }
     } catch (error) {
@@ -125,7 +132,7 @@ const TourCheckout = (props) => {
                       <Row>
                         <Col xl={6} lg={6} md={6} xs={12}>
                           <FormGroup>
-                            <Label for="firstName">
+                            <Label for="first_name">
                               First name{" "}
                               <span className="required" required>
                                 *
@@ -133,8 +140,8 @@ const TourCheckout = (props) => {
                             </Label>
                             <Input
                               type="text"
-                              name="firstName"
-                              id="firstName"
+                              name="first_name"
+                              id="first_name"
                               value={user.first_name}
                               onChange={onInputChange}
                             />
@@ -142,7 +149,7 @@ const TourCheckout = (props) => {
                         </Col>
                         <Col xl={6} lg={6} md={6} xs={12}>
                           <FormGroup>
-                            <Label for="lastName">
+                            <Label for="last_name">
                               Last name{" "}
                               <span className="required" required>
                                 *
@@ -150,8 +157,8 @@ const TourCheckout = (props) => {
                             </Label>
                             <Input
                               type="text"
-                              name="lastName"
-                              id="lastName"
+                              name="last_name"
+                              id="last_name"
                               value={user.last_name}
                               onChange={onInputChange}
                             />
@@ -161,16 +168,16 @@ const TourCheckout = (props) => {
                       <Row>
                         <Col xl={6} lg={6} md={6} xs={12}>
                           <FormGroup>
-                            <Label for="emailAddress">
+                            <Label for="email">
                               Email address{" "}
                               <span className="required" required>
                                 *
                               </span>
                             </Label>
                             <Input
-                              type="text"
-                              name="emailAddress"
-                              id="emailAddress"
+                              type="email"
+                              name="email"
+                              id="email"
                               value={user.email}
                               onChange={onInputChange}
                             />
@@ -178,7 +185,7 @@ const TourCheckout = (props) => {
                         </Col>
                         <Col xl={6} lg={6} md={6} xs={12}>
                           <FormGroup>
-                            <Label for="phoneNumber">
+                            <Label for="phone">
                               Phone number{" "}
                               <span className="required" required>
                                 *
@@ -186,8 +193,8 @@ const TourCheckout = (props) => {
                             </Label>
                             <Input
                               type="text"
-                              name="phoneNumber"
-                              id="phoneNumber"
+                              name="phone"
+                              id="phone"
                               value={user.phone}
                               onChange={onInputChange}
                             />
@@ -225,7 +232,7 @@ const TourCheckout = (props) => {
                         />
                       </FormGroup>
                       <FormGroup>
-                        <Label for="zipPostcode">
+                        <Label for="zip_code">
                           Zip/Postcode{" "}
                           <span className="required" required>
                             *
@@ -233,8 +240,8 @@ const TourCheckout = (props) => {
                         </Label>
                         <Input
                           type="text"
-                          name="zipPostcode"
-                          id="zipPostcode"
+                          name="zip_code"
+                          id="zip_code"
                           placeholder="Enter zip code"
                           onChange={onInputChange}
                         />
@@ -249,11 +256,11 @@ const TourCheckout = (props) => {
                       </FormGroup>
 
                       <FormGroup className="mt-30">
-                        <Label for="specialRequest">Special request</Label>
+                        <Label for="notes">Special request</Label>
                         <Input
                           type="textarea"
-                          name="specialRequest"
-                          id="specialRequest"
+                          name="notes"
+                          id="notes"
                           placeholder="Enter special request"
                           onChange={onInputChange}
                         />
@@ -428,7 +435,7 @@ const TourCheckout = (props) => {
                       </Table>
 
                       <div className="pay">
-                        <FormGroup check>
+                        {/* <FormGroup check>
                           <Label check className="radio-custom">
                             <Input
                               type="radio"
@@ -440,7 +447,7 @@ const TourCheckout = (props) => {
                             Paypal
                             <span class="checkmark"></span>
                           </Label>
-                        </FormGroup>
+                        </FormGroup> */}
                         <FormGroup check>
                           <Label check className="radio-custom">
                             <Input

@@ -16,6 +16,11 @@ exports.create = async (req, res) => {
     buffer_price: req.body.buffer_price,
     bed: req.body.bed,
   };
+  let attributes = [];
+  JSON.parse(req.body.attributes).map((item) => {
+    attributes.push(item._id);
+  });
+  req.body.attributes = attributes;
   const room = await Room.create(req.body);
 
   return res.status(200).json({

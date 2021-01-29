@@ -60,7 +60,7 @@ function App() {
           value={{
             user: user,
             setUser: setUser,
-            books: books
+            books: books,
           }}
         >
           <Switch>

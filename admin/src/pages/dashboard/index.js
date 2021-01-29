@@ -42,11 +42,7 @@ class Dashboard extends Component {
                         hotels={this.props.hotels}></Statistics>
 
                     {/* charts */}
-                    <Row>
-                        <Col xl={12}>
-                            <Orders orders={this.props.orders} />
-                        </Col>
-                    </Row>
+                    <Row>{/* <Col xl={12}>{this.props.orders && <Orders orders={this.props.orders} />}</Col> */}</Row>
                 </div>
             </React.Fragment>
         );
