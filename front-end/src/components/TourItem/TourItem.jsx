@@ -18,12 +18,26 @@ const TourItem = (props) => {
           className="img-fluid"
           alt={props.title}
         />
-        <Link className="btn btn-primary btn-book-now">Book now</Link>
+        <Link className="btn btn-primary btn-book-now"
+          to={{
+            pathname: `/tours/${props.slug}`,
+            state: { id: `${props._id}` },
+          }}
+        >
+          Book now
+        </Link>
       </div>
       <div className="tour__item-caption">
         <div className="tour__item-title">
           <h3 className="title">
-            <Link to={`/tours/${props._id}`}>{props.title}</Link>
+            <Link
+              to={{
+                pathname: `/tours/${props.slug}`,
+                state: { id: `${props._id}` },
+              }}
+            >
+              {props.title}
+            </Link>
           </h3>
           <p className="duration">
             <span>

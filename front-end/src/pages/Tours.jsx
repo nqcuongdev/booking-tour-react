@@ -87,6 +87,8 @@ const Tours = (props) => {
     }
   };
 
+  console.log(toursList)
+
   return (
     <MainLayout>
       <BreadcrumbBanner pageName="Tours" backgroundImage={background} />

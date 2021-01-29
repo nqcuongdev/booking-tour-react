@@ -156,7 +156,7 @@ const Destinations = (props) => {
                           className="image"
                         >
                           <img
-                            src={process.env.REACT_APP_API_URL + item.image[0]}
+                            src={`${process.env.REACT_APP_API_URL}/${item.image[0]}`}
                             alt=""
                           />
                         </Col>

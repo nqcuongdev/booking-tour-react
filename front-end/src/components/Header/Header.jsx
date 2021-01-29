@@ -80,14 +80,14 @@ const Header = (props) => {
                 </li>
               </ul> */}
             </NavItem>
-            <NavItem>
+            {/* <NavItem>
               <NavLink
                 href="/events"
                 className={ url.search('/events') == 0 ? 'active' : ''}
               >
                 Events
               </NavLink>
-            </NavItem>
+            </NavItem> */}
             <NavItem>
               <NavLink 
                 href="/contact-us"

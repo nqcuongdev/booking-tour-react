@@ -85,6 +85,7 @@ const HotelDetail = (props) => {
       props.history.push("/hotels");
     }
   }, []);
+
   return (
     <MainLayout>
       {hotel && (
@@ -161,7 +162,7 @@ const HotelDetail = (props) => {
           </Container>
 
           <Container>
-            <CarouselSlide images={hotel.image} />
+            <CarouselSlide image={hotel.image} />
 
             <div className="hotel-detail-option-tag mt-3 mb-3">
               <ul>

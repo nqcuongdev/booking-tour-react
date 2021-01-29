@@ -1,8 +1,16 @@
 @import '../../assets/scss/variables';
 
 .home-post-card {
+    border-radius: 2px;
+    background: #fff;
+    // box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+
     .card {
         border: none !important;
+
+        .card-img {
+            max-height: 235px;
+        }
 
         .card-img {
             transition: .3s !important;

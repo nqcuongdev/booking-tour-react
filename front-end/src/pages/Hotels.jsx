@@ -100,7 +100,7 @@ const Hotels = (props) => {
                   >
                     <Hotel
                       _id={hotel._id}
-                      image={`${process.env.REACT_APP_API_URL}/${hotel.image}`}
+                      image={`${hotel.image[0]}`}
                       name={hotel.title}
                       rateStars={hotel.star}
                       address={hotel.address}

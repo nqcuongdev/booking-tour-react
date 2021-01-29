@@ -66,7 +66,7 @@ const HomePost = (props) => {
                             <Button className="btn-view-all">View all posts</Button>
                         </Link>
                     </Col>
-                    {blogs.map(post => {
+                    {blogs.slice(0, 2).map(post => {
                         return (
                             post.isFeatured &&
                                 <Col lg={4} md={4}>

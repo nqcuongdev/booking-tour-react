@@ -133,7 +133,7 @@ const TopDestination = (props) => {
                         </Carousel>
                     </Col>
                     <Col lg={5} md={12} xs={12} className="top-destination-list">
-                        {hotels.map(destination => {
+                        {hotels.slice(0, 3).map(destination => {
                             return (
                                 destination.isFeatured &&
                                     <div  className="top-destination-item">

@@ -28,6 +28,7 @@ import avatar_3 from '../assets/images/avatar-testimonial/avatar-3.jpg';
 import Comment from '../components/Comment/Comment';
 import CommentForm from '../components/CommentForm/CommentForm';
 import DestinationApi from "../api/destinationsApi";
+import ToursApi from "../api/toursApi";
 
 const destinationData = {
     title: 'Hawaii',
@@ -152,7 +153,9 @@ const starsCounter = (stars) => {
 
 const DestinationDetail = (props) => {
     const [destination, setDestination] = useState([])
-    const [imageList, setImageList] = useState([])
+    const [reviews, setReviews] = useState([])
+
+    const [tours, setTours] = useState([]);
 
     useEffect(() => {
         const fetchDestinations = async () => {
@@ -161,12 +164,25 @@ const DestinationDetail = (props) => {
                 const response = await DestinationApi.show(id)
 
                 setDestination(response.data)
-                setImageList(response.data.image)
             } catch (error) {
                 console.log('Fail to fetch Destination: ', error)
             }
         }
+        const fetchTours = async () => {
+            try {
+                const response = await ToursApi.getAll();
+                if (response.success) {
+                    setTours(response.data);
+                }
+
+                console.log(response)
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
         fetchDestinations()
+        fetchTours();
     }, [])
 
     let location = {
@@ -198,12 +214,12 @@ const DestinationDetail = (props) => {
 
                 <Container className="destination-detail-main mt-50">
                     <Row>
-                        <Col xl={4} lg={4} md={6} xs={12} className="destination-detail-main-sidebar">
-                            <p className="title">Search</p>
+                        <Col xl={4} lg={4} md={5} xs={12} className="destination-detail-main-sidebar">
+                            {/* <p className="title">Search</p>
                             <div className="search">
                                 <Input placeholder="Search keyword" />
                                 <Button><AiOutlineSearch className="search-icon" /></Button>
-                            </div>
+                            </div> */}
                             
                             <PopularDestinations popularDestinations={popularDestinations} />
 
@@ -247,13 +263,13 @@ const DestinationDetail = (props) => {
                             <Faq faqs={faqs} />
                         </Col>
 
-                        <Col xl={8} lg={8} md={6} xs={12} className="destination-detail-main-content">
+                        <Col xl={8} lg={8} md={7} xs={12} className="destination-detail-main-content">
                             <Row className="header">
-                                <Col xl={6} lg={6} md={6} xs={12} className="header-left">
+                                <Col xl={8} lg={8} md={12} xs={12} className="header-left">
                                     <p className="title">{destination.title}</p>
                                     <p className="location">{destination.address}</p>
                                 </Col>
-                                <Col xl={6} lg={6} md={6} xs={12} className="header-right">
+                                <Col xl={4} lg={4} md={12} xs={12} className="header-right">
                                     <div className="rate-stars">
                                         <div className="stars-counter">
                                             <span className="stars-number-calculation">
@@ -268,7 +284,7 @@ const DestinationDetail = (props) => {
                                 </Col>
                             </Row>
 
-                            <CarouselSlide image={imageList} />
+                            <CarouselSlide image={destination.image} />
 
                             <div className="description">
                                 <p dangerouslySetInnerHTML={{__html: destination.description}}></p>
@@ -277,26 +293,29 @@ const DestinationDetail = (props) => {
                             <div className="tour-packages mt-50">
                                 <p className="title">Tour packages</p>
                                 <Row className="pt-20 pb-50">
-                                    {toursData.map(tour => {
+                                    {tours.slice(0, 2).map(tour => {
                                         return (
-                                            <Col xl={6} lg={6} md={6} sx={12} className="mb-30">
-                                                <ThumbnailTourItem
-                                                    image={tour.image}
-                                                    title={tour.title}
-                                                    option={tour.option}
-                                                    price={tour.price}
-                                                    sale={tour.sale}
-                                                    saleToday={tour.saleToday}
-                                                />
-                                            </Col>
+                                            tour.isFeatured &&
+                                                <Col xl={6} lg={6} md={6} sx={12} className="mb-30">
+                                                    <ThumbnailTourItem
+                                                        image={tour.image[0]}
+                                                        title={tour.title}
+                                                        duration={tour.duration}
+                                                        price={tour.price.adult}
+                                                        sale={tour.sale_price.adult}
+                                                        saleToday={tour.sale_price.adult}
+                                                        id={tour._id}
+                                                        slug={tour.slug}
+                                                    />
+                                                </Col>
                                         );
                                     })}
                                 </Row>
                             </div>
 
-                            <div className="description">
+                            {/* <div className="description">
                                 <p dangerouslySetInnerHTML={{__html: destination.description}}></p>
-                            </div>
+                            </div> */}
 
                             <div
                                 className="google-map mt-50 mb-50"
@@ -305,7 +324,7 @@ const DestinationDetail = (props) => {
                                 <Maps {...location} />
                             </div>
 
-                            <div className="comments mb-50">
+                            {/* <div className="comments mb-50">
                                 <p className="comments-title">Tour reviews<span> (69)</span></p>
                                 <div className="comments-list mt-30">
                                     {commentData.map(comment => {
@@ -323,11 +342,11 @@ const DestinationDetail = (props) => {
                                 <div className="view-more-comment mt-30 mb-30">
                                     <Link><p><span>View more</span> (69)</p></Link>
                                 </div>
-                            </div>
+                            </div> */}
 
-                            <div className="mb-50">
+                            {/* <div className="mb-50">
                                 <CommentForm />
-                            </div>
+                            </div> */}
                         </Col>
                     </Row>
                 </Container>

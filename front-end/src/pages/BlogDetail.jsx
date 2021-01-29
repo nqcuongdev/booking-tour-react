@@ -264,7 +264,7 @@ const BlogDetail = (props) => {
                                     <Link to="#" className="link">Title of next post <BsChevronRight /></Link>
                                 </div>
                             </div>
-                            <div className="post-comment mt-50 mb-30">
+                            {/* <div className="post-comment mt-50 mb-30">
                                 <p className="post-comment-title">Comment <span className="post-comment-count">(69)</span></p>
                                 <div className="post-comment-list mt-30">
                                     {commentData.map(comment => {
@@ -286,7 +286,7 @@ const BlogDetail = (props) => {
                             </div>
                             <div className="post-comment-form mb-30">
                                 <CommentForm />
-                            </div>
+                            </div> */}
                         </Col>
                     </Row>
                 </Container>

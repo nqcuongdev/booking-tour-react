@@ -13,7 +13,12 @@ const DestinationItem = (props) => {
       >
         <div className="destination__overlay"></div>
         <div className="destination__content">
-          <Link to={`/destinations/${props._id}`} style={{ color: "black" }}>
+          <Link style={{ color: "black" }}
+            to={{
+              pathname: `/destinations/${props.slug}`,
+              state: { id: `${props._id}` },
+            }}
+          >
             <h4 className="title">{props.title}</h4>
           </Link>
           <div className="desc">

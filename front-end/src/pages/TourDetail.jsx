@@ -142,8 +142,8 @@ const TourDetail = (props) => {
           </Row>
         </Container>
 
-        <Container>
-          <CarouselSlide images={tour && tour.images} />
+        <Container className="mt-30">
+          <CarouselSlide image={tour && tour.image} />
         </Container>
 
         <Container>
