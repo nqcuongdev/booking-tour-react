@@ -6,6 +6,7 @@ import {
 import post_1 from '../../assets/images/posts/post-1.jpg';
 import post_2 from '../../assets/images/posts/post-2.jpg';
 import Post from '../Post/Post';
+import { Link } from "react-router-dom";
 
 const postsData = [
     {
@@ -34,7 +35,9 @@ const HomePost = (props) => {
                     <Col lg={4} md={4} className="home-post-title">
                         <h2>From our blog</h2><br/>
                         <p>Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and...</p><br/>
-                        <Button className="btn-view-all">View all posts</Button>
+                        <Link to="/blogs">
+                            <Button className="btn-view-all">View all posts</Button>
+                        </Link>
                     </Col>
                     {postsData.map(post => {
                         return (

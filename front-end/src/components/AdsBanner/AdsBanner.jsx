@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Row, Col, Button } from 'reactstrap';
 import './AdsBanner.scss';
+import { Link } from "react-router-dom";
 
 const AdsBanner = (props) => {
     return (
@@ -20,8 +21,12 @@ const AdsBanner = (props) => {
                         <p><b>for single couple</b></p>
                     </Col>
                     <Col lg={6} md={6} xs={12} className="ads-banner-right">
-                        <Button className="btn-purchase-now">Purchase now</Button>
-                        <Button className="btn-learn-more">Learn more</Button>
+                        <Link to="/tours">
+                            <Button className="btn-purchase-now">Purchase now</Button>
+                        </Link>
+                        <Link to="/tours">
+                            <Button className="btn-learn-more">Learn more</Button>
+                        </Link>
                     </Col>
                 </Row>
             </Container>
