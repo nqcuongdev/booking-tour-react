@@ -37,6 +37,9 @@ const ListPost = React.lazy(() => import('../pages/post/ListPost'));
 const HandlePost = React.lazy(() => import('../pages/post/HandlePost'));
 const ListTag = React.lazy(() => import('../pages/post/ListTag'));
 
+// Reviews
+const ListReviews = React.lazy(() => import('../pages/review/ListReviews'));
+
 // apps
 const CalendarApp = React.lazy(() => import('../pages/apps/Calendar'));
 const EmailInbox = React.lazy(() => import('../pages/apps/Email/Inbox'));
@@ -243,6 +246,7 @@ const orderRoutes = {
     roles: ['admin', 'hotel_partner', 'tour_partner'],
 };
 
+// Post
 const postRoutes = {
     path: '/post',
     name: 'Post',
@@ -271,6 +275,16 @@ const postRoutes = {
             roles: ['admin', 'hotel_partner', 'tour_partner'],
         },
     ],
+};
+
+// Reviews
+const reviewRoutes = {
+    path: '/review/list-review',
+    name: 'Review',
+    icon: FeatherIcon.Calendar,
+    component: ListReviews,
+    route: PrivateRoute,
+    roles: ['admin', 'hotel_partner', 'tour_partner'],
 };
 
 const emailAppRoutes = {
@@ -352,6 +366,7 @@ const appRoutes = [
     hotelRoutes,
     orderRoutes,
     postRoutes,
+    reviewRoutes,
     emailAppRoutes,
     projectAppRoutes,
     taskAppRoutes,
@@ -585,7 +600,6 @@ const allRoutes = [
     rootRoute,
     dashboardRoutes,
     ...appRoutes,
-    pagesRoutes,
     componentsRoutes,
     chartRoutes,
     formsRoutes,
@@ -593,14 +607,6 @@ const allRoutes = [
     authRoutes,
 ];
 
-const authProtectedRoutes = [
-    dashboardRoutes,
-    ...appRoutes,
-    pagesRoutes,
-    componentsRoutes,
-    chartRoutes,
-    formsRoutes,
-    tableRoutes,
-];
+const authProtectedRoutes = [dashboardRoutes, ...appRoutes, componentsRoutes, chartRoutes, formsRoutes, tableRoutes];
 const allFlattenRoutes = flattenRoutes(allRoutes);
 export { allRoutes, authProtectedRoutes, allFlattenRoutes };

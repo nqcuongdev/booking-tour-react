@@ -11,9 +11,9 @@ exports.paginate = async (req, res) => {
     sort: { created_at: -1 },
     limit: 10,
   };
-  
+
   const destinations = await Destination.paginate({}, options);
-                          
+
   return res.status(200).json({
     success: !!destinations,
     data: destinations,

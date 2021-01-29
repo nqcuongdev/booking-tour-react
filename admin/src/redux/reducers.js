@@ -8,6 +8,7 @@ import Notification from './notification/reducers';
 import Hotel from './hotel/reducers';
 import Order from './order/reducers';
 import Post from './post/reducers';
+import Review from './review/reducers';
 
 export default combineReducers({
     Auth,
@@ -19,4 +20,5 @@ export default combineReducers({
     Hotel,
     Order,
     Post,
+    Review,
 });

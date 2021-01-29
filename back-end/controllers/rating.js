@@ -1,5 +1,5 @@
 const Rating = require("../models/rating");
-
+const Validator = require("validator");
 // Load validate
 const ratingValidate = require("../models/rating");
 
@@ -50,16 +50,6 @@ exports.show = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
-  // const { errors, isValid } = ratingValidate(req.body);
-
-  // //Check value request
-  // if (!isValid) {
-  //   return res.status(400).json({
-  //     success: false,
-  //     message: errors,
-  //   });
-  // }
-
   const { name, email, user, content, rating, target_id } = req.body;
   const ratingWithUser = await Rating.create({
     name,
@@ -73,5 +63,49 @@ exports.create = async (req, res) => {
   return res.status(200).json({
     success: !!ratingWithUser,
     data: ratingWithUser,
+  });
+};
+
+exports.all = async (req, res) => {
+  const reviews = await Rating.aggregate([
+    { $match: {} },
+    {
+      $lookup: {
+        from: "tours",
+        localField: "target_id",
+        foreignField: "_id",
+        as: "tour",
+      },
+    },
+    {
+      $lookup: {
+        from: "hotels",
+        localField: "target_id",
+        foreignField: "_id",
+        as: "hotel",
+      },
+    },
+  ]);
+
+  return res.json({
+    success: !!reviews,
+    data: reviews,
+  });
+};
+
+exports.deleteReview = async (req, res) => {
+  let _id = req.params.id;
+  let checkIDValid = Validator.isMongoId(_id);
+  if (!checkIDValid) {
+    return res.status(400).json({
+      success: false,
+      message: "Your ID is not valid",
+    });
+  }
+  const review = await Rating.deleteOne({ _id });
+
+  return res.json({
+    success: !!review,
+    data: "Delete review success",
   });
 };

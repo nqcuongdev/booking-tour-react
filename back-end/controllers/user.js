@@ -53,14 +53,61 @@ exports.show = async (req, res) => {
   });
 };
 
-exports.updateProfile = async (req, res) => {
-  const { id } = req.user;
+exports.all = async (req, res) => {
+  if (req.user.role !== "admin") {
+    return res.status(403).json({
+      success: false,
+      message: "You have not permission",
+    });
+  }
 
-  let checkIDValid = Validator.isMongoId(id);
+  const users = await User.find({});
+
+  return res.json({
+    success: !!users,
+    data: users,
+  });
+};
+
+exports.updateRoleUser = async (req, res) => {
+  let _id = req.params.id;
+
+  let checkIDValid = Validator.isMongoId(_id);
   if (!checkIDValid) {
     return res.status(400).json({
       success: false,
       message: "Your ID is not valid",
     });
   }
+
+  if (req.user.role !== "admin") {
+    return res.status(403).json({
+      success: false,
+      message: "You have not permission",
+    });
+  }
+
+  let checkExistedUser = await User.findOne({ _id });
+  if (!checkExistedUser) {
+    return res.status(404).json({
+      success: false,
+      message: "User not found",
+    });
+  }
+
+  const { role } = req.body;
+  const user = await User.findByIdAndUpdate(
+    { _id },
+    {
+      role: role,
+    },
+    {
+      new: true,
+    }
+  );
+
+  return res.json({
+    success: !!user,
+    message: "Update role user success",
+  });
 };

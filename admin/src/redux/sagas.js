@@ -8,6 +8,7 @@ import notificationSaga from './notification/saga';
 import hotelSaga from './hotel/saga';
 import orderSaga from './order/saga';
 import postSaga from './post/saga';
+import reviewSaga from './review/saga';
 
 export default function* rootSaga(getState) {
     yield all([
@@ -20,5 +21,6 @@ export default function* rootSaga(getState) {
         hotelSaga(),
         orderSaga(),
         postSaga(),
+        reviewSaga(),
     ]);
 }
