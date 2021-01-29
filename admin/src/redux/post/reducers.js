@@ -1,4 +1,6 @@
 import {
+    CREATE_POST,
+    CREATE_POST_SUCCESS,
     CREATE_POST_TAG,
     CREATE_POST_TAG_SUCCESS,
     GET_LIST_CATEGORY,
@@ -10,6 +12,8 @@ import {
     GET_POST,
     GET_POST_SUCCESS,
     POST_FAILED,
+    UPDATE_POST,
+    UPDATE_POST_SUCCESS,
     UPDATE_POST_TAG,
     UPDATE_POST_TAG_SUCCESS,
 } from './constants';
@@ -25,7 +29,14 @@ const INIT_STATE = {
 
 const Post = (state = INIT_STATE, action) => {
     switch (action.type) {
-        case GET_LIST_POST || GET_LIST_POST_TAG || CREATE_POST_TAG || UPDATE_POST_TAG || GET_POST || GET_LIST_CATEGORY:
+        case GET_LIST_POST ||
+            GET_LIST_POST_TAG ||
+            CREATE_POST_TAG ||
+            UPDATE_POST_TAG ||
+            GET_POST ||
+            GET_LIST_CATEGORY ||
+            CREATE_POST ||
+            UPDATE_POST:
             return { ...state, loading: true };
         case GET_LIST_POST_SUCCESS:
             return { ...state, posts: action.payload, loading: false, error: null };
@@ -34,6 +45,10 @@ const Post = (state = INIT_STATE, action) => {
         case GET_LIST_POST_TAG_SUCCESS:
             return { ...state, tags: action.payload, loading: false, error: null };
         case GET_POST_SUCCESS:
+            return { ...state, post: action.payload, loading: false, error: null };
+        case CREATE_POST_SUCCESS:
+            return { ...state, post: action.payload, loading: false, error: null };
+        case UPDATE_POST_SUCCESS:
             return { ...state, post: action.payload, loading: false, error: null };
         case CREATE_POST_TAG_SUCCESS:
             return { ...state, loading: false, error: null };

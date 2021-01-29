@@ -1,7 +1,13 @@
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
-const { create, update, show, all, paginate } = require("../controllers/destination");
+const {
+  create,
+  update,
+  show,
+  all,
+  paginate,
+} = require("../controllers/destination");
 const isAuth = require("../middleware/isAuth");
 const checkRole = require("../middleware/checkRole");
 

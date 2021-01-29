@@ -29,16 +29,8 @@ module.exports = function validatePostInput(data) {
     errors.category = "Category field is required";
   }
 
-  if (!Validator.isMongoId(data.category)) {
-    errors.category = "Category invalid";
-  }
-
   if (Validator.isEmpty(data.destination)) {
     errors.destination = "Destination field is required";
-  }
-
-  if (!Validator.isMongoId(data.destination)) {
-    errors.destination = "Destination invalid";
   }
 
   return {

@@ -26,7 +26,7 @@ import * as FeatherIcon from 'react-feather';
 import PageTitle from '../../components/PageTitle';
 import { connect, useDispatch } from 'react-redux';
 import moment from 'moment';
-import { createPostTag, getListOfPostTags, getListOfTitleCategories, updatePostTag } from '../../redux/post/actions';
+import { createPostTag, getListOfPostTags, updatePostTag } from '../../redux/post/actions';
 
 const sizePerPageRenderer = ({ options, currSizePerPage, onSizePerPageChange }) => (
     <React.Fragment>
@@ -56,7 +56,6 @@ const TableWithSearch = ({ properties }) => {
 
     useEffect(() => {
         dispatch(getListOfPostTags());
-        dispatch(getListOfTitleCategories());
     }, [dispatch]);
 
     useEffect(() => {

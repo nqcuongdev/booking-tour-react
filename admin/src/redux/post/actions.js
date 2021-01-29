@@ -1,4 +1,6 @@
 import {
+    CREATE_POST,
+    CREATE_POST_SUCCESS,
     CREATE_POST_TAG,
     CREATE_POST_TAG_SUCCESS,
     GET_LIST_CATEGORY,
@@ -9,6 +11,8 @@ import {
     GET_POST,
     GET_POST_SUCCESS,
     POST_FAILED,
+    UPDATE_POST,
+    UPDATE_POST_SUCCESS,
     UPDATE_POST_TAG,
     UPDATE_POST_TAG_SUCCESS,
 } from './constants';
@@ -50,6 +54,16 @@ export const getListOfPostTagsSuccess = (tags) => ({
     payload: tags,
 });
 
+export const createPost = (data) => ({
+    type: CREATE_POST,
+    payload: data,
+});
+
+export const createPostSuccess = (post) => ({
+    type: CREATE_POST_SUCCESS,
+    payload: post,
+});
+
 export const createPostTag = (title) => ({
     type: CREATE_POST_TAG,
     payload: { title },
@@ -57,6 +71,16 @@ export const createPostTag = (title) => ({
 
 export const createPostTagSuccess = (tag) => ({
     type: CREATE_POST_TAG_SUCCESS,
+});
+
+export const updatePost = (data) => ({
+    type: UPDATE_POST,
+    payload: data,
+});
+
+export const updatePostSuccess = (post) => ({
+    type: UPDATE_POST_SUCCESS,
+    payload: post,
 });
 
 export const updatePostTag = (_id, title, status) => ({
