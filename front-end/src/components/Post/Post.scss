@@ -22,6 +22,15 @@
             margin: 28px 0;
             padding: 0 !important;
 
+            .link {
+                color: $black !important;
+                transition: 0.3s;
+
+                &:hover {
+                    color: $orange !important;
+                }
+            }
+
             .card-text {
                 font-size: 13px;
                 margin-bottom: 32px !important;

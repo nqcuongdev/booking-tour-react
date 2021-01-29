@@ -1,8 +1,13 @@
 import axiosClient from "./axiosClient";
 
 const HotelApi = {
-  getAll: (offset) => {
+  getPaginate: (offset) => {
     const url = `api/v1/hotel/paginate?page=${offset ? offset : 1}`;
+    return axiosClient.get(url);
+  },
+
+  getAll: () => {
+    const url = `api/v1/hotel/`;
     return axiosClient.get(url);
   },
 

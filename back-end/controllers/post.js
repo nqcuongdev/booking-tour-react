@@ -5,6 +5,21 @@ const fs = require("fs");
 // Load validate
 const postValidate = require("../validators/post/create");
 
+exports.paginate = async (req, res) => {
+  let page = req.query.page;
+  let options = {
+    sort: { created_at: -1 },
+    populate: ["created_by", "updated_by", "category", "destination", "tags"],
+    limit: 10,
+    page: page,
+  };
+  const posts = await Post.paginate({}, options);
+  return res.status(200).json({
+    success: !!posts,
+    data: posts,
+  });
+};
+
 exports.all = async (req, res) => {
   const posts = await Post.find({})
     .populate("created_by")

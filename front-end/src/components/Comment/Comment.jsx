@@ -11,7 +11,8 @@ const Comment = (props) => {
       <div className="comment">
         <div className="comment-author-avatar">
           <img
-            src={`${process.env.REACT_APP_API_URL}/${props.avatar}`}
+            // src={`${process.env.REACT_APP_API_URL}${props.avatar}`}
+            src={`${props.avatar}`}
             alt={props.name}
           />
         </div>

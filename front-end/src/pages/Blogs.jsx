@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import MainLayout from "../layouts/MainLayout";
 import BreadcrumbBanner from "../components/BreadcrumbBanner/BreadcrumbBanner";
 import bannerBackground from "../assets/images/background-1.jpg";
@@ -12,6 +12,11 @@ import ThumbnailTourItem from "../components/ThumbnailTourItem/ThumbnailTourItem
 import Korea from "../assets/images/populars/1.jpg";
 import NY from "../assets/images/populars/newyork.jpg";
 import Cali from "../assets/images/populars/califonia.jpg";
+
+import blogApi from "../api/blogApi";
+import { useRouteMatch } from "react-router-dom";
+import { dateToYMD } from "../helpers/format";
+import Pagination from "react-js-pagination";
 
 const postsData = [
     {
@@ -101,29 +106,81 @@ const toursData = [
 ];
 
 const Blogs = (props) => {
+    //phân trang
+    const [pagination, setPagination] = useState()
+    //console.log(pagination)
+
+    const [blogs, setBLogs] = useState([]);
+
+    let [totalPages, setTotalPages] = useState();
+    let [totalDocs, setTotalDocs] = useState();
+
+    useEffect(() => {
+        const fetchHotel = async () => {
+            try {
+                const response = await blogApi.getPaginate(pagination);
+
+                //console.log(response)
+                if (response.success) {
+                    setBLogs(response.data.docs);
+
+                    setTotalPages(response.data.totalPages)
+                    setTotalDocs(response.data.totalDocs);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchHotel();
+    }, [pagination]);
+
+    // lấy đường dẫn hiện tại
+    const { url } = useRouteMatch();
+
+    const getSubStringContent = (text) => {
+        const newText = text.replace(/<[^>]+>/g, "");
+    
+        return newText.substring(0, 70);
+    };
+    
     return (
         <MainLayout>
             <div className="blogs">
                 <BreadcrumbBanner pageName="Blogs" backgroundImage={bannerBackground} />
                 <Container className="post-list-of-blogs mt-20">
                     <Row>
-                        {postsData.map(post => {
+                        {blogs.map(post => {
                             return (
                                 <Col lg={4} md={4}>
                                     <Post
-                                        id={post.id}
-                                        image={post.image}
-                                        dataTime={post.dataTime}
-                                        view={post.view}
+                                        _id={post._id}
+                                        image={`${process.env.REACT_APP_API_URL}/${post.banner}`}
+                                        dataTime={dateToYMD(new Date(post.created_at))}
+                                        view={post.views}
                                         title={post.title}
-                                        description={post.description}
+                                        content={`${getSubStringContent(post.content)}...`}
+                                        slug={post.slug}
                                     />
                                 </Col>
                             );
                         })}
                     </Row>
 
-                    <Paginate />
+                    {/* <Paginate /> */}
+                    <div className="pagination-bar text-center">
+                        {totalDocs > 0 &&
+                            <Pagination
+                                itemClass="page-item"
+                                linkClass="page-link"
+                                activePage={pagination}
+                                itemsCountPerPage={10}
+                                totalItemsCount={totalDocs}
+                                pageRangeDisplayed={totalPages}
+                                onChange={(page) => setPagination(page)}
+                            />
+                        }
+                    </div>
 
                     <p className="popular-tour mt-50">Popular Tour</p>
                     <Row className="pt-20 pb-50">

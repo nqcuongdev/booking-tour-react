@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import MainLayout from "../layouts/MainLayout";
 import Subscribe from "../components/Subscribe/Subscribe";
 import { Button, Col, Container, Input, Row } from "reactstrap";
@@ -22,6 +22,8 @@ import CommentForm from '../components/CommentForm/CommentForm';
 import Post from '../components/Post/Post';
 import adImage from "../assets/images/ad.png";
 import AdItem from "../components/AdItem/AdItem";
+import BlogApi from "../api/blogApi";
+import { dateToYMD } from "../helpers/format";
 
 const postData = {
     blogImage: post_1,
@@ -125,12 +127,43 @@ const popularItem = {
 };
 
 const BlogDetail = (props) => {
+    const [blog, setBlog] = useState([])
+    const [author, setAuthor] = useState([])
+    const [tag, setTag] = useState([])
+
+    useEffect(() => {
+        const fetchBlog = async () => {
+            try {
+                const id = props.location.state.id
+                const response = await BlogApi.show(id)
+
+                setBlog(response.data)
+                setAuthor(response.data.created_by)
+                setTag(response.data.tags)
+            } catch (error) {
+                console.log('Fail to fetch Destination: ', error)
+            }
+        }
+        fetchBlog()
+    }, [])
+
+    let location = {
+        center: {
+          lat: blog.lat,
+          lng: blog.lng,
+        },
+        zoom: blog.map_zoom,
+        address: blog.address,
+    };
+
+    console.log(blog)
+
     return (
         <MainLayout>
             <div className="blog-detail">
                 <div className="blog-detail-link">
                     <Container>
-                        <span><span><Link to="/">Home</Link> / <Link to="/blogs">Blogs</Link> /</span> {postData.title}</span>
+                        <span><span><Link to="/">Home</Link> / <Link to="/blogs">Blogs</Link> /</span> {blog.title}</span>
                     </Container>
                 </div>
                 <Container className="blog-detail-main mt-50 pb-30 pt-30">
@@ -166,37 +199,36 @@ const BlogDetail = (props) => {
                             <PopularTags popularTags={popularTags} />
                         </Col>
                         <Col xl={9} lg={8} md={7} xs={12} className="blog-detail-content">
-                            <img src={postData.blogImage} alt={postData.blogImage} className="post-image"/>
-                            <p className="post-title">{postData.title}</p>
+                            <img src={`${process.env.REACT_APP_API_URL}/${blog.banner}`} alt="" className="post-image"/>
+                            <p className="post-title">{blog.title}</p>
                             <div className="post-info mt-10">
                                 <ul>
-                                    <li><BsFillPersonFill /> {postData.author.name}</li>
-                                    <li><BiCalendarWeek /> {postData.dateTime}</li>
-                                    <li><AiOutlineEye /> {postData.view}</li>
+                                    <li><BsFillPersonFill /> {author.full_name}</li>
+                                    <li><BiCalendarWeek /> {dateToYMD(new Date(blog.created_at))}</li>
+                                    <li><AiOutlineEye /> {blog.views}</li>
                                 </ul>
                             </div>
-                            <div className="post-description mt-30">
-                                <p>{postData.description}</p>
-                            </div>
-                            <div className="post-quotes mt-30">
+                            {/* <div className="post-description mt-30">
+                                <p dangerouslySetInnerHTML={{__html: blog.content}}></p>
+                            </div> */}
+                            {/* <div className="post-quotes mt-30">
                                 <div className="quotes">
                                     <span>{postData.quotes}</span>
                                 </div>
-                            </div>
+                            </div> */}
                             <div className="post-content mt-30">
-                                <p>{postData.content}</p>
-                                <p>{postData.content}</p>
+                                <p dangerouslySetInnerHTML={{__html: blog.content}}></p>
                             </div>
                             <div className="post-tag mb-30">
                                 <AiFillTag />
-                                {postData.tag.map((tag, index) => {
+                                {tag.map((tag, index) => {
                                     if (index === 0) {
                                         return (
-                                            <span><Link to='#' className="orange-text"> {tag}</Link></span>
+                                            <span><Link to='#' className="orange-text"> {tag.title}</Link></span>
                                         );
                                     } else {
                                         return (
-                                            <span><Link to='#'> . {tag}</Link></span>
+                                            <span><Link to='#'> . {tag.title}</Link></span>
                                         );
                                     }
                                 })}

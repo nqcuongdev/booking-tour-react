@@ -8,6 +8,7 @@ const {
   create,
   show,
   getListPostByIdOption,
+  paginate
 } = require("../controllers/post");
 
 const storage = multer.diskStorage({
@@ -35,6 +36,7 @@ const upload = multer({ storage: storage, fileFilter: fileFilter }).array(
 const router = express.Router();
 
 router.get("/", all);
+router.get("/paginate", paginate);
 router.get("/:id/list-posts", getListPostByIdOption);
 router.post("/create", upload, isAuth, checkRole, create);
 router.get("/:id", show);

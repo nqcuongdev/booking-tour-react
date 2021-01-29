@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './HomePost.scss';
 import {
     Container, Button, Row, Col
@@ -7,6 +7,8 @@ import post_1 from '../../assets/images/posts/post-1.jpg';
 import post_2 from '../../assets/images/posts/post-2.jpg';
 import Post from '../Post/Post';
 import { Link } from "react-router-dom";
+import BlogApi from "../../api/blogApi";
+import { dateToYMD } from "../../helpers/format";
 
 const postsData = [
     {
@@ -28,6 +30,31 @@ const postsData = [
 ];
 
 const HomePost = (props) => {
+    const [blogs, setHotels] = useState([]);
+
+    useEffect(() => {
+        const fetchHotel = async () => {
+        try {
+            const response = await BlogApi.getAll();
+
+            console.log(response)
+            if (response.success) {
+            setHotels(response.data);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        };
+
+        fetchHotel();
+    }, []);
+
+    const getSubStringContent = (text) => {
+        const newText = text.replace(/<[^>]+>/g, "");
+    
+        return newText.substring(0, 70);
+    };
+
     return (
         <div className="home-post">
             <Container>
@@ -39,18 +66,20 @@ const HomePost = (props) => {
                             <Button className="btn-view-all">View all posts</Button>
                         </Link>
                     </Col>
-                    {postsData.map(post => {
+                    {blogs.map(post => {
                         return (
-                            <Col lg={4} md={4}>
-                                <Post
-                                    id={post.id}
-                                    image={post.image}
-                                    dataTime={post.dataTime}
-                                    view={post.view}
-                                    title={post.title}
-                                    description={post.description}
-                                />
-                            </Col>
+                            post.isFeatured &&
+                                <Col lg={4} md={4}>
+                                    <Post
+                                        _id={post._id}
+                                        image={`${process.env.REACT_APP_API_URL}/${post.banner}`}
+                                        dataTime={dateToYMD(new Date(post.created_at))}
+                                        view={post.views}
+                                        title={post.title}
+                                        content={`${getSubStringContent(post.content)}...`}
+                                        slug={post.slug}
+                                    />
+                                </Col>
                         );
                     })}
                 </Row>

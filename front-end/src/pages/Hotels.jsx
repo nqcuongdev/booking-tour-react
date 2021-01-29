@@ -24,7 +24,7 @@ const Hotels = (props) => {
   useEffect(() => {
     const fetchHotel = async () => {
       try {
-        const response = await HotelApi.getAll(pagination);
+        const response = await HotelApi.getPaginate(pagination);
 
         //console.log(response)
         if (response.success) {
