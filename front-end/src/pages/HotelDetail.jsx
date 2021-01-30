@@ -180,7 +180,7 @@ const HotelDetail = (props) => {
                       <span className="below"> /5</span>
                     </span>
                   </div>
-                  <p className="view">Based on {reviews.length} views</p>
+                  <p className="view">Based on {reviews ? reviews.length : 0} views</p>
                 </div>
               </Col>
             </Row>
@@ -344,7 +344,7 @@ const HotelDetail = (props) => {
 
           <Container className="comments mb-50">
             <p className="comments-title">
-              Guests loved their stay<span> ({reviews.length})</span>
+              Guests loved their stay<span> ({reviews ? reviews.length : 0})</span>
             </p>
             <Row>
               <Col xl={9} className="comments-list mt-30">
@@ -365,7 +365,7 @@ const HotelDetail = (props) => {
                   <div className="view-more-comment mt-30 mb-30">
                     <Link>
                       <p>
-                        <span>View more</span> ({reviews.length})
+                        <span>View more</span> ({reviews ? reviews.length : 0})
                       </p>
                     </Link>
                   </div>

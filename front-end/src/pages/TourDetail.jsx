@@ -254,7 +254,7 @@ const TourDetail = (props) => {
 
         <Container className="comments mb-50">
           <p className="comments-title">
-            Tour reviews<span> ({reviews.length})</span>
+            Tour reviews<span> ({reviews ? reviews.length : 0})</span>
           </p>
           <Row>
             <Col xl={9} className="comments-list mt-30">
@@ -275,7 +275,7 @@ const TourDetail = (props) => {
                 <div className="view-more-comment mt-30 mb-30">
                   <Link>
                     <p>
-                      <span>View more</span> ({reviews.length})
+                      <span>View more</span> ({reviews ? reviews.length : 0})
                     </p>
                   </Link>
                 </div>

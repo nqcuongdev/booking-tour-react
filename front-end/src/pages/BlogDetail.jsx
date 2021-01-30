@@ -154,7 +154,6 @@ const BlogDetail = (props) => {
             try {
                 const response = await blogApi.getAll();
 
-                console.log(response)
                 if (response.success) {
                     setPopularBlogs(response.data);
                 }
@@ -304,7 +303,7 @@ const BlogDetail = (props) => {
                                 </div>
                             </div>
                             <div className="post-comment mt-50 mb-30">
-                                <p className="post-comment-title">Comment <span className="post-comment-count">({reviews.length})</span></p>
+                                <p className="post-comment-title">Comment <span className="post-comment-count">({reviews ? reviews.length : 0})</span></p>
                                 <div className="post-comment-list mt-30">
                                     {reviews.map((comment) => {
                                         return (
@@ -322,7 +321,7 @@ const BlogDetail = (props) => {
                                     <div className="view-more-comment mt-30 mb-30">
                                         <Link>
                                         <p>
-                                            <span>View more</span> ({reviews.length})
+                                            <span>View more</span> ({reviews ? reviews.length : 0})
                                         </p>
                                         </Link>
                                     </div>

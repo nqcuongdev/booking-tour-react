@@ -298,7 +298,7 @@ const DestinationDetail = (props) => {
                                                 <span className="below"> /5</span>
                                             </span>
                                         </div>
-                                        <p className="view">Based on {reviews.length} views</p>
+                                        <p className="view">Based on {reviews ? reviews.length : 0} views</p>
                                     </div>
                                 </Col>
                             </Row>
@@ -340,7 +340,7 @@ const DestinationDetail = (props) => {
                             </div>
 
                             <div className="comments mb-50">
-                                <p className="comments-title">Tour reviews<span> ({reviews.length})</span></p>
+                                <p className="comments-title">Tour reviews<span> ({reviews ? reviews.length : 0})</span></p>
                                 <div className="comments-list mt-30">
                                     {reviews.map((comment) => {
                                         return (
@@ -358,7 +358,7 @@ const DestinationDetail = (props) => {
                                     <div className="view-more-comment mt-30 mb-30">
                                         <Link>
                                         <p>
-                                            <span>View more</span> ({reviews.length})
+                                            <span>View more</span> ({reviews ? reviews.length : 0})
                                         </p>
                                         </Link>
                                     </div>
