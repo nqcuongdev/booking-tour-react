@@ -104,7 +104,7 @@ const HeroBanner = (props) => {
                     <Col sm={6} md={3}>
                       <FormGroup>
                         <div className="single__field">
-                          <label htmlFor="selectForm" className="ml-3">
+                          <label htmlFor="selectForm" className="ml-3 title">
                             Where
                           </label>
                           <Input
@@ -135,7 +135,7 @@ const HeroBanner = (props) => {
                         <Row>
                           <Col xs={6}>
                             <div className="single__field">
-                              <label htmlFor="selectDate" className="ml-3">
+                              <label htmlFor="selectDate" className="ml-3 title">
                                 Check In
                               </label>
                               <Input type="date" />
@@ -143,7 +143,7 @@ const HeroBanner = (props) => {
                           </Col>
                           <Col xs={6}>
                             <div className="single__field">
-                              <label htmlFor="selectDate" className="ml-3">
+                              <label htmlFor="selectDate" className="ml-3 title">
                                 Check Out
                               </label>
                               <Input type="date" />
@@ -156,15 +156,15 @@ const HeroBanner = (props) => {
                     <Col sm={6} md={2}>
                       <FormGroup>
                         <Row>
-                          <Col xs={6}>
+                          <Col lg={6} md={12} xs={6}>
                             <div className="single__field">
-                              <label htmlFor="selectDate">Adult</label>
+                              <label htmlFor="selectDate" className="numberTitle1">Adult</label>
                               <Input type="number" value="1" />
                             </div>
                           </Col>
-                          <Col xs={6}>
-                            <div className="single__field">
-                              <label htmlFor="selectDate">Children</label>
+                          <Col lg={6} md={12} xs={6}>
+                            <div className="single__field title">
+                              <label htmlFor="selectDate" className="numberTitle2">Children</label>
                               <Input type="number" value="1" />
                             </div>
                           </Col>
