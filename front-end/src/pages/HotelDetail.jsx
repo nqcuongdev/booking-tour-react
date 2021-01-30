@@ -5,8 +5,6 @@ import { Container, Row, Col } from "reactstrap";
 import { MdLocationOn } from "react-icons/md";
 import { FaStarHalfAlt, FaStar, FaRegStar, FaTag } from "react-icons/fa";
 import CarouselSlide from "../components/CarouselSlide/CarouselSlide";
-import hotelRoom1 from "../assets/images/hotels/hotel-1/hotel-room-1.jpg";
-import hotelRoom2 from "../assets/images/hotels/hotel-1/hotel-room-2.jpg";
 import Room from "../components/Room/Room";
 import { IoMdFlower } from "react-icons/io";
 import { FaHamburger } from "react-icons/fa";
@@ -18,28 +16,6 @@ import CommentForm from "../components/CommentForm/CommentForm";
 import ThumbnailHotelItem from "../components/ThumbnailHotelItem/ThumbnailHotelItem";
 import HotelApi from "../api/hotelApi";
 import AuthContext from "../contexts/auth";
-
-const similarHotelData = [
-  {
-    title: "Suarsena House",
-    image: hotelRoom2,
-    sale: 20,
-    rateStars: 4.7,
-    location: "297 Luna Alley Apt. 327",
-  },
-  {
-    title: "Suarsena House",
-    image: hotelRoom1,
-    rateStars: 4.2,
-    location: "297 Luna Alley Apt. 327",
-  },
-  {
-    title: "Suarsena House",
-    image: hotelRoom2,
-    rateStars: 4.5,
-    location: "297 Luna Alley Apt. 327",
-  },
-];
 
 const starsCounter = (stars) => {
   const counter = [1, 2, 3, 4, 5];
@@ -101,19 +77,19 @@ const HotelDetail = (props) => {
     }
 
     // cuộn lên đầu trang
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
   }, [props.location.state.id]);
 
   let ratingCalculation = (ratingList) => {
     let totalRatingNumber = 0;
     ratingList.map((rate) => {
-      totalRatingNumber += rate.rating
-    })
-    return totalRatingNumber / ratingList.length
-  }
+      totalRatingNumber += rate.rating;
+    });
+    return totalRatingNumber / ratingList.length;
+  };
 
-  const UserContext = useContext(AuthContext)
-  const user = UserContext.user
+  const UserContext = useContext(AuthContext);
+  const user = UserContext.user;
 
   return (
     <MainLayout>
@@ -209,21 +185,22 @@ const HotelDetail = (props) => {
 
           <Container className="room-type mt-50 mb-30">
             <p className="room-type-title">Room Type</p>
-            {rooms.map((room) => {
-              return (
-                <Room
-                  key={room._id}
-                  _id={room._id}
-                  images={room.image}
-                  title={room.title}
-                  price={room.price}
-                  people={room.people}
-                  acreage={room.width}
-                  attributes={room.attributes}
-                  options={room.options}
-                />
-              );
-            })}
+            {rooms &&
+              rooms.map((room) => {
+                return (
+                  <Room
+                    key={room._id}
+                    _id={room._id}
+                    images={room.image}
+                    title={room.title}
+                    price={room.price}
+                    people={room.people}
+                    acreage={room.width}
+                    attributes={room.attributes}
+                    options={room.options}
+                  />
+                );
+              })}
           </Container>
 
           <Container className="facilities mt-50 mb-50">
@@ -380,10 +357,11 @@ const HotelDetail = (props) => {
           </Container>
 
           <Container className="mb-50">
-            {user._id ? 
-              hotel && <CommentForm data={hotel} /> :
+            {user._id ? (
+              hotel && <CommentForm data={hotel} />
+            ) : (
               <span>(You need login to comment)</span>
-            }
+            )}
           </Container>
 
           <Container className="similar-hotels mb-50">
@@ -391,7 +369,7 @@ const HotelDetail = (props) => {
             <Row>
               {popularHotels.slice(0, 3).map((hotel) => {
                 return (
-                  hotel.isFeatured &&
+                  hotel.isFeatured && (
                     <Col lg={4} md={6} sx={12} className="mb-30">
                       <ThumbnailHotelItem
                         image={hotel.image[0]}
@@ -403,6 +381,7 @@ const HotelDetail = (props) => {
                         slug={hotel.slug}
                       />
                     </Col>
+                  )
                 );
               })}
             </Row>

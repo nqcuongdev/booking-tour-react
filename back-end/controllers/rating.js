@@ -1,7 +1,5 @@
 const Rating = require("../models/rating");
 const Validator = require("validator");
-// Load validate
-const ratingValidate = require("../models/rating");
 
 // Package: Tour, Hotel, Event, Blog
 exports.getListRatingsOfPackage = async (req, res) => {
@@ -83,6 +81,14 @@ exports.all = async (req, res) => {
         localField: "target_id",
         foreignField: "_id",
         as: "hotel",
+      },
+    },
+    {
+      $lookup: {
+        from: "blogs",
+        localField: "target_id",
+        foreignField: "_id",
+        as: "blog",
       },
     },
   ]);

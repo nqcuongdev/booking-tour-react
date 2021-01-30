@@ -36,8 +36,8 @@ const upload = multer({ storage: storage, fileFilter: fileFilter }).array(
 
 const router = express.Router();
 
-router.get("/", all);
 router.get("/paginate", paginate);
+router.get("/", all);
 router.get("/:id/list-posts", getListPostByIdOption);
 router.post("/create", upload, isAuth, checkRole, create);
 router.get("/:id", show);

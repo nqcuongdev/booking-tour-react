@@ -77,11 +77,9 @@ const ListRoom = (props) => {
         if (tags && tags.length > 0) {
             let tagData = [];
             tags.map((tag) => {
-                return tagData.push({ value: tag._id, label: tag.title });
+                if (tag) return tagData.push({ value: tag._id, label: tag.title });
             });
             return tagData;
-        }
-        if (tags) {
         }
     };
 
@@ -343,7 +341,7 @@ const ListRoom = (props) => {
                                 <FormGroup>
                                     <Label for="attributes">Attributes</Label>
                                     <Select
-                                        value={handleDefaultValueTag(room ? room.attributes : [])}
+                                        value={handleDefaultValueTag(room && room.attributes)}
                                         isMulti={true}
                                         className="react-select"
                                         classNamePrefix="react-select"

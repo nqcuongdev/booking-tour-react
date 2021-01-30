@@ -18,7 +18,7 @@ import CommentForm from "../components/CommentForm/CommentForm";
 import BookTour from "../components/BookTour/BookTour";
 import ToursApi from "../api/toursApi";
 import AuthContext from "../contexts/auth";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 const starsCounter = (stars) => {
   const counter = [1, 2, 3, 4, 5];

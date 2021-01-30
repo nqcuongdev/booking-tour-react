@@ -65,7 +65,7 @@ const HandlePost = (props) => {
 
     const handleDefaultValueTag = (tags) => {
         let tagData = [];
-        tags.filter((tag) => {
+        tags.map((tag) => {
             return tagData.push({ value: tag._id, label: tag.title });
         });
         return tagData;

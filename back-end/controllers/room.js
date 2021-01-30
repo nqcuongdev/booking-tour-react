@@ -2,7 +2,9 @@ const Room = require("../models/room");
 
 exports.all = async (req, res) => {
   let id = req.params.id;
-  const rooms = await Room.find({ hotel: id }).populate("hotel");
+  const rooms = await Room.find({ hotel: id })
+    .populate("hotel")
+    .populate("attributes");
 
   return res.status(200).json({
     success: !!rooms,
@@ -18,7 +20,7 @@ exports.create = async (req, res) => {
   };
   let attributes = [];
   JSON.parse(req.body.attributes).map((item) => {
-    attributes.push(item._id);
+    if (item) attributes.push(item.value);
   });
   req.body.attributes = attributes;
   const room = await Room.create(req.body);
@@ -35,7 +37,11 @@ exports.update = async (req, res) => {
     buffer_price: req.body.buffer_price,
     bed: req.body.bed,
   };
-
+  let attributes = [];
+  req.body.attributes.map((item) => {
+    if (item) attributes.push(item.value);
+  });
+  req.body.attributes = attributes;
   const room = await Room.findByIdAndUpdate({ _id }, req.body, {
     new: true,
   });
