@@ -10,6 +10,10 @@ import { BsArrowRightShort } from 'react-icons/bs';
 import { Link } from "react-router-dom";
 
 const Post = (props) => {
+    const convertLinkImage = (path) => {
+        return path.replace(/\\/g, "/");
+    }
+
     return (
         <div className="home-post-card">
             <Card className="card">
@@ -19,7 +23,9 @@ const Post = (props) => {
                         state: { id: `${props._id}` },
                     }}
                 >
-                    <CardImg className="card-img" top width="100%" src={props.image} alt="Card image cap" />
+                    <div className="img-bg" style={{ backgroundImage: `url(${convertLinkImage(props.image)})` }}>
+                        {/* <CardImg className="card-img" top width="100%" src={props.image} alt="Card image cap" /> */}
+                    </div>
                 </Link>
                 <div className="time-view">
                     <Row>
@@ -27,7 +33,7 @@ const Post = (props) => {
                             <BiCalendarWeek size={14} />
                             <span> {props.dataTime}</span>
                         </Col>
-                        <Col lg={6} md={6}>
+                        <Col lg={6} md={6} className="view">
                             <AiOutlineEye size={14} />
                             <span> {props.view} views</span>
                         </Col>

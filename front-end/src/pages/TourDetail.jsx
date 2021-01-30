@@ -92,6 +92,10 @@ const TourDetail = (props) => {
     }
   }
 
+  const convertLinkImage = (path) => {
+    return path.replace(/\\/g, "/");
+  }
+
   return (
     <MainLayout>
       {tour && (
@@ -183,12 +187,12 @@ const TourDetail = (props) => {
                   return (
                     <Row className="day-item mb-30">
                       <Col xl={5} lg={5} md={5} xs={12} className="image"
-                        style={{ backgroundImage: `url(${process.env.REACT_APP_API_URL}/${day.image})` }}  
+                        style={{ backgroundImage: `url(${process.env.REACT_APP_API_URL}/${convertLinkImage(day.image)})` }}
                       >
-                        <img
+                        {/* <img
                           src={`${process.env.REACT_APP_API_URL}/${day.image}`}
                           alt={day.title}
-                        />
+                        /> */}
                       </Col>
                       <Col xl={7} lg={7} md={7} xs={12} className="content">
                         <p className="day">{day.title}</p>
@@ -219,11 +223,13 @@ const TourDetail = (props) => {
                           </a>
                         </p>
                       </Col>
-                      <Col xl={5} lg={5} md={5} xs={12} className="image">
-                        <img
+                      <Col xl={5} lg={5} md={5} xs={12} className="image"
+                        style={{ backgroundImage: `url(${process.env.REACT_APP_API_URL}/${convertLinkImage(day.image)})` }}
+                      >
+                        {/* <img
                           src={`${process.env.REACT_APP_API_URL}/${day.image}`}
                           alt={day.title}
-                        />
+                        /> */}
                       </Col>
                     </Row>
                   );

@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import "./TourItem.scss";
 
 const TourItem = (props) => {
+  const convertLinkImage = (path) => {
+    return path.replace(/\\/g, "/");
+  }
+  
   return (
     <div className="tour__item">
       {props.isFeature ? <div className="item-tag">Feature</div> : ""}

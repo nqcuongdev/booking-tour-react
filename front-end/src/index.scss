@@ -477,6 +477,7 @@ h1 {
             font-size: 18px;
             font-weight: bold;
             margin: 0 0 5px 0 !important;
+            color: $black !important;
           }
 
           .author-description {
@@ -549,6 +550,7 @@ h1 {
         .post-comment-title {
           font-size: 27px;
           font-weight: bold;
+          color: $black !important;
 
           .post-comment-count {
             color: $orange !important;
@@ -581,6 +583,7 @@ h1 {
       font-size: 27px;
       font-weight: bold;
       margin-bottom: 25px;
+      color: $black !important;
     }
 
     .card {
@@ -731,6 +734,7 @@ h1 {
     .room-type-title {
       font-weight: bold;
       font-size: 27px;
+      color: $black !important;
     }
   }
 
@@ -738,6 +742,7 @@ h1 {
     .facilities-title {
       font-size: 27px;
       font-weight: bold;
+      color: $black !important;
     }
 
     .facilities-body {
@@ -767,6 +772,7 @@ h1 {
     .comments-title {
       font-size: 27px;
       font-weight: bold;
+      color: $black !important;
 
       span {
         color: $orange;
@@ -820,6 +826,7 @@ h1 {
           text-transform: uppercase;
           font-size: 36px;
           font-weight: bold;
+          color: $black !important;
         }
 
         .title-list {
@@ -915,18 +922,18 @@ h1 {
     .title {
       font-size: 27px;
       font-weight: bold;
+      color: $black !important;
     }
 
     .day-item {
       .image {
         width: 100%;
-        height: 300px;
+        height: 300px !important;
         background-size: cover;
         background-position: center;
 
         img {
           width: 100%;
-          height: 300px;
         }
       }
 
@@ -934,6 +941,7 @@ h1 {
         .day {
           font-size: 24px;
           font-weight: bold;
+          color: $black !important;
         }
 
         .description {
@@ -980,6 +988,7 @@ h1 {
     .comments-title {
       font-size: 27px;
       font-weight: bold;
+      color: $black !important;
 
       span {
         color: $orange;
@@ -1412,6 +1421,7 @@ h1 {
       .tour-packages {
         .title {
           font-size: 25px;
+          color: $black !important;
         }
       }
 
@@ -1419,6 +1429,7 @@ h1 {
         .comments-title {
           font-size: 27px;
           font-weight: bold;
+          color: $black !important;
     
           span {
             color: $orange;

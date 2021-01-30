@@ -158,6 +158,10 @@ const Blogs = (props) => {
     
         return newText.substring(0, 70);
     };
+
+    const convertLinkImage = (path) => {
+        return path.replace(/\\/g, "/");
+    }
     
     return (
         <MainLayout>
@@ -172,7 +176,7 @@ const Blogs = (props) => {
                                         <Col lg={4} md={4}>
                                             <Post
                                                 _id={post._id}
-                                                image={`${process.env.REACT_APP_API_URL}/${post.banner}`}
+                                                image={`${process.env.REACT_APP_API_URL}/${convertLinkImage(post.banner)}`}
                                                 dataTime={dateToYMD(new Date(post.created_at))}
                                                 view={post.views}
                                                 title={post.title}
