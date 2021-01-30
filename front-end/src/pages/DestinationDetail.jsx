@@ -14,6 +14,10 @@ import {
   FaRegStar,
 } from "react-icons/fa";
 import CarouselSlide from "../components/CarouselSlide/CarouselSlide";
+import tourImage_1 from "../assets/images/posts/post-1.jpg";
+import tourImage_2 from "../assets/images/posts/post-2.jpg";
+import tourImage_3 from "../assets/images/posts/post-3.jpg";
+import tourImage_4 from "../assets/images/posts/post-4.jpg";
 import ThumbnailTourItem from "../components/ThumbnailTourItem/ThumbnailTourItem";
 import Korea from "../assets/images/populars/1.jpg";
 import NY from "../assets/images/populars/newyork.jpg";
@@ -26,6 +30,18 @@ import CommentForm from "../components/CommentForm/CommentForm";
 import DestinationApi from "../api/destinationsApi";
 import ToursApi from "../api/toursApi";
 import AuthContext from "../contexts/auth";
+
+const destinationData = {
+  title: "Hawaii",
+  address: "us state",
+  rateStars: 4.7,
+  view: 69,
+  image: [tourImage_1, tourImage_2, tourImage_3, tourImage_4],
+  description1:
+    "Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively create your very own travel booking website to offer hotel, tours, car and cruise bookings in minutes..Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively create your very own travel booking website to offer hotel, tours, car and cruise bookings in minutes...",
+  description2:
+    "Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively create your very own travel booking website to offer hotel, tours, car and cruise bookings in minutes..Vivavivu is a Multipurpose Sketch template with 06 homepages. This template allows you to easily and effectively create your very own travel booking website to offer hotel, tours, car and cruise bookings in minutes...",
+};
 
 const popularDestinations = [
   "Rome",
@@ -310,7 +326,9 @@ const DestinationDetail = (props) => {
                   <div className="rate-stars">
                     <div className="stars-counter">
                       <span className="stars-number-calculation">
-                        {starsCounter(ratingCalculation(reviews))}
+                        {reviews.length > 0
+                          ? starsCounter(ratingCalculation(reviews))
+                          : 0}
                       </span>
                       <span className="stars-number">
                         <span>
