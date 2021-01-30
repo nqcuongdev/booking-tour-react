@@ -171,7 +171,7 @@ const HotelDetail = (props) => {
                 <div className="rate-stars">
                   <div className="stars-counter">
                     <span className="stars-number-calculation">
-                      {starsCounter(ratingCalculation(reviews))}
+                      {reviews.length > 0 ? starsCounter(ratingCalculation(reviews)) : 0}
                     </span>
                     <span className="stars-number">
                       <span>
