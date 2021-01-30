@@ -165,9 +165,21 @@ class Login extends Component {
                                                                     </Button>
                                                                 </Col>
                                                                 <Col sm={4} xs={12}>
-                                                                    <Button color="danger" className="btn-block">
-                                                                        Google
-                                                                    </Button>
+                                                                    <GoogleLogin
+                                                                        clientId={process.env.REACT_APP_GG_CLIENT}
+                                                                        render={(renderProps) => (
+                                                                            <Button
+                                                                                color="danger"
+                                                                                className="btn-block"
+                                                                                type="submit"
+                                                                                onClick={renderProps.onClick}>
+                                                                                Google
+                                                                            </Button>
+                                                                        )}
+                                                                        onSuccess={this.responseGoogle}
+                                                                        onFailure={this.responseGoogle}
+                                                                        cookiePolicy={'single_host_origin'}
+                                                                    />
                                                                 </Col>
                                                                 <Col sm={4} xs={12}>
                                                                     <Button color="info" className="btn-block">

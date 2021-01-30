@@ -17,32 +17,33 @@ import { IoIosClose } from "react-icons/io";
 import { FaFacebookF, FaGooglePlusG, FaTwitter } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import authApi from "../../api/authApi";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from "react-toastify";
+import { GoogleLogin } from "react-google-login";
 
 const SignInForm = (props) => {
-  const { setUser } = props
+  const { setUser } = props;
 
-  const [formData, setFormData] = useState({ email: "", password: "" })
-  const [error, setError] = useState({ email: "", password: "", message: "" })
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [error, setError] = useState({ email: "", password: "", message: "" });
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setFormData({ ...formData, [name]: value })
-  }
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await authApi.login(formData)
+      const response = await authApi.login(formData);
 
       if (response.success) {
-        localStorage.setItem("jwtKey", response.token)
-        props.toggle()
-        setUser(response.data)
+        localStorage.setItem("jwtKey", response.token);
+        props.toggle();
+        setUser(response.data);
         // console.log({response})
 
         toast.success(`Welcome ${response.data.full_name}!`, {
-          position: 'top-right',
+          position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -51,20 +52,20 @@ const SignInForm = (props) => {
           progress: undefined,
         });
       }
-    } catch (error) { 
-      if (error.response?.data) { 
-        let err = error.response.data
-        setError(err.message)
+    } catch (error) {
+      if (error.response?.data) {
+        let err = error.response.data;
+        setError(err.message);
 
-        let errMess = '';
+        let errMess = "";
         if (err.message.email) {
-          errMess = err.message.email
+          errMess = err.message.email;
         } else if (err.message.password) {
-          errMess = err.message.password
+          errMess = err.message.password;
         }
 
         toast.error(`${errMess}`, {
-          position: 'top-right',
+          position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -74,7 +75,55 @@ const SignInForm = (props) => {
         });
       }
     }
-  }
+  };
+
+  const responseGoogle = async (response) => {
+    let data = {
+      tokenId: response.tokenId,
+      googleId: response.googleId,
+    };
+    try {
+      const response = await authApi.loginWithGoogle(data);
+      if (response.success) {
+        localStorage.setItem("jwtKey", response.token);
+        props.toggle();
+        setUser(response.data);
+        // console.log({response})
+
+        toast.success(`Welcome ${response.data.full_name}!`, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    } catch (error) {
+      if (error.response?.data) {
+        let err = error.response.data;
+        setError(err.message);
+
+        let errMess = "";
+        if (err.message.email) {
+          errMess = err.message.email;
+        } else if (err.message.password) {
+          errMess = err.message.password;
+        }
+
+        toast.error(`${errMess}`, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    }
+  };
 
   return (
     <>
@@ -92,7 +141,9 @@ const SignInForm = (props) => {
                 onChange={handleInputChange}
                 invalid={error && error.email}
               />
-              {error && error.email && <FormFeedback>{error.email}</FormFeedback>}
+              {error && error.email && (
+                <FormFeedback>{error.email}</FormFeedback>
+              )}
             </FormGroup>
             <FormGroup>
               <Input
@@ -140,10 +191,21 @@ const SignInForm = (props) => {
                   </Link>
                 </Col>
                 <Col xs={12} sm={4}>
-                  <Link className="btn btn-google">
-                    <FaGooglePlusG className="mr-1" />
-                    Google
-                  </Link>
+                  <GoogleLogin
+                    clientId={process.env.REACT_APP_GG_CLIENT}
+                    render={(renderProps) => (
+                      <Link
+                        className="btn btn-google"
+                        onClick={renderProps.onClick}
+                      >
+                        <FaGooglePlusG className="mr-1" />
+                        Google
+                      </Link>
+                    )}
+                    onSuccess={responseGoogle}
+                    onFailure={responseGoogle}
+                    cookiePolicy={"single_host_origin"}
+                  />
                 </Col>
                 <Col xs={12} sm={4}>
                   <Link className="btn btn-twitter">

@@ -6,7 +6,6 @@ import {
   Container,
   Row,
   Col,
-  Form,
   Label,
   Input,
   FormGroup,
@@ -76,11 +75,32 @@ const TourCheckout = (props) => {
       const response = await StripeApi.payment(payload);
       if (response.success) {
         carts.map(async (cart) => {
+          let total = 0;
+          if (cart.code && cart.code.tour) {
+            total +=
+              cart.option.adult * cart.code.tour.price.adult +
+              cart.option.child * cart.code.tour.price.child;
+          } else if (cart.room && cart.room.hotel) {
+            total +=
+              cart.room.price + cart.number * cart.room.options.buffer_price;
+          }
+
           let data = {
             booking_id: cart._id,
             transaction_id: response.data.id,
-            checkoutForm: checkoutForm,
+            checkoutForm: {
+              first_name: user.first_name,
+              last_name: user.last_name,
+              full_name: user.full_name,
+              phone: checkoutForm.phone,
+              email: user.email,
+              address: checkoutForm.address,
+              zip_code: checkoutForm.zip_code,
+              notes: checkoutForm.notes,
+              total_price: total * 100,
+            },
           };
+
           let checkPaymentSuccess = await BookingApi.paymentSuccess(
             data,
             cart._id
@@ -88,6 +108,8 @@ const TourCheckout = (props) => {
           if (checkPaymentSuccess) {
             props.history.push("/payment-success");
           }
+
+          return data;
         });
       }
     } catch (error) {
@@ -461,7 +483,7 @@ const TourCheckout = (props) => {
                             <span class="checkmark"></span>
                           </Label>
                         </FormGroup>
-                        <FormGroup check>
+                        {/* <FormGroup check>
                           <Label check className="radio-custom">
                             <Input
                               type="radio"
@@ -473,7 +495,7 @@ const TourCheckout = (props) => {
                             Office
                             <span class="checkmark"></span>
                           </Label>
-                        </FormGroup>
+                        </FormGroup> */}
                       </div>
 
                       <div className="order">
@@ -511,10 +533,10 @@ const TourCheckout = (props) => {
                               </Button>
                             </StripeCheckout>
                           )}
-                        {(checkoutForm && checkoutForm.payment === "offline") ||
+                        {/* {(checkoutForm && checkoutForm.payment === "offline") ||
                           (checkoutForm.payment === "" && (
                             <Button className="btn-order">Place order</Button>
-                          ))}
+                          ))} */}
                       </div>
                     </div>
                   </div>

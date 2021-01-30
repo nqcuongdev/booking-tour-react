@@ -104,7 +104,7 @@ exports.paymentSuccess = async (req, res) => {
       email: checkoutForm.email,
       first_name: checkoutForm.first_name,
       last_name: checkoutForm.last_name,
-      full_name: `${checkoutForm.first_name} ${checkoutForm.last_name}`,
+      full_name: checkoutForm.full_name,
       phone: checkoutForm.phone,
       address: checkoutForm.address,
       zip_code: checkoutForm.zip_code,

@@ -1,78 +1,68 @@
 import React, { useEffect, useState } from 'react';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
-import { Button, Card, CardBody, Col, Row, Input } from 'reactstrap';
+import {
+    Row,
+    Col,
+    Card,
+    CardBody,
+    Input,
+    Badge,
+    Button,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    Form,
+    FormGroup,
+    Label,
+    ModalFooter,
+} from 'reactstrap';
 import PageTitle from '../../components/PageTitle';
 import * as FeatherIcon from 'react-feather';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
-import moment from 'moment';
 import { connect, useDispatch } from 'react-redux';
-import { deleteReview, getListReviews } from '../../redux/review/actions';
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
-
-const MySwal = withReactContent(Swal);
+import { getAllUser, updateUserRole } from '../../redux/user/action';
 
 const ListUser = (props) => {
     const dispatch = useDispatch();
     const { SearchBar } = Search;
-    const [reviews, setReviews] = useState([]);
+    const [users, setUsers] = useState([]);
     const [modal, setModal] = useState(false);
+    const [user, setUser] = useState({ _id: '', role: '' });
 
     useEffect(() => {
-        dispatch(getListReviews());
+        dispatch(getAllUser());
     }, [dispatch]);
 
     useEffect(() => {
-        if (props.reviews) {
-            setReviews(props.reviews);
+        if (props.users) {
+            setUsers(props.users);
         }
-    }, [props.reviews]);
-
-    const dateFormatter = (cell, row, rowIndex) => {
-        return moment(cell).format('YYYY-MM-DD');
-    };
+    }, [props.users]);
 
     const rankFormatter = (cell, row, rowIndex) => {
         return (
             <div>
-                <Button color="danger" size="sm" onClick={() => onDeleteReview(row)}>
-                    <FeatherIcon.Trash size="18" />
+                <Button color="primary" size="sm" onClick={() => toggle(row)}>
+                    <FeatherIcon.Edit size="18" />
                 </Button>
             </div>
         );
     };
 
-    const renderStar = (cell, row, rowIndex) => {
+    const badgeRole = (cell, row, rowIndex) => {
         return (
-            <>
-                {row.rating} <i className="uil uil-star"></i>
-            </>
+            <Badge color="success" style={{ textTransform: 'uppercase' }}>
+                {row.role}
+            </Badge>
         );
     };
 
-    const renderTarget = (cell, row, rowIndex) => {
-        return row.hotel ? row.hotel[0].title : row.tour[0].title;
-    };
-
-    const onDeleteReview = (review) => {
-        MySwal.fire({
-            title: 'Are you sure?',
-            text: 'You cannot restore it!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Cancel',
-            confirmButtonText: 'Continue',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                dispatch(deleteReview(review._id));
-                Swal.fire('Deleted!', 'Delete review success.', 'success');
-                dispatch(getListReviews());
-            }
-        });
+    const inputChangeHandler = (e) => {
+        e.persist();
+        const { name, value } = e.target;
+        setUser({ ...user, [name]: value });
     };
 
     const sizePerPageRenderer = ({ options, currSizePerPage, onSizePerPageChange }) => (
@@ -95,32 +85,30 @@ const ListUser = (props) => {
 
     const columns = [
         {
-            dataField: 'name',
-            text: 'Name',
+            dataField: 'first_name',
+            text: 'First Name',
             sort: false,
         },
         {
-            dataField: 'content',
-            text: 'Content',
+            dataField: 'last_name',
+            text: 'Last Name',
             sort: false,
         },
         {
-            dataField: 'rating',
-            text: 'Rating',
+            dataField: 'full_name',
+            text: 'Full Name',
             sort: false,
-            formatter: renderStar,
         },
         {
-            dataField: '',
-            text: 'Target',
+            dataField: 'email',
+            text: 'Email',
             sort: false,
-            formatter: renderTarget,
         },
         {
-            dataField: 'created_at',
-            text: 'Create Date',
+            dataField: 'role',
+            text: 'Role',
             sort: false,
-            formatter: dateFormatter,
+            formatter: badgeRole,
         },
         {
             dataField: '',
@@ -137,8 +125,16 @@ const ListUser = (props) => {
         },
     ];
 
-    const toggle = (room) => {
+    const toggle = (user) => {
+        setUser(user);
         setModal(!modal);
+    };
+
+    const handleSubmit = (_id) => {
+        setUser({ ...user, _id: _id });
+        dispatch(updateUserRole(_id, user.role));
+        setUser({ _id: '', role: '' });
+        dispatch(getAllUser());
     };
 
     return (
@@ -147,10 +143,10 @@ const ListUser = (props) => {
                 <Col md={12}>
                     <PageTitle
                         breadCrumbItems={[
-                            { label: 'Review', path: '/review' },
-                            { label: 'List Review', path: '/review/list-review', active: true },
+                            { label: 'User', path: '/users' },
+                            { label: 'List User', path: '/users/list-user', active: true },
                         ]}
-                        title={'List Review'}
+                        title={'List User'}
                     />
                 </Col>
             </Row>
@@ -161,7 +157,7 @@ const ListUser = (props) => {
                             <ToolkitProvider
                                 bootstrap4
                                 keyField="_id"
-                                data={reviews}
+                                data={users}
                                 columns={columns}
                                 search
                                 exportCSV={{ onlyExportFiltered: true, exportAll: false }}>
@@ -173,7 +169,7 @@ const ListUser = (props) => {
                                             </Col>
                                         </Row>
 
-                                        {reviews && (
+                                        {users && (
                                             <BootstrapTable
                                                 {...propsDT.baseProps}
                                                 bordered={false}
@@ -185,7 +181,7 @@ const ListUser = (props) => {
                                                         { text: '10', value: 10 },
                                                         { text: '20', value: 20 },
                                                         { text: '30', value: 30 },
-                                                        { text: 'All', value: reviews.length },
+                                                        { text: 'All', value: users.length },
                                                     ],
                                                 })}
                                                 wrapperClasses="table-responsive"
@@ -196,6 +192,37 @@ const ListUser = (props) => {
                             </ToolkitProvider>
                         </CardBody>
                     </Card>
+                    <Modal isOpen={modal} toggle={() => toggle()}>
+                        <ModalHeader toggle={() => toggle()}>User Roles</ModalHeader>
+                        <ModalBody>
+                            <Form>
+                                <FormGroup>
+                                    <Label for="role">Role</Label>
+                                    <Input
+                                        type="select"
+                                        id="role"
+                                        name="role"
+                                        className="custom-select"
+                                        onChange={inputChangeHandler}
+                                        value={user && user.role}>
+                                        <option>-- Chọn một quyền --</option>
+                                        <option value="user">User</option>
+                                        <option value="hotel_partner">Hotel Partner</option>
+                                        <option value="tour_partner">Tour Partner</option>
+                                        <option value="admin">Admin</option>
+                                    </Input>
+                                </FormGroup>
+                            </Form>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="primary" disabled={props.loading} onClick={() => handleSubmit(user._id)}>
+                                Lưu
+                            </Button>
+                            <Button color="secondary" className="ml-1" onClick={() => toggle()}>
+                                Hủy
+                            </Button>
+                        </ModalFooter>
+                    </Modal>
                 </Col>
             </Row>
         </>
@@ -203,8 +230,8 @@ const ListUser = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    const { reviews, loading, error } = state.Review;
-    return { reviews, loading, error };
+    const { users, loading, error } = state.User;
+    return { users, loading, error };
 };
 
 export default connect(mapStateToProps)(ListUser);

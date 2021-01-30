@@ -8,3 +8,4 @@ export * from './notification/actions';
 export * from './order/actions';
 export * from './post/actions';
 export * from './review/actions';
+export * from './user/action';

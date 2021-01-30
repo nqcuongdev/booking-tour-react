@@ -4,9 +4,8 @@ import { Row, Col } from 'reactstrap';
 import Loader from '../../components/Loader';
 
 import Statistics from './Statistics';
-import Orders from './Orders';
 import { connect } from 'react-redux';
-import { getAllHotel, getAllRoom, getListOrder } from '../../redux/actions';
+import { getAllHotel, getAllRoom, getListOrder, getAllUser, getAllTour } from '../../redux/actions';
 
 class Dashboard extends Component {
     constructor(props) {
@@ -20,6 +19,8 @@ class Dashboard extends Component {
     componentDidMount() {
         this.props.getListOrder();
         this.props.getAllHotel();
+        this.props.getAllUser();
+        this.props.getAllTour();
     }
 
     render() {
@@ -39,10 +40,9 @@ class Dashboard extends Component {
                     <Statistics
                         user={this.state.user}
                         orders={this.props.orders}
-                        hotels={this.props.hotels}></Statistics>
-
-                    {/* charts */}
-                    <Row>{/* <Col xl={12}>{this.props.orders && <Orders orders={this.props.orders} />}</Col> */}</Row>
+                        hotels={this.props.hotels}
+                        tours={this.props.tours}
+                        users={this.props.users}></Statistics>
                 </div>
             </React.Fragment>
         );
@@ -53,7 +53,9 @@ const mapStateToProps = (state) => {
     const { user } = state.Auth;
     const { orders } = state.Order;
     const { hotels } = state.Hotel;
-    return { user, orders, hotels };
+    const { tours } = state.Tour;
+    const { users } = state.User;
+    return { user, orders, hotels, users, tours };
 };
 
-export default connect(mapStateToProps, { getListOrder, getAllRoom, getAllHotel })(Dashboard);
+export default connect(mapStateToProps, { getListOrder, getAllRoom, getAllHotel, getAllUser, getAllTour })(Dashboard);

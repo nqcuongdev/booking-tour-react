@@ -137,8 +137,8 @@ exports.loginWithSocial = async (req, res) => {
         }
       } else {
         user = await User.create({
-          name,
-          email,
+          full_name: name,
+          email: email,
           avatar: picture,
           first_name: given_name,
           last_name: family_name,

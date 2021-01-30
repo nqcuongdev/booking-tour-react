@@ -15,7 +15,7 @@ function* getListUsers() {
     };
 
     try {
-        const response = yield call(fetchJSON, 'user', options);
+        const response = yield call(fetchJSON, 'user/all', options);
         if (response && response.success) {
             yield put(getAllUserSuccess(response.data));
         } else {
@@ -33,7 +33,7 @@ function* getListUsers() {
             default:
                 message = error;
         }
-        yield put(reviewFailed(message));
+        yield put(userFailed(message));
     }
 }
 
