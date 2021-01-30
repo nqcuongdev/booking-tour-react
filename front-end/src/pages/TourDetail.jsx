@@ -182,7 +182,9 @@ const TourDetail = (props) => {
                 if (index % 2 === 0) {
                   return (
                     <Row className="day-item mb-30">
-                      <Col xl={5} lg={5} md={5} xs={12} className="image">
+                      <Col xl={5} lg={5} md={5} xs={12} className="image"
+                        style={{ backgroundImage: `url(${process.env.REACT_APP_API_URL}/${day.image})` }}  
+                      >
                         <img
                           src={`${process.env.REACT_APP_API_URL}/${day.image}`}
                           alt={day.title}

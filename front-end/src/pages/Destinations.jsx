@@ -154,10 +154,12 @@ const Destinations = (props) => {
                             xs={12}
                             className="image"
                           >
-                            <img
-                              src={`${process.env.REACT_APP_API_URL}/${item.image[0]}`}
-                              alt=""
-                            />
+                            <div className="img-bg" style={{ backgroundImage: `url(${process.env.REACT_APP_API_URL}/${item.image[0]})` }}>
+                              {/* <img
+                                src={`${process.env.REACT_APP_API_URL}/${item.image[0]}`}
+                                alt=""
+                              /> */}
+                            </div>
                           </Col>
                           <Col
                             xl={7}
