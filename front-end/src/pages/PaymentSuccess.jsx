@@ -12,9 +12,9 @@ const PaymentSuccess = (props) => {
                     <div className="payment-success">
                         <BsCheckCircle className="success-icon" />
                         <p className="title">PAYMENT SUCCESS!</p>
-                        <p className="description">
+                        {/* <p className="description">
                             <Link className="link">Click here</Link> to view your details / transaction history
-                        </p>
+                        </p> */}
                         <p className="title">Thank you for using Booking Core services!</p>
                         <Link to="/" className="go-home">Go to home page <BsArrowRight/></Link>
                     </div>

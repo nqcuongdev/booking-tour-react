@@ -57,7 +57,7 @@ const TopHeader = (props) => {
                   <li className="nav-item">
                   <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
                     <DropdownToggle caret>
-                      {user.full_name}<i class="arrow"></i>
+                      {user.full_name}<i className="arrow"></i>
                     </DropdownToggle>
                     <DropdownMenu>
                       <DropdownItem>

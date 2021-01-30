@@ -15,17 +15,28 @@ const CarouselSlide = (props) => {
     }
   }, [props.image]);
 
+  const convertLinkImage = (path) => {
+    return path.replace(/\\/g, "/");
+  }
+
   return (
     <div className="carousel-slide">
       <Carousel>
-        {imageList.map((item) => {
-          return (
-            <div>
-              <img src={`${process.env.REACT_APP_API_URL}/${item}`} />
-              <div className="bottom-opacity"></div>
-            </div>
-          );
-        })}
+        {Array.isArray(imageList) && imageList.length > 1 ?
+          imageList.map((item) => {
+            return (
+              <div>
+                <img src={`${process.env.REACT_APP_API_URL}/${convertLinkImage(item)}`} />
+                <div className="bottom-opacity"></div>
+              </div>
+            );
+          })
+        : 
+          <div>
+            <img src={`${process.env.REACT_APP_API_URL}/${imageList}`} />
+            <div className="bottom-opacity"></div>
+          </div>
+        }
       </Carousel>
     </div>
   );

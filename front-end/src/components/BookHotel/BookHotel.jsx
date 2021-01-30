@@ -74,7 +74,7 @@ const BookHotel = (props) => {
           <Form>
             <Row>
               <Col xl={6} lg={6} md={12} xs={12}>
-                <CarouselSlide images={[props.images]} />
+                <CarouselSlide image={props.images} />
               </Col>
               <Col xl={6} lg={6} md={12} xs={12} className="pt-30">
                 <TabContent activeTab={activateTab}>

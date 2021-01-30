@@ -29,15 +29,19 @@ const Room = (props) => {
     }
   }
 
+  const convertLinkImage = (path) => {
+    return path.replace(/\\/g, "/");
+  }
+
   return (
     <>
       <Row className="room">
         <Col xl={3} lg={3} md={4} xs={4}>
-          <div className="room-image">
-            <img
+          <div className="room-image" style={{ backgroundImage: `url(${process.env.REACT_APP_API_URL}/${convertLinkImage(props.images)})` }}>
+            {/* <img
               src={`${process.env.REACT_APP_API_URL}/${props.images}`}
               alt={props.title}
-            />
+            /> */}
           </div>
         </Col>
         <Col xl={9} lg={9} md={8} xs={8}>

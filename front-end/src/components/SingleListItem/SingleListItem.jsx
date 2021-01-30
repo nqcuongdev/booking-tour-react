@@ -20,17 +20,21 @@ const SingleListItem = (props) => {
     return newText.substring(0, 100);
   };
 
+  const convertLinkImage = (path) => {
+    return path.replace(/\\/g, "/");
+  }
+
   return (
     <div className="list__item mt-3 mb-30">
       <Row>
         <Col md={5} lg={5} className="item__image">
           {showNewBadge(props.created_date)}
-          <div className="img-bg" style={{ backgroundImage: `url(${process.env.REACT_APP_API_URL}/${props.image[0]})` }}>
-            <img
+          <div className="img-bg" style={{ backgroundImage: `url(${process.env.REACT_APP_API_URL}/${convertLinkImage(props.image[0])})` }}>
+            {/* <img
               src={`${process.env.REACT_APP_API_URL}/${props.image[0]}`}
               className="img-fluid"
               alt={props.title}
-            />
+            /> */}
           </div>
         </Col>
         <Col md={7} lg={5} className="item__content">

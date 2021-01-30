@@ -97,6 +97,10 @@ const Destinations = (props) => {
     setDestinationsList(searchRS);
   };
 
+  const convertLinkImage = (path) => {
+    return path.replace(/\\/g, "/");
+  }
+
   return (
     <MainLayout>
       <div className="destinations">
@@ -148,13 +152,14 @@ const Destinations = (props) => {
                     destinationsList.map((item) => {
                       return (
                         <Row className="item">
-                          <Col xl={5} lg={5} md={5} xs={12} className="image">
-                            <div
-                              className="img-bg"
-                              style={{
-                                backgroundImage: `url(${process.env.REACT_APP_API_URL}/${item.image[0]})`,
-                              }}
-                            >
+                          <Col
+                            xl={5}
+                            lg={5}
+                            md={5}
+                            xs={12}
+                            className="image"
+                          >
+                            <div className="img-bg" style={{ backgroundImage: `url(${process.env.REACT_APP_API_URL}/${convertLinkImage(item.image[0])})` }}>
                               {/* <img
                                 src={`${process.env.REACT_APP_API_URL}/${item.image[0]}`}
                                 alt=""
