@@ -141,10 +141,12 @@ const BlogDetail = (props) => {
                 const id = props.location.state.id
                 const response = await BlogApi.show(id)
 
-                setBlog(response.data)
-                setAuthor(response.data.created_by)
-                setTag(response.data.tags)
-                setReviews(response.reviews)
+                if (response.success) {
+                    setBlog(response.data)
+                    setAuthor(response.data.created_by)
+                    setTag(response.data.tags)
+                    setReviews(response.reviews)
+                }
             } catch (error) {
                 console.log('Fail to fetch Destination: ', error)
             }
@@ -154,7 +156,6 @@ const BlogDetail = (props) => {
             try {
                 const response = await blogApi.getAll();
 
-                console.log(response)
                 if (response.success) {
                     setPopularBlogs(response.data);
                 }
@@ -198,172 +199,184 @@ const BlogDetail = (props) => {
 
     return (
         <MainLayout>
-            <div className="blog-detail">
-                <div className="blog-detail-link">
-                    <Container>
-                        <span><span><Link to="/">Home</Link> / <Link to="/blogs">Blogs</Link> /</span> {blog.title}</span>
-                    </Container>
-                </div>
-                <Container className="blog-detail-main mt-50 pb-30 pt-30">
-                    <Row>
-                        <Col xl={3} lg={4} md={5} xs={12} className="blog-detail-sidebar mb-30">
-                            <div className="search">
-                                <Input placeholder="Search keyword" />
-                                <Button><AiOutlineSearch className="search-icon" /></Button>
-                            </div>
-                            <div className="categories">
-                                <p className="title">Categories</p>
-                                {categoriesData.map(category => {
-                                    return (
-                                        <p className="category-item">
-                                            <Link to="#">{category}</Link>
-                                        </p>
-                                    );
-                                })}
-                            </div>
-                            <div className="popular-post-list">
-                                <p className="popular-post-list-title">Popular Post</p>
-                                {popularPostData.map(post => {
-                                    return (
-                                        <PopularPost 
-                                            image={post.image}
-                                            title={post.title}
-                                            view={post.view}
-                                        />
-                                    );
-                                })}
-                            </div>
-                            <AdItem {...popularItem} />
-                            <PopularTags popularTags={popularTags} />
-                        </Col>
-                        <Col xl={9} lg={8} md={7} xs={12} className="blog-detail-content">
-                            <img src={`${process.env.REACT_APP_API_URL}/${blog.banner}`} alt="" className="post-image"/>
-                            <p className="post-title">{blog.title}</p>
-                            <div className="post-info mt-10">
-                                <ul>
-                                    <li><BsFillPersonFill /> {author.full_name}</li>
-                                    <li><BiCalendarWeek /> {dateToYMD(new Date(blog.created_at))}</li>
-                                    <li><AiOutlineEye /> {blog.views}</li>
-                                </ul>
-                            </div>
-                            {/* <div className="post-description mt-30">
-                                <p dangerouslySetInnerHTML={{__html: blog.content}}></p>
-                            </div> */}
-                            {/* <div className="post-quotes mt-30">
-                                <div className="quotes">
-                                    <span>{postData.quotes}</span>
+            {blog && (
+                <div className="blog-detail">
+                    <div className="blog-detail-link">
+                        <Container>
+                            <span><span><Link to="/">Home</Link> / <Link to="/blogs">Blogs</Link> /</span> {blog.title}</span>
+                        </Container>
+                    </div>
+                    <Container className="blog-detail-main mt-50 pb-30 pt-30">
+                        <Row>
+                            <Col xl={3} lg={4} md={5} xs={12} className="blog-detail-sidebar mb-30">
+                                <div className="search">
+                                    <Input placeholder="Search keyword" />
+                                    <Button><AiOutlineSearch className="search-icon" /></Button>
                                 </div>
-                            </div> */}
-                            <div className="post-content mt-30">
-                                <p dangerouslySetInnerHTML={{__html: blog.content}}></p>
-                            </div>
-                            <div className="post-tag mb-30">
-                                <AiFillTag />
-                                {tag.map((tag, index) => {
-                                    if (index === 0) {
+                                <div className="categories">
+                                    <p className="title">Categories</p>
+                                    {categoriesData.map(category => {
                                         return (
-                                            <span><Link to='#' className="orange-text"> {tag.title}</Link></span>
+                                            <p className="category-item">
+                                                <Link to="#">{category}</Link>
+                                            </p>
                                         );
-                                    } else {
+                                    })}
+                                </div>
+                                <div className="popular-post-list">
+                                    <p className="popular-post-list-title">Popular Post</p>
+                                    {popularPostData.map(post => {
                                         return (
-                                            <span><Link to='#'> . {tag.title}</Link></span>
-                                        );
-                                    }
-                                })}
-                            </div>
-                            <hr/>
-                            <div className="author-info mt-30">
-                                <div className="author-avatar">
-                                    <img src={`${process.env.REACT_APP_API_URL}/${author.image}`} alt={author.image} />
-                                    <div className="author-social mt-10">
-                                        <ul>
-                                            <li><Link to="#"><FaFacebookF className="icon" title="Facebook" /></Link></li>
-                                            <li><Link to="#"><FaInstagram className="icon" title="Instagram" /></Link></li>
-                                            <li><Link to="#"><FaTwitter className="icon" title="Twitter" /></Link></li>
-                                            <li><Link to="#"><FaGithub className="icon" title="Github" /></Link></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div className="author-name-description">
-                                    <p className="author-name">{author.full_name}</p>
-                                    <span className="author-description text-uppercase" style={{ fontSize: '12px', color: 'gray'}}>{author.role}</span>
-                                    <p className="author-description">{author.email}</p>
-                                </div>
-                            </div>
-                            <div className="blog-detail-content-paginate mt-20">
-                                <div className="previous-post">
-                                    <Link to="#" className="link"><BsChevronLeft /> Title of previous post</Link>
-                                </div>
-                                <div className="grid-circle">
-                                    <div className="border-circle">
-                                        <BsGrid3X3Gap className="grid-icon" />
-                                    </div>
-                                </div>
-                                <div className="next-post">
-                                    <Link to="#" className="link">Title of next post <BsChevronRight /></Link>
-                                </div>
-                            </div>
-                            <div className="post-comment mt-50 mb-30">
-                                <p className="post-comment-title">Comment <span className="post-comment-count">({reviews.length})</span></p>
-                                <div className="post-comment-list mt-30">
-                                    {reviews.map((comment) => {
-                                        return (
-                                            <Comment
-                                                key={comment._id}
-                                                avatar={comment.user?.image}
-                                                name={comment.name}
-                                                content={comment.content}
-                                                rating={comment.rating}
+                                            <PopularPost 
+                                                image={post.image}
+                                                title={post.title}
+                                                view={post.view}
                                             />
                                         );
                                     })}
                                 </div>
-                                {reviews.length > 10 && (
-                                    <div className="view-more-comment mt-30 mb-30">
-                                        <Link>
-                                        <p>
-                                            <span>View more</span> ({reviews.length})
-                                        </p>
-                                        </Link>
+                                <AdItem {...popularItem} />
+                                <PopularTags popularTags={popularTags} />
+                            </Col>
+                            <Col xl={9} lg={8} md={7} xs={12} className="blog-detail-content">
+                                <img src={`${process.env.REACT_APP_API_URL}/${blog.banner}`} alt="" className="post-image"/>
+                                <p className="post-title">{blog.title}</p>
+                                <div className="post-info mt-10">
+                                    <ul>
+                                        <li><BsFillPersonFill /> {author.full_name}</li>
+                                        <li><BiCalendarWeek /> {dateToYMD(new Date(blog.created_at))}</li>
+                                        <li><AiOutlineEye /> {blog.views}</li>
+                                    </ul>
+                                </div>
+                                {/* <div className="post-description mt-30">
+                                    <p dangerouslySetInnerHTML={{__html: blog.content}}></p>
+                                </div> */}
+                                {/* <div className="post-quotes mt-30">
+                                    <div className="quotes">
+                                        <span>{postData.quotes}</span>
                                     </div>
-                                )}
+                                </div> */}
+                                <div className="post-content mt-30">
+                                    <p dangerouslySetInnerHTML={{__html: blog.content}}></p>
+                                </div>
+                                <div className="post-tag mb-30">
+                                    <AiFillTag />
+                                    {tag &&
+                                        tag.length > 0 &&
+                                            tag.map((tag, index) => {
+                                                if (index === 0) {
+                                                    return (
+                                                        <span><Link to='#' className="orange-text"> {tag.title}</Link></span>
+                                                    );
+                                                } else {
+                                                    return (
+                                                        <span><Link to='#'> . {tag.title}</Link></span>
+                                                    );
+                                                }
+                                            })
+                                    }
+                                </div>
                                 <hr/>
-                            </div>
-                            <div className="post-comment-form mb-30">
-                                {user._id ? 
-                                    blog && <CommentForm data={blog} /> :
-                                    <span>(You need login to comment)</span>
-                                }
-                            </div>
-                        </Col>
-                    </Row>
-                </Container>
-                <div className="related-posts">
-                    <Container>
-                        {/* <p className="related-posts-title">Related posts</p> */}
-                        <p className="related-posts-title">Popular posts</p>
-                        <Row>
-                            {popularBlogs.slice(0, 3).map(post => {
-                                return (
-                                    <Col lg={4} md={4}>
-                                        <Post
-                                            _id={post._id}
-                                            image={`${process.env.REACT_APP_API_URL}/${post.banner}`}
-                                            dataTime={dateToYMD(new Date(post.created_at))}
-                                            view={post.views}
-                                            title={post.title}
-                                            content={`${getSubStringContent(post.content)}...`}
-                                            slug={post.slug}
-                                        />
-                                    </Col>
-                                );
-                            })}
+                                <div className="author-info mt-30">
+                                    <div className="author-avatar">
+                                        <img src={author && `${process.env.REACT_APP_API_URL}/${author.image}`} alt={author && author.image} />
+                                        <div className="author-social mt-10">
+                                            <ul>
+                                                <li><Link to="#"><FaFacebookF className="icon" title="Facebook" /></Link></li>
+                                                <li><Link to="#"><FaInstagram className="icon" title="Instagram" /></Link></li>
+                                                <li><Link to="#"><FaTwitter className="icon" title="Twitter" /></Link></li>
+                                                <li><Link to="#"><FaGithub className="icon" title="Github" /></Link></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div className="author-name-description">
+                                        <p className="author-name">{author && author.full_name}</p>
+                                        <span className="author-description text-uppercase" style={{ fontSize: '12px', color: 'gray'}}>{author && author.role}</span>
+                                        <p className="author-description">{author && author.email}</p>
+                                    </div>
+                                </div>
+                                <div className="blog-detail-content-paginate mt-20">
+                                    <div className="previous-post">
+                                        <Link to="#" className="link"><BsChevronLeft /> Title of previous post</Link>
+                                    </div>
+                                    <div className="grid-circle">
+                                        <div className="border-circle">
+                                            <BsGrid3X3Gap className="grid-icon" />
+                                        </div>
+                                    </div>
+                                    <div className="next-post">
+                                        <Link to="#" className="link">Title of next post <BsChevronRight /></Link>
+                                    </div>
+                                </div>
+                                <div className="post-comment mt-50 mb-30">
+                                    <p className="post-comment-title">Comment <span className="post-comment-count">({reviews ? reviews.length : 0})</span></p>
+                                    <div className="post-comment-list mt-30">
+                                        {reviews &&
+                                            reviews.length > 0 &&
+                                                reviews.map((comment) => {
+                                                    return (
+                                                        <Comment
+                                                            key={comment._id}
+                                                            avatar={comment.user?.image}
+                                                            name={comment.name}
+                                                            content={comment.content}
+                                                            rating={comment.rating}
+                                                        />
+                                                    );
+                                                })
+                                        }
+                                    </div>
+                                    {reviews && 
+                                        reviews.length > 10 && (
+                                            <div className="view-more-comment mt-30 mb-30">
+                                                <Link>
+                                                <p>
+                                                    <span>View more</span> ({reviews ? reviews.length : 0})
+                                                </p>
+                                                </Link>
+                                            </div>
+                                    )}
+                                    <hr/>
+                                </div>
+                                <div className="post-comment-form mb-30">
+                                    {user._id ? 
+                                        blog && <CommentForm data={blog} /> :
+                                        <span>(You need login to comment)</span>
+                                    }
+                                </div>
+                            </Col>
                         </Row>
                     </Container>
-                </div>
+                    <div className="related-posts">
+                        <Container>
+                            {/* <p className="related-posts-title">Related posts</p> */}
+                            <p className="related-posts-title">Popular posts</p>
+                            <Row>
+                                {popularBlogs && 
+                                    popularBlogs.length > 0 && 
+                                        popularBlogs.slice(0, 3).map(post => {
+                                            return (
+                                                <Col lg={4} md={4}>
+                                                    <Post
+                                                        _id={post._id}
+                                                        image={`${process.env.REACT_APP_API_URL}/${post.banner}`}
+                                                        dataTime={dateToYMD(new Date(post.created_at))}
+                                                        view={post.views}
+                                                        title={post.title}
+                                                        content={`${getSubStringContent(post.content)}...`}
+                                                        slug={post.slug}
+                                                    />
+                                                </Col>
+                                            );
+                                        })
+                                }
+                            </Row>
+                        </Container>
+                    </div>
 
-                <Subscribe />
-            </div>
+                    <Subscribe />
+                </div>
+            )}
         </MainLayout>
     );
 }

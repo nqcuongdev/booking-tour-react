@@ -25,11 +25,13 @@ const SingleListItem = (props) => {
       <Row>
         <Col md={5} lg={5} className="item__image">
           {showNewBadge(props.created_date)}
-          <img
-            src={`${process.env.REACT_APP_API_URL}/${props.image[0]}`}
-            className="img-fluid"
-            alt={props.title}
-          />
+          <div className="img-bg" style={{ backgroundImage: `url(${process.env.REACT_APP_API_URL}/${props.image[0]})` }}>
+            <img
+              src={`${process.env.REACT_APP_API_URL}/${props.image[0]}`}
+              className="img-fluid"
+              alt={props.title}
+            />
+          </div>
         </Col>
         <Col md={7} lg={5} className="item__content">
           <Row>

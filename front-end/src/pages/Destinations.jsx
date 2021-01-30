@@ -143,59 +143,68 @@ const Destinations = (props) => {
             >
               <div className="destination-item">
                 <Container>
-                  {destinationsList.map((item) => {
-                    return (
-                      <Row className="item">
-                        <Col xl={5} lg={5} md={5} xs={12} className="image">
-                          <img
-                            src={`${process.env.REACT_APP_API_URL}/${item.image[0]}`}
-                            alt=""
-                          />
-                        </Col>
-                        <Col xl={7} lg={7} md={7} xs={12} className="content">
-                          <p>
-                            <Link
-                              className="title"
-                              to={{
-                                pathname: `${url}/${item.slug}`,
-                                state: { id: `${item._id}` },
+                  {destinationsList &&
+                    destinationsList.length > 0 &&
+                    destinationsList.map((item) => {
+                      return (
+                        <Row className="item">
+                          <Col xl={5} lg={5} md={5} xs={12} className="image">
+                            <div
+                              className="img-bg"
+                              style={{
+                                backgroundImage: `url(${process.env.REACT_APP_API_URL}/${item.image[0]})`,
                               }}
                             >
-                              {item.title}
-                            </Link>
-                          </p>
-                          <p className="address">{item.address}</p>
-                          <div
-                            className="description"
-                            dangerouslySetInnerHTML={innerHTML(
-                              item.description
-                            )}
-                          ></div>
-                          <div className="button">
-                            <Link
-                              to={{
-                                pathname: `${url}/${item.slug}`,
-                                state: { id: `${item._id}` },
-                              }}
-                            >
-                              <Button className="view-detail">
-                                View detail
-                              </Button>
-                            </Link>
-                            <Link
-                              className="view-map"
-                              onClick={() =>
-                                viewOnMap(item.lat, item.lng, item.map_zoom)
-                              }
-                            >
-                              <FaMapMarkerAlt className="icon" />{" "}
-                              <span>View on map</span>
-                            </Link>
-                          </div>
-                        </Col>
-                      </Row>
-                    );
-                  })}
+                              {/* <img
+                                src={`${process.env.REACT_APP_API_URL}/${item.image[0]}`}
+                                alt=""
+                              /> */}
+                            </div>
+                          </Col>
+                          <Col xl={7} lg={7} md={7} xs={12} className="content">
+                            <p>
+                              <Link
+                                className="title"
+                                to={{
+                                  pathname: `${url}/${item.slug}`,
+                                  state: { id: `${item._id}` },
+                                }}
+                              >
+                                {item.title}
+                              </Link>
+                            </p>
+                            <p className="address">{item.address}</p>
+                            <div
+                              className="description"
+                              dangerouslySetInnerHTML={innerHTML(
+                                item.description
+                              )}
+                            ></div>
+                            <div className="button">
+                              <Link
+                                to={{
+                                  pathname: `${url}/${item.slug}`,
+                                  state: { id: `${item._id}` },
+                                }}
+                              >
+                                <Button className="view-detail">
+                                  View detail
+                                </Button>
+                              </Link>
+                              <Link
+                                className="view-map"
+                                onClick={() =>
+                                  viewOnMap(item.lat, item.lng, item.map_zoom)
+                                }
+                              >
+                                <FaMapMarkerAlt className="icon" />{" "}
+                                <span>View on map</span>
+                              </Link>
+                            </div>
+                          </Col>
+                        </Row>
+                      );
+                    })}
                 </Container>
               </div>
               {/* <Paginate /> */}

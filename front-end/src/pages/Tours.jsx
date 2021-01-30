@@ -185,9 +185,12 @@ const Tours = (props) => {
                 tours available for you
               </div>
 
-              {toursList.map((item) => {
-                return <SingleListItem {...item} url={url} />;
-              })}
+              {toursList &&
+                toursList.length > 0 &&
+                  toursList.map((item) => {
+                    return <SingleListItem {...item} url={url} />;
+                  })
+              }
             </Col>
           </Row>
           <div className="mb-50">

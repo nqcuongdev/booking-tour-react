@@ -63,7 +63,7 @@ const Hotels = (props) => {
                 className="hotels-list-top-left"
               >
                 <p>
-                  We found <span>{hotels.length}</span> tours available for you
+                  We found <span>{hotels && hotels.length > 0 ? hotels.length : 0}</span> tours available for you
                 </p>
               </Col>
               <Col
@@ -88,31 +88,34 @@ const Hotels = (props) => {
               </Col>
             </Row>
             <Row className="mt-10">
-              {hotels.map((hotel) => {
-                return (
-                  <Col
-                    xl={4}
-                    lg={4}
-                    md={6}
-                    xs={12}
-                    className="mb-30"
-                    key={hotel._id}
-                  >
-                    <Hotel
-                      _id={hotel._id}
-                      image={`${hotel.image[0]}`}
-                      name={hotel.title}
-                      rateStars={hotel.star}
-                      address={hotel.address}
-                      tags={hotel.attributes}
-                      description={hotel.description}
-                      price={hotel.price.adult}
-                      slug={hotel.slug}
-                      url={url}
-                    />
-                  </Col>
-                );
-              })}
+              {hotels && 
+                hotels.length > 0 && 
+                  hotels.map((hotel) => {
+                    return (
+                      <Col
+                        xl={4}
+                        lg={4}
+                        md={6}
+                        xs={12}
+                        className="mb-30"
+                        key={hotel._id}
+                      >
+                        <Hotel
+                          _id={hotel._id}
+                          image={`${hotel.image[0]}`}
+                          name={hotel.title}
+                          rateStars={hotel.star}
+                          address={hotel.address}
+                          tags={hotel.attributes}
+                          description={hotel.description}
+                          price={hotel.price.adult}
+                          slug={hotel.slug}
+                          url={url}
+                        />
+                      </Col>
+                    );
+                  })
+              }
             </Row>
             {/* <Paginate /> */}
             <div className="pagination-bar text-center">
