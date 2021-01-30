@@ -165,21 +165,24 @@ const Blogs = (props) => {
                 <BreadcrumbBanner pageName="Blogs" backgroundImage={bannerBackground} />
                 <Container className="post-list-of-blogs mt-20">
                     <Row>
-                        {blogs.map(post => {
-                            return (
-                                <Col lg={4} md={4}>
-                                    <Post
-                                        _id={post._id}
-                                        image={`${process.env.REACT_APP_API_URL}/${post.banner}`}
-                                        dataTime={dateToYMD(new Date(post.created_at))}
-                                        view={post.views}
-                                        title={post.title}
-                                        content={`${getSubStringContent(post.content)}...`}
-                                        slug={post.slug}
-                                    />
-                                </Col>
-                            );
-                        })}
+                        {blogs &&
+                            blogs.length > 0 &&
+                                blogs.map(post => {
+                                    return (
+                                        <Col lg={4} md={4}>
+                                            <Post
+                                                _id={post._id}
+                                                image={`${process.env.REACT_APP_API_URL}/${post.banner}`}
+                                                dataTime={dateToYMD(new Date(post.created_at))}
+                                                view={post.views}
+                                                title={post.title}
+                                                content={`${getSubStringContent(post.content)}...`}
+                                                slug={post.slug}
+                                            />
+                                        </Col>
+                                    );
+                                })
+                        }
                     </Row>
 
                     {/* <Paginate /> */}
@@ -199,23 +202,26 @@ const Blogs = (props) => {
 
                     <p className="popular-tour mt-50">Popular Tour</p>
                     <Row className="pt-20 pb-50">
-                        {tours.slice(0, 3).map(tour => {
-                            return (
-                                tour.isFeatured &&
-                                    <Col xl={4} lg={4} md={6} sx={12} className="mb-30">
-                                        <ThumbnailTourItem
-                                            image={tour.image[0]}
-                                            title={tour.title}
-                                            duration={tour.duration}
-                                            price={tour.price.adult}
-                                            sale={tour.sale_price.adult}
-                                            saleToday={tour.sale_price.adult}
-                                            id={tour._id}
-                                            slug={tour.slug}
-                                        />
-                                    </Col>
-                            );
-                        })}
+                        {tours &&
+                            tours.length > 0 &&
+                                tours.slice(0, 3).map(tour => {
+                                    return (
+                                        tour.isFeatured &&
+                                            <Col xl={4} lg={4} md={6} sx={12} className="mb-30">
+                                                <ThumbnailTourItem
+                                                    image={tour.image[0]}
+                                                    title={tour.title}
+                                                    duration={tour.duration}
+                                                    price={tour.price.adult}
+                                                    sale={tour.sale_price.adult}
+                                                    saleToday={tour.sale_price.adult}
+                                                    id={tour._id}
+                                                    slug={tour.slug}
+                                                />
+                                            </Col>
+                                    );
+                                })
+                        }
                     </Row>
                 </Container>
             </div>

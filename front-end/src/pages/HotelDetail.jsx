@@ -171,16 +171,16 @@ const HotelDetail = (props) => {
                 <div className="rate-stars">
                   <div className="stars-counter">
                     <span className="stars-number-calculation">
-                      {reviews.length > 0 ? starsCounter(ratingCalculation(reviews)) : 0}
+                      {reviews && reviews.length > 0 ? starsCounter(ratingCalculation(reviews)) : 0}
                     </span>
                     <span className="stars-number">
                       <span>
-                        {reviews.length > 0 ? ratingCalculation(reviews) : 0}
+                        {reviews && reviews.length > 0 ? ratingCalculation(reviews) : 0}
                       </span>
                       <span className="below"> /5</span>
                     </span>
                   </div>
-                  <p className="view">Based on {reviews ? reviews.length : 0} views</p>
+                  <p className="view">Based on {reviews && reviews.length > 0 ? reviews.length : 0} views</p>
                 </div>
               </Col>
             </Row>
@@ -344,35 +344,38 @@ const HotelDetail = (props) => {
 
           <Container className="comments mb-50">
             <p className="comments-title">
-              Guests loved their stay<span> ({reviews ? reviews.length : 0})</span>
+              Guests loved their stay<span> ({reviews && reviews.length > 0 ? reviews.length : 0})</span>
             </p>
             <Row>
               <Col xl={9} className="comments-list mt-30">
                 <div>
-                  {reviews.map((comment) => {
-                    return (
-                      <Comment
-                        key={comment._id}
-                        avatar={comment.user?.image}
-                        name={comment.name}
-                        content={comment.content}
-                        rating={comment.rating}
-                      />
-                    );
-                  })}
+                  {reviews &&
+                    reviews.length > 0 &&
+                      reviews.map((comment) => {
+                        return (
+                          <Comment
+                            key={comment._id}
+                            avatar={comment.user?.image}
+                            name={comment.name}
+                            content={comment.content}
+                            rating={comment.rating}
+                          />
+                        );
+                      })
+                  }
                 </div>
                 {reviews.length > 10 && (
                   <div className="view-more-comment mt-30 mb-30">
                     <Link>
                       <p>
-                        <span>View more</span> ({reviews ? reviews.length : 0})
+                        <span>View more</span> ({reviews && reviews.length > 0 ? reviews.length : 0})
                       </p>
                     </Link>
                   </div>
                 )}
               </Col>
               <Col xl={3}>
-                {reviews.length > 0 && (
+                {reviews && reviews.length > 0 && (
                   <RateTable data={hotel} reviews={reviews} />
                 )}
               </Col>
@@ -389,22 +392,25 @@ const HotelDetail = (props) => {
           <Container className="similar-hotels mb-50">
             <p className="similar-hotels-title">Popular hotels</p>
             <Row>
-              {popularHotels.slice(0, 3).map((hotel) => {
-                return (
-                  hotel.isFeatured &&
-                    <Col lg={4} md={6} sx={12} className="mb-30">
-                      <ThumbnailHotelItem
-                        image={hotel.image[0]}
-                        title={hotel.title}
-                        sale={hotel.sale_price.adult}
-                        rateStars={hotel.star}
-                        address={hotel.address}
-                        id={hotel._id}
-                        slug={hotel.slug}
-                      />
-                    </Col>
-                );
-              })}
+              {popularHotels &&
+                popularHotels.length > 0 &&
+                  popularHotels.slice(0, 3).map((hotel) => {
+                    return (
+                      hotel.isFeatured &&
+                        <Col lg={4} md={6} sx={12} className="mb-30">
+                          <ThumbnailHotelItem
+                            image={hotel.image[0]}
+                            title={hotel.title}
+                            sale={hotel.sale_price.adult}
+                            rateStars={hotel.star}
+                            address={hotel.address}
+                            id={hotel._id}
+                            slug={hotel.slug}
+                          />
+                        </Col>
+                    );
+                  })
+              }
             </Row>
           </Container>
         </div>
