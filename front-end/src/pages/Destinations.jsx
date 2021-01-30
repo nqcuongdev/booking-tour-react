@@ -59,7 +59,7 @@ const Destinations = (props) => {
         setDestinationsList(response.data.docs);
         setOldList(response.data.docs);
 
-        setTotalPages(response.data.totalPages)
+        setTotalPages(response.data.totalPages);
         setTotalDocs(response.data.totalDocs);
       } catch (error) {
         console.log("Fail to fetch Destinations list: ", error);
@@ -147,7 +147,8 @@ const Destinations = (props) => {
             >
               <div className="destination-item">
                 <Container>
-                  {destinationsList && destinationsList.length > 0 &&
+                  {destinationsList &&
+                    destinationsList.length > 0 &&
                     destinationsList.map((item) => {
                       return (
                         <Row className="item">
@@ -165,13 +166,7 @@ const Destinations = (props) => {
                               /> */}
                             </div>
                           </Col>
-                          <Col
-                            xl={7}
-                            lg={7}
-                            md={7}
-                            xs={12}
-                            className="content"
-                          >
+                          <Col xl={7} lg={7} md={7} xs={12} className="content">
                             <p>
                               <Link
                                 className="title"
@@ -183,9 +178,7 @@ const Destinations = (props) => {
                                 {item.title}
                               </Link>
                             </p>
-                            <p className="address">
-                              {item.address}
-                            </p>
+                            <p className="address">{item.address}</p>
                             <div
                               className="description"
                               dangerouslySetInnerHTML={innerHTML(
@@ -206,11 +199,7 @@ const Destinations = (props) => {
                               <Link
                                 className="view-map"
                                 onClick={() =>
-                                  viewOnMap(
-                                    item.lat,
-                                    item.lng,
-                                    item.map_zoom
-                                  )
+                                  viewOnMap(item.lat, item.lng, item.map_zoom)
                                 }
                               >
                                 <FaMapMarkerAlt className="icon" />{" "}
@@ -220,13 +209,12 @@ const Destinations = (props) => {
                           </Col>
                         </Row>
                       );
-                    })
-                  }
+                    })}
                 </Container>
               </div>
               {/* <Paginate /> */}
               <div className="pagination-bar text-center">
-                {totalDocs > 0 &&
+                {totalDocs > 0 && (
                   <Pagination
                     itemClass="page-item"
                     linkClass="page-link"
@@ -236,7 +224,7 @@ const Destinations = (props) => {
                     pageRangeDisplayed={totalPages}
                     onChange={(page) => setPagination(page)}
                   />
-                }
+                )}
               </div>
             </Col>
           </Row>

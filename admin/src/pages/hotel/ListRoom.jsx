@@ -22,7 +22,7 @@ import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import moment from 'moment';
 import { connect, useDispatch } from 'react-redux';
-import { createRoom, getAllRoom, updateRoom } from '../../redux/actions';
+import { createRoom, getAllRoom, getAllRoomAttribute, updateRoom } from '../../redux/actions';
 import Select from 'react-select';
 
 const ListRoom = (props) => {
@@ -32,8 +32,10 @@ const ListRoom = (props) => {
     const [modal, setModal] = useState(false);
     const [modalInput, setModalInput] = useState({});
     const [room, setRoom] = useState();
+    const [attributes, setAttributes] = useState([]);
 
     useEffect(() => {
+        dispatch(getAllRoomAttribute());
         if (props.match.params.id !== ':id') {
             dispatch(getAllRoom(props.match.params.id));
         } else {
@@ -47,6 +49,13 @@ const ListRoom = (props) => {
         }
         if (props.match.params.id === ':id') {
             props.history.push('/hotel/list-hotel');
+        }
+        if (props.attributes) {
+            let attributeData = [];
+            props.attributes.map((attribute) => {
+                return attributeData.push({ value: attribute._id, label: attribute.title });
+            });
+            setAttributes(attributeData);
         }
     }, [props.rooms, props.match.params.id]);
 
@@ -62,6 +71,16 @@ const ListRoom = (props) => {
                 </Button>
             </div>
         );
+    };
+
+    const handleDefaultValueTag = (tags) => {
+        if (tags && tags.length > 0) {
+            let tagData = [];
+            tags.map((tag) => {
+                if (tag) return tagData.push({ value: tag._id, label: tag.title });
+            });
+            return tagData;
+        }
     };
 
     const sizePerPageRenderer = ({ options, currSizePerPage, onSizePerPageChange }) => (
@@ -132,6 +151,10 @@ const ListRoom = (props) => {
         }
     };
 
+    const setAttribute = (e) => {
+        setModalInput({ ...modalInput, attributes: e });
+    };
+
     const toggle = (room) => {
         setRoom(room);
         setModalInput(room);
@@ -149,7 +172,7 @@ const ListRoom = (props) => {
         formData.append('hotel', props.match.params.id);
         formData.append('price', modalInput.price);
         formData.append('number_room', modalInput.number_room);
-        formData.append('attributes', modalInput.attributes);
+        formData.append('attributes', JSON.stringify(modalInput.attributes));
         if (_id) {
             formData.append('_id', _id);
             dispatch(updateRoom(formData));
@@ -318,15 +341,13 @@ const ListRoom = (props) => {
                                 <FormGroup>
                                     <Label for="attributes">Attributes</Label>
                                     <Select
+                                        value={handleDefaultValueTag(room && room.attributes)}
                                         isMulti={true}
                                         className="react-select"
                                         classNamePrefix="react-select"
                                         name="attributes"
-                                        options={[
-                                            { value: 'chocolate', label: 'Chocolate' },
-                                            { value: 'strawberry', label: 'Strawberry' },
-                                            { value: 'vanilla', label: 'Vanilla' },
-                                        ]}></Select>
+                                        onChange={setAttribute}
+                                        options={attributes}></Select>
                                 </FormGroup>
                                 <Col lg={6}>
                                     <Label for="image">Image</Label>
@@ -350,8 +371,8 @@ const ListRoom = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    const { rooms, loading, error } = state.Hotel;
-    return { rooms, loading, error };
+    const { rooms, loading, error, attributes } = state.Hotel;
+    return { rooms, loading, error, attributes };
 };
 
 export default connect(mapStateToProps)(ListRoom);

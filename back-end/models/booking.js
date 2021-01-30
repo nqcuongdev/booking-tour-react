@@ -15,8 +15,6 @@ const BookingSchema = new mongoose.Schema({
   full_name: String,
   phone: String,
   address: String,
-  city: String,
-  state: String,
   zip_code: String,
   country: String,
   notes: String,

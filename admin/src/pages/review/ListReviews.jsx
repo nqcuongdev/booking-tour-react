@@ -53,7 +53,17 @@ const ListReview = (props) => {
     };
 
     const renderTarget = (cell, row, rowIndex) => {
-        return row.hotel ? row.hotel[0].title : row.tour[0].title;
+        switch (row) {
+            case row.hotel:
+                return row.hotel[0].title;
+            case row.tour:
+                return row.tour[0].title;
+            case row.blog:
+                return row.blog[0].title;
+
+            default:
+                break;
+        }
     };
 
     const onDeleteReview = (review) => {
@@ -136,10 +146,6 @@ const ListReview = (props) => {
             order: 'asc',
         },
     ];
-
-    const toggle = (room) => {
-        setModal(!modal);
-    };
 
     return (
         <>

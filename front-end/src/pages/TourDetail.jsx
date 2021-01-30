@@ -18,7 +18,7 @@ import CommentForm from "../components/CommentForm/CommentForm";
 import BookTour from "../components/BookTour/BookTour";
 import ToursApi from "../api/toursApi";
 import AuthContext from "../contexts/auth";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 const starsCounter = (stars) => {
   const counter = [1, 2, 3, 4, 5];
@@ -70,18 +70,18 @@ const TourDetail = (props) => {
     }
 
     // cuộn lên đầu trang
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
   }, []);
 
   const context = useContext(AuthContext);
-  const user = context.user
+  const user = context.user;
 
   const toggleBook = () => {
     if (user._id !== undefined) {
-      setBook(!book)
+      setBook(!book);
     } else {
       toast.error(`You must login before booking!`, {
-        position: 'top-right',
+        position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -90,7 +90,7 @@ const TourDetail = (props) => {
         progress: undefined,
       });
     }
-  }
+  };
 
   const convertLinkImage = (path) => {
     return path.replace(/\\/g, "/");
@@ -120,8 +120,9 @@ const TourDetail = (props) => {
                   <li className="location">
                     <FaMapMarkerAlt />{" "}
                     {tour &&
-                      tour.address.split(",")[tour.address.split(",").length - 1]
-                    }
+                      tour.address.split(",")[
+                        tour.address.split(",").length - 1
+                      ]}
                   </li>
                   {/* <li>
                     <FaRegClock /> {tour && tour.duration}
@@ -300,10 +301,11 @@ const TourDetail = (props) => {
           </Container>
 
           <Container className="mb-50">
-            {user._id ? 
-                tour && <CommentForm data={tour} /> :
-                <span>(You need login to comment)</span>
-            }
+            {user._id ? (
+              tour && <CommentForm data={tour} />
+            ) : (
+              <span>(You need login to comment)</span>
+            )}
           </Container>
 
           {tour && (

@@ -6,6 +6,7 @@ import {
     createRoomSuccess,
     getAllHotelFacilitySuccess,
     getAllHotelSuccess,
+    getAllRoomAttributeSuccess,
     getAllRoomSuccess,
     getAllTypeSuccess,
     getHotelSuccess,
@@ -23,6 +24,7 @@ import {
     GET_ALL_ROOM,
     GET_ALL_TYPE,
     GET_HOTEL,
+    GET_ROOM_ATTRIBUTE,
     UPDATE_FACILITY,
     UPDATE_HOTEL,
     UPDATE_ROOM,
@@ -66,6 +68,33 @@ function* getHotelType({ payload }) {
         const response = yield call(fetchJSON, `category/${payload}`, options);
         if (response && response.success) {
             yield put(getAllTypeSuccess(response.data));
+        } else {
+            yield put(hotelFailed(response.message));
+        }
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500:
+                message = 'Internal Server Error';
+                break;
+            case 401:
+                message = 'Invalid credentials';
+                break;
+            default:
+                message = error;
+        }
+        yield put(hotelFailed(message));
+    }
+}
+
+function* getRoomAttribute() {
+    const options = {
+        method: 'GET',
+    };
+    try {
+        const response = yield call(fetchJSON, 'attribute/room', options);
+        if (response && response.success) {
+            yield put(getAllRoomAttributeSuccess(response.data));
         } else {
             yield put(hotelFailed(response.message));
         }
@@ -405,6 +434,10 @@ export function* watchUpdateRoom() {
     yield takeEvery(UPDATE_ROOM, updateRoom);
 }
 
+export function* watchGetRoomAttribute() {
+    yield takeEvery(GET_ROOM_ATTRIBUTE, getRoomAttribute);
+}
+
 function* hotelSaga() {
     yield all([
         fork(watchGetAllHotel),
@@ -418,6 +451,7 @@ function* hotelSaga() {
         fork(watchGetAllRoom),
         fork(watchCreateRoom),
         fork(watchUpdateRoom),
+        fork(watchGetRoomAttribute),
     ]);
 }
 

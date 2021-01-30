@@ -4,16 +4,16 @@ import "./CommentForm.scss";
 import ReactStars from "react-stars";
 import AuthContext from "../../contexts/auth";
 import RatingApi from "../../api/ratingApi";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 
 const CommentForm = (props) => {
   const [commentForm, setCommentForm] = useState({});
   const { user } = useContext(AuthContext);
 
-  const [rateNum, setRateNum] = useState(0)
+  const [rateNum, setRateNum] = useState(0);
 
   const ratingChanged = (ratingNumber) => {
-    setRateNum(ratingNumber)
+    setRateNum(ratingNumber);
     // lối không hiển sao khi gọi hàm setCommentForm trong này
     setCommentForm({
       ...commentForm,
@@ -24,7 +24,7 @@ const CommentForm = (props) => {
       user: user._id,
     });
 
-    return ratingNumber
+    return ratingNumber;
   };
 
   const onInputChange = (e) => {
@@ -40,9 +40,9 @@ const CommentForm = (props) => {
         const response = await RatingApi.create(commentForm);
         if (response.success) {
           // console.log(response.data);
-  
+
           toast.success(`Rated success`, {
-            position: 'top-right',
+            position: "top-right",
             autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -52,15 +52,18 @@ const CommentForm = (props) => {
           });
         }
       } else {
-        toast.error(`You need to vote at "Your rating" before submit your rating`, {
-          position: 'top-right',
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.error(
+          `You need to vote at "Your rating" before submit your rating`,
+          {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          }
+        );
       }
     } catch (error) {
       console.log(error);

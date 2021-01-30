@@ -6,6 +6,7 @@ const Rating = require("../models/rating");
 //Load validate
 const destinationValidate = require("../validators/destination/create");
 const { Tour } = require("../models/tours");
+const Hotel = require("../models/hotel");
 
 exports.paginate = async (req, res) => {
   let options = {
@@ -67,9 +68,14 @@ exports.show = async (req, res) => {
     });
   }
 
+  const tour = await Tour.find({ destination: destination._id }).limit(2);
+  const hotel = await Hotel.find({ destination: destination._id }).limit(5);
+
   return res.status(200).json({
     success: !!destination,
     data: destination,
+    tour: tour,
+    hotel: hotel,
     reviews: reviews,
   });
 };

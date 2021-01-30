@@ -84,7 +84,7 @@ exports.show = async (req, res) => {
 };
 
 exports.paymentSuccess = async (req, res) => {
-  const { booking_id, transaction_id } = req.body;
+  const { booking_id, transaction_id, checkoutForm } = req.body;
 
   let transactionBookTour = await Book.findOne({
     $and: [{ _id: booking_id }],
@@ -96,10 +96,21 @@ exports.paymentSuccess = async (req, res) => {
       message: "Can not found this booking transaction",
     });
   }
-
   let book = await Book.findOneAndUpdate(
     { _id: transactionBookTour._id },
-    { status: "success", "payment.transaction_id": transaction_id },
+    {
+      status: "success",
+      "payment.transaction_id": transaction_id,
+      email: checkoutForm.email,
+      first_name: checkoutForm.first_name,
+      last_name: checkoutForm.last_name,
+      full_name: `${checkoutForm.first_name} ${checkoutForm.last_name}`,
+      phone: checkoutForm.phone,
+      address: checkoutForm.address,
+      zip_code: checkoutForm.zip_code,
+      notes: checkoutForm.notes,
+      total_price: checkoutForm.total_price,
+    },
     {
       new: true,
     }

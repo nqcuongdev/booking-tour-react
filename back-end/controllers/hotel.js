@@ -50,9 +50,6 @@ exports.show = async (req, res) => {
     })
     .populate("attributes");
 
-  let rooms = await Room.find({ hotel: _id }).populate("attributes");
-  let reviews = await Rating.find({ target_id: _id }).populate("user");
-
   if (!hotel) {
     return res.status(404).json({
       success: !!tour,
@@ -60,11 +57,18 @@ exports.show = async (req, res) => {
     });
   }
 
+  let rooms = await Room.find({ hotel: _id }).populate("attributes");
+  let reviews = await Rating.find({ target_id: _id }).populate("user");
+  let similarHotel = await Hotel.find({
+    $and: [{ destination: hotel.destination }, { _id: { $ne: hotel._id } }],
+  }).limit(3);
+
   return res.status(200).json({
     success: !!hotel,
     data: hotel,
     rooms: rooms,
     reviews: reviews,
+    similarHotel: similarHotel,
   });
 };
 
@@ -282,10 +286,10 @@ exports.update = async (req, res) => {
       let imgInReq = image.includes(img);
       if (!imgInReq) {
         imageInSV.splice(index, 1);
-        fs.unlink(img, (err) => {
-          if (err) console.log(err);
-          return;
-        });
+        // fs.unlink(img, (err) => {
+        //   if (err) console.log(err);
+        //   return;
+        // });
       }
     });
   } else {
@@ -293,10 +297,10 @@ exports.update = async (req, res) => {
     imageInSV.forEach((img, index) => {
       if (image !== img) {
         imageInSV.splice(index, 1);
-        fs.unlink(img, (err) => {
-          if (err) console.log(err);
-          return;
-        });
+        // fs.unlink(img, (err) => {
+        //   if (err) console.log(err);
+        //   return;
+        // });
       }
     });
   }
