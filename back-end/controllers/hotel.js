@@ -286,10 +286,10 @@ exports.update = async (req, res) => {
       let imgInReq = image.includes(img);
       if (!imgInReq) {
         imageInSV.splice(index, 1);
-        fs.unlink(img, (err) => {
-          if (err) console.log(err);
-          return;
-        });
+        // fs.unlink(img, (err) => {
+        //   if (err) console.log(err);
+        //   return;
+        // });
       }
     });
   } else {
@@ -297,10 +297,10 @@ exports.update = async (req, res) => {
     imageInSV.forEach((img, index) => {
       if (image !== img) {
         imageInSV.splice(index, 1);
-        fs.unlink(img, (err) => {
-          if (err) console.log(err);
-          return;
-        });
+        // fs.unlink(img, (err) => {
+        //   if (err) console.log(err);
+        //   return;
+        // });
       }
     });
   }
