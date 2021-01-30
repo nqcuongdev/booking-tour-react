@@ -2,9 +2,25 @@ const Post = require("../models/post");
 const Validator = require("validator");
 const fs = require("fs");
 const { Tour } = require("../models/tours");
+const Rating = require("../models/rating");
 
 // Load validate
 const postValidate = require("../validators/post/create");
+
+exports.paginate = async (req, res) => {
+  let page = req.query.page;
+  let options = {
+    sort: { created_at: -1 },
+    populate: ["created_by", "updated_by", "category", "destination", "tags"],
+    limit: 10,
+    page: page,
+  };
+  const posts = await Post.paginate({}, options);
+  return res.status(200).json({
+    success: !!posts,
+    data: posts,
+  });
+};
 
 exports.all = async (req, res) => {
   const posts = await Post.find({})
@@ -40,6 +56,8 @@ exports.show = async (req, res) => {
     .populate("destination")
     .populate("tags");
 
+  let reviews = await Rating.find({ target_id: _id }).populate("user");
+
   if (!post) {
     return res.status(404).json({
       success: !!post,
@@ -50,6 +68,7 @@ exports.show = async (req, res) => {
   return res.status(200).json({
     success: !!post,
     data: post,
+    reviews: reviews,
   });
 };
 

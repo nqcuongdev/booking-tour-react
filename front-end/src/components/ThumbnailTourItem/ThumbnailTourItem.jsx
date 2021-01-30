@@ -37,21 +37,40 @@ const ThumbnailTourItem = (props) => {
             hot
           </div>
         )}
-        <img src={props.image} className="img-fluid" alt={props.title} />
+        <img src={`${process.env.REACT_APP_API_URL}/${props.image}`} className="img-fluid" alt={props.title} />
         <ul className="tour__item-button">
-          <Link className="btn btn-orange mr-2" style={{ width: "auto" }}>
+          <Link className="btn btn-orange mr-2" style={{ width: "auto" }}
+            to={{
+              pathname: `../tours/${props.slug}`,
+              state: { id: `${props.id}` },
+            }}
+          >
             Book now
           </Link>
-          <Link className="btn btn-detail">View detail</Link>
+          <Link className="btn btn-detail"
+            to={{
+              pathname: `../tours/${props.slug}`,
+              state: { id: `${props.id}` },
+            }}
+          >
+            View detail
+          </Link>
         </ul>
       </div>
       <div className="tour__item-caption">
         <div className="tour__item-title">
           <h3 className="title">
-            <Link>{props.title}</Link>
+            <Link
+              to={{
+                pathname: `../tours/${props.slug}`,
+                state: { id: `${props.id}` },
+              }}
+            >
+              {props.title}
+            </Link>
           </h3>
           <p className="duration">
-            {props.option.during} DAYS - {props.option.place}
+            {props.duration}
           </p>
         </div>
         <div className="tour__item-price">

@@ -7,7 +7,7 @@ const ToursApi = {
   },
 
   getAll: (params) => {
-    const url = `api/v1/tour`;
+    const url = `api/v1/tour/`;
     return axiosClient.get(url, {
       params,
     });

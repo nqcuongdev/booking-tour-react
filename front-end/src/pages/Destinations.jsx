@@ -56,8 +56,6 @@ const Destinations = (props) => {
         // const response = await DestinationApi.getAll();
         const response = await DestinationApi.getPaginate(pagination);
 
-        console.log({ response });
-
         setDestinationsList(response.data.docs);
         setOldList(response.data.docs);
 

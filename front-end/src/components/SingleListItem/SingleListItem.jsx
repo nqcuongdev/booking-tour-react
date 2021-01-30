@@ -17,7 +17,7 @@ const SingleListItem = (props) => {
   const getSubStringContent = (text) => {
     const newText = text.replace(/<[^>]+>/g, "");
 
-    return newText.substring(0, 50);
+    return newText.substring(0, 100);
   };
 
   return (
@@ -26,7 +26,7 @@ const SingleListItem = (props) => {
         <Col md={5} lg={5} className="item__image">
           {showNewBadge(props.created_date)}
           <img
-            src={`${process.env.REACT_APP_API_URL}/${props.image}`}
+            src={`${process.env.REACT_APP_API_URL}/${props.image[0]}`}
             className="img-fluid"
             alt={props.title}
           />
@@ -40,7 +40,7 @@ const SingleListItem = (props) => {
                   state: { id: `${props._id}` },
                 }}
               >
-                <h4 className="title" style={{ color: "black" }}>
+                <h4 className="title">
                   {props.title}
                 </h4>
               </Link>

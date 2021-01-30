@@ -51,10 +51,12 @@ const TourDetail = (props) => {
   useEffect(() => {
     const fetchTourDetail = async (id) => {
       try {
-        const tourDetail = await ToursApi.get(id);
-        if (tourDetail.success) {
-          setTour(tourDetail.data);
-          setReviews(tourDetail.reviews);
+        const response = await ToursApi.get(id);
+        if (response.success) {
+          setTour(response.data);
+          setReviews(response.reviews);
+
+          console.log(response);
         }
       } catch (error) {
         console.log(error);
@@ -66,6 +68,9 @@ const TourDetail = (props) => {
     } else {
       props.history.push("/tours");
     }
+
+    // cuộn lên đầu trang
+    window.scrollTo(0, 0);
   }, []);
 
   const context = useContext(AuthContext);
@@ -142,8 +147,8 @@ const TourDetail = (props) => {
           </Row>
         </Container>
 
-        <Container>
-          <CarouselSlide images={tour && tour.images} />
+        <Container className="mt-30">
+          <CarouselSlide image={tour && tour.image} />
         </Container>
 
         <Container>
@@ -257,7 +262,8 @@ const TourDetail = (props) => {
                 {reviews.map((comment) => {
                   return (
                     <Comment
-                      avatar={comment.user.avatar}
+                      key={comment._id}
+                      avatar={comment.user?.image}
                       name={comment.name}
                       content={comment.content}
                       rating={comment.rating}
@@ -284,7 +290,11 @@ const TourDetail = (props) => {
         </Container>
 
         <Container className="mb-50">
-          {tour && <CommentForm data={tour} />}
+          {user._id ? (
+            tour && <CommentForm data={tour} />
+          ) : (
+            <span>(You need login to comment)</span>
+          )}
         </Container>
 
         {tour && (

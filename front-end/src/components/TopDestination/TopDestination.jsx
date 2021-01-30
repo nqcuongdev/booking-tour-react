@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './TopDestination.scss';
 import { Col, Container, Row } from 'reactstrap';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader for Carousel
@@ -9,7 +9,8 @@ import post_1 from '../../assets/images/posts/post-1.jpg';
 import post_2 from '../../assets/images/posts/post-2.jpg';
 import post_3 from '../../assets/images/posts/post-3.jpg';
 import post_4 from '../../assets/images/posts/post-4.jpg';
-import { Link } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
+import HotelApi from "../../api/hotelApi";
 
 const carouselData = [
     {
@@ -71,7 +72,34 @@ const destinationList = [
     }
 ];
 
+const viewOnMap = (lat, lng, map_zoom) => {
+    // window.open(`https://maps.google.com?q=${lat},${lng}`);
+    window.open(`https://www.google.com/maps/@${lat},${lng},${map_zoom}z`);
+};
+
 const TopDestination = (props) => {
+    const [hotels, setHotels] = useState([]);
+
+    useEffect(() => {
+        const fetchHotel = async () => {
+            try {
+                const response = await HotelApi.getAll();
+
+                // console.log(response.data)
+                if (response.success) {
+                    setHotels(response.data);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchHotel();
+    }, []);
+
+    // lấy đường dẫn hiện tại
+    const { url } = useRouteMatch();
+    
     return (
         <div className="top-destination">
             <Container>
@@ -105,30 +133,55 @@ const TopDestination = (props) => {
                         </Carousel>
                     </Col>
                     <Col lg={5} md={12} xs={12} className="top-destination-list">
-                        {destinationList.map(destination => {
+                        {hotels.slice(0, 3).map(destination => {
                             return (
-                                <div  className="top-destination-item">
-                                    <Row>
-                                        <Col lg={4} md={4} xs={4} >
-                                            <div className="image">
-                                                <Link to="#"><img src={destination.image} /></Link>
-                                            </div>
-                                        </Col>
-                                        <Col lg={5} md={5} xs={5} className="destination-content">
-                                            <Link to="#"><h5 className="name"><b>{destination.name}</b></h5></Link>
-                                            <p className="address">{destination.address}</p>
-                                            <span className="view-on-map">
-                                                <MdLocationOn size={20} className="location-icon"/>
-                                                <Link to={destination.location}>View on map</Link>
-                                            </span>
-                                        </Col>
-                                        <Col lg={3} md={3} xs={3} >
-                                            <RiStarSFill color="#FFE54A" className="stars" />
-                                            <span className="stars-rate"> {destination.stars}</span> /5
-                                        </Col>
-                                    </Row>
-                                    <hr />
-                                </div>
+                                destination.isFeatured &&
+                                    <div  className="top-destination-item">
+                                        <Row>
+                                            <Col lg={4} md={4} xs={4} >
+                                                <div className="image">
+                                                    <Link 
+                                                        to={{
+                                                            pathname: `/hotels/${destination.slug}`,
+                                                            state: { id: `${destination._id}` },
+                                                        }}
+                                                    >
+                                                        <img src={`${process.env.REACT_APP_API_URL}/${destination.image[0]}`} />
+                                                    </Link>
+                                                </div>
+                                            </Col>
+                                            <Col lg={5} md={5} xs={5} className="destination-content">
+                                                <Link
+                                                    to={{
+                                                        pathname: `/hotels/${destination.slug}`,
+                                                        state: { id: `${destination._id}` },
+                                                    }}
+                                                >
+                                                    <h5 className="name"><b>{destination.title}</b></h5>
+                                                </Link>
+                                                <p className="address">{destination.address}</p>
+                                                <span className="view-on-map">
+                                                    <MdLocationOn size={20} className="location-icon"/>
+                                                    <Link 
+                                                        onClick={() =>
+                                                            viewOnMap(
+                                                                destination.lat,
+                                                                destination.lng,
+                                                                destination.map_zoom
+                                                            )
+                                                        }
+                                                    >
+                                                        View on map
+                                                    </Link>
+                                                </span>
+                                            </Col>
+                                            <Col lg={3} md={3} xs={3} >
+                                                <RiStarSFill color="#FFE54A" className="stars" />
+                                                <span className="stars-rate"> {destination.star}</span> /5
+                                            </Col>
+                                        </Row>
+                                        <hr />
+                                    </div>
                             );
                         })}
                     </Col>

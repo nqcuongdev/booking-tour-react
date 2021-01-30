@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import "./Comment.scss";
 import { Link } from "react-router-dom";
 import { FaStar, FaReplyAll } from "react-icons/fa";

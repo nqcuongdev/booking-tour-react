@@ -25,9 +25,9 @@ const Hotel = (props) => {
   return (
     <div className="hotel">
       <Card>
-        <CardImg top width="100%" src="{props.image}" alt="Card image cap" />
+        <CardImg top width="100%" src="" alt="Card image cap" />
 
-        <CardImgOverlay style={{ backgroundImage: `url(${props.image})` }}>
+        <CardImgOverlay style={{ backgroundImage: `url(${process.env.REACT_APP_API_URL}/${props.image})` }}>
           <div className="bottom-opacity"></div>
           <div className="overlay-item">
             <p>START FROM</p>

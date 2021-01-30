@@ -3,6 +3,14 @@ import "./RateTable.scss";
 import { FaStar } from "react-icons/fa";
 
 const RateTable = (props) => {
+  let ratingCalculation = (ratingList) => {
+    let totalRatingNumber = 0;
+    ratingList.map((rate) => {
+      totalRatingNumber += rate.rating
+    })
+    return totalRatingNumber / ratingList.length
+  }
+
   return (
     <>
       {(!props.reviews) ?
@@ -13,11 +21,7 @@ const RateTable = (props) => {
         <div className="rate-table">
           <div className="header">
             <p className="title">
-              {props.reviews.map((review) => {
-                let total = 0;
-                total += review.rating;
-                return total / props.reviews.length;
-              })}
+              {ratingCalculation(props.reviews)}
               <span> /5</span>
             </p>
             <div className="stars">
