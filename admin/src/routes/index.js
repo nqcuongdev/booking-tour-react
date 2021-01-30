@@ -204,8 +204,8 @@ const hotelRoutes = {
             path: '/invoice/:id',
             name: 'Invoice',
             component: Invoice,
-            route: PrivateRoute,
             roles: ['admin'],
+            route: PrivateRoute,
         },
     ],
 };
