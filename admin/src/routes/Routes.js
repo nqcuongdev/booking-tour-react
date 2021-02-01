@@ -74,7 +74,8 @@ class Routes extends Component {
                                     roles={route.roles}
                                     user={user}
                                     exact={route.exact}
-                                    component={route.component}></route.route>
+                                    component={route.component}
+                                    isHidden={route.isHidden}></route.route>
                             ) : null;
                         })}
                     </Switch>

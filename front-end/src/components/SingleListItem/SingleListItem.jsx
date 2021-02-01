@@ -17,21 +17,36 @@ const SingleListItem = (props) => {
   const getSubStringContent = (text) => {
     const newText = text.replace(/<[^>]+>/g, "");
 
-    return newText.substring(0, 50);
+    return newText.substring(0, 100);
   };
+
+  const convertLinkImage = (path) => {
+    return path.replace(/\\/g, "/");
+  }
 
   return (
     <div className="list__item mt-3 mb-30">
       <Row>
         <Col md={5} lg={5} className="item__image">
           {showNewBadge(props.created_date)}
-          <img src={props.image} className="img-fluid" alt={props.title} />
+          <div className="img-bg" style={{ backgroundImage: `url(${process.env.REACT_APP_API_URL}/${convertLinkImage(props.image[0])})` }}>
+            {/* <img
+              src={`${process.env.REACT_APP_API_URL}/${props.image[0]}`}
+              className="img-fluid"
+              alt={props.title}
+            /> */}
+          </div>
         </Col>
         <Col md={7} lg={5} className="item__content">
           <Row>
             <div className="item__info">
-              <Link to={`tours/${props._id}`}>
-                <h4 className="title" style={{ color: "black" }}>
+              <Link //to={`tours/${props._id}`}
+                to={{
+                  pathname: `${props.url}/${props.slug}`,
+                  state: { id: `${props._id}` },
+                }}
+              >
+                <h4 className="title">
                   {props.title}
                 </h4>
               </Link>
@@ -53,9 +68,16 @@ const SingleListItem = (props) => {
                 {getSubStringContent(props.description)}...
               </div>
               <div className="item__button mt-3">
-                <Button color="orange" size="sm" className="mr-3">
-                  Book now
-                </Button>
+                <Link //to={`tours/${props._id}`}
+                  to={{
+                    pathname: `${props.url}/${props.slug}`,
+                    state: { id: `${props._id}` },
+                  }}
+                >
+                  <Button color="orange" size="sm" className="mr-3">
+                    Book now
+                  </Button>
+                </Link>
               </div>
             </div>
             <div className="price"></div>

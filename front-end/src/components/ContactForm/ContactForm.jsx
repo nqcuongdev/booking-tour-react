@@ -21,6 +21,7 @@ const ContactForm = (props) => {
 
       if (response.success) {
         //console.log({response})
+        //reset form
         setFormData({ name: "", email: "", subject: "", message: "" })
 
         toast.success(`${response.message}`, {

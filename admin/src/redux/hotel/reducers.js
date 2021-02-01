@@ -15,6 +15,8 @@ import {
     GET_ALL_TYPE_SUCCESS,
     GET_HOTEL,
     GET_HOTEL_SUCCESS,
+    GET_ROOM_ATTRIBUTE,
+    GET_ROOM_ATTRIBUTE_SUCCESS,
     HOTEL_ERROR,
     UPDATE_FACILITY,
     UPDATE_FACILITY_SUCCESS,
@@ -45,7 +47,8 @@ const Hotel = (state = INIT_STATE, action) => {
             GET_HOTEL ||
             GET_ALL_ROOM ||
             CREATE_ROOM ||
-            UPDATE_ROOM:
+            UPDATE_ROOM ||
+            GET_ROOM_ATTRIBUTE:
             return { ...state, loading: true };
         case GET_ALL_HOTEL_SUCCESS:
             return { ...state, hotels: action.payload, hotel: null };
@@ -55,6 +58,8 @@ const Hotel = (state = INIT_STATE, action) => {
             return { ...state, facility: action.payload, loading: false, error: null };
         case GET_ALL_FACILITY_SUCCESS:
             return { ...state, facilities: action.payload, loading: false, error: null };
+        case GET_ROOM_ATTRIBUTE_SUCCESS:
+            return { ...state, attributes: action.payload, loading: false, error: null };
         case CREATE_HOTEL_SUCCESS:
             return { ...state, hotel: action.payload, loading: false, error: null };
         case UPDATE_HOTEL_SUCCESS:

@@ -3,6 +3,7 @@ import { Button, Col, Container, Row } from "reactstrap";
 import "./WhyChooseUs.scss";
 import WhyChooseUsImage from "../../assets/images/unnamed.jpg";
 import { FaAngleRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const WhyChooseUs = () => {
   return (
@@ -55,12 +56,16 @@ const WhyChooseUs = () => {
               </ul>
             </div>
             <div className="whychoose__button">
-              <Button color="primary" className="mr-5">
-                Purchase now
-              </Button>
-              <Button color="secondary" className="left-button">
-                Purchase now
-              </Button>
+              <Link to="/destinations">
+                <Button color="primary" className="mr-5">
+                  Purchase now
+                </Button>
+              </Link>
+              <Link to="/destinations">
+                <Button color="secondary" className="left-button">
+                  Purchase now
+                </Button>
+              </Link>
             </div>
           </Col>
         </Row>

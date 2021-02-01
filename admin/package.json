@@ -51,6 +51,8 @@
     "redux-logger": "^3.0.6",
     "redux-saga": "^1.1.1",
     "sortablejs": "^1.10.0",
+    "sweetalert2": "^10.14.0",
+    "sweetalert2-react-content": "^3.2.2",
     "yup": "^0.32.8"
   },
   "scripts": {

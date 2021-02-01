@@ -4,7 +4,6 @@ import BreadcrumbBanner from "../components/BreadcrumbBanner/BreadcrumbBanner";
 import bannerBackground from "../assets/images/background-1.jpg";
 import { Row, Col, Container, TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Form, FormGroup, Label, Input, FormText } from "reactstrap";
 import classnames from 'classnames';
-import { server_url } from "../helpers/url";
 import AuthContext from "../contexts/auth";
 import { dateToYMD } from "../helpers/format";
 import {
@@ -13,17 +12,24 @@ import {
     FaStar, 
     FaRegStar
 } from "react-icons/fa";
+import { Link, Redirect } from "react-router-dom";
 
 const Profile = (props) => {
     const context = useContext(AuthContext)
     const user = context.user
-    //console.log(user)
+    const books = context.books
+
     var date = dateToYMD(new Date(user.created_at))
 
     const [activeTab, setActiveTab] = useState('1');
 
     const toggle = tab => {
         if(activeTab !== tab) setActiveTab(tab);
+    }
+
+    // chưa login thì chuyển về trang chủ
+    if (user.full_name === undefined) {
+        return <Redirect to='/'/>;
     }
 
     return (
@@ -36,7 +42,7 @@ const Profile = (props) => {
                     </Row>
                     <Row className="user-info pt-30 pb-30">
                         <Col lg={3} md={3} xs={12} className="avatar">
-                            <img src={server_url + user.image} />
+                            <img src={`${process.env.REACT_APP_API_URL}/${user.image}`} />
                         </Col>
 
                         <Col lg={9} md={9} xs={12} className="information">
@@ -125,83 +131,90 @@ const Profile = (props) => {
 
                                 <TabContent activeTab={activeTab} className="booking-list">
                                     <TabPane tabId="1">
-                                        <Row className="booking-item mt-30">
-                                            <Col lg={4} md={4} xs={12} 
-                                                style={{ 
-                                                    backgroundImage: `url(${server_url + 'uploads/destinations/1606788178646.jpg'})`, 
-                                                    backgroundSize: `cover`,
-                                                    height: `230px`}}
-                                                className="booking-item-image"
-                                            >
-                                                {/* <img src={server_url + `uploads/destinations/1606788178646.jpg`} /> */}
-                                            </Col>
-                                            <Col lg={8} md={8} xs={12} className="booking-item-content">
-                                                <ul>
-                                                    <li className="li-bold">A Paris walk to Remember</li>
-                                                    <li>124 E Huron St, New york</li>
-                                                    <li>
-                                                        <span>Tour star </span>
-                                                        <span className="stars-icon">
-                                                            <FaStar className="icon" /> 
-                                                            <FaStar className="icon" /> 
-                                                            <FaStar className="icon" /> 
-                                                            <FaStar className="icon" /> 
-                                                            <FaStar className="icon" />
-                                                        </span>
-                                                        <span> 5 of 5 (3 comments)</span>
-                                                    </li>
-                                                    <li>Travellers: 30 people</li>
-                                                    <li>Date: 12 Jun 2020</li>
-                                                    <li>Booking details: 29 user booker</li>
-                                                    <li>Price: <span className="price"> $299</span></li>
-                                                </ul>
-                                            </Col>
-                                        </Row>
+                                        {books.map(book => {
+                                            return (
+                                                book.code &&
+                                                    <Row className="booking-item mt-30">
+                                                        <Col lg={4} md={4} xs={12} 
+                                                            style={{ 
+                                                                backgroundImage: `url(${process.env.REACT_APP_API_URL}/${book.code.tour.image[0]})`, 
+                                                                backgroundSize: `cover`,
+                                                                height: `230px`}}
+                                                            className="booking-item-image"
+                                                        >
+                                                            {/* <img src={process.env.REACT_APP_API_URL + `/uploads/destinations/1606788178646.jpg`} /> */}
+                                                        </Col>
+                                                        <Col lg={8} md={8} xs={12} className="booking-item-content">
+                                                            <ul>
+                                                                <li className="li-bold">{book.code.tour.title}</li>
+                                                                <li>{book.code.tour.address}</li>
+                                                                {/* <li>
+                                                                    <span>Tour star </span>
+                                                                    <span className="stars-icon">
+                                                                        <FaStar className="icon" /> 
+                                                                        <FaStar className="icon" /> 
+                                                                        <FaStar className="icon" /> 
+                                                                        <FaStar className="icon" /> 
+                                                                        <FaStar className="icon" />
+                                                                    </span>
+                                                                    <span> 5 of 5 (3 comments)</span>
+                                                                </li> */}
+                                                                <li>Duration: {book.code.tour.duration}</li>
+                                                                <li>Checkin: {dateToYMD(new Date(book.checkin))}</li>
+                                                                <li>Checkout: {dateToYMD(new Date(book.checkout))}</li>
+                                                                <li>Option: {book.option.adult} adult and {book.option.child} child</li>
+                                                                <li>Total price: <span className="price"> ${book.total_price}</span></li>
+                                                            </ul>
+                                                        </Col>
+                                                    </Row>
+                                            )
+                                        })}
                                     </TabPane>
                                     <TabPane tabId="2">
-                                        <Row className="booking-item mt-30">
-                                            <Col lg={4} md={4} xs={12} 
-                                                style={{ 
-                                                    backgroundImage: `url(${server_url + 'uploads/destinations/1606788178646.jpg'})`, 
-                                                    backgroundSize: `cover`,
-                                                    height: `230px`}}
-                                                className="booking-item-image"
-                                            >
-                                                {/* <img src={server_url + `uploads/destinations/1606788178646.jpg`} /> */}
-                                            </Col>
-                                            <Col lg={8} md={8} xs={12} className="booking-item-content">
-                                                <ul>
-                                                    <li className="li-bold">The Millennium Hilton New York</li>
-                                                    <li>124 E Huron St, New york</li>
-                                                    <li>
-                                                        <span>Hotel star </span>
-                                                        <span className="stars-icon">
-                                                            <FaStar className="icon" /> 
-                                                            <FaStar className="icon" /> 
-                                                            <FaStar className="icon" /> 
-                                                            <FaStar className="icon" /> 
-                                                            <FaStar className="icon" />
-                                                        </span>
-                                                        <span> 5 of 5 (3 comments)</span>
-                                                    </li>
-                                                    <li className="li-group">
-                                                        <ul>
-                                                            <li>Room type: Family room</li>
-                                                            <li>Adults: 02</li>
-                                                            <li>Childrents: 01</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li className="li-group">
-                                                        <ul>
-                                                            <li>Check-in: 12 Jun 2020</li>
-                                                            <li>Check-out: 14 Jun 2020</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>Buffets: $128</li>
-                                                    <li>Price: <span className="price"> $365</span></li>
-                                                </ul>
-                                            </Col>
-                                        </Row>
+                                        {books.map(book => {
+                                            return (
+                                                book.room &&
+                                                    <Row className="booking-item mt-30">
+                                                        <Col lg={4} md={4} xs={12} 
+                                                            style={{ 
+                                                                backgroundImage: `url(${process.env.REACT_APP_API_URL}/${book.room.hotel.image[0]})`, 
+                                                                backgroundSize: `cover`,
+                                                                height: `230px`}}
+                                                            className="booking-item-image"
+                                                        >
+                                                            {/* <img src={process.env.REACT_APP_API_URL + `/uploads/destinations/1606788178646.jpg`} /> */}
+                                                        </Col>
+                                                        <Col lg={8} md={8} xs={12} className="booking-item-content">
+                                                            <ul>
+                                                                <li className="li-bold">{book.room.hotel.title}</li>
+                                                                <li>{book.room.hotel.address}</li>
+                                                                {/* <li>
+                                                                    <span>Hotel star </span>
+                                                                    <span className="stars-icon">
+                                                                        <FaStar className="icon" /> 
+                                                                        <FaStar className="icon" /> 
+                                                                        <FaStar className="icon" /> 
+                                                                        <FaStar className="icon" /> 
+                                                                        <FaStar className="icon" />
+                                                                    </span>
+                                                                    <span> 5 of 5 (3 comments)</span>
+                                                                </li> */}
+                                                                <li className="li-group">
+                                                                    <ul>
+                                                                        <li>Room: {book.room.title}</li>
+                                                                        <li>Adults: {book.option.adult}</li>
+                                                                        <li>Childrents: {book.option.child}</li>
+                                                                    </ul>
+                                                                </li>
+                                                                <li>Check-in: {dateToYMD(new Date(book.checkin))}</li>
+                                                                <li>Check-out: {dateToYMD(new Date(book.checkout))}</li>
+                                                                {/* <li>Buffets: $128</li> */}
+                                                                <li>Price: <span className="price"> ${book.total_price}</span></li>
+                                                            </ul>
+                                                        </Col>
+                                                    </Row>
+                                            )
+                                        })}
                                     </TabPane>
                                 </TabContent>
                             </div>

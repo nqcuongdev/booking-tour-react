@@ -5,6 +5,15 @@ const Validator = require("validator");
 //Load validate
 const categoryValidate = require("../validators/category/category");
 
+exports.all = async (req, res) => {
+  let categories = await Category.find({});
+
+  return res.status(200).json({
+    success: !!categories,
+    data: categories,
+  });
+};
+
 exports.getAll = async (req, res) => {
   let categories = await Category.find({ type: req.params.type });
 

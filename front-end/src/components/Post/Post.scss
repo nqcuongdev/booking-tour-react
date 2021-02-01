@@ -1,8 +1,29 @@
 @import '../../assets/scss/variables';
 
 .home-post-card {
+    border-radius: 2px;
+    background: #fff;
+    // box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+
     .card {
         border: none !important;
+
+        .card-img {
+            max-height: 235px;
+        }
+
+        .img-bg {
+            width: 100%;
+            height: 220px;
+            border-radius: 3px;
+            background-size: cover;
+            background-position: center;
+            transition: .3s !important;
+
+            &:hover {
+                transform: scale(1.05);
+            }
+        }
 
         .card-img {
             transition: .3s !important;
@@ -21,6 +42,15 @@
         .card-body {
             margin: 28px 0;
             padding: 0 !important;
+
+            .link {
+                color: $black !important;
+                transition: 0.3s;
+
+                &:hover {
+                    color: $orange !important;
+                }
+            }
 
             .card-text {
                 font-size: 13px;

@@ -6,7 +6,6 @@ import {
   Container,
   Row,
   Col,
-  Form,
   Label,
   Input,
   FormGroup,
@@ -76,11 +75,41 @@ const TourCheckout = (props) => {
       const response = await StripeApi.payment(payload);
       if (response.success) {
         carts.map(async (cart) => {
+          let total = 0;
+          if (cart.code && cart.code.tour) {
+            total +=
+              cart.option.adult * cart.code.tour.price.adult +
+              cart.option.child * cart.code.tour.price.child;
+          } else if (cart.room && cart.room.hotel) {
+            total +=
+              cart.room.price + cart.number * cart.room.options.buffer_price;
+          }
+
           let data = {
             booking_id: cart._id,
             transaction_id: response.data.id,
+            checkoutForm: {
+              first_name: user.first_name,
+              last_name: user.last_name,
+              full_name: user.full_name,
+              phone: checkoutForm.phone,
+              email: user.email,
+              address: checkoutForm.address,
+              zip_code: checkoutForm.zip_code,
+              notes: checkoutForm.notes,
+              total_price: total * 100,
+            },
           };
-          await BookingApi.paymentSuccess(data, cart._id);
+
+          let checkPaymentSuccess = await BookingApi.paymentSuccess(
+            data,
+            cart._id
+          );
+          if (checkPaymentSuccess) {
+            props.history.push("/payment-success");
+          }
+
+          return data;
         });
       }
     } catch (error) {
@@ -125,7 +154,7 @@ const TourCheckout = (props) => {
                       <Row>
                         <Col xl={6} lg={6} md={6} xs={12}>
                           <FormGroup>
-                            <Label for="firstName">
+                            <Label for="first_name">
                               First name{" "}
                               <span className="required" required>
                                 *
@@ -133,8 +162,8 @@ const TourCheckout = (props) => {
                             </Label>
                             <Input
                               type="text"
-                              name="firstName"
-                              id="firstName"
+                              name="first_name"
+                              id="first_name"
                               value={user.first_name}
                               onChange={onInputChange}
                             />
@@ -142,7 +171,7 @@ const TourCheckout = (props) => {
                         </Col>
                         <Col xl={6} lg={6} md={6} xs={12}>
                           <FormGroup>
-                            <Label for="lastName">
+                            <Label for="last_name">
                               Last name{" "}
                               <span className="required" required>
                                 *
@@ -150,8 +179,8 @@ const TourCheckout = (props) => {
                             </Label>
                             <Input
                               type="text"
-                              name="lastName"
-                              id="lastName"
+                              name="last_name"
+                              id="last_name"
                               value={user.last_name}
                               onChange={onInputChange}
                             />
@@ -161,16 +190,16 @@ const TourCheckout = (props) => {
                       <Row>
                         <Col xl={6} lg={6} md={6} xs={12}>
                           <FormGroup>
-                            <Label for="emailAddress">
+                            <Label for="email">
                               Email address{" "}
                               <span className="required" required>
                                 *
                               </span>
                             </Label>
                             <Input
-                              type="text"
-                              name="emailAddress"
-                              id="emailAddress"
+                              type="email"
+                              name="email"
+                              id="email"
                               value={user.email}
                               onChange={onInputChange}
                             />
@@ -178,7 +207,7 @@ const TourCheckout = (props) => {
                         </Col>
                         <Col xl={6} lg={6} md={6} xs={12}>
                           <FormGroup>
-                            <Label for="phoneNumber">
+                            <Label for="phone">
                               Phone number{" "}
                               <span className="required" required>
                                 *
@@ -186,8 +215,8 @@ const TourCheckout = (props) => {
                             </Label>
                             <Input
                               type="text"
-                              name="phoneNumber"
-                              id="phoneNumber"
+                              name="phone"
+                              id="phone"
                               value={user.phone}
                               onChange={onInputChange}
                             />
@@ -225,7 +254,7 @@ const TourCheckout = (props) => {
                         />
                       </FormGroup>
                       <FormGroup>
-                        <Label for="zipPostcode">
+                        <Label for="zip_code">
                           Zip/Postcode{" "}
                           <span className="required" required>
                             *
@@ -233,8 +262,8 @@ const TourCheckout = (props) => {
                         </Label>
                         <Input
                           type="text"
-                          name="zipPostcode"
-                          id="zipPostcode"
+                          name="zip_code"
+                          id="zip_code"
                           placeholder="Enter zip code"
                           onChange={onInputChange}
                         />
@@ -249,11 +278,11 @@ const TourCheckout = (props) => {
                       </FormGroup>
 
                       <FormGroup className="mt-30">
-                        <Label for="specialRequest">Special request</Label>
+                        <Label for="notes">Special request</Label>
                         <Input
                           type="textarea"
-                          name="specialRequest"
-                          id="specialRequest"
+                          name="notes"
+                          id="notes"
                           placeholder="Enter special request"
                           onChange={onInputChange}
                         />
@@ -428,7 +457,7 @@ const TourCheckout = (props) => {
                       </Table>
 
                       <div className="pay">
-                        <FormGroup check>
+                        {/* <FormGroup check>
                           <Label check className="radio-custom">
                             <Input
                               type="radio"
@@ -440,7 +469,7 @@ const TourCheckout = (props) => {
                             Paypal
                             <span class="checkmark"></span>
                           </Label>
-                        </FormGroup>
+                        </FormGroup> */}
                         <FormGroup check>
                           <Label check className="radio-custom">
                             <Input
@@ -454,7 +483,7 @@ const TourCheckout = (props) => {
                             <span class="checkmark"></span>
                           </Label>
                         </FormGroup>
-                        <FormGroup check>
+                        {/* <FormGroup check>
                           <Label check className="radio-custom">
                             <Input
                               type="radio"
@@ -466,7 +495,7 @@ const TourCheckout = (props) => {
                             Office
                             <span class="checkmark"></span>
                           </Label>
-                        </FormGroup>
+                        </FormGroup> */}
                       </div>
 
                       <div className="order">
@@ -504,10 +533,10 @@ const TourCheckout = (props) => {
                               </Button>
                             </StripeCheckout>
                           )}
-                        {(checkoutForm && checkoutForm.payment === "offline") ||
+                        {/* {(checkoutForm && checkoutForm.payment === "offline") ||
                           (checkoutForm.payment === "" && (
                             <Button className="btn-order">Place order</Button>
-                          ))}
+                          ))} */}
                       </div>
                     </div>
                   </div>

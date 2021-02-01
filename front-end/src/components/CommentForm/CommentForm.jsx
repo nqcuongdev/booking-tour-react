@@ -4,11 +4,17 @@ import "./CommentForm.scss";
 import ReactStars from "react-stars";
 import AuthContext from "../../contexts/auth";
 import RatingApi from "../../api/ratingApi";
+import { ToastContainer, toast } from "react-toastify";
 
 const CommentForm = (props) => {
   const [commentForm, setCommentForm] = useState({});
   const { user } = useContext(AuthContext);
+
+  const [rateNum, setRateNum] = useState(0);
+
   const ratingChanged = (ratingNumber) => {
+    setRateNum(ratingNumber);
+    // lối không hiển sao khi gọi hàm setCommentForm trong này
     setCommentForm({
       ...commentForm,
       rating: ratingNumber,
@@ -17,6 +23,8 @@ const CommentForm = (props) => {
       email: user.email,
       user: user._id,
     });
+
+    return ratingNumber;
   };
 
   const onInputChange = (e) => {
@@ -28,9 +36,34 @@ const CommentForm = (props) => {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
-      const response = await RatingApi.create(commentForm);
-      if (response.success) {
-        console.log(response.data);
+      if (rateNum > 0) {
+        const response = await RatingApi.create(commentForm);
+        if (response.success) {
+          // console.log(response.data);
+
+          toast.success(`Rated success`, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+      } else {
+        toast.error(
+          `You need to vote at "Your rating" before submit your rating`,
+          {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          }
+        );
       }
     } catch (error) {
       console.log(error);
@@ -47,6 +80,7 @@ const CommentForm = (props) => {
             <ReactStars
               className="rating"
               count={5}
+              value={0}
               onChange={ratingChanged}
               size={24}
               color2={"#ffd700"}

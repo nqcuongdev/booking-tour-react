@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import "./TourItem.scss";
 
 const TourItem = (props) => {
+  const convertLinkImage = (path) => {
+    return path.replace(/\\/g, "/");
+  }
+  
   return (
     <div className="tour__item">
       {props.isFeature ? <div className="item-tag">Feature</div> : ""}
@@ -18,12 +22,26 @@ const TourItem = (props) => {
           className="img-fluid"
           alt={props.title}
         />
-        <Link className="btn btn-primary btn-book-now">Book now</Link>
+        <Link className="btn btn-primary btn-book-now"
+          to={{
+            pathname: `/tours/${props.slug}`,
+            state: { id: `${props._id}` },
+          }}
+        >
+          Book now
+        </Link>
       </div>
       <div className="tour__item-caption">
         <div className="tour__item-title">
           <h3 className="title">
-            <Link to={`/tours/${props._id}`}>{props.title}</Link>
+            <Link
+              to={{
+                pathname: `/tours/${props.slug}`,
+                state: { id: `${props._id}` },
+              }}
+            >
+              {props.title}
+            </Link>
           </h3>
           <p className="duration">
             <span>

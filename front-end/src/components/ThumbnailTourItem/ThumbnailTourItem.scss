@@ -26,9 +26,20 @@
       transition: all 0.4s;
       text-decoration: none;
 
+      .btn-orange {
+        &:hover {
+          color: $white !important;
+        }
+      }
+
       .btn-detail {
         background-color: rgba(255, 255, 255, 0.3);
         color: $orange !important;
+        transition: 0.3s;
+        
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.698);
+        }
       }
     }
     &:hover {

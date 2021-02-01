@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import MainLayout from "../layouts/MainLayout";
 import { Link } from "react-router-dom";
 import { Container, Row, Col } from "reactstrap";
 import { MdLocationOn } from "react-icons/md";
 import { FaStarHalfAlt, FaStar, FaRegStar, FaTag } from "react-icons/fa";
 import CarouselSlide from "../components/CarouselSlide/CarouselSlide";
-import hotelRoom1 from "../assets/images/hotels/hotel-1/hotel-room-1.jpg";
-import hotelRoom2 from "../assets/images/hotels/hotel-1/hotel-room-2.jpg";
 import Room from "../components/Room/Room";
 import { IoMdFlower } from "react-icons/io";
 import { FaHamburger } from "react-icons/fa";
@@ -17,28 +15,7 @@ import RateTable from "../components/RateTable/RateTable";
 import CommentForm from "../components/CommentForm/CommentForm";
 import ThumbnailHotelItem from "../components/ThumbnailHotelItem/ThumbnailHotelItem";
 import HotelApi from "../api/hotelApi";
-
-const similarHotelData = [
-  {
-    title: "Suarsena House",
-    image: hotelRoom2,
-    sale: 20,
-    rateStars: 4.7,
-    location: "297 Luna Alley Apt. 327",
-  },
-  {
-    title: "Suarsena House",
-    image: hotelRoom1,
-    rateStars: 4.2,
-    location: "297 Luna Alley Apt. 327",
-  },
-  {
-    title: "Suarsena House",
-    image: hotelRoom2,
-    rateStars: 4.5,
-    location: "297 Luna Alley Apt. 327",
-  },
-];
+import AuthContext from "../contexts/auth";
 
 const starsCounter = (stars) => {
   const counter = [1, 2, 3, 4, 5];
@@ -68,6 +45,7 @@ const HotelDetail = (props) => {
   const [hotel, setHotel] = useState();
   const [rooms, setRooms] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [popularHotels, setPopularHotels] = useState([]);
 
   useEffect(() => {
     const fetchHotelDetail = async (id) => {
@@ -79,12 +57,40 @@ const HotelDetail = (props) => {
       }
     };
 
-    if (props.match.params.id) {
-      fetchHotelDetail(props.match.params.id);
+    const fetchPopularHotel = async () => {
+      try {
+        const response = await HotelApi.getAll();
+
+        if (response.success) {
+          setPopularHotels(response.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    if (props.location.state.id) {
+      fetchHotelDetail(props.location.state.id);
+      fetchPopularHotel();
     } else {
       props.history.push("/hotels");
     }
-  }, []);
+
+    // cuộn lên đầu trang
+    window.scrollTo(0, 0);
+  }, [props.location.state.id]);
+
+  let ratingCalculation = (ratingList) => {
+    let totalRatingNumber = 0;
+    ratingList.map((rate) => {
+      totalRatingNumber += rate.rating;
+    });
+    return totalRatingNumber / ratingList.length;
+  };
+
+  const UserContext = useContext(AuthContext);
+  const user = UserContext.user;
+
   return (
     <MainLayout>
       {hotel && (
@@ -141,27 +147,30 @@ const HotelDetail = (props) => {
                 <div className="rate-stars">
                   <div className="stars-counter">
                     <span className="stars-number-calculation">
-                      {starsCounter(hotel.star)}
+                      {reviews && reviews.length > 0
+                        ? starsCounter(ratingCalculation(reviews))
+                        : 0}
                     </span>
                     <span className="stars-number">
                       <span>
-                        {reviews.map((review) => {
-                          let total = 0;
-                          total += review.rating;
-                          return total / reviews.length;
-                        })}
+                        {reviews && reviews.length > 0
+                          ? ratingCalculation(reviews)
+                          : 0}
                       </span>
                       <span className="below"> /5</span>
                     </span>
                   </div>
-                  <p className="view">Based on {reviews.length} views</p>
+                  <p className="view">
+                    Based on{" "}
+                    {reviews && reviews.length > 0 ? reviews.length : 0} views
+                  </p>
                 </div>
               </Col>
             </Row>
           </Container>
 
           <Container>
-            <CarouselSlide images={hotel.image} />
+            <CarouselSlide image={hotel.image} />
 
             <div className="hotel-detail-option-tag mt-3 mb-3">
               <ul>
@@ -183,21 +192,22 @@ const HotelDetail = (props) => {
 
           <Container className="room-type mt-50 mb-30">
             <p className="room-type-title">Room Type</p>
-            {rooms.map((room) => {
-              return (
-                <Room
-                  key={room._id}
-                  _id={room._id}
-                  images={room.image}
-                  title={room.title}
-                  price={room.price}
-                  people={room.people}
-                  acreage={room.width}
-                  attributes={room.attributes}
-                  options={room.options}
-                />
-              );
-            })}
+            {rooms &&
+              rooms.map((room) => {
+                return (
+                  <Room
+                    key={room._id}
+                    _id={room._id}
+                    images={room.image}
+                    title={room.title}
+                    price={room.price}
+                    people={room.people}
+                    acreage={room.width}
+                    attributes={room.attributes}
+                    options={room.options}
+                  />
+                );
+              })}
           </Container>
 
           <Container className="facilities mt-50 mb-50">
@@ -318,35 +328,42 @@ const HotelDetail = (props) => {
 
           <Container className="comments mb-50">
             <p className="comments-title">
-              Guests loved their stay<span> ({reviews.length})</span>
+              Guests loved their stay
+              <span>
+                {" "}
+                ({reviews && reviews.length > 0 ? reviews.length : 0})
+              </span>
             </p>
             <Row>
               <Col xl={9} className="comments-list mt-30">
                 <div>
-                  {reviews.map((comment) => {
-                    return (
-                      <Comment
-                        key={comment._id}
-                        avatar={comment.user.image}
-                        name={comment.name}
-                        content={comment.content}
-                        rating={comment.rating}
-                      />
-                    );
-                  })}
+                  {reviews &&
+                    reviews.length > 0 &&
+                    reviews.map((comment) => {
+                      return (
+                        <Comment
+                          key={comment._id}
+                          avatar={comment.user?.image}
+                          name={comment.name}
+                          content={comment.content}
+                          rating={comment.rating}
+                        />
+                      );
+                    })}
                 </div>
                 {reviews.length > 10 && (
                   <div className="view-more-comment mt-30 mb-30">
                     <Link>
                       <p>
-                        <span>View more</span> ({reviews.length})
+                        <span>View more</span> (
+                        {reviews && reviews.length > 0 ? reviews.length : 0})
                       </p>
                     </Link>
                   </div>
                 )}
               </Col>
               <Col xl={3}>
-                {reviews.length > 0 && (
+                {reviews && reviews.length > 0 && (
                   <RateTable data={hotel} reviews={reviews} />
                 )}
               </Col>
@@ -354,25 +371,35 @@ const HotelDetail = (props) => {
           </Container>
 
           <Container className="mb-50">
-            {hotel && <CommentForm data={hotel} />}
+            {user._id ? (
+              hotel && <CommentForm data={hotel} />
+            ) : (
+              <span>(You need login to comment)</span>
+            )}
           </Container>
 
           <Container className="similar-hotels mb-50">
-            <p className="similar-hotels-title">Similar hotels</p>
+            <p className="similar-hotels-title">Popular hotels</p>
             <Row>
-              {similarHotelData.map((hotel) => {
-                return (
-                  <Col lg={4} md={6} sx={12} className="mb-30">
-                    <ThumbnailHotelItem
-                      image={hotel.image}
-                      title={hotel.title}
-                      sale={hotel.sale}
-                      location={hotel.location}
-                      rateStars={hotel.rateStars}
-                    />
-                  </Col>
-                );
-              })}
+              {popularHotels &&
+                popularHotels.length > 0 &&
+                popularHotels.slice(0, 3).map((hotel) => {
+                  return (
+                    hotel.isFeatured && (
+                      <Col lg={4} md={6} sx={12} className="mb-30">
+                        <ThumbnailHotelItem
+                          image={hotel.image[0]}
+                          title={hotel.title}
+                          sale={hotel.sale_price.adult}
+                          rateStars={hotel.star}
+                          address={hotel.address}
+                          id={hotel._id}
+                          slug={hotel.slug}
+                        />
+                      </Col>
+                    )
+                  );
+                })}
             </Row>
           </Container>
         </div>

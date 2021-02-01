@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const slugify = require("slugify");
+const mongoosePaginate = require("mongoose-paginate-v2");
 
 const BlogSchema = new mongoose.Schema({
   title: {
@@ -47,6 +48,12 @@ const BlogSchema = new mongoose.Schema({
       ref: "tag",
     },
   ],
+  status: {
+    type: String,
+    required: true,
+    enum: ["active", "hide"],
+    default: "active",
+  },
   created_at: {
     type: Date,
     default: Date.now,
@@ -62,5 +69,7 @@ BlogSchema.pre("save", function (next) {
   this.slug = slugify(this.title, { lower: true });
   next();
 });
+
+BlogSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model("blog", BlogSchema);

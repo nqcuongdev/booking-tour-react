@@ -17,7 +17,7 @@ const CategorySchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ["destination", "hotel", "tour", "blog"],
+    enum: ["destination", "hotel", "tour", "post"],
     required: true,
   },
   created_at: {

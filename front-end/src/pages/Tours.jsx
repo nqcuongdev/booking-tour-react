@@ -20,6 +20,8 @@ import adImage from "../assets/images/ad.png";
 import AdItem from "../components/AdItem/AdItem";
 import SingleListItem from "../components/SingleListItem/SingleListItem";
 import ToursApi from "../api/toursApi";
+import { useRouteMatch } from "react-router-dom";
+import Pagination from "react-js-pagination";
 
 const popularItem = {
   text1: "Summer Stay",
@@ -28,22 +30,39 @@ const popularItem = {
 };
 
 const Tours = (props) => {
+  //phân trang
+  const [pagination, setPagination] = useState();
+  //console.log(pagination)
+
   const [toursList, setToursList] = useState([]);
   const [oldTours, setOldTours] = useState([]);
+
+  let [totalPages, setTotalPages] = useState();
+  let [totalDocs, setTotalDocs] = useState();
 
   useEffect(() => {
     const fetchToursList = async () => {
       try {
-        const response = await ToursApi.getAll();
-        setToursList(response.data);
-        setOldTours(response.data);
+        // const response = await ToursApi.getAll();
+        const response = await ToursApi.getPaginate(pagination);
+        console.log(response);
+        if (response.success) {
+          setToursList(response.data.docs);
+          setOldTours(response.data.docs);
+
+          setTotalPages(response.data.totalPages)
+          setTotalDocs(response.data.totalDocs);
+        }
       } catch (error) {
         console.log("Failed to fetch Tours list: ", error);
       }
     };
 
     fetchToursList();
-  }, []);
+  }, [pagination]);
+
+  // lấy đường dẫn hiện tại
+  const { url } = useRouteMatch();
 
   const onSearchForm = (e) => {
     e.preventDefault();
@@ -67,6 +86,8 @@ const Tours = (props) => {
       setToursList(oldTours);
     }
   };
+
+  console.log(toursList)
 
   return (
     <MainLayout>
@@ -159,18 +180,34 @@ const Tours = (props) => {
               <div className="list__tour-text">
                 We found{" "}
                 <span style={{ color: "#ff7d3e" }}>
-                  {toursList ? toursList.length : 0}
+                  {toursList ? totalDocs : 0}
                 </span>{" "}
                 tours available for you
               </div>
 
-              {toursList.map((item) => {
-                return <SingleListItem {...item} />;
-              })}
+              {toursList &&
+                toursList.length > 0 &&
+                  toursList.map((item) => {
+                    return <SingleListItem {...item} url={url} />;
+                  })
+              }
             </Col>
           </Row>
           <div className="mb-50">
-            <Paginate />
+            {/* <Paginate /> */}
+            <div className="pagination-bar text-center">
+              {totalDocs > 0 &&
+                <Pagination
+                  itemClass="page-item"
+                  linkClass="page-link"
+                  activePage={pagination}
+                  itemsCountPerPage={10}
+                  totalItemsCount={totalDocs}
+                  pageRangeDisplayed={totalPages}
+                  onChange={(page) => setPagination(page)}
+                />
+              }
+            </div>
           </div>
         </Container>
       </div>

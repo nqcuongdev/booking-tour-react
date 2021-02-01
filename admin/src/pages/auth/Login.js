@@ -171,6 +171,7 @@ class Login extends Component {
                                                                             <Button
                                                                                 color="danger"
                                                                                 className="btn-block"
+                                                                                type="submit"
                                                                                 onClick={renderProps.onClick}>
                                                                                 Google
                                                                             </Button>

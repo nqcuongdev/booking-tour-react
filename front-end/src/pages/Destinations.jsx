@@ -12,7 +12,7 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 import PopularDestinations from "../components/PopularDestinations/PopularDestinations";
 import Faq from "../components/Faq/Faq";
 import DestinationApi from "../api/destinationsApi";
-import { server_url } from "../helpers/url";
+import Pagination from "react-js-pagination";
 
 const popularDestinations = [
   "Rome",
@@ -43,23 +43,31 @@ const Destinations = (props) => {
   const [destinationsList, setDestinationsList] = useState([]);
   const [oldList, setOldList] = useState([]);
 
+  //phân trang
+  const [pagination, setPagination] = useState();
+
+  let [totalPages, setTotalPages] = useState();
+  let [totalDocs, setTotalDocs] = useState();
+
   useEffect(() => {
     const fetchDestinations = async () => {
       try {
         const params = { pageOffset: 0 };
-        const response = await DestinationApi.getAll();
+        // const response = await DestinationApi.getAll();
+        const response = await DestinationApi.getPaginate(pagination);
 
-        console.log({ response });
+        setDestinationsList(response.data.docs);
+        setOldList(response.data.docs);
 
-        setDestinationsList(response.data);
-        setOldList(response.data);
+        setTotalPages(response.data.totalPages);
+        setTotalDocs(response.data.totalDocs);
       } catch (error) {
         console.log("Fail to fetch Destinations list: ", error);
       }
     };
 
     fetchDestinations();
-  }, []);
+  }, [pagination]);
 
   const viewOnMap = (lat, lng, map_zoom) => {
     // window.open(`https://maps.google.com?q=${lat},${lng}`);
@@ -88,6 +96,10 @@ const Destinations = (props) => {
     }
     setDestinationsList(searchRS);
   };
+
+  const convertLinkImage = (path) => {
+    return path.replace(/\\/g, "/");
+  }
 
   return (
     <MainLayout>
@@ -135,50 +147,85 @@ const Destinations = (props) => {
             >
               <div className="destination-item">
                 <Container>
-                  {destinationsList.map((item) => {
-                    return (
-                      <Row className="item">
-                        <Col xl={5} lg={5} md={5} xs={12} className="image">
-                          <img src={server_url + item.image[0]} alt="" />
-                        </Col>
-                        <Col xl={7} lg={7} md={7} xs={12} className="content">
-                          <p className="title">{item.title}</p>
-                          <p className="address">{item.address}</p>
-                          <div
-                            className="description"
-                            dangerouslySetInnerHTML={innerHTML(
-                              item.description
-                            )}
-                          ></div>
-                          <div className="button">
-                            <Link
-                              to={{
-                                pathname: `${url}/${item.slug}`,
-                                state: { id: `${item._id}` },
-                              }}
-                            >
-                              <Button className="view-detail">
-                                View detail
-                              </Button>
-                            </Link>
-                            <Link
-                              className="view-map"
-                              onClick={() =>
-                                viewOnMap(item.lat, item.lng, item.map_zoom)
-                              }
-                            >
-                              <FaMapMarkerAlt className="icon" />{" "}
-                              <span>View on map</span>
-                            </Link>
-                          </div>
-                        </Col>
-                      </Row>
-                    );
-                  })}
+                  {destinationsList &&
+                    destinationsList.length > 0 &&
+                    destinationsList.map((item) => {
+                      return (
+                        <Row className="item">
+                          <Col
+                            xl={5}
+                            lg={5}
+                            md={5}
+                            xs={12}
+                            className="image"
+                          >
+                            <div className="img-bg" style={{ backgroundImage: `url(${process.env.REACT_APP_API_URL}/${convertLinkImage(item.image[0])})` }}>
+                              {/* <img
+                                src={`${process.env.REACT_APP_API_URL}/${item.image[0]}`}
+                                alt=""
+                              /> */}
+                            </div>
+                          </Col>
+                          <Col xl={7} lg={7} md={7} xs={12} className="content">
+                            <p>
+                              <Link
+                                className="title"
+                                to={{
+                                  pathname: `${url}/${item.slug}`,
+                                  state: { id: `${item._id}` },
+                                }}
+                              >
+                                {item.title}
+                              </Link>
+                            </p>
+                            <p className="address">{item.address}</p>
+                            <div
+                              className="description"
+                              dangerouslySetInnerHTML={innerHTML(
+                                item.description
+                              )}
+                            ></div>
+                            <div className="button">
+                              <Link
+                                to={{
+                                  pathname: `${url}/${item.slug}`,
+                                  state: { id: `${item._id}` },
+                                }}
+                              >
+                                <Button className="view-detail">
+                                  View detail
+                                </Button>
+                              </Link>
+                              <Link
+                                className="view-map"
+                                onClick={() =>
+                                  viewOnMap(item.lat, item.lng, item.map_zoom)
+                                }
+                              >
+                                <FaMapMarkerAlt className="icon" />{" "}
+                                <span>View on map</span>
+                              </Link>
+                            </div>
+                          </Col>
+                        </Row>
+                      );
+                    })}
                 </Container>
               </div>
-
-              <Paginate />
+              {/* <Paginate /> */}
+              <div className="pagination-bar text-center">
+                {totalDocs > 0 && (
+                  <Pagination
+                    itemClass="page-item"
+                    linkClass="page-link"
+                    activePage={pagination}
+                    itemsCountPerPage={10}
+                    totalItemsCount={totalDocs}
+                    pageRangeDisplayed={totalPages}
+                    onChange={(page) => setPagination(page)}
+                  />
+                )}
+              </div>
             </Col>
           </Row>
         </Container>

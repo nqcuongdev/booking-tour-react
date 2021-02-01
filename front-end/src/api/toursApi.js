@@ -1,8 +1,13 @@
 import axiosClient from "./axiosClient";
 
 const ToursApi = {
+  getPaginate: (offset) => {
+    const url = `api/v1/tour/paginate?page=${offset ? offset : 1}`;
+    return axiosClient.get(url);
+  },
+
   getAll: (params) => {
-    const url = `api/v1/tour`;
+    const url = `api/v1/tour/`;
     return axiosClient.get(url, {
       params,
     });

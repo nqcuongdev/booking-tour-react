@@ -1,7 +1,13 @@
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
-const { create, update, show, all } = require("../controllers/destination");
+const {
+  create,
+  update,
+  show,
+  all,
+  paginate,
+} = require("../controllers/destination");
 const isAuth = require("../middleware/isAuth");
 const checkRole = require("../middleware/checkRole");
 
@@ -29,6 +35,7 @@ const upload = multer({ storage: storage, fileFilter: fileFilter }).array(
   10
 );
 
+router.get("/paginate", paginate);
 router.get("/", all);
 router.get("/:id", show);
 router.post("/create", upload, isAuth, checkRole, create);

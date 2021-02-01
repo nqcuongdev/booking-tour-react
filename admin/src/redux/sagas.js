@@ -6,6 +6,10 @@ import tourSaga from './tour/saga';
 import destinationSaga from './destination/saga';
 import notificationSaga from './notification/saga';
 import hotelSaga from './hotel/saga';
+import orderSaga from './order/saga';
+import postSaga from './post/saga';
+import reviewSaga from './review/saga';
+import userSaga from './user/saga';
 
 export default function* rootSaga(getState) {
     yield all([
@@ -16,5 +20,9 @@ export default function* rootSaga(getState) {
         destinationSaga(),
         notificationSaga(),
         hotelSaga(),
+        orderSaga(),
+        postSaga(),
+        reviewSaga(),
+        userSaga(),
     ]);
 }

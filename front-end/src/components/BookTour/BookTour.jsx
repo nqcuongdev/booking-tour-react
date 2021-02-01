@@ -77,6 +77,9 @@ const BookTour = (props) => {
         child: bookForm.child,
         adult: bookForm.adult,
       },
+      total_price:
+        bookForm.adult * bookForm.price.tour.price.adult +
+        bookForm.child * bookForm.price.tour.price.child,
     };
 
     try {
@@ -152,6 +155,7 @@ const BookTour = (props) => {
               <div className="single__field">
                 <label htmlFor="code">Code</label>
                 <Input
+                  className="code-select"
                   type="select"
                   name="code"
                   id="code"

@@ -22,6 +22,8 @@ import {
     CREATE_ROOM_SUCCESS,
     UPDATE_ROOM,
     UPDATE_ROOM_SUCCESS,
+    GET_ROOM_ATTRIBUTE,
+    GET_ROOM_ATTRIBUTE_SUCCESS,
 } from './constants';
 
 export const getAllHotel = () => ({
@@ -135,4 +137,13 @@ export const updateRoom = (room) => ({
 export const updateRoomSuccess = (room) => ({
     type: UPDATE_ROOM_SUCCESS,
     payload: room,
+});
+
+export const getAllRoomAttribute = () => ({
+    type: GET_ROOM_ATTRIBUTE,
+});
+
+export const getAllRoomAttributeSuccess = (attributes) => ({
+    type: GET_ROOM_ATTRIBUTE_SUCCESS,
+    payload: attributes,
 });

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   FaMapMarkerAlt,
   FaRegCalendarAlt,
@@ -17,6 +17,8 @@ import RateTable from "../components/RateTable/RateTable";
 import CommentForm from "../components/CommentForm/CommentForm";
 import BookTour from "../components/BookTour/BookTour";
 import ToursApi from "../api/toursApi";
+import AuthContext from "../contexts/auth";
+import { toast } from "react-toastify";
 
 const starsCounter = (stars) => {
   const counter = [1, 2, 3, 4, 5];
@@ -49,235 +51,274 @@ const TourDetail = (props) => {
   useEffect(() => {
     const fetchTourDetail = async (id) => {
       try {
-        const tourDetail = await ToursApi.get(id);
-        if (tourDetail.success) {
-          setTour(tourDetail.data);
-          setReviews(tourDetail.reviews);
+        const response = await ToursApi.get(id);
+        if (response.success) {
+          setTour(response.data);
+          setReviews(response.reviews);
+
+          console.log(response);
         }
       } catch (error) {
         console.log(error);
       }
     };
-    console.log(props.match.params.id);
-    if (props.match.params.id) {
-      fetchTourDetail(props.match.params.id);
+    //console.log(props.location.state.id);
+    if (props.location.state.id) {
+      fetchTourDetail(props.location.state.id);
     } else {
       props.history.push("/tours");
     }
+
+    // cuộn lên đầu trang
+    window.scrollTo(0, 0);
   }, []);
 
-  const toggleBook = () => setBook(!book);
+  const context = useContext(AuthContext);
+  const user = context.user;
+
+  const toggleBook = () => {
+    if (user._id !== undefined) {
+      setBook(!book);
+    } else {
+      toast.error(`You must login before booking!`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  };
+
+  const convertLinkImage = (path) => {
+    return path.replace(/\\/g, "/");
+  }
 
   return (
     <MainLayout>
-      <div className="tours-detail">
-        <div className="tour-detail-link">
-          <Container>
-            <span>
+      {tour && (
+        <div className="tours-detail">
+          <div className="tour-detail-link">
+            <Container>
               <span>
-                <Link to="/">Home</Link> / <Link to="/hotels">Tours</Link> /
-              </span>{" "}
-              {tour && tour.title}
-            </span>
-          </Container>
-        </div>
+                <span>
+                  <Link to="/">Home</Link> / <Link to="/hotels">Tours</Link> /
+                </span>{" "}
+                {tour && tour.title}
+              </span>
+            </Container>
+          </div>
 
-        <Container className="tour-detail-main mt-30 pt-30">
-          <Row className="header">
-            <Col xl={6} lg={6} md={6} xs={12} className="header-left">
-              <p className="title">{tour && tour.title}</p>
+          <Container className="tour-detail-main mt-30 pt-30">
+            <Row className="header">
+              <Col xl={6} lg={6} md={6} xs={12} className="header-left">
+                <p className="title">{tour && tour.title}</p>
 
-              <ul className="title-list">
-                <li className="location">
-                  <FaMapMarkerAlt />{" "}
-                  {tour &&
-                    tour.address.split(",")[tour.address.split(",").length - 1]}
-                </li>
-                {/* <li>
-                  <FaRegClock /> {tour && tour.duration}
-                </li> */}
-                <li>
-                  <FaRegCalendarAlt /> {tour && tour.duration}
-                </li>
-              </ul>
-            </Col>
-            <Col xl={6} lg={6} md={6} xs={12} className="header-right">
-              <div className="price">
-                <span>$ {tour && tour.price && tour.price.adult}</span>
-              </div>
-              {props.rating && (
-                <div className="rate-stars">
-                  <div className="stars-counter">
-                    <span className="stars-number-calculation">
-                      {starsCounter(tour.rateStars)}
-                    </span>
-                    <span className="stars-number">
-                      <span>{}</span>
-                      <span className="below"> /5</span>
-                    </span>
-                  </div>
-                  <p className="view">Based on {tour.view} views</p>
+                <ul className="title-list">
+                  <li className="location">
+                    <FaMapMarkerAlt />{" "}
+                    {tour &&
+                      tour.address.split(",")[
+                        tour.address.split(",").length - 1
+                      ]}
+                  </li>
+                  {/* <li>
+                    <FaRegClock /> {tour && tour.duration}
+                  </li> */}
+                  <li>
+                    <FaRegCalendarAlt /> {tour && tour.duration}
+                  </li>
+                </ul>
+              </Col>
+              <Col xl={6} lg={6} md={6} xs={12} className="header-right">
+                <div className="price">
+                  <span>$ {tour && tour.price && tour.price.adult}</span>
                 </div>
-              )}
-            </Col>
-          </Row>
-        </Container>
+                {props.rating && (
+                  <div className="rate-stars">
+                    <div className="stars-counter">
+                      <span className="stars-number-calculation">
+                        {starsCounter(tour.rateStars)}
+                      </span>
+                      <span className="stars-number">
+                        <span>{}</span>
+                        <span className="below"> /5</span>
+                      </span>
+                    </div>
+                    <p className="view">Based on {tour.view} views</p>
+                  </div>
+                )}
+              </Col>
+            </Row>
+          </Container>
 
-        <Container>
-          <CarouselSlide images={tour && tour.images} />
-        </Container>
+          <Container className="mt-30">
+            <CarouselSlide image={tour && tour.image} />
+          </Container>
 
-        <Container>
-          <div className="tours-detail-option-tag mt-3 mb-3">
-            <ul>
-              {tour &&
-                tour.attributes &&
-                tour.attributes.map((option, index) => {
-                  if (index === 0) {
-                    return <li>{option.title}</li>;
-                  } else {
-                    return (
-                      <li>
-                        <span>•</span>
-                        {option.title}
-                      </li>
-                    );
-                  }
-                })}
-            </ul>
-          </div>
-        </Container>
-
-        <Container className="tour-overview mt-50 mb-30">
-          <p className="title">Tour Overview</p>
-          {tour &&
-            tour.itinerary &&
-            tour.itinerary.map((day, index) => {
-              if (index % 2 === 0) {
-                return (
-                  <Row className="day-item mb-30">
-                    <Col xl={5} lg={5} md={5} xs={12} className="image">
-                      <img
-                        src={`${process.env.REACT_APP_API_URL}/${day.image}`}
-                        alt={day.title}
-                      />
-                    </Col>
-                    <Col xl={7} lg={7} md={7} xs={12} className="content">
-                      <p className="day">{day.title}</p>
-                      <p className="description">{day.description}</p>
-                      <p>
-                        <a
-                          target="_blank"
-                          href={`https://www.google.com/maps/@${tour.lat},${tour.lng},11z`}
-                        >
-                          <FaMapMarkerAlt /> View on map
-                        </a>
-                      </p>
-                    </Col>
-                  </Row>
-                );
-              } else {
-                return (
-                  <Row className="day-item mb-30">
-                    <Col xl={7} lg={7} md={7} xs={12} className="content">
-                      <p className="day">{day.title}</p>
-                      <p className="description">{day.description}</p>
-                      <p>
-                        <a
-                          target="_blank"
-                          href={`https://www.google.com/maps/@${tour.lat},${tour.lng},11z`}
-                        >
-                          <FaMapMarkerAlt /> View on map
-                        </a>
-                      </p>
-                    </Col>
-                    <Col xl={5} lg={5} md={5} xs={12} className="image">
-                      <img
-                        src={`${process.env.REACT_APP_API_URL}/${day.image}`}
-                        alt={day.title}
-                      />
-                    </Col>
-                  </Row>
-                );
-              }
-            })}
-          <div className="button">
-            <div>
-              <Button
-                className="book-now"
-                onClick={() => {
-                  setBook(true);
-                }}
-              >
-                Book now
-              </Button>
+          <Container>
+            <div className="tours-detail-option-tag mt-3 mb-3">
+              <ul>
+                {tour &&
+                  tour.attributes &&
+                  tour.attributes.map((option, index) => {
+                    if (index === 0) {
+                      return <li>{option.title}</li>;
+                    } else {
+                      return (
+                        <li>
+                          <span>•</span>
+                          {option.title}
+                        </li>
+                      );
+                    }
+                  })}
+              </ul>
             </div>
-          </div>
-        </Container>
+          </Container>
 
-        <div
-          className="google-map mt-50 mb-50"
-          style={{ height: "475px", width: "100%" }}
-        >
+          <Container className="tour-overview mt-50 mb-30">
+            <p className="title">Tour Overview</p>
+            {tour &&
+              tour.itinerary &&
+              tour.itinerary.map((day, index) => {
+                if (index % 2 === 0) {
+                  return (
+                    <Row className="day-item mb-30">
+                      <Col xl={5} lg={5} md={5} xs={12} className="image"
+                        style={{ backgroundImage: `url(${process.env.REACT_APP_API_URL}/${convertLinkImage(day.image)})` }}
+                      >
+                        {/* <img
+                          src={`${process.env.REACT_APP_API_URL}/${day.image}`}
+                          alt={day.title}
+                        /> */}
+                      </Col>
+                      <Col xl={7} lg={7} md={7} xs={12} className="content">
+                        <p className="day">{day.title}</p>
+                        <p className="description">{day.description}</p>
+                        <p>
+                          <a
+                            target="_blank"
+                            href={`https://www.google.com/maps/@${tour.lat},${tour.lng},11z`}
+                          >
+                            <FaMapMarkerAlt /> View on map
+                          </a>
+                        </p>
+                      </Col>
+                    </Row>
+                  );
+                } else {
+                  return (
+                    <Row className="day-item mb-30">
+                      <Col xl={7} lg={7} md={7} xs={12} className="content">
+                        <p className="day">{day.title}</p>
+                        <p className="description">{day.description}</p>
+                        <p>
+                          <a
+                            target="_blank"
+                            href={`https://www.google.com/maps/@${tour.lat},${tour.lng},11z`}
+                          >
+                            <FaMapMarkerAlt /> View on map
+                          </a>
+                        </p>
+                      </Col>
+                      <Col xl={5} lg={5} md={5} xs={12} className="image"
+                        style={{ backgroundImage: `url(${process.env.REACT_APP_API_URL}/${convertLinkImage(day.image)})` }}
+                      >
+                        {/* <img
+                          src={`${process.env.REACT_APP_API_URL}/${day.image}`}
+                          alt={day.title}
+                        /> */}
+                      </Col>
+                    </Row>
+                  );
+                }
+              })}
+            <div className="button">
+              <div>
+                <Button
+                  className="book-now"
+                  onClick={() => {
+                    toggleBook();
+                  }}
+                >
+                  Book now
+                </Button>
+              </div>
+            </div>
+          </Container>
+
+          <div
+            className="google-map mt-50 mb-50"
+            style={{ height: "475px", width: "100%" }}
+          >
+            {tour && (
+              <Maps
+                zoom={tour.map_zoom}
+                lat={parseFloat(tour.lat)}
+                lng={parseFloat(tour.lng)}
+              />
+            )}
+          </div>
+
+          <Container className="comments mb-50">
+            <p className="comments-title">
+              Tour reviews<span> ({reviews ? reviews.length : 0})</span>
+            </p>
+            <Row>
+              <Col xl={9} className="comments-list mt-30">
+                <div>
+                  {reviews.map((comment) => {
+                    return (
+                      <Comment
+                        key={comment._id}
+                        avatar={comment.user?.image}
+                        name={comment.name}
+                        content={comment.content}
+                        rating={comment.rating}
+                      />
+                    );
+                  })}
+                </div>
+                {reviews.length > 10 && (
+                  <div className="view-more-comment mt-30 mb-30">
+                    <Link>
+                      <p>
+                        <span>View more</span> ({reviews ? reviews.length : 0})
+                      </p>
+                    </Link>
+                  </div>
+                )}
+              </Col>
+              <Col xl={3}>
+                {reviews.length > 0 && (
+                  <RateTable data={tour} reviews={reviews} />
+                )}
+              </Col>
+            </Row>
+          </Container>
+
+          <Container className="mb-50">
+            {user._id ? (
+              tour && <CommentForm data={tour} />
+            ) : (
+              <span>(You need login to comment)</span>
+            )}
+          </Container>
+
           {tour && (
-            <Maps
-              zoom={tour.map_zoom}
-              lat={parseFloat(tour.lat)}
-              lng={parseFloat(tour.lng)}
+            <BookTour
+              _id={tour._id}
+              isOpen={book}
+              toggle={toggleBook}
+              title={tour.title}
+              attributes={tour.attributes}
             />
           )}
         </div>
-
-        <Container className="comments mb-50">
-          <p className="comments-title">
-            Tour reviews<span> ({reviews.length})</span>
-          </p>
-          <Row>
-            <Col xl={9} className="comments-list mt-30">
-              <div>
-                {reviews.map((comment) => {
-                  return (
-                    <Comment
-                      avatar={comment.user.avatar}
-                      name={comment.name}
-                      content={comment.content}
-                      rating={comment.rating}
-                    />
-                  );
-                })}
-              </div>
-              {reviews.length > 10 && (
-                <div className="view-more-comment mt-30 mb-30">
-                  <Link>
-                    <p>
-                      <span>View more</span> ({reviews.length})
-                    </p>
-                  </Link>
-                </div>
-              )}
-            </Col>
-            <Col xl={3}>
-              {reviews.length > 0 && (
-                <RateTable data={tour} reviews={reviews} />
-              )}
-            </Col>
-          </Row>
-        </Container>
-
-        <Container className="mb-50">
-          <CommentForm />
-        </Container>
-
-        {tour && (
-          <BookTour
-            _id={tour._id}
-            isOpen={book}
-            toggle={toggleBook}
-            title={tour.title}
-            attributes={tour.attributes}
-          />
-        )}
-      </div>
+      )}
     </MainLayout>
   );
 };

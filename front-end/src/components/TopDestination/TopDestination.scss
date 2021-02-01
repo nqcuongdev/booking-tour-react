@@ -80,6 +80,11 @@
         .destination-content {
             .name {
                 color: $black;
+                transition: 0.3s;
+
+                &:hover {
+                    color: $orange;
+                }
             }
             .address {
                 font-size: 13px;

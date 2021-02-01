@@ -11,7 +11,12 @@ const MainLayout = (props) => {
     <React.Fragment> 
       <AuthContext.Consumer> 
         {/* {(user) => <TopHeader user={user} />} */}
-        {() => <TopHeader user={context.user} setUser={context.setUser} />}
+        {() =>
+          <TopHeader 
+            user={context.user} 
+            setUser={context.setUser}
+          />
+        }
       </AuthContext.Consumer>
       <Header />
         {props.children}

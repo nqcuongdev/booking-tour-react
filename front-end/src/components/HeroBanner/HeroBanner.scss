@@ -70,7 +70,29 @@
 
       .single__field {
         border-right: 1px solid $text;
-        padding-right: 10px;
+        // padding-right: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .title {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          padding: 0px 6px;
+        }
+
+        .numberTitle1 {
+          width: 100%;
+          margin-left: -7px;
+        }
+
+        .numberTitle2 {
+          width: 100%;
+          margin-left: -23px;
+        }
+
         label {
           font-size: 13px;
           color: $text;

@@ -55,7 +55,7 @@ app.use("/api/v1/destination", destination);
 app.use("/api/v1/category", category);
 app.use("/api/v1/attribute", attribute);
 app.use("/api/v1/tour", tour);
-app.use("/api/v1/paypal", paypal);
+// app.use("/api/v1/paypal", paypal);
 app.use("/api/v1/stripe", stripe);
 app.use("/api/v1/booking", booking);
 app.use("/api/v1/hotel", hotel);

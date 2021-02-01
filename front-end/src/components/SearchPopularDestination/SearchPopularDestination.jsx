@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./SearchPopularDestination.scss";
 import {
   Button,
@@ -16,6 +16,7 @@ import tahi from "../../assets/images/thumbnails/tahi.jpg";
 import vn from "../../assets/images/thumbnails/vn.jpg";
 import ThumbnailImage from "../ThumbnailImage/ThumbnailImage";
 import { FaSearch } from "react-icons/fa";
+import Select from 'react-select';
 
 const data = [
   {
@@ -32,15 +33,35 @@ const data = [
   },
   {
     title: "Hawaii",
-    image: hawaii,
+    image: vn,
   },
   {
     title: "Tokyo",
-    image: hawaii,
+    image: tahi,
   },
+  {
+    title: "",
+    image: hawaii,
+  }
+];
+
+const options = [
+  { value: 'vietnam', label: 'Vietnam' },
+  { value: 'thailand', label: 'Thailand' },
+  { value: 'korea', label: 'Korea' },
+  { value: 'japan', label: 'Japan' },
+  { value: 'india', label: 'India' },
+  { value: 'usa', label: 'USA' },
 ];
 
 const SearchPopularDestination = (props) => {
+  const [selected, setSelected] = useState({ selectedOption: null })
+  
+  const handleChange = selectedOption => {
+    setSelected({ selectedOption });
+    console.log({selectedOption});
+  };
+
   return (
     <div className="search__popular mt-50">
       <Container>
@@ -48,21 +69,31 @@ const SearchPopularDestination = (props) => {
           <Col md={6} lg={6}>
             <h1 className="title-text">Search our most popular destinations</h1>
             <p className="description-text">
-              Vivavivu is a Multipurpose Sketch template with 06 homepages. This
+              Vivavivu is a Multipurpose Sketch temp with 06 homepages. This
               template allows you to easily and effectively create your very own
               travel booking website to offer hotel, tours, car and cruise
               bookings in minutes...
             </p>
             <InputGroup className="mb-5" style={{ width: "65%" }}>
-              <Input type="text" name="search" placeHolder="Search..." />
+              {/* <Input type="text" name="search" placeHolder="Search..." /> */}
+              <Select
+                // defaultValue={options[0]}
+                // value={selected}
+                onChange={handleChange}
+                options={options}
+                placeholder="Search..."
+                isSearchable={true}
+              />
               <InputGroupAddon addonType="append">
                 <Button>
-                  <FaSearch size={13} />
+                  <Link to="/destinations">
+                    <FaSearch size={13} />
+                  </Link>
                 </Button>
               </InputGroupAddon>
             </InputGroup>
             <div className="mb-5">
-              <Link className="btn-read-more">
+              <Link className="btn-read-more" to="/destinations">
                 <span className="read-more-text">
                   View all places <BsArrowRightShort />
                 </span>
@@ -78,9 +109,6 @@ const SearchPopularDestination = (props) => {
                   </Col>
                 );
               })}
-              <Col xs={6} md={12} lg={4}>
-                <ThumbnailImage title="" image={hawaii} />
-              </Col>
             </Row>
           </Col>
         </Row>

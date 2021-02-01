@@ -7,6 +7,22 @@ const Rating = require("../models/rating");
 const tourValidate = require("../validators/tour/create");
 const bookingValidate = require("../validators/book/create");
 
+exports.paginate = async (req, res) => {
+  let page = req.query.page;
+  let options = {
+    sort: { created_at: -1 },
+    populate: ["destination", "category", "attributes", "create_by"],
+    limit: 10,
+    page: page,
+  };
+  const tours = await Tour.paginate({}, options);
+
+  return res.status(200).json({
+    success: !!tours,
+    data: tours,
+  });
+};
+
 exports.all = async (req, res) => {
   const tours = await Tour.find({})
     .populate("destination")
@@ -18,6 +34,28 @@ exports.all = async (req, res) => {
     success: !!tours,
     data: tours,
   });
+};
+
+exports.getAllSchedules = async (req, res) => {
+  const schedules = await Tour.aggregate([
+    {
+      $lookup: {
+        from: "tour_availabilities",
+        localField: "_id",
+        foreignField: "tour",
+        as: "tour_availabilities",
+      },
+    },
+    {
+      $project: {
+        _id: null,
+        author: "$author",
+        tour_count: { $size: { $ifNull: ["$tour_availabilities", []] } },
+      },
+    },
+  ]);
+
+  console.log(schedules);
 };
 
 exports.show = async (req, res) => {
@@ -34,6 +72,7 @@ exports.show = async (req, res) => {
     .populate("destination")
     .populate("category")
     .populate("attributes");
+    
   let reviews = await Rating.find({ target_id: _id }).populate("user");
 
   if (!tour) {

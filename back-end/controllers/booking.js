@@ -3,7 +3,11 @@ const Validator = require("validator");
 const { TourAvailability } = require("../models/tours");
 
 exports.all = async (req, res) => {
-  const books = await Book.find({}).sort({ created_at: 1 });
+  const books = await Book.find({})
+    .sort({ created_at: 1 })
+    .populate("code")
+    .populate("room")
+    .populate("user");
 
   return res.status(200).json({
     success: !!books,
@@ -55,7 +59,16 @@ exports.show = async (req, res) => {
 
   const bookTransaction = await Book.findOne({
     $and: [{ _id }, { $or: [{ user: user.id }, { email: user.email }] }],
-  });
+  })
+    .populate({
+      path: "code",
+      populate: {
+        path: "tour",
+        model: "tour",
+      },
+    })
+    .populate("room")
+    .populate("user");
 
   if (!bookTransaction) {
     return res.status(404).json({
@@ -71,7 +84,7 @@ exports.show = async (req, res) => {
 };
 
 exports.paymentSuccess = async (req, res) => {
-  const { booking_id, transaction_id } = req.body;
+  const { booking_id, transaction_id, checkoutForm } = req.body;
 
   let transactionBookTour = await Book.findOne({
     $and: [{ _id: booking_id }],
@@ -83,10 +96,21 @@ exports.paymentSuccess = async (req, res) => {
       message: "Can not found this booking transaction",
     });
   }
-
   let book = await Book.findOneAndUpdate(
     { _id: transactionBookTour._id },
-    { status: "success", "payment.transaction_id": transaction_id },
+    {
+      status: "success",
+      "payment.transaction_id": transaction_id,
+      email: checkoutForm.email,
+      first_name: checkoutForm.first_name,
+      last_name: checkoutForm.last_name,
+      full_name: checkoutForm.full_name,
+      phone: checkoutForm.phone,
+      address: checkoutForm.address,
+      zip_code: checkoutForm.zip_code,
+      notes: checkoutForm.notes,
+      total_price: checkoutForm.total_price,
+    },
     {
       new: true,
     }
